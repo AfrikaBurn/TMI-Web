@@ -1,0 +1,156 @@
+<?php
+
+/**
+ * @file
+ * Implementation using the webform API to define a webform component.
+ */
+
+/**
+ * Implements hook_webform_component_info().
+ */
+function webform_country_list_webform_component_info() {
+  $components['country_list'] = array(
+    'label'       => t('Country List'),
+    'description' => t('Provides a selectable list of countries for a webform.'),
+    'features'    => array(
+      'default_value' => FALSE,
+    ),
+    'file' => 'webform_country_list.component.inc',
+  );
+
+  return $components;
+}
+
+/**
+ * Creates output for a table with header and rows containing all countries.
+ *
+ * Code partially copied from field_multiple_value_form.
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - element: An associative array containing the properties of the element.
+ *     Properties used: #format, #value.
+ *
+ * @return string
+ *   HTML output defining a table with a list of countries
+ *
+ * @see theme_webform_element
+ *
+ * @ingroup themeable
+ */
+function theme_country_list_form(array $variables) {
+  $element  = $variables['element'];
+  $output   = '';
+  $table_id = drupal_html_id('country_list_values');
+
+  $order_class = 'country-list-delta-order';
+
+  $header = array(
+    '',
+    array(
+      'data' => '<div class="country-list-table-header">' .
+        '<label class="country-list-label-available">' . t('Available') .
+        '</label>' .
+        '<label class="country-list-label-code">' . t('Country Code') .
+        '</label>' .
+        '<label class="country-list-label-country">' . t('Country') .
+        '</label></div>',
+      'class' => array('field-label'),
+    ),
+    t('Order'),
+  );
+  $rows = array();
+
+  $items = array();
+  foreach (element_children($element) as $key) {
+    $items[] = &$element[$key];
+  }
+
+  // Add the items as table rows.
+  foreach ($items as $key => $item) {
+    $item['_weight']['#attributes']['class'] = array($order_class);
+    $delta_element = drupal_render($item['_weight']);
+    $cells = array(
+      array('data' => '', 'class' => array('field-multiple-drag')),
+      drupal_render($item),
+      array('data' => $delta_element, 'class' => array('delta-order')),
+    );
+    $rows[] = array(
+      'data'  => $cells,
+      'class' => array('draggable'),
+    );
+  }
+
+  $output = '<div class="form-item">';
+  $output .= theme(
+    'table',
+    array(
+      'header'     => $header,
+      'rows'       => $rows,
+      'attributes' => array(
+        'id'    => $table_id,
+        'class' => array('field-multiple-table'),
+      ),
+    )
+  );
+
+  $output .= '</div>';
+
+  drupal_add_tabledrag($table_id, 'order', 'sibling', $order_class);
+
+  return $output;
+}
+
+/**
+ * Returns HTML for displaying the selected country (code).
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - element: An associative array containing the properties of the element.
+ *     Properties used: #format, #value.
+ *
+ * @see theme_webform_element
+ *
+ * @ingroup themeable
+ */
+function theme_webform_display_country_list(array $variables) {
+  $element = $variables['element'];
+  $value = $element['#format'] == 'html' ? check_plain($element['#value']) : $element['#value'];
+
+  return $value !== '' ? $value : ' ';
+}
+
+/**
+ * Implements hook_help().
+ */
+function webform_country_list_help($path, array $arg) {
+  if ($path === 'admin/help#webform_country_list') {
+    return '<h3>' . t('Configuration') . '</h3>' .
+    t("When adding a Country List component to your webform you'll see
+the component edit form.
+Here, in the list of all countries, select those you want to include
+in your selection list by checking the \"available\" box.
+You can also change the ordering of the available countries by
+dragging and dropping lines up or down.");
+  }
+}
+
+/**
+ * Implements hook_form_builder_element_types().
+ */
+function webform_country_list_form_builder_element_types($form_type, $form_id) {
+  if ($form_type != 'webform') {
+    return;
+  }
+  require_once dirname(__FILE__) . '/webform_country_list.component.inc';
+  $map = _form_builder_webform_property_map('country_list');
+  $fields['country_list'] = array(
+    'title'      => t('Country'),
+    'properties' => array_keys($map['properties']),
+    'default'    =>  array(
+      '#form_builder' => array('element_type' => 'country_list'),
+    ) + _form_builder_webform_default('country_list'),
+  );
+
+  return $fields;
+}

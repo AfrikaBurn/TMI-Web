@@ -1,0 +1,53 @@
+<?php
+
+class MultifieldReplicateIntegrationTest extends MultifieldTestBase {
+
+  public static function getInfo() {
+    return array(
+      'name' => 'Replicate integration',
+      'description' => 'Tests multifield integration with the Replicate module.',
+      'group' => 'Multifield',
+      'dependencies' => array('replicate'),
+    );
+  }
+
+  public function setUp() {
+    parent::setUp(array('replicate'));
+  }
+
+  public function testReplicate() {
+    // Add the test node type.
+    $node_type = $this->drupalCreateContentType()->type;
+
+    field_create_field(array(
+      'field_name' => 'field_multifield',
+      'type' => 'multifield',
+      'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+    ));
+    field_create_field(array(
+      'field_name' => 'field_test',
+      'type' => 'test_field',
+    ));
+    field_create_instance(array(
+      'field_name' => 'field_test',
+      'entity_type' => 'multifield',
+      'bundle' => 'field_multifield',
+    ));
+    field_create_instance(array(
+      'field_name' => 'field_multifield',
+      'entity_type' => 'node',
+      'bundle' => $node_type,
+    ));
+
+    $node = entity_create_stub_entity('node', array(NULL, NULL, $node_type));
+    $node->field_multifield[LANGUAGE_NONE][0]['field_test'][LANGUAGE_NONE][0]['value'] = 1;
+    node_save($node);
+
+    $clone_nid = replicate_entity('node', $node);
+    $clone = node_load($clone_nid);
+
+    $this->assertEqual($node->field_multifield[LANGUAGE_NONE][0]['field_test'], $clone->field_multifield[LANGUAGE_NONE][0]['field_test']);
+    $this->assertNotEqual($node->field_multifield[LANGUAGE_NONE][0]['id'], $clone->field_multifield[LANGUAGE_NONE][0]['id']);
+
+  }
+}

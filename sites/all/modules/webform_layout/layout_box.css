@@ -1,0 +1,31 @@
+.webform-layout-box.horiz,
+.webform-layout-box.equal {
+  word-spacing: -1em; /* remove the space between inline-blocks */
+}
+
+.webform-layout-box.horiz > *,
+.webform-layout-box.equal > * {
+  display: inline-block;
+  vertical-align: top;
+  word-spacing: normal;
+  /* hack for IE 6&7 */
+  zoom: 1;
+  *display: inline;
+}
+
+.webform-layout-box.horiz > * + * {
+  margin-left: 1em; /* add space between variable-width blocks */
+}
+
+.webform-layout-box > .form-item input{
+  max-width: 100%;
+}
+
+.webform-layout-box.equal.child-width-2  > * {width: 50%;}
+.webform-layout-box.equal.child-width-3  > * {width: 33.3%;}
+.webform-layout-box.equal.child-width-4  > * {width: 25%;}
+.webform-layout-box.equal.child-width-5  > * {width: 20%;}
+.webform-layout-box.equal.child-width-6  > * {width: 16.6%;}
+.webform-layout-box.equal.child-width-7  > * {width: 14.2%;}
+.webform-layout-box.equal.child-width-8  > * {width: 12.5%;}
+.webform-layout-box.equal.child-width-9  > * {width: 11.1%;}

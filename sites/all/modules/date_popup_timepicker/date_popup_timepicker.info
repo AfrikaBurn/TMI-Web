@@ -1,0 +1,17 @@
+name = Date popup timepicker
+description = Adds a new timepicker option for datetime fields, providing a better ui for the timepicker.
+core = 7.x
+package = Date/Time
+php = 5.3
+dependencies[] = libraries
+dependencies[] = date_popup
+dependencies[] = ctools
+files[] = includes/date_popup_timepicker.inc
+configure = admin/config/date/date_popup
+
+; Information added by Drupal.org packaging script on 2015-05-21
+version = "7.x-1.0-beta1"
+core = "7.x"
+project = "date_popup_timepicker"
+datestamp = "1432229883"
+

@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the og_fpp_example feature.
+ */
+
+include_once 'og_fpp_example.features.inc';

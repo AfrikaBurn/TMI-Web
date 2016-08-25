@@ -1,0 +1,35 @@
+name = Multifield
+description = Provides a combo field type.
+package = Fields
+core = 7.x
+dependencies[] = ctools
+dependencies[] = field
+configure = admin/structure/multifield
+files[] = MultifieldEntityController.php
+files[] = tests/MultifieldAdministrationTestCase.test
+files[] = tests/MultifieldCommerceIntegrationTest.test
+files[] = tests/MultifieldDevelGenerateTestCase.test
+files[] = tests/MultifieldEntityTranslationTestCase.test
+files[] = tests/MultifieldFileUsageTestCase.test
+files[] = tests/MultifieldNodeCloneIntegrationTest.test
+files[] = tests/MultifieldReplicateIntegrationTest.test
+files[] = tests/MultifieldTestBase.test
+files[] = tests/MultifieldUnitTestCase.test
+test_dependencies[] = addressfield
+test_dependencies[] = clone
+test_dependencies[] = commerce
+test_dependencies[] = date
+test_dependencies[] = devel
+test_dependencies[] = email
+test_dependencies[] = entityreference
+test_dependencies[] = entity_translation
+test_dependencies[] = field_collection
+test_dependencies[] = replicate
+test_dependencies[] = url
+
+; Information added by Drupal.org packaging script on 2016-06-16
+version = "7.x-1.0-alpha4"
+core = "7.x"
+project = "multifield"
+datestamp = "1466105019"
+

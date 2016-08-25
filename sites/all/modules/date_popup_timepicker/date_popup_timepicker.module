@@ -1,0 +1,216 @@
+<?php
+/**
+ * @file
+ * Date popup timepicker.
+ */
+
+/**
+ * Implements hook_ctools_plugin().
+ */
+function date_popup_timepicker_ctools_plugin_type() {
+  $plugins = array();
+  $plugins['timepicker'] = array(
+    'cache' => TRUE,
+  );
+  return $plugins;
+}
+
+/**
+ * Implements hook_ctool_plugin_directory().
+ */
+function date_popup_timepicker_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'date_popup_timepicker') {
+    return 'plugins/' . $plugin;
+  }
+}
+
+/**
+ * Implements hook_element_info_alter().
+ */
+function date_popup_timepicker_element_info_alter(&$type) {
+  // Add processing to date_popup element to handle module's timepicker.
+  $type['date_popup']['#process'][] = 'date_popup_timepicker_date_popup_element_process';
+  // Add posibility to pass some options to js plugin
+  // like #datepicker_options is used by default.
+  // @see date_popup_element_info()
+  if (!isset($type['date_popup']['#timepicker_options'])) {
+    $type['date_popup']['#timepicker_options'] = array();
+  }
+}
+
+/**
+ * Process callback for the date_popup elements.
+ *
+ * @see date_popup_timepicker_element_info_alter()
+ */
+function date_popup_timepicker_date_popup_element_process($element, &$form_state, $form) {
+  // No reason to add timepicker if time part is not collected.
+  // Also check if used timepicker is module's timepicker (we can't check this
+  // in hook_element_info_alter() implementation because of caching).
+  if (!empty($element['time']) && ($handler = date_popup_timepicker_get_timepicker_handler($element['#timepicker']))) {
+    $name = $element['#timepicker'];
+    // Date field widgets contain #field and #instance properties.
+    // It would be nice to use hook_field_widget_WIDGET_TYPE_form_alter()
+    // implementation to extend #timepicker_options via implementation,
+    // but unfortunately date expands widget.
+    // @see date_combo_element_process()
+    if (isset($element['#instance']) && !empty($element['#instance']['settings']['date_popup_timepicker'][$name])) {
+      // Only user submitted settings need to be proccess to convert, sanitize,
+      // translate, etc. Options defined in the code should alread be safe and
+      // translated if needed.
+      $field_options = $handler->processFieldSettings($element['#instance']['settings']['date_popup_timepicker'][$name], $element, $form_state, $form);
+      $element['#timepicker_options'] = array_replace_recursive($field_options, $element['#timepicker_options']);
+    }
+
+    $element = $handler->processElement($element, $form_state, $form);
+
+    // #id should be there...
+    $id = $element['time']['#id'];
+    $js_settings = array();
+    $js_settings['datePopup'][$id] = array(
+      'func' => 'date_popup_timepicker__' . $name,
+      'settings' => $element['#timepicker_options'],
+    );
+    // Override default settings to process on js side.
+    // @see date_popup_process_time_part()
+    // @see date_popup_js_settings_id()
+    drupal_add_js($js_settings, 'setting');
+  }
+  return $element;
+}
+
+/**
+ * Implements hook_libraries_info().
+ */
+function date_popup_timepicker_libraries_info() {
+  ctools_include('plugins');
+  $libraries = array();
+  $timepickers = date_popup_timepicker_get_timepicker_plugins();
+  foreach ($timepickers as $info) {
+    $class = ctools_plugin_get_class($info, 'handler');
+    $handler = new $class();
+    $libraries = array_merge($libraries, $handler->librariesInfo());
+  }
+  return $libraries;
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Alter date_popup_settings form.
+ */
+function date_popup_timepicker_form_date_popup_settings_alter(&$form, &$form_state) {
+  $timepickers = date_popup_timepicker_get_timepicker_plugins();
+  foreach ($timepickers as $name => $info) {
+    $form['date_popup_timepicker']['#options'][$name] = $info['title'];
+  }
+}
+
+/**
+ * Implements hook_date_field_instance_settings_form_alter().
+ * 
+ * @see _date_field_instance_settings_form()
+ */
+function date_popup_timepicker_date_field_instance_settings_form_alter(&$form, $context) {
+  $timepicker = variable_get('date_popup_timepicker', date_popup_get_preferred_timepicker());
+  if ($handler = date_popup_timepicker_get_timepicker_handler($timepicker)) {
+    // Should be there...
+    $info = date_popup_timepicker_get_timepicker_plugins($timepicker);
+    $settings = isset($context['instance']['settings']['date_popup_timepicker'][$timepicker])
+      ? $context['instance']['settings']['date_popup_timepicker'][$timepicker]
+      : array();
+    $form['date_popup_timepicker'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Date popup timepicker'),
+      '#description' => t('%name settings.', array('%name' => $info['title'])),
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
+      // Custom property to pass used timepicker name.
+      '#timepicker' => $timepicker,
+    );
+    $form['date_popup_timepicker'][$timepicker] = $handler->fieldSettingsForm($form, $context, $settings);
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ * 
+ * Alter field_ui_field_edit_form form to add needed processing on validation
+ * and submission.
+ */
+function date_popup_timepicker_form_field_ui_field_edit_form_alter(&$form, &$form_state) {
+  if ($form['#instance']['widget']['type'] == 'date_popup'
+      && isset($form['instance']['settings']['date_popup_timepicker']['#timepicker'])) {
+
+    // Add custom validate and submit callbacks prior to default.
+    // @todo Should the instance settings form be altered here as well instead of _date_field_instance_settings_form for consistency?
+    array_unshift($form['#validate'], 'date_popup_timepicker_field_ui_field_edit_form_validate');
+    array_unshift($form['#submit'], 'date_popup_timepicker_field_ui_field_edit_form_submit');
+  }
+}
+
+/**
+ * Custom validate callback for field_ui_field_edit_form form.
+ */
+function date_popup_timepicker_field_ui_field_edit_form_validate(&$form, &$form_state) {
+  $timepicker = $form['instance']['settings']['date_popup_timepicker']['#timepicker'];
+  if ($handler = date_popup_timepicker_get_timepicker_handler($timepicker)) {
+    // Both should be there.
+    // @todo Check for existence?
+    $element = &$form['instance']['settings']['date_popup_timepicker'][$timepicker];
+    $values = &$form_state['values']['instance']['settings']['date_popup_timepicker'][$timepicker];
+    $handler->fieldSettingsFormValidate($element, $values, $form, $form_state);
+  }
+}
+
+/**
+ * Custom submit callback for field_ui_field_edit_form form.
+ */
+function date_popup_timepicker_field_ui_field_edit_form_submit(&$form, &$form_state) {
+  $timepicker = $form['instance']['settings']['date_popup_timepicker']['#timepicker'];
+  if ($handler = date_popup_timepicker_get_timepicker_handler($timepicker)) {
+    // Both should be there.
+    // @todo Check for existence?
+    $element = &$form['instance']['settings']['date_popup_timepicker'][$timepicker];
+    $values = &$form_state['values']['instance']['settings']['date_popup_timepicker'][$timepicker];
+    $handler->fieldSettingsFormSubmit($element, $values, $form, $form_state);
+  }
+}
+
+/**
+ * Get ctools plugins info for timepickers.
+ *
+ * @param string $name
+ *   Plugin name to retrieve info for.
+ *
+ * @return array
+ *   Info about plugin if $name is passed or list of all defined plugins info
+ *   otherwise. NULL if no info can be found for passed name.
+ */
+function date_popup_timepicker_get_timepicker_plugins($name = NULL) {
+  ctools_include('plugins');
+  $plugins = ctools_get_plugins('date_popup_timepicker', 'timepicker');
+  if (isset($name)) {
+    return isset($plugins[$name]) ? $plugins[$name] : NULL;
+  }
+  return $plugins;
+}
+
+/**
+ * Get handler instance for timepicker.
+ *
+ * @param string $name
+ *   Plugin name to retrieve handler for.
+ *
+ * @return object
+ *   Plugin handler class instance or NULL if no plugin is found by name.
+ */
+function date_popup_timepicker_get_timepicker_handler($name) {
+  $handler = NULL;
+  if ($info = date_popup_timepicker_get_timepicker_plugins($name)) {
+    ctools_include('plugins');
+    $class = ctools_plugin_get_class($info, 'handler');
+    $handler = new $class();
+  }
+  return $handler;
+}

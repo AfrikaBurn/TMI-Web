@@ -1,0 +1,30 @@
+<?php
+
+abstract class MultifieldTestBase extends DrupalWebTestCase {
+
+  protected $profile = 'testing';
+
+  public function setUp() {
+    $args = func_get_args();
+    $modules = isset($args[0]) && is_array($args[0]) ? $args[0] : array();
+    parent::setUp(array_merge(array('multifield', 'field_test'), $modules));
+  }
+
+  public function submitEntity($entity_type, $entity) {
+    // Invoke the submission hooks which removes empty field values.
+    $form = array('#parents' => array());
+    $form_state = array('values' => array());
+    field_attach_submit($entity_type, $entity, $form, $form_state);
+  }
+
+  public function saveTestEntity($entity) {
+    $this->submitEntity('test_entity', $entity);
+
+    // Save the entity
+    field_test_entity_save($entity);
+
+    // Reload the entity.
+    return field_test_entity_test_load($entity->ftid);
+  }
+
+}

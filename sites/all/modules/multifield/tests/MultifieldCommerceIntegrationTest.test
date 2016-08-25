@@ -1,0 +1,90 @@
+<?php
+
+// @todo commerce_customer_profile_reference field type
+// @todo commerce_line_item_reference field type
+// @todo commerce_product_reference field type
+
+class MultifieldCommerceIntegrationTest extends MultifieldTestBase {
+
+  public static function getInfo() {
+    return array(
+      'name' => 'Drupal Commerce integration',
+      'description' => 'Tests multifield integration with the Drupal Commerce module field types.',
+      'group' => 'Multifield',
+      'dependencies' => array('commerce'),
+    );
+  }
+
+  public function setUp() {
+    parent::setUp(array('commerce_price'));
+
+    $multifield_field = array(
+      'field_name' => 'multifield_commerce',
+      'type' => 'multifield',
+      'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+    );
+    field_create_field($multifield_field);
+  }
+
+  public function testCommerceFields() {
+    $price_field = array(
+      'field_name' => 'field_price',
+      'type' => 'commerce_price',
+    );
+    field_create_field($price_field);
+
+    $price_instance = array(
+      'entity_type' => 'multifield',
+      'bundle' => 'multifield_commerce',
+      'field_name' => 'field_price',
+    );
+    field_create_instance($price_instance);
+
+    $multifield_instance = array(
+      'entity_type' => 'test_entity',
+      'bundle' => 'test_bundle',
+      'field_name' => 'multifield_commerce',
+    );
+    field_create_instance($multifield_instance);
+
+    $entity = field_test_create_stub_entity(NULL, NULL, 'test_bundle', 'Commerce field test');
+
+    // First value should evaluate to empty.
+    // @see commerce_price_field_is_empty()
+    $entity->multifield_commerce[LANGUAGE_NONE][0]['field_price'][LANGUAGE_NONE][0] = array(
+      'amount' => '',
+      'currency_code' => 'USD',
+      'data' => array('components' => array()),
+    );
+    // Add a second value with the minimal amount of data.
+    $entity->multifield_commerce[LANGUAGE_NONE][1]['field_price'][LANGUAGE_NONE][0] = array(
+      'amount' => '5.00',
+    );
+    // Add a third value with the data array value.
+    $entity->multifield_commerce[LANGUAGE_NONE][2]['field_price'][LANGUAGE_NONE][0] = array(
+      'amount' => '10.25',
+      'currency_code' => 'USD',
+      'data' => array('components' => array('multifield' => TRUE)),
+    );
+
+    // Save the entity.
+    $entity = $this->saveTestEntity($entity);
+
+    // The first value should be filtered out, leaving two values.
+    $items = field_get_items('test_entity', $entity, 'multifield_commerce');
+    $this->assertEqual(count($items), 2, 'Only two field values saved.');
+
+    // Ensure the field values were serialized and saved properly.
+    $this->assertIdentical($items[0]['field_price'][LANGUAGE_NONE][0], array(
+      'amount' => '5',
+      'currency_code' => NULL,
+      'data' => array('components' => array()),
+    ));
+    $this->assertIdentical($items[1]['field_price'][LANGUAGE_NONE][0], array(
+      'amount' => '10',
+      'currency_code' => 'USD',
+      'data' => array('components' => array('multifield' => TRUE)),
+    ));
+  }
+
+}

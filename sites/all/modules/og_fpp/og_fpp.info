@@ -1,0 +1,13 @@
+name = Organic groups Fieldable Panels Panes
+description = "Allow Fieldable Panels Panes to be made Group-aware."
+package = "Organic groups"
+dependencies[] = og
+dependencies[] = fieldable_panels_panes
+core = 7.x
+
+; Information added by drupal.org packaging script on 2013-04-28
+version = "7.x-1.0-alpha1"
+core = "7.x"
+project = "og_fpp"
+datestamp = "1367184611"
+

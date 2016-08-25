@@ -1,0 +1,13 @@
+name = Notify Views Integration
+description = Tells the Views module about the Notify database so you can create listings of users by Notify subscriptions status for export or administration.
+package = Mail
+core = 7.x
+dependencies[] = views
+dependencies[] = notify
+
+; Information added by Drupal.org packaging script on 2015-02-23
+version = "7.x-1.3"
+core = "7.x"
+project = "notify"
+datestamp = "1424683684"
+

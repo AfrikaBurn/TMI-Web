@@ -1,0 +1,12 @@
+name = Markup
+description = Defines a field type for markup.
+core = 7.x
+dependencies[] = field
+package = Fields
+
+; Information added by Drupal.org packaging script on 2015-07-23
+version = "7.x-1.2"
+core = "7.x"
+project = "markup"
+datestamp = "1437635943"
+

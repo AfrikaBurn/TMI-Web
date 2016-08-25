@@ -1,0 +1,179 @@
+<p><em>Notify</em> is a simple, lightweight notification module. It provides e-mail notifications to subscribers about updates and changes to the Drupal web site.</p>
+
+<p>Submit bug reports and comments via the project's 
+<a target="_blank" href="http://drupal.org/project/issues/notify" title="link to issue queue">issues queue on drupal.org</a>.</p>
+
+<p>If you enable node revisions <a target="_blank" href="http://drupal.org/node/320614" title="link to background information">node revisions</a>, the
+notification e-mail will also mention the name of the last person to
+edit the node.</p>
+
+
+<h2>Requirements</h2>
+
+<p>This module requires a supported version of Drupal and cron to be
+running.</p>
+
+
+<h2>Configuration</h2>
+
+<p>The administrative interface is at:
+ <a href="&base_url&/admin/config/people/notify">Administer » Configuration » People » Notification settings</a>.</p>
+
+
+<p>There are five tabs:</p>
+
+<ol>
+<li><strong>Settings</strong>: All the main options for this module.</li>
+<li><strong>Queue</strong>: Queue: Operations on the notification queue.</li>
+<li><strong>Skip flags</strong>: Inspect the notification queue and flag postings to skip.</li>
+<li><strong>Defaults</strong>: Default settings for new users.</li>
+<li><strong>Users</strong>: Review and alter per-user settings.</li>
+</ol>
+
+  
+<h3>Settings</h3>
+
+<p>The <strong>Settings</strong> tab allow you to configure how the module shall work.</p>
+
+<p>You can specify how often notifications are sent, the hour to send
+them (if the frequency is one day or greater), the number of failed
+sends after which notifications are disabled, and the maximum number
+of notifications to send out per cron run.</p>
+
+<p>When setting how often notifications are sent, note that e-mail
+updates can only happen as frequently as the cron is set to run.</p>
+
+<p>To reset the count of failed sends to zero, look at the notification
+settings in the user's profile and save it by pressing &#8220;Save settings&#8221;
+(there is no need to change anything).</p>
+
+<p>If you check &#8220;Include updated posts in notifications&#8221;, any change to a
+node or content will cause it to be included in the next notification.
+Note that even minor changes, such as correcting a trivial typo or
+setting or unsetting the &#8220;sticky&#8221; attribute for the node will flag it
+as updated, so use this option with caution, or in combination with
+skip flags (see below) in order to avoid excess notificatons.</p>
+
+<p>If you check &#8220;Exclude contents from unverified authors from user
+notifications&#8221;, notify will not notify about postings from unverified
+(i.e. anonymous) authors.  You need only care about this setting if
+you permit postings from anonymous authors.  Even if you have spam
+protection in the shape of CAPTCHA or other measures, you may
+experience that some spammers still manage to post contents on your
+site.  By checking this setting, you will at least save your
+subscribers from being notified about spam.  As with most of these
+settings, it doesn't apply to administrators. Even when checked
+administrators will be notified, in order to intervene and delete the
+spam before it gets much exposure.  Note that if you check this
+setting, there is currently no way to keep track of the content that
+is excluded due this setting.  If you use it, your users will never
+receive any notification email about new content from unverified
+authors.  That's not a bug, it is a feature.</p>
+
+<p>If you check &#8220;Administrators shall be notified about unpublished
+content&#8221;, users belonging to roles with the &#8220;administer nodes&#8221; and
+&#8220;administer comments&#8221; permissions granted will receive notifications
+about unpublished content.  This is mainly to make the module useful
+to manage moderation queues.</p>
+
+<p>If you've set up a multilingual site, there should also be three radio
+buttons that allow you to filter notifications about new nodes against
+the user's language setting (it may be set by editing the user
+profile).  The first setting (&#8220;All contents&#8221;) will notify a user about
+all new content on the site. If a piece of contents exists in more
+than one language, all versions will be notified about.  The setting
+&#8220;Contents in the user's preferred language + contents not yet
+translated&#8221; will notify about content in the user's preferred language
+and also about content that is in some other language if no
+translation of it exists. The last setting, &#8220;Only contents in the
+user's preferred language&#8221;, will only notify about new contents in
+the user's preferred language.  However, please note that new contents
+that are marked as &#8220;language neutral&#8221; will always be included in
+notifications.  The multilingual settings do not apply to
+administrators.  Administrators will always be notified about all new
+contents.  Note that if you use the second setting, contents that is
+not in the user's preferred language will be excluded from the
+notification if some translation of exists, even if that translation
+is not to the user's preferred language.</p>
+
+<p>The &#8220;Watchdog log level&#8221; setting lets you specify how much to log.  The
+setting &#8220;All&#8221; will make a log record of every notification mail sent.
+The setting &#8220;Failures+Summary&#8221; will only log failed notification
+attempts. It will also insert a summary of how many sent and how many
+failures at the end of each batch.  The &#8220;Failures&#8221; setting will omit the
+summary.  The &#8220;Nothing&#8221; setting will turn of logging for <em>Notify</em>.
+
+<p>The &#8220;Weight of notification field in user registration form&#8221; setting
+lets you specify the weight that determines the position of the
+notification field group when it appears in the user registration
+form.  The number is relative to the row weights that can be inspected on
+<a href="&base_url&/admin/config/people/accounts/fields">Administer » Configuration » People » Account settings</a>.
+Pick a higher (heavier) weight to make the field group positoned below
+a specific field, and vice versa.</p>
+
+
+<h3>Queue</h3>
+
+<p>The <strong>Queue</strong> tab gives access to notification queue
+operatons and the notification queue status panel.</p>
+
+
+<p>The radio buttons below the heading &#8220;Process notification queue&#8221; has
+the following meanings:</p>
+
+<ul>
+<li><em>Send batch now</em>: Force sending a notification batch without waiting
+   for the next cron run.  Note that if the number of notifications
+   queue exceeds the maximum number of notifications to send out per
+   cron run, only the maximum number is sent.  The rest will be queued
+   for the next cron run or the next manual send batch (whatever
+   happens first).</li>
+
+<li><em>Truncate queue</em>: Truncate the queue of pending notifications without
+   sending out any notifications.</li>
+
+<li><em>Override timestamp</em>: Change the value of the last notification
+   timestamp.  To resend postings that has already been sent, set pick
+   a value before the oldest posting you want to resend.</li>
+</ul>
+
+<p>The text field &#8220;Last notification timestamp&#8221; can be used to override
+the value of the last notification timestamp.  This value is only used
+to override of the operation &#8220;Override timestamp&#8221; is selected.</p>
+
+<p>The <em>Status</em> panel at the bottom of the page gives the administrator a
+rough overview of the current state of the notification queue. Its main use is for debugging.</p>
+
+<h3>Skip flags</h3>
+
+<p>The <strong>Skip flags</strong> tab will show a list of all the postings that are
+candidates for being sent in the next notification.  Each has a
+checkbox that can be checked to exclude the posting from all
+notification emails, including the one sent to the administrator.</p>
+
+<h3>Defaults</h3>
+
+<p>The checkbox under &#8220;Notification default for new users&#8221; is used as the
+default value for the notification master switch on the new user
+registration.  Note that this setting has no effect unless you grant
+the anonymous user the right to access notify.</p>
+
+<p>The &#8220;Initial settings panel&#8221; let you set up the initial settings that
+will apply to new users registering, and to users that are enrolled in
+notifications with batch subscription. These settings have no effect
+on users that already have the master switch set to &#8220;Enabled&#8221;.</p>
+
+<p>The final section under the <strong>Settings</strong> tab let you
+set up notification subscriptions by node type.  Having nothing
+checked defaults to making all content types available for
+subscription.</p>
+
+<h3>Users</h3>
+
+<p>The <strong>Users</strong> tab is to review and alter per-user settings for those users
+that have the master switch for notifications set to <em>Enabled</em>.</p>
+
+<p>If you tick the box &#8220;Bulk subscribe all users&#8221;, all
+non-blocked users that do not already subscribe to notifications will
+be subscribed with the initial settings set under the deafult tab.</p>
+

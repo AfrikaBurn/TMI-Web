@@ -1,0 +1,144 @@
+<?php
+
+/**
+ * @file
+ * Defines a field type for displaying markup on the node/edit form.
+ */
+
+/**
+ * Implements hook_field_info().
+ */
+function markup_field_info() {
+  return array(
+    'markup' => array(
+      'label' => 'Markup',
+      'description' => t('Provides field to output markup on the entities edit form'),
+      'default_widget' => 'markup',
+      'default_formatter' => 'markup_default',
+      'settings' => array(
+        'markup' => array(
+          'format' => filter_default_format(),
+        ),
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function markup_field_formatter_info() {
+  return array(
+    'markup_default' => array(
+      'label' => t('Edit form only'),
+      'description' => t('Markup will only be displayed when a user is on the edit page.'),
+      'field types' => array('markup'),
+    ),
+    'markup_view' => array(
+      'label' => t('Always visible'),
+      'description' => t('Displays the markup while viewing the entity (in addition to the edit form).'),
+      'field types' => array('markup'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_prepare_view().
+ */
+function markup_field_formatter_prepare_view($entity_type, $entities, $field, $instances, $langcode, &$items, $displays) {
+  if ($field['type'] != 'markup') {
+    return;
+  }
+
+  // Set item value to markup for all to-be-displayed markup.
+  foreach ($items as $eid => $item) {
+    if ($instances[$eid]['display']['default']['type'] == 'markup_view') {
+      $markup = $field['settings']['markup'];
+      // Since markup is always a single item, add to the first item.
+      $items[$eid][0]['markup'] = check_markup($markup['value'], $markup['format']);
+    }
+  }
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function markup_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $element = array();
+  foreach ($items as $delta => $item) {
+    $element[$delta]['#markup'] = $item['markup'];
+  }
+  return $element;
+}
+
+/**
+ * Implements hook_field_settings_form().
+ */
+function markup_field_settings_form($field, $instance, $has_data) {
+  $form = array();
+  $settings = $field['settings'];
+  $form['markup'] = array(
+    '#type' => 'text_format',
+    '#title' => t('Markup'),
+    '#default_value' => isset($settings['markup']['value']) ? $settings['markup']['value'] : '',
+    '#format' => isset($settings['markup']['format']) ? $settings['markup']['format'] : filter_default_format(),
+    '#required' => TRUE,
+    '#rows' => 15,
+    '#description' => t('The markup to be displayed. Any HTML is legal here, so be careful not to break your page layout.'),
+  );
+  $form['instructions'] = array(
+    '#markup' => htmlentities(t('This is a special field. It will output the markup below, on the node/edit form for this content type. Consider wrapping any visible output in <div class="form-item"></div> to follow form standards.')),
+    '#weight' => -1,
+  );
+  return $form;
+}
+
+/**
+ * Implements hook_field_widget_info().
+ */
+function markup_field_widget_info() {
+  return array(
+    'markup' => array(
+      'label' => 'Markup',
+      'field types' => array('markup'),
+      'behaviors' => array(
+        'multiple values' => FIELD_BEHAVIOR_DEFAULT,
+        'default value' => FIELD_BEHAVIOR_NONE,
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_widget_form().
+ */
+function markup_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
+  // Setting default field value if it is not set yet.
+  if (!isset($field['settings']['markup']['value'])) {
+    $field['settings']['markup']['value'] = '';
+  }
+  $element += array(
+    'markup' => array(
+      '#markup' => check_markup($field['settings']['markup']['value'], $field['settings']['markup']['format']),
+    ),
+  );
+  return $element;
+}
+
+/**
+ * Implements hook_field_is_empty().
+ */
+function markup_field_is_empty($item, $field) {
+  return empty($item['markup']);
+}
+
+/**
+ * Remove 'number of values' selection.
+ */
+function markup_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id == 'field_ui_field_edit_form') {
+    if ($form['#field']['module'] == 'markup') {
+      unset($form['field']['cardinality']);
+    }
+  }
+}

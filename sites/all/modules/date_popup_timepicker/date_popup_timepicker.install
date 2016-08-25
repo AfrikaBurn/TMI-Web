@@ -1,0 +1,17 @@
+<?php
+
+/**
+ * @file
+ * Installation hooks and helper functions.
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function date_popup_timepicker_uninstall() {
+  // Switch date_popup_timepicker variable to default state
+  // in case module's timepicker was used.
+  if (variable_get('date_popup_timepicker') === 'timepicker') {
+    variable_del('date_popup_timepicker');
+  }
+}

@@ -1,0 +1,108 @@
+<?php
+
+class MultifieldFileUsageTestCase extends DrupalWebTestCase {
+  protected $profile = 'testing';
+
+  public static function getInfo() {
+    return array(
+      'name' => 'File usage',
+      'description' => 'Ensure file usage is tracked properly for both the multifield pseudo entity and the parent entity.',
+      'group' => 'Multifield',
+    );
+  }
+
+  public function setUp() {
+    parent::setUp(array('multifield', 'file', 'image'));
+  }
+
+  public function testFileUsage() {
+    // Add the test node type.
+    $node_type = $this->drupalCreateContentType();
+
+    // Get the test files.
+    $text_files = $this->drupalGetTestFiles('text');
+    $text_file_1 = file_save($text_files[0]);
+    $text_file_2 = file_save($text_files[1]);
+    $image_files = $this->drupalGetTestFiles('image');
+    $image_file_1 = file_save($image_files[0]);
+    $image_file_2 = file_save($image_files[1]);
+
+    $multifield_field = array(
+      'field_name' => 'test_file_usage',
+      'type' => 'multifield',
+      'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+    );
+    $multifield_field = field_create_field($multifield_field);
+
+    $file_field = array(
+      'field_name' => 'field_file',
+      'type' => 'file',
+    );
+    $file_field = field_create_field($file_field);
+    $file_field_instance = array(
+      'field_name' => $file_field['field_name'],
+      'entity_type' => 'multifield',
+      'bundle' => $multifield_field['field_name'],
+    );
+    field_create_instance($file_field_instance);
+
+    $image_field = array(
+      'field_name' => 'field_image',
+      'type' => 'image',
+    );
+    $image_field = field_create_field($image_field);
+    $image_field_instance = array(
+      'field_name' => $image_field['field_name'],
+      'entity_type' => 'multifield',
+      'bundle' => $multifield_field['field_name'],
+    );
+    field_create_instance($image_field_instance);
+
+    $multifield_field_instance = array(
+      'field_name' => $multifield_field['field_name'],
+      'entity_type' => 'node',
+      'bundle' => $node_type->type,
+    );
+    field_create_instance($multifield_field_instance);
+
+    $node = new stdClass();
+    $node->type = $node_type->type;
+    $node->language = LANGUAGE_NONE;
+    $node->test_file_usage[LANGUAGE_NONE][0]['field_file'][LANGUAGE_NONE][0]['fid'] = $text_file_1->fid;
+    $node->test_file_usage[LANGUAGE_NONE][1]['field_image'][LANGUAGE_NONE][0]['fid'] = $image_file_1->fid;
+    node_save($node);
+
+    $id1 = $node->test_file_usage[LANGUAGE_NONE][0]['id'];
+    $id2 = $node->test_file_usage[LANGUAGE_NONE][1]['id'];
+    $this->assertFileUsage($text_file_1, 'file', 'multifield', $id1, 1);
+    $this->assertFileUsage($text_file_1, 'file', 'node', $node->nid, 1);
+    $this->assertFileUsage($image_file_1, 'file', 'multifield', $id2, 1);
+    $this->assertFileUsage($image_file_1, 'file', 'node', $node->nid, 1);
+
+    $node->test_file_usage[LANGUAGE_NONE][0]['field_file'][LANGUAGE_NONE][0]['fid'] = $text_file_2->fid;
+    $node->test_file_usage[LANGUAGE_NONE][1]['field_image'][LANGUAGE_NONE][0] = array();
+    node_save($node);
+
+    $this->assertFileUsage($text_file_1, 'file', 'multifield', $id1, 0);
+    $this->assertFileUsage($text_file_1, 'file', 'node', $node->nid, 0);
+    $this->assertFileUsage($text_file_2, 'file', 'multifield', $id1, 1);
+    $this->assertFileUsage($text_file_2, 'file', 'node', $node->nid, 1);
+    $this->assertFileUsage($image_file_1, 'file', 'multifield', $id2, 0);
+    $this->assertFileUsage($image_file_1, 'file', 'node', $node->nid, 0);
+
+    node_delete($node->nid);
+
+    $this->assertFileUsage($text_file_1, 'file', 'multifield', $id1, 0);
+    $this->assertFileUsage($text_file_1, 'file', 'node', $node->nid, 0);
+    $this->assertFileUsage($text_file_2, 'file', 'multifield', $id1, 0);
+    $this->assertFileUsage($text_file_2, 'file', 'node', $node->nid, 0);
+    $this->assertFileUsage($image_file_1, 'file', 'multifield', $id2, 0);
+    $this->assertFileUsage($image_file_1, 'file', 'node', $node->nid, 0);
+  }
+
+  public function assertFileUsage($file, $module, $type, $id, $count) {
+    $usage = file_usage_list($file);
+    $actual_count = isset($usage[$module][$type][$id]) ? $usage[$module][$type][$id] : 0;
+    return $this->assertEqual($actual_count, $count, "File usage for fid {$file->fid} on {$module}:{$type}:{$id} is {$actual_count}, expected {$count}.");
+  }
+}

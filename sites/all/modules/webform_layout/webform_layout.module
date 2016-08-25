@@ -1,0 +1,118 @@
+<?php
+
+/**
+ * This module provides a layout container for webforms.
+ */
+
+/**
+ * Implements hook_help().
+ */
+function webform_layout_help($section = 'admin/help#webform_layout', $arg = NULL) {
+  switch ($section) {
+    case 'admin/help#webform_layout':
+      // Return a line-break version of the module README.txt
+      return nl2br(file_get_contents(drupal_get_path('module', 'webform_layout') . '/README.txt'));
+  }
+  return '';
+}
+
+/**
+ * Implements hook_webform_component_info().
+ */
+function webform_layout_webform_component_info() {
+  return array(
+    'layout_box' => array(
+      'label' => t('Layout Box'),
+      'description' => t('Allows you to arrange fields into rows and columns.'),
+      'features' => array(
+        'csv' => FALSE,
+        'required' => FALSE,
+        'conditional' => FALSE,
+        'group' => TRUE,
+        'title_display' => FALSE,
+        'title_inline' => FALSE,
+        'description' => FALSE,
+        'wrapper_classes' => FALSE,
+      ),
+      'file' => 'layout_box.inc',
+    ),
+  );
+}
+
+/**
+ * Implements hook_form_alter().
+ * @param array $form
+ * @param array $form_state
+ * @param string $form_id
+ */
+function webform_layout_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id == 'webform_components_form') {
+    $form['add']['add']['#submit'][] = 'webform_layout_form_add_submit';
+  }
+}
+
+/**
+ * Implements hook_webform_component_presave().
+ * @param array $component
+ */
+function webform_layout_webform_component_presave(&$component) {
+  if ($component['type'] === 'layout_box') {
+    $component['name'] = $component['form_key'];
+  }
+}
+
+/**
+ * Immediately add a new layout box to the webform instead of being redirected to the component form
+ * @param array $form
+ * @param array $form_state
+ */
+function webform_layout_form_add_submit($form, &$form_state) {
+  $component = $form_state['values']['add'];
+  if ($component['type'] === 'layout_box') {
+    $nid = $component['nid'] = $form_state['values']['nid'];
+    $component['form_key'] = _webform_safe_name($component['name']);
+    unset($component['required'], $component['cid'], $component['add']);
+    webform_component_defaults($component);
+    $cid = webform_component_insert($component);
+
+    // Since Webform components have been updated but the node itself has not
+    // been saved, it is necessary to explicitly clear the cache to make sure
+    // the updated webform is visible to anonymous users.
+    cache_clear_all();
+
+    // Clear the entity cache if Entity Cache module is installed.
+    if (module_exists('entitycache')) {
+      entity_get_controller('node')->resetCache(array($nid));
+    }
+
+    $form_state['redirect'] = array("node/$nid/webform/components", array('query' => array('cid' => $cid)));
+  }
+}
+
+/**
+ * Implement hook_theme();
+ */
+function webform_layout_theme(&$element, $form_type, $form_id) {
+  return array(
+    'webform_layout_empty_layout_box' => array(
+      'variables' => array(),
+      'file' => 'layout_box.inc',
+    ),
+  );
+}
+
+/**
+ * Implement hook_form_builder_preview_alter();
+ */
+function webform_layout_form_builder_preview_alter(&$element, $form_type, $form_id) {
+  if ($element['#form_builder']['element_type'] == 'layout_box') {
+    $element['#attributes']['class'][] = 'form-builder-fieldset form-builder-layout-box';
+  }
+
+  if (isset($element['#type']) &&
+    $element['#type'] == 'fieldset' &&
+    $element['#form_builder']['element_type'] == 'layout_box' &&
+    count(element_children($element)) == 0) {
+      $element['#children'] = theme('webform_layout_empty_layout_box');
+  }
+}

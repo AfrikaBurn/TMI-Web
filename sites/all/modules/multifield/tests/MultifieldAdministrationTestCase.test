@@ -1,0 +1,60 @@
+<?php
+
+class MultifieldAdministrationTestCase extends DrupalWebTestCase {
+  protected $profile = 'testing';
+
+  public static function getInfo() {
+    return array(
+      'name' => 'Multifield administration',
+      'description' => 'Tests multifield administration and user interfaces.',
+      'group' => 'Multifield',
+    );
+  }
+
+  public function setUp() {
+    parent::setUp(array('multifield', 'field_ui', 'node', 'text'));
+    $account = $this->drupalCreateUser(array('administer content types', 'administer multifield', 'administer fields'));
+    $this->drupalLogin($account);
+  }
+
+  public function testMultifield() {
+    $type = $this->drupalCreateContentType();
+
+    $edit = array(
+      'fields[_add_new_field][label]' => 'Test multifield',
+      'fields[_add_new_field][field_name]' => 'field_multifield_test',
+      'fields[_add_new_field][type]' => 'multifield',
+      'fields[_add_new_field][widget_type]' => 'multifield_default',
+    );
+    $this->drupalPost('admin/structure/types/manage/' . $type->type . '/fields', $edit, 'Save');
+    $this->assertFieldChecked('edit-field-settings-hide-blank-items');
+    $this->drupalPost(NULL, array(), 'Save field settings');
+    $this->drupalPost(NULL, array(), 'Save settings');
+
+    $elements = $this->xpath('//tr[@id="field-field-multifield-test" and contains(@class, "warning")]');
+    $this->assertTrue(!empty($elements), 'Warning on field row since multifield does not contain subfields.');
+
+    $this->clickLink('Manage Subfields');
+
+    $edit = array(
+      'fields[_add_new_field][label]' => 'Subfield 1',
+      'fields[_add_new_field][field_name]' => 'field_subfield1',
+      'fields[_add_new_field][type]' => 'text',
+      'fields[_add_new_field][widget_type]' => 'text_textfield',
+    );
+    $this->drupalPost(NULL, $edit, 'Save');
+    $this->drupalPost(NULL, array(), 'Save field settings');
+    $this->drupalPost(NULL, array(), 'Save settings');
+
+    $elements = $this->xpath('//tr[@id="field-field-multifield-test" and contains(@class, "warning")]');
+    $this->assertTrue(empty($elements), 'No warning on field row since multifield contains subfields.');
+  }
+}
+
+//class MultifieldTestCase extends FieldAttachTestCase {
+//}
+
+// Create a text field with:
+//- value1: text
+//- value2: text_long
+//- value3: text_with_summary
