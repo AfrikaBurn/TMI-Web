@@ -998,135 +998,15 @@ div.add-or-remove-shortcuts {
 
 
 
-.field-name-field-role {
-  float: left;
-  width: 16%;
-  min-width: 121px;
-  padding: 0% 1%;
-}
-.field-name-field-role input {
-  width: 100%;
-}
 
-.field-name-field-first-name {
-  float: left;
-  width: 16%;
-  min-width: 121px;
-  padding: 0% 1%;
-}
-.field-name-field-first-name input {
-  width: 100%;
-}
-.field-name-field-last-name {
-  float: left;
-  width: 16%;
-  min-width: 121px;
-  padding: 0% 1%;
-}
-.field-name-field-last-name input {
-    width: 100%;
-}
-.field-name-field-email-address {
-  float: left;
-  width: 16%;
-  min-width: 121px;
-  padding: 0% 1%;
-}
-.field-name-field-email-address input {
-    width: 100%;
-}
 
-.field-name-field-phone-number {
-  float: left;
-  width: 16%;
-  min-width: 121px;
-  padding: 0% 1%;
-}
-.field-name-field-phone-number input {
-    width: 100%;
-}
 
-.field-name-field-year-and-event-name {
-  float: left;
-  width: 48%;
-  max-width: 497px;
-  min-width: 160px;
-  padding: 0% 1%;
-}
-.field-name-field-year-and-event-name input {
-  width: 100%;
-  max-width: 497px;
 
-}
-.field-name-field-previous-project {
-  float: left;
-  width: 48%;
-  max-width: 497px;
-  min-width: 160px;
-  padding: 0% 1%;
-}
-.field-name-field-previous-project input {
-  width: 100%;
-  max-width: 497px;
 
-}
 
-.form-text {
+.conditional-fields-overview td {
+  max-width: 250px;
+}
+.conditional-fields-overview select {
   max-width: 100%;
-}
-
-.field-group-div {
-  border: 1px solid #ccc;
-  border-radius: 16px;
-  padding: 0.5em;
-  margin: 0.5em;
-}
-
-.field-name-field-date-of-birth {
-  max-width: 245px;
-}
-.field-name-field-bb-minors-details .field-name-field-date-of-birth {
-  float: left;
-}
-.field-name-field-bb-gardien-yn {
-  padding-left: 10px;
-  float: left;
-  height: 190px;
-}
-.field-name-field-bb-minors-details .field-type-image {
-  float: left;
-  padding-left: 10px;
-}
-.field-name-field-previous-participation {
-  float: left;
-}
-
-.menu {
-  width: 100%;
-  height: 2em;
-}
-.menu li {
-  float: left;
-  list-style-type: none !important;
-  padding-right: 50px;
-}
-#block-system-main-menu h2 {
-  display: none;
-}
-
-#page {
-  max-width: 720px;
-  min-width: 320px;
-  width: 100%;
-  margin: 0 auto;
-}
-body {
-  padding: 20px;
-}
-#branding {
-  max-width: 720px;
-  min-width: 320px;
-  width: 100%;
-  margin: 0 auto;
-  padding: 0px;
 }
