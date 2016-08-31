@@ -1,0 +1,65 @@
+<?php
+
+/**
+ * @file
+ *
+ */
+
+/**
+ * Implements hook_install().
+ */
+function content_approval_install() {
+
+  // Clear field cache so that new Anonymous Posting Field field type get
+  // available on new install.
+  field_cache_clear();
+
+  if (!field_info_field(CONTENT_APPROVAL_FIELD_NAME)) {
+    // Create a custom field to record which content has been submitted with approval request.
+    $field = array(
+      'field_name' => CONTENT_APPROVAL_FIELD_NAME,
+      'type' => 'content_approval',
+      'entity_types' => array('node'),
+      'cardinality' => 1,
+      'translatable' => 0,
+      'locked' => TRUE,
+      'description' => st('Record if a content has been submitted with approval request.'),
+    );
+    $field = field_create_field($field);
+  }
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function content_approval_uninstall() {
+
+  watchdog("Anonymous Posting Module", "Uninstalling module");
+
+  // Delete module variables:
+  $var_to_del = array();
+  foreach (node_type_get_types() as $node_type) {
+    $var_to_del[] = 'content_approval_setting_type_' . $node_type->type;
+  }
+  foreach ($var_to_del as $var) {
+    variable_del($var);
+  }
+
+  // Delete field and its datas
+  drupal_load('module', 'content_approval'); // needed because load_module('module', *) gone from hook_uninstall, see http://drupal.org/node/1029606
+  field_delete_field(CONTENT_APPROVAL_FIELD_NAME);
+}
+
+/**
+ * Install requiered embedded field definitions module (Content Approval Field).
+ */
+function content_approval_update_7100() {
+  $ret = array();
+  if (!module_enable(array('content_approval_field'))) {
+    $ret['#abort'] = array(
+      'success' => FALSE,
+      'query' => t('Content Approval Field module couldn\'t be installed')
+    );
+  }
+  return $ret;
+}

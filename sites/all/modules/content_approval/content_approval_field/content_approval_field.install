@@ -1,0 +1,30 @@
+<?php
+
+/**
+ * @file
+ *
+ */
+
+/**
+ * Implements hook_field_schema().
+ */
+function content_approval_field_field_schema($field) {
+
+  $columns = array();
+  switch ($field['type']) {
+    case 'content_approval':
+      $columns = array(
+        'value' => array(
+          'type' => 'int',
+          'not null' => TRUE,
+          'default' => 0,
+          'description' => "The attached entity must be approved prior publication if value is set to 1",
+        ),
+      );
+      break;
+  }
+  return array(
+    'columns' => $columns,
+  );
+}
+

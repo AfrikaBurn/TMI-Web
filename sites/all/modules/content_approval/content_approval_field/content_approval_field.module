@@ -1,0 +1,40 @@
+<?php
+
+/**
+ * @file
+ */
+
+/**
+ * Implements hook_field_info().
+ */
+function content_approval_field_field_info() {
+  return array(
+    'content_approval' => array(
+      'label' => t('Content approval field'),
+      'description' => t('Contact approval to record which content was submitted with approval request.'),
+      'default_widget' => 'content_approval',
+      'default_formatter' => 'content_approval',
+      'no_ui' => TRUE,
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_is_empty().
+ */
+function content_approval_field_field_is_empty($item, $field) {
+  // Never never do ...
+  return FALSE;
+}
+
+/**
+ * Implements hook_field_widget_info().
+ */
+function content_approval_field_field_widget_info() {
+  return array(
+    'content_approval' => array(
+      'label' => t('Content approval field widget'),
+      'field types' => array('content_approval'),
+    ),
+  );
+}
