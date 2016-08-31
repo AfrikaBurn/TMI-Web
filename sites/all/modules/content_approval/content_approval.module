@@ -1,0 +1,295 @@
+<?php
+
+/**
+ * @file
+ */
+/**
+ * Anonyous field name
+ */
+define('CONTENT_APPROVAL_FIELD_NAME', 'field_content_approval');
+
+/**
+ * Implements hook_permission().
+ */
+function content_approval_permission() {
+
+  $out = array();
+
+  // Make the 'skip publishing approval' permissions.
+  $node_types = node_type_get_types();
+  foreach ($node_types as $key => $value) {
+    if (_content_approval_activated($value->type)) {
+      $out["skip $value->type content approval prior their publication"] = array(
+        'title' => t('Skip %ntype_name contents approval prior their publication', array('%ntype_name' => $value->name)),
+      );
+    }
+  }
+
+  return $out;
+}
+
+/**
+ * Implements hook_help().
+ */
+function content_approval_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#content_approval':
+      $output = '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('The <em>Content approval</em> module allows administrater to tell which content type must approved prior publication.</p>');
+      $output .= '<h3>' . t('Uses') . '</h3>';
+      $output .= '<dl>';
+      $output .= '<dt>' . t('Enable the feature on a content type basis') . '</dt>';
+      $output .= '<dd>' . t('You must enable this feature on a content type basis. To do so go to the !l page and choose edit your content type. There you will be able to enable the feature.', array(
+          '!l' => l(t('Home » Administration » Structure » Content types'), 'admin/structure/types'))) . '</dd>';
+
+      // Find which content type has the Content Approval feature enabled
+      $enabled_type = array();
+      foreach (node_type_get_types() as $key => $cmodel) {
+        if (_content_approval_activated($key)) {
+          $enabled_type[] = l($cmodel->name, 'admin/structure/types/manage/' . $cmodel->type);
+        }
+      }
+      // Display
+      if (!empty($enabled_type)) {
+        $output .= '<dd>' . t('The following content types have the feature enabled: ') . implode(', ', $enabled_type) . '.';
+      }
+
+      $output .= '</dl>';
+      return $output;
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function content_approval_form_node_type_form_alter(&$form, &$form_state, $form_id) {
+  // Add a field 'Content approval' in the node content type form
+  $node_type = $form['#node_type'];
+  $activated = variable_get('content_approval_setting_type_' . $node_type->type, 0);
+  $roles_need_approval_s = '';
+  if ($activated) {
+    // find roles that need approval
+    $roles_need_approval = array_diff(user_roles(), user_roles(FALSE, "skip $node_type->type content approval prior their publication"));
+    // remove any administrators
+    $roles_need_approval = array_diff($roles_need_approval, array('administrator'));
+    // make a string
+    $roles_need_approval_s = implode(', ', $roles_need_approval);
+    if ($roles_need_approval_s) {
+      $roles_need_approval_s = t('roles that need approval: ') . $roles_need_approval_s;
+    }
+  }
+  $form['content_approval'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Content approval'),
+    '#group' => 'additional_settings',
+    '#collapsible' => TRUE,
+    '#attributes' => array(
+      'class' => array('content_approval-node-type-edit-form-contact_informations'),
+    ),
+    '#attached' => array(
+      'js' => array(
+        drupal_get_path('module', 'content_approval') . '/content_approval.js',
+        array(
+          'type' => 'setting',
+          'data' => array(
+            'content_approval_roles_need_approval' => $roles_need_approval_s,
+          ),
+        ),
+      ),
+    ),
+    'content_approval_setting_type' => array(
+      '#type' => 'checkbox',
+      '#title' => t('Enable content approval feature for %ntype ?', array('%ntype' => $node_type->name)),
+      '#default_value' => $activated,
+      '#description' => !$activated ?
+        t('Content Approval feature is disabled, once enabled you will be able to set/unset the \'skip approval prior publication\' permissions.') :
+        _content_approval_activated_notification() . ($roles_need_approval_s ? ' <br \>Currently ' . $roles_need_approval_s . '.' : ''),
+    ),
+  );
+  $form['#submit'][] = 'content_approval_form_node_type_form_submit';
+}
+
+/**
+ * Instanciate/Uninstanciate the content approval field.
+ */
+function content_approval_form_node_type_form_submit(&$form, &$form_state) {
+  $values = $form_state['values'];
+  $op = isset($values['op']) ? $values['op'] : '';
+  if ($op == t('Save content type')) {
+    $instance = field_info_instance('node', CONTENT_APPROVAL_FIELD_NAME, $values['type']);
+    if ($values['content_approval_setting_type']) {
+      if (empty($instance)) {
+        $instance = array(
+          'field_name' => CONTENT_APPROVAL_FIELD_NAME,
+          'entity_type' => 'node',
+          'bundle' => $values['type'],
+          'label' => t('Content approval'),
+          'widget_type' => 'content_approval',
+          'display' => array(
+            'default' => array('label' => 'hidden', 'type' => 'hidden'),
+            'teaser' => array('label' => 'hidden', 'type' => 'hidden'),
+          ),
+        );
+        $instance = field_create_instance($instance);
+        watchdog('Content Approval module', 'Create instance field %fname to content type %ntype', array('%fname' => CONTENT_APPROVAL_FIELD_NAME, '%ntype' => $values['type']));
+        drupal_set_message(_content_approval_activated_notification());
+      }
+    }
+    else {
+      // Delete any evantually existing instance of anonymous_author fields
+      if (!empty($instance)) {
+        field_delete_instance($instance, FALSE);
+        watchdog("Content Approval module", 'Deleted instance field %fname from content type %ntype', array('%fname' => CONTENT_APPROVAL_FIELD_NAME, '%ntype' => $values['type']));
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function content_approval_form_alter(&$form, &$form_state, $form_id) {
+  if (isset($form['#node'])) {
+    if ($form_id == $form['#node']->type . '_node_form' && _content_approval_activated($form['#node']->type)) {
+      // Add callback functions to process the case of 'skip publishing approval'
+      // permission.
+      $node = $form['#node'];
+      if (empty($node->nid) && !user_access("skip $node->type content approval prior their publication")) {
+        $form['#validate'][] = 'content_approval_node_form_ante_submit';
+        $form['actions']['submit']['#submit'][] = 'content_approval_node_form_post_submit';        
+      }
+    }
+  }
+}
+
+/**
+ * Process the 'skip publishing approval' permission case.
+ */
+function content_approval_node_form_ante_submit($form, &$form_state) {
+  // Set the posted content to unpublished
+  $form_state['values']['status'] = NODE_NOT_PUBLISHED;
+  // Set the posted content to unpublished to be approved
+  $form_state['values'][CONTENT_APPROVAL_FIELD_NAME][LANGUAGE_NONE][0]['value'] = 1;
+}
+
+/**
+ * Process the 'skip publishing approval' permission case.
+ */
+function content_approval_node_form_post_submit($form, &$form_state) {
+  $node = (object) $form_state['values'];
+
+  // Display an information to tell the user that his submission is queued for 
+  // approval
+  $node_types = node_type_get_types();
+  drupal_set_title(t('@ntype submission queued for approval', array('@ntype' => check_plain($node_types[$node->type]->name))));
+  $message = t('Your submission has been queued for review by site administrators and will be published after approval.');
+  // Prevent form redirection (which do a reload from index.php) on submit so 
+  // that content_approval_page_delivery_callback_alter() will read the setted 
+  // static var done here.
+  $form_state['no_redirect'] = TRUE;
+  $callback = create_function('$page_callback_result', "{print drupal_render_page('$message');}");
+  content_approval_page_delivery_callback_alter($callback, TRUE);
+  
+  // Allow to hook here
+  module_invoke_all('submitted_content_need_approval', $node);
+}
+
+/**
+ * Implements hook_page_delivery_callback_alter().
+ */
+function content_approval_page_delivery_callback_alter(&$callback, $set=FALSE) {
+  static $stored_callback;
+  if ($set) {
+    $stored_callback = $callback;
+  }
+  elseif (isset($stored_callback)) {
+    $callback = $stored_callback;
+  }
+}
+
+/**
+ * Implements hook_trigger_info().
+ *
+ * Defines all the triggers that this module implements triggers for.
+ */
+function content_approval_trigger_info() {
+  return array(
+    'node' => array(
+      'submitted_content_need_approval' => array(
+        'label' => t('When a submitted content need to be approved by an administrator prior its publication'),
+      )
+    )
+  );
+}
+
+/**
+ * Implements hook_submitted_content_need_approval().
+ */
+function content_approval_submitted_content_need_approval($node) {
+  // Trigger any action attached to hook_submitted_content_need_approval()
+  if (function_exists('trigger_get_assigned_actions')) {
+    $hook = 'submitted_content_need_approval';
+    $aids = trigger_get_assigned_actions($hook);
+    $context = array(
+      'group' => 'content_approval',
+      'hook' => $hook,
+    );
+    foreach ($aids as $aid => $info) {
+      actions_do($aid, $node, $context);
+    }
+  }
+}
+
+/**
+ * Tell if a given node type has the Anonymous Posting feature enabled.
+ */
+function _content_approval_activated($node_type) {
+  $instance = field_info_instance('node', CONTENT_APPROVAL_FIELD_NAME, $node_type);
+  return !empty($instance);
+}
+
+function _content_approval_activated_notification() {
+  return t('Content Approval feature is enabled, be sure to set the !l as you wish.', array(
+      '!l' => l('approval permission', 'admin/people/permissions', array(
+        'fragment' => 'module-content_approval'))));
+}
+
+/**
+ * Implements hook_views_api().
+ */
+function content_approval_views_api() {
+  return array('api' => 3.0);
+}
+
+/**
+ * Implements hook_views_data_alter().
+ */
+function content_approval_views_data_alter(&$data) {
+
+  // Alter the field_content_approval field so that it display 'Yes' or 'No' 
+  // strings and offer a boolean filter.
+  $field_info = field_info_field(CONTENT_APPROVAL_FIELD_NAME);
+  $table_name = key($field_info['storage']['details']['sql'][FIELD_LOAD_CURRENT]);
+  $column_name = $field_info['storage']['details']['sql'][FIELD_LOAD_CURRENT][$table_name]['value'];
+  $param = $data[$table_name][$column_name];
+  $data[$table_name][$column_name] = array(
+    'title' => t('Need approbation'),
+    'help' => t('Whether or not the content need to approved prior its publication.'),
+    'field' => array(
+      'handler' => 'views_handler_field_boolean',
+      'click sortable' => TRUE,
+      'output formats' => array(
+        'content_approved-notcontent_approved' => array(t('Approved'), t('Not approved')),
+      ),
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_boolean_operator',
+      'label' => t('Need approbation'),
+      'accept_null' => TRUE,
+      'type' => 'yes-no',
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort',
+    ),
+    ) + $param;
+}
