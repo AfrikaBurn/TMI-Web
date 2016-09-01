@@ -1,0 +1,6 @@
+.align-center{margin: 0 auto; }
+/* reset text-align. */
+.align-center #page-wrapper{text-align:left;}
+/* this is the default behaviour so nothing needed here */
+.align-left{}
+.align-right{position:relative; float:right; }

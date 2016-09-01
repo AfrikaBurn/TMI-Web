@@ -1,0 +1,30 @@
+#livethemer-settings fieldset {
+  padding-left: 75px;
+  color: black;
+  background: #efefef url(../images/icons/status.png) no-repeat 15px 0px;
+}
+
+#livethemer-settings .fieldset-legend {
+  font-size: 1.5em;
+  text-transform: none;
+  font-weight: normal;
+  font-style: normal;
+  border-top:solid #CCC 1px;
+  position:relative;
+  top:13px;
+}
+
+#livethemer-settings fieldset.status {
+  padding-left: 75px;
+  background: #efefef url(../images/icons/status.png) no-repeat 15px 5px;
+}
+
+#livethemer-settings fieldset.error {
+  padding-left: 75px;
+  background: #efefef url(../images/icons/error.png) no-repeat 15px 5px;
+}
+
+#livethemer-settings fieldset.warning {
+  padding-left: 75px;
+  background: #efefef url(../images/icons/warning.png) no-repeat 15px 5px;
+}

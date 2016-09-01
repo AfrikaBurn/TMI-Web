@@ -1,0 +1,9 @@
+name = Starter Node Design
+description = Starter Node Design.
+version = 7.0.0
+keywords = starter, node
+
+;stylesheets[] = node-starter.css
+template_file = node--starter
+variation_type = node-designs
+settings_form = form.inc

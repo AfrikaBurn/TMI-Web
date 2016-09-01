@@ -1,0 +1,14 @@
+name = Livethemer
+package = Livethemer
+description = Livethemer engine
+core = 7.x
+
+stylesheets[all][] = css/livethemer.css
+configure = admin/config/livethemer/livethemer
+
+; Information added by drupal.org packaging script on 2012-05-31
+version = "7.x-1.0"
+core = "7.x"
+project = "livethemer"
+datestamp = "1338435055"
+

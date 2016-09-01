@@ -1,0 +1,15 @@
+name = Livethemer Inspector
+dependencies[] = livethemer
+package = Livethemer
+description = Modify your theme using Livethemer
+core = 7.x
+php = 5.2
+
+scripts[] = js/tools.scrollable-1.1.2.js
+
+; Information added by drupal.org packaging script on 2012-05-31
+version = "7.x-1.0"
+core = "7.x"
+project = "livethemer"
+datestamp = "1338435055"
+

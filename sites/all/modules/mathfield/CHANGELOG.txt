@@ -1,0 +1,13 @@
+Math Field 7.x-1.0, 2015-06-19
+-------------------------------------
+Reworked Math Field evaluation to use core AJAX framework.
+Issue #2484083: Add tests
+Issue #2507773: Fixes undefined index error
+
+Math Field 7.x-1.0-beta2, 2015-05-06
+-------------------------------------
+Issue #2484071: Fixes Mathfield does not work with jQuery < 1.7
+
+Math Field 7.x-1.0-beta1, 2015-05-05
+-------------------------------------
+Initial release of the mathfield module.

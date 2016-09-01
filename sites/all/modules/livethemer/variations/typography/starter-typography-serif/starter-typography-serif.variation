@@ -1,0 +1,9 @@
+name = Starter serif typography
+description = Starter serif typography.
+version = 7.0.0
+keywords = starter, serif
+
+stylesheets[] = starter-typography-serif.css
+;thumbnail = starter-typography-serif.png
+variation_type = typography
+settings_form = form.inc

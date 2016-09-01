@@ -1,0 +1,8 @@
+name = Starter List Styles
+description = Starter list styles.
+version = 7.0.0
+keywords = starter
+
+;thumbnail = starter-lists.png
+variation_type = lists
+settings_form = form.inc

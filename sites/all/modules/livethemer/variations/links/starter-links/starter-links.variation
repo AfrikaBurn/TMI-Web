@@ -1,0 +1,8 @@
+name = Starter links
+description = Starter links styling.
+version = 7.0.0
+keywords = starter, links
+
+;thumbnail = starter-links.png
+variation_type = links
+settings_form = form.inc

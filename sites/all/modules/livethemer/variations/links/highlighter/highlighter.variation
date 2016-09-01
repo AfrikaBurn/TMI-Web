@@ -1,0 +1,8 @@
+name = Highlighter
+description = Links with coloured background.
+version = 7.0.0
+keywords = starter, links, colour, background
+
+stylesheets[] = highlighter.css
+variation_type = links
+settings_form = form.inc

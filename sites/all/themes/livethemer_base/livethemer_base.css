@@ -1,0 +1,76 @@
+body {
+  padding: 0;
+  margin: 0;
+}
+
+/*needed to stop user agent css giving h1s a top margin. +1 for reset css.*/
+h1 {
+  margin: 0;
+}
+
+#header {
+  position: relative;
+}
+
+#content,
+#sidebar-first,
+#sidebar-second {
+  float: left;
+  display: inline;
+  position: relative;
+}
+
+#header {
+	position:relative;
+}
+
+body.sidebar-first #content {
+  width: 80%;
+  left: 20%; /* LTR */
+}
+
+body.sidebar-second #content {
+  width: 80%;
+}
+
+body.two-sidebars #content {
+  width: 60%;
+  left: 20%;
+}
+
+#sidebar-first {
+  width: 20%;
+  left: -80%; /* LTR */
+}
+
+body.two-sidebars #sidebar-first {
+  left: -60%; /* LTR */
+}
+
+#sidebar-second {
+  float: right; /* LTR */
+  width: 20%;
+}
+
+/*
+There are non-block regions printed in html.tpl.php that get the .region class. 
+We don't want these getting this rule.
+*/
+.region {
+  padding: 10px;
+}
+
+.region-page-top,
+.region-page-bottom {
+	padding: none;
+}
+
+/* Force the post-columns region to sit under the columns */
+#post-columns {
+  clear: both;
+}
+
+#set-messages, 
+#breadcrumb {
+  padding: 10px;
+}

@@ -1,0 +1,33 @@
+/* The following selector is not needed because there will only ever be one object that these rules affect */
+.variation-serif-heading-sans-body {
+  
+}
+
+.page p,
+.page h1,
+.page h2,
+.page h3,
+.page h4,
+.page h5,
+.page h6 {
+  /*reset*/
+  margin: 0;
+  padding: 0;
+}
+
+.page h1,
+.page h2,
+.page h3,
+.page h4,
+.page h5,
+.page h6 {
+  font-family: Georgia, "Times New Roman", Times, serif;
+
+  /*Prevent font aspect ratio from being adjusted*/
+  font-size-adjust: none;
+}
+
+.page,
+.page p {
+  font-family: "Helvetica Neue", Helvetica, Arial, Geneva, sans-serif;
+}

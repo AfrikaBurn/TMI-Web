@@ -1,0 +1,45 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the mathfield module.
+ */
+
+/**
+ * Implements hook_field_schema().
+ */
+function mathfield_field_schema($field) {
+  switch ($field['type']) {
+    case 'mathfield':
+      $columns = array(
+        'value' => array(
+          'type' => 'numeric',
+          'precision' => $field['settings']['precision'],
+          'scale' => $field['settings']['scale'],
+          'not null' => FALSE,
+        ),
+      );
+      break;
+  }
+  return array(
+    'columns' => $columns,
+  );
+}
+
+/**
+ * Add field dependency setting for existing mathfields.
+ */
+function mathfield_update_7000() {
+  foreach (field_info_field_map() as $field_name => $field) {
+    if ($field['type'] == 'mathfield') {
+      $info = field_info_field($field_name);
+      $expression = $info['settings']['expression'];
+      $tokens = _mathfield_extract_tokens($expression);
+      $info['settings']['field_dependencies'] = array();
+      foreach ($tokens as $data) {
+        $info['settings']['field_dependencies'][] = $data['field_name'];
+      }
+      field_update_field($info);
+    }
+  }
+}

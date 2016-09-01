@@ -1,0 +1,426 @@
+<?php
+
+/**
+ * @file
+ * Tests for mathfield.module.
+ */
+
+/**
+ * Base class for testing the mathfield module.
+ */
+class MathfieldTestCase extends DrupalWebTestCase {
+  protected $adminUser;
+
+  public function setUp() {
+    parent::setUp(array('mathfield'));
+
+    // Create basic math node type.
+    $this->drupalCreateContentType(array('type' => 'math', 'name' => 'Math'));
+
+    // Create and log in an admin user.
+    $this->adminUser = $this->drupalCreateUser(array(
+      'create math content',
+      'edit own math content',
+    ));
+    $this->drupalLogin($this->adminUser);
+  }
+
+  /**
+   * Generate a random integer between -1000 and 1000.
+   */
+  public function randInteger($min = -1000, $max = 1000) {
+    return mt_rand($min, $max);
+  }
+
+  /**
+   * Generate a random float between -1000 and 1000 with 2 decimal places.
+   */
+  public function randFloat($min = -1000, $max = 1000, $scale = 2) {
+    if ($scale < 1) {
+      return $this->randInteger();
+    }
+    return mt_rand($min * 10 * $scale, $max * 10 * $scale) / (10 * $scale);
+  }
+
+  /**
+   * Create a number field and instance.
+   *
+   * @param string $field_name
+   *   The name of the field to create.
+   * @param string $label
+   *   The field label.
+   * @param string $type
+   *   The field type. Default is 'number_integer'.
+   * @param int $cardinality
+   *   The number of values. Default is 1.
+   * @param string $widget
+   *   The form widget. Default is 'number'.
+   */
+  public function createField($field_name, $label, $type, $cardinality = 1, $widget = 'number') {
+    // Create the field.
+    $field = array(
+      'field_name' => $field_name,
+      'type' => $type,
+      'cardinality' => $cardinality,
+    );
+    if (strpos($type, 'list_') !== FALSE) {
+      if ($type == 'list_float') {
+        // Generate a list of 10 floats.
+        for ($i = 0; $i < 10; $i++) {
+          $float = $this->randFloat();
+          $field['settings']['allowed_values'][$float] = $float;
+        }
+      }
+      else {
+        // Generate a list of 10 integers.
+        for ($i = 0; $i < 10; $i++) {
+          $int = $this->randInteger();
+          $field['settings']['allowed_values'][$int] = $int;
+        }
+      }
+    }
+    $field = field_create_field($field);
+
+    // Create the instance.
+    $instance = array(
+      'field_name' => $field_name,
+      'entity_type' => 'node',
+      'bundle' => 'math',
+      'label' => $label,
+      'weight' => mt_rand(0, 127),
+      'widget' => array(
+        'type' => $widget,
+        'label' => $label,
+      ),
+    );
+    field_create_instance($instance);
+  }
+
+  /**
+   * Create a math expression field and instance.
+   *
+   * @param string $field_name
+   *   The name of the field to create.
+   * @param string $label
+   *   The field label.
+   * @param string $expression
+   *   The math expression to evaluate.
+   * @param string $widget
+   *   The form widget. 'mathfield_text' or 'mathfield_readonly'.
+   */
+  public function createMathExpressionField($field_name, $label, $expression, $widget = 'mathfield_text') {
+    // Create the field.
+    $field = array(
+      'field_name' => $field_name,
+      'type' => 'mathfield',
+      'cardinality' => 1,
+      'settings' => array(
+        'expression' => $expression,
+      ),
+    );
+    $field = field_create_field($field);
+
+    // Create the instance.
+    $instance = array(
+      'field_name' => $field_name,
+      'entity_type' => 'node',
+      'bundle' => 'math',
+      'label' => $label,
+      'weight' => mt_rand(0, 127),
+      'widget' => array(
+        'type' => $widget,
+        'label' => $label,
+      ),
+      'display' => array(
+        'default' => array(
+          'type' => 'number_decimal',
+          'settings' => array(
+            'thousand_separator' => '',
+            'decimal_separator' => '.',
+            'scale' => 2,
+          ),
+        ),
+      ),
+    );
+    field_create_instance($instance);
+  }
+
+}
+
+/**
+ * Test math field widgets.
+ */
+class MathfieldWidgetTestCase extends MathfieldTestCase {
+  public static function getInfo() {
+    return array(
+      'name' => 'Math Field Widget Test',
+      'description' => 'Ensure that math expression widgets function properly.',
+      'group' => 'Math Field',
+    );
+  }
+
+  public function testMathfieldTextWidget() {
+    $this->createField('field_a', 'A', 'number_integer');
+    $this->createField('field_b', 'B', 'number_integer');
+
+    // Create a math expression text widget to add the integers.
+    $a = $this->randInteger();
+    $b = $this->randInteger();
+    $result = number_format($a + $b, 2, '.', '');
+    $this->createMathExpressionField('field_a_b', 'A + B', '[field_a] + [field_b]');
+
+    // Go to the node add page and make sure the text field exists.
+    $this->drupalGet('node/add/math');
+    $this->assertFieldByXPath('//input[@type="text" and @name="field_a_b[und][0][value]"]', NULL, 'Math expression text field widget is displayed on the node add form.');
+
+    // Create a new math node.
+    $edit = array();
+    $edit['title'] = $this->randomName(8);
+    $edit["field_a[und][0][value]"] = $a;
+    $edit["field_b[und][0][value]"] = $b;
+    $this->drupalPost('node/add/math', $edit, t('Save'));
+    $this->assertText($result, 'Evaluated the math expression text field widget.');
+
+    // Make sure the result is displayed on the edit form.
+    $this->clickLink(t('Edit'));
+    $this->assertFieldByXPath('//input[@type="text" and @name="field_a_b[und][0][value]"]', $result, 'Math expression text field widget is displayed on the edit form.');
+  }
+
+  public function testMathfieldReadOnlyWidget() {
+    $this->createField('field_a', 'A', 'number_integer');
+    $this->createField('field_b', 'B', 'number_integer');
+
+    // Create a math expression text widget to add the integers.
+    $a = $this->randInteger();
+    $b = $this->randInteger();
+    $result = number_format($a + $b, 2, '.', '');
+    $this->createMathExpressionField('field_a_b', 'A + B', '[field_a] + [field_b]', 'mathfield_markup');
+
+    // Go to the node add page and make sure the text field exists.
+    $this->drupalGet('node/add/math');
+    $this->assertText('A + B', 'Math expression read-only widget is displayed on the node add form.');
+
+    // Create a new math node.
+    $edit = array();
+    $edit['title'] = $this->randomName(8);
+    $edit["field_a[und][0][value]"] = $a;
+    $edit["field_b[und][0][value]"] = $b;
+    $this->drupalPost('node/add/math', $edit, t('Save'));
+    $this->assertText($result, 'Evaluated the math expression read-only widget.');
+
+    // Make sure the result is displayed on the edit form.
+    $this->clickLink(t('Edit'));
+    $this->assertText($result, 'Math expression read-only widget is displayed on the edit form.');
+  }
+
+}
+
+/**
+ * Test tokens in math expression fields.
+ */
+class MathfieldTokenTestCase extends MathfieldTestCase {
+
+  public static function getInfo() {
+    return array(
+      'name' => 'Math Field Token Test',
+      'description' => 'Ensure that tokens function properly in math expression fields.',
+      'group' => 'Math Field',
+    );
+  }
+
+  /**
+   * Tests basic tokens in math expression fields.
+   */
+  public function testMathfieldBasicTokens() {
+    // Create some basic numeric text fields.
+    $this->createField('field_integer', 'Integer', 'number_integer');
+    $this->createField('field_float', 'Float', 'number_float');
+
+    // Add an integer and float.
+    $a = $this->randInteger();
+    $b = $this->randFloat();
+    $result = number_format($a + $b, 2, '.', '');
+    $this->createMathExpressionField('field_basic', 'Basic', '[field_integer] + [field_float]');
+
+    // Create a new math node.
+    $edit = array();
+    $edit['title'] = $this->randomName(8);
+    $edit["field_integer[und][0][value]"] = $a;
+    $edit["field_float[und][0][value]"] = $b;
+    $this->drupalPost('node/add/math', $edit, t('Save'));
+
+    $this->assertText($result, 'Evaluated a math expression using basic tokens.');
+  }
+
+  /**
+   * Tests advanced tokens in math expression fields.
+   */
+  public function testMathfieldAdvancedTokens() {
+    // Create a multivalue integer field.
+    $this->createField('field_multiple', 'Multiple', 'number_integer', 4);
+
+    // Find the root of the 2nd item in a multivalue field.
+    $a = abs($this->randInteger());
+    $result_a = number_format(sqrt($a), 2, '.', '');
+    $this->createMathExpressionField('field_adv_a', 'Advanced A', 'sqrt([field_multiple:1])');
+
+    // Use the 1st item in a multivalue field in a custom function (square).
+    $b = $this->randInteger();
+    $result_b = number_format(pow($b, 2), 2, '.', '');
+    $this->createMathExpressionField('field_adv_b', 'Advanced B', 'f(x) = x^2; f([field_multiple:value])');
+
+    // Double the 3rd item in a multivalue field.
+    $c = $this->randInteger();
+    $result_c = number_format($c * 2, 2, '.', '');
+    $this->createMathExpressionField('field_adv_c', 'Advanced C', '[field_multiple:2:value] * 2');
+
+    // Create a new math node.
+    $edit = array();
+    $edit['title'] = $this->randomName(8);
+    $edit["field_multiple[und][0][value]"] = $b;
+    $edit["field_multiple[und][1][value]"] = $a;
+    $edit["field_multiple[und][2][value]"] = $c;
+    $this->drupalPost('node/add/math', $edit, t('Save'));
+
+    $this->assertText($result_a, 'Evaluated a math expression using an advanced tokens in the form [$field_name:$delta].');
+    $this->assertText($result_b, 'Evaluated a math expression using an advanced tokens in the form [$field_name:$column].');
+    $this->assertText($result_c, 'Evaluated a math expression using an advanced tokens in the form [$field_name:$delta:$column].');
+  }
+
+  /**
+   * Tests using another math field as a tokens in a math expression.
+   */
+  public function testMathfieldMathfieldTokens() {
+    // Create some simple integer fields.
+    $this->createField('field_a', 'A', 'number_integer');
+    $this->createField('field_b', 'B', 'number_integer');
+
+    // Create a math expression to add the integers.
+    $a = $this->randInteger();
+    $b = $this->randInteger();
+    $sum = number_format($a + $b, 2, '.', '');
+    $this->createMathExpressionField('field_a_b', 'A + B', '[field_a] + [field_b]');
+
+    // Create a math expression to double the result.
+    $result = number_format(($a + $b) * 2, 2, '.', '');
+    $this->createMathExpressionField('field_result', 'Result', '[field_a_b] * 2');
+
+    // Create a new math node.
+    $edit = array();
+    $edit['title'] = $this->randomName(8);
+    $edit["field_a[und][0][value]"] = $a;
+    $edit["field_b[und][0][value]"] = $b;
+    $this->drupalPost('node/add/math', $edit, t('Save'));
+
+    $this->assertText($sum, 'Evaluated the dependent math expression.');
+    $this->assertText($result, 'Evaluated a math expression using tokens from another math field.');
+  }
+
+  /**
+   * Tests using another math field as a tokens in a math expression.
+   */
+  public function testMathfieldDefaultTokens() {
+    // Create some simple integer fields.
+    $this->createField('field_a', 'A', 'number_integer');
+    $this->createField('field_b', 'B', 'number_integer');
+
+    $a = $this->randInteger();
+    $b = $this->randInteger();
+    $result = number_format($a * $b, 2, '.', '');
+
+    // Give field_a a default value.
+    $instance = field_info_instance('node', 'field_a', 'math');
+    $instance['default_value'][0]['value'] = $a;
+    field_update_instance($instance);
+
+    // Create a math expression to multiply the fields.
+    $this->createMathExpressionField('field_result', 'Result', '[field_a] * [field_b]');
+
+    // Create a new math node with the default value for field_a.
+    $edit = array();
+    $edit['title'] = $this->randomName(8);
+    $edit["field_b[und][0][value]"] = $b;
+    $this->drupalPost('node/add/math', $edit, t('Save'));
+
+    $this->assertText($result, 'Evaluated a math expression using a token with a default value.');
+  }
+
+}
+
+/**
+ * Test list fields in math expressions.
+ */
+class MathfieldListTestCase extends MathfieldTestCase {
+  public static function getInfo() {
+    return array(
+      'name' => 'Math Field List Test',
+      'description' => 'Ensure that list fields function properly in math expressions.',
+      'group' => 'Math Field',
+    );
+  }
+
+  /**
+   * Tests using values from select lists in a math expression.
+   */
+  public function testMathfieldSelectList() {
+    // Create some basic integer select lists.
+    $this->createField('field_a', 'A', 'list_integer', 1, 'options_select');
+    $this->createField('field_b', 'B', 'list_integer', 1, 'options_select');
+
+    // Select a random value for each field.
+    $a_field = field_info_field('field_a');
+    $a = array_rand($a_field['settings']['allowed_values']);
+
+    $b_field = field_info_field('field_b');
+    $b = array_rand($b_field['settings']['allowed_values']);
+
+    // Create the Math Expression.
+    $result = number_format($a + $b, 2, '.', '');
+    $this->createMathExpressionField('field_result', 'Result', '[field_a] + [field_b]');
+
+    // Create a new math node.
+    $edit = array();
+    $edit['title'] = $this->randomName(8);
+    $edit["field_a[und]"] = $a;
+    $edit["field_b[und]"] = $b;
+    $this->drupalPost('node/add/math', $edit, t('Save'));
+
+    $this->assertText($result, 'Evaluated a math expression using values from a select list.');
+
+  }
+
+  /**
+   * Tests using values from radio button groups in a math expression.
+   */
+  public function testMathfieldRadioList() {
+    // Create some float radio buttons.
+    $this->createField('field_a', 'A', 'list_float', 1, 'options_buttons');
+    $this->createField('field_b', 'B', 'list_float', 1, 'options_buttons');
+
+    // Select a random value for each field.
+    $a_field = field_info_field('field_a');
+    $a = array_rand($a_field['settings']['allowed_values']);
+
+    $b_field = field_info_field('field_b');
+    $b = array_rand($b_field['settings']['allowed_values']);
+
+    // Create the Math Expression.
+    $result = number_format($a + $b, 2, '.', '');
+    $this->createMathExpressionField('field_result', 'Result', '[field_a] + [field_b]');
+
+    // Create a new math node.
+    $edit = array();
+    $edit['title'] = $this->randomName(8);
+    $edit["field_a[und]"] = $a;
+    $edit["field_b[und]"] = $b;
+    $this->drupalPost('node/add/math', $edit, t('Save'));
+
+    $this->assertText($result, 'Evaluated a math expression using values from a radio button group.');
+  }
+
+  /*
+   * @todo Add tests and support for multivalue select lists and checkboxes.
+   * @see https://www.drupal.org/node/2483453
+   */
+
+}

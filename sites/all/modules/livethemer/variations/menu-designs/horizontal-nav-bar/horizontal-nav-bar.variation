@@ -1,0 +1,9 @@
+name = Horizontal Nav Bar
+description = Horizontal Nav Bar
+version = 7.0.0
+keywords = menu horizontal
+
+;thumbnail = horizontal-nav-bar.png
+variation_type = menu-designs
+settings_form = form.inc
+stylesheets[] = horizontal-nav-bar.css

@@ -1,0 +1,16 @@
+name = Math Field
+description = Adds a dynamic math expression field.
+core = 7.x
+package = Fields
+
+dependencies[] = field
+dependencies[] = ctools
+
+files[] = mathfield.test
+
+; Information added by Drupal.org packaging script on 2015-06-19
+version = "7.x-1.0"
+core = "7.x"
+project = "mathfield"
+datestamp = "1434736983"
+

@@ -1,0 +1,8 @@
+name = Seven's tables
+description = Style tables like Seven.
+version = 7.0.0
+keywords = starter, table, Seven
+
+stylesheets[] = table-seven.css
+;thumbnail = table-seven.png
+variation_type = table-designs
