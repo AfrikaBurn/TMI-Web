@@ -1,0 +1,26 @@
+name = Afrikaburn
+description = A custom theme for Africa Burn
+core = 7.x
+
+; CSS
+stylesheets[all][] = assets/css/reset.css
+stylesheets[all][] = assets/css/typography.css
+stylesheets[all][] = assets/css/layout.css
+stylesheets[all][] = assets/css/drupal.css
+stylesheets[all][] = assets/css/theme.css
+
+; JS
+scripts[] = assets/js/modernizr.js
+scripts[] = assets/js/jquery-3.1.0.min.js
+scripts[] = assets/js/mobile-drop-down-menu.js
+scripts[] = assets/js/theme.js
+
+; Regions
+regions[featured] = Featured
+regions[content] = Content
+regions[sidebar] = Sidebar
+regions[social] = Social Icons
+regions[footer] = Footer
+regions[help] = Help
+regions[page_top] = Page Top
+regions[page_bottom] = Page Bottom

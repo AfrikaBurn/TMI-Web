@@ -1,0 +1,246 @@
+@media (max-width: 979px) {
+div.navbar-outer {
+	background-color: @mobile-header-bar-background-color;	
+}
+	
+.navbar a.btn.btn-navbar {
+	background-color: @main-nav-hamburger-icon-background-color;	
+	float: @main-nav-hamburger-icon-float;
+	width: 22px;
+	height: 14px;
+	padding: @main-nav-hamburger-icon-top-bottom-padding @main-nav-hamburger-icon-side-padding;
+	background-image: none;
+	box-sizing: inherit;
+	border-width: 0;
+	border-radius: 0;
+	margin: 0;
+	text-decoration: none;
+}
+
+.navbar a.btn.btn-navbar span.icon-bar {
+	display: block;
+	width: 22px;
+	background-image: none;
+	height: 3px;
+	background-color: @main-nav-hamburger-icon-single-strip-background-color;
+	border-radius: 2px;
+	margin-top: 0px;
+	width: 22px;
+	text-shadow: none !important;
+	box-shadow: none !important;
+}
+
+.navbar a.btn.btn-navbar span.icon-bar + span.icon-bar {
+	margin-top: 4px;
+}
+
+
+.navbar .navbar-inner .nav-collapse > ul.menu {
+	border-bottom: @979-main-nav-item-border-top-bottom-width @979-main-nav-item-top-bottom-border-style @979-main-nav-item-top-bottom-border-color;
+}
+
+
+.nav-collapse, 
+.nav-collapse.collapse {
+   overflow: hidden;
+    
+}
+
+.nav-collapse {
+    clear: both;
+    height: 0;
+}
+
+.collapse {
+	position: relative;
+    -webkit-transition: height .35s ease;
+    -moz-transition: height .35s ease;
+    -o-transition: height .35s ease;
+    transition: height .35s ease;
+    transition-property: height;
+    transition-duration: 0.35s;
+    transition-timing-function: ease;
+    transition-delay: initial;
+}
+
+.navbar .navbar-inner {
+	/*Giving this element a fixed height will cause the menu to slide down over the content rather tahn push it down*/
+	/*Float is set to right to make main content slide down under menu*/
+	float: right;
+	/*Width must be set to 100% because of float right*/
+	width: 100%;
+}
+
+.navbar .navbar-inner .nav-collapse {
+	float: right;
+	width: 100%;
+}
+
+/*---------------------------------------------
+DEFAULT MENU MOBILE STYLES LEVEL 1 
+---------------------------------------------*/
+
+.navbar .navbar-inner .nav-collapse > ul.menu,
+.navbar .navbar-inner .nav-collapse .moduletable > ul.menu {
+	margin: 0;
+	border-top: 0;
+	border-right: 0;
+	border-left: 0;
+	border-bottom: @979-main-nav-item-border-top-bottom-width @979-main-nav-item-top-bottom-border-style @979-main-nav-item-top-bottom-border-color;
+}
+.navbar .navbar-inner .nav-collapse ul.menu > li {
+	border-top-color: @979-main-nav-item-top-bottom-border-color;
+	border-top-width: @979-main-nav-item-border-top-bottom-width;
+	border-top-style: @979-main-nav-item-top-bottom-border-style;
+	border-right: 0;
+	border-bottom: 0;
+	border-left: 0;
+}
+
+.navbar .navbar-inner .nav-collapse ul.menu > li > a,
+.navbar .navbar-inner .nav-collapse ul.menu > li > span.separator {
+	/*Leave font weight and font family here to override bootstrap*/
+	font-family: @979-main-nav-font-family;
+	font-weight: @979-main-nav-font-weight;
+	font-style: @979-main-nav-font-style;
+	font-size: @979-main-nav-font-size;
+	color:  @979-main-nav-level-1-item-color;
+	text-transform: @979-main-nav-text-transform;
+	background-color: @979-main-nav-level-1-item-background-color;
+	height: @979-main-nav-item-height - @979-main-nav-item-padding-top;
+	padding-top: @979-main-nav-item-padding-top;
+	text-align: left;
+	margin: 0;
+	padding-left: @979-main-nav-level-1-item-padding-left;
+	-webkit-border-radius: 0px;
+	-moz-border-radius: 0px;
+	border-radius: 0px;
+	padding-bottom: 0;
+}
+
+.navbar .navbar-inner .nav-collapse ul.menu > li > a:hover,
+.navbar .navbar-inner .nav-collapse ul.menu > li > span.separator:hover  {
+	color: @979-main-nav-level-1-hover-color;
+	text-transform: @979-main-nav-text-transform;
+	background-color: @979-main-nav-level-1-hover-background-color;
+}
+
+.navbar .navbar-inner .nav-collapse ul.menu > li.active > a,
+.navbar .navbar-inner .nav-collapse ul.menu > li.active > span.separator {
+	color:  @979-main-nav-level-1-item-active-color;
+	background-color:  @979-main-nav-level-1-item-background-color;
+	background-image: none;
+	border-width: 0;
+}
+.navbar .navbar-inner .nav-collapse ul.menu > li.active > a:hover, 
+.navbar .navbar-inner .nav-collapse ul.menu > li.active > a:focus,
+.navbar .navbar-inner .nav-collapse ul.menu > li.active > span.separator:hover {
+	color:  @979-main-nav-level-1-item-active-color;
+	background-color:  @979-main-nav-level-1-item-background-color;
+	cursor: default;
+}
+
+.navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li.active.current > a {
+	background-image: @active-nav-item-background-image;
+	background-repeat: no-repeat; 
+	background-position: @979-main-nav-item-active-background-position;
+	background-size: @active-nav-item-background-size;
+}
+
+
+
+
+/*---------------------------------------------
+DEFAULT MENU MOBILE STYLES LEVEL 2
+---------------------------------------------*/
+.navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child {
+	position: static;
+	top: auto;
+	left: auto;
+	z-index: 1000;
+	display: block;
+	float: none;
+	min-width: 160px;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	background-color: transparent;
+	border-width: 0;
+	-webkit-border-radius: 0px;
+	-moz-border-radius: 0px;
+	border-radius: 0px;
+	-webkit-box-shadow: 0 0px 0px rgba(0,0,0,0.2);
+	-moz-box-shadow: 0 0px 0px rgba(0,0,0,0.2);
+	box-shadow: 0 0px 0px rgba(0,0,0,0.2);
+	-webkit-background-clip: padding-box;
+	-moz-background-clip: padding;
+	background-clip: padding-box;
+}
+
+.navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li {
+	border-top-width: @979-main-nav-item-border-top-bottom-width;
+	border-top-style: @979-main-nav-item-top-bottom-border-style;
+	border-top-color: @979-main-nav-item-top-bottom-border-color;
+	border-bottom: 0;
+	position: relative;
+}
+
+.navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li a,
+.navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li span.separator {
+	font-family: @979-main-nav-font-family;
+	height: @979-main-nav-item-height - @979-main-nav-item-padding-top;
+	color: @979-main-nav-level-2-item-color;
+	font-size: @979-main-nav-font-size;
+	text-transform: @979-main-nav-text-transform;
+	background-color: @979-main-nav-level-2-item-background-color;
+	padding-left: @979-main-nav-level-2-item-padding-left;
+	padding-top: @979-main-nav-item-padding-top;
+	padding-bottom: inherit;
+	padding-bottom: 0;
+	text-align: left;
+}
+
+
+
+.navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li > a:hover, 
+.navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li > a:focus,
+.navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li > span.separator:hover, 
+.navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child:hover > a {
+	
+	color: @979-main-nav-level-2-hover-color;
+	background-color: @979-main-nav-level-2-hover-background-color;
+	
+}
+
+.navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li.active > a,
+.navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li.active > span.separator {
+	color: @979-main-nav-level-2-item-active-color;
+	background-color: @979-main-nav-level-2-item-active-background-color;
+	
+}
+
+.navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li.active > a:hover,
+.navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li.active > a:focus,
+.navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li.active > span.separator:hover {
+	color: @979-main-nav-level-2-item-active-color;
+	background-color: @979-main-nav-level-2-item-active-background-color;
+	
+}
+
+.navbar div.mobile-active-1 {
+	background-color: transparent;
+	background-image: url(../images/user-links-bg.png);
+	background-position: right -864px;
+	background-repeat: no-repeat;
+	position: absolute;
+	top: 0;
+	right: 0;	
+	width: 40px;
+	height: 36px;
+}
+
+span.trash {
+	color: @add-bootstrap-menu-button-in-template-less;	
+}
+
+}

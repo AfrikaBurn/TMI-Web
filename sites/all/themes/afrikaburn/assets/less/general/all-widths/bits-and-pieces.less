@@ -1,0 +1,966 @@
+/*---BOOTSTRAP OVERRIDES---*/
+@font-face {
+    font-family: 'FuturaBook';
+    src: url('../fonts/futura_book_bt-webfont.eot');
+    src: url('../fonts/futura_book_bt-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/futura_book_bt-webfont.woff') format('woff'),
+         url('../fonts/futura_book_bt-webfont.ttf') format('truetype'),
+         url('../fonts/futura_book_bt-webfont.svg#FuturaBook') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+a:active,
+a:focus {
+    outline: none;
+}
+
+
+select:focus {
+	outline:inherit;
+}
+.btn:focus {
+	outline:inherit;
+	outline-offset:inherit;
+	-webkit-transition:inherit;
+	-moz-transition:inherit;
+	-o-transition:inherit;
+	transition:inherit
+}
+
+.table-bordered,
+.table-bordered thead:first-child tr:first-child > th:first-child,
+.table-bordered tbody:first-child tr:first-child > td:first-child,
+.table-bordered tbody:first-child tr:first-child > th:first-child,
+.table-bordered thead:first-child tr:first-child > th:last-child,
+.table-bordered tbody:first-child tr:first-child > td:last-child,
+.table-bordered tbody:first-child tr:first-child > th:last-child,
+.table-bordered thead:last-child tr:last-child > th:first-child,
+.table-bordered tbody:last-child tr:last-child > td:first-child,
+.table-bordered tbody:last-child tr:last-child > th:first-child,
+.table-bordered tfoot:last-child tr:last-child > td:first-child,
+.table-bordered tfoot:last-child tr:last-child > th:first-child,
+.table-bordered thead:last-child tr:last-child > th:last-child,
+.table-bordered tbody:last-child tr:last-child > td:last-child,
+.table-bordered tbody:last-child tr:last-child > th:last-child,
+.table-bordered tfoot:last-child tr:last-child > td:last-child,
+.table-bordered tfoot:last-child tr:last-child > th:last-child {
+  -webkit-border-radius: 0px;
+  border-radius: 0px;
+  -moz-border-radius: 0px;
+}
+
+
+input:focus:invalid:focus, textarea:focus:invalid:focus, select:focus:invalid:focus {
+		box-shadow: none;
+}
+
+
+
+
+form {
+	 margin-bottom: inherit;
+}
+
+ul, ol {
+	margin: 0;	
+}
+
+.btn {
+	border-image-width: 0;
+	box-shadow: none;	
+}
+.btn:focus,
+.btn:hover {
+	transition: none;
+	-webkit-transition: none;	
+	-moz-transition: none;
+}
+
+.row-fluid {
+	width: auto;	
+}
+
+/*---ACTUAL STYLES---*/
+
+body {
+	line-height: inherit;
+	font-family: @main-font-family;	
+}
+
+br {
+	line-height: 0;
+}
+
+h1, h2, h3, h4 {
+	/*page-headers*/
+	color: @page-header-color;
+	font-size: @page-header-font-size;
+	text-transform: @page-header-text-transform;
+	text-align: @page-header-text-align;
+	font-family: @page-header-font-family;
+	font-weight: @page-header-font-weight;
+	padding: @page-header-padding-top @pc-body-content-padding-left-right @page-header-padding-bottom;
+	background-color: @page-header-background-color;
+	line-height: @page-header-line-height;
+	margin-top: 0;
+	margin-bottom: 0;
+	letter-spacing: 0.5px;
+}
+
+a {
+	color: @body-content-link-color;
+	text-decoration: @body-content-link-text-decoration;
+}
+
+a:visited {
+	color: @body-content-link-visited-color;
+	text-decoration: @body-content-link-visited-text-decoration;		
+}	
+
+a:hover {
+	color: @body-content-link-hover-color;	
+	text-decoration: @body-content-link-hover-text-decoration;	
+}
+
+a:active {
+	color: @body-content-link-color;
+	text-decoration: @body-content-link-text-decoration;	
+}
+
+
+img {
+	width: 100%;
+	height: auto;
+}
+
+
+div.body-content h1,
+div.body-content h2,
+div.body-content h3,
+div.body-content h4 {
+	/*body-content-headers*/
+	color: @body-content-header-color;
+	text-transform: @body-content-header-text-transform;
+	text-align: @body-content-header-text-align;
+	font-family: @body-content-header-font-family;
+	font-weight: @body-content-header-font-weight;
+	margin-bottom: @body-content-header-margin-bottom;
+	font-style: @body-content-header-font-style;
+	line-height: 150%;
+	padding: 0;
+	background-color: transparent;
+	
+}
+div.body-content h1 {
+	font-size: @body-content-header-h1-font-size/@body-content-text-font-size;	
+}
+div.body-content h2 {
+	font-size: @body-content-header-h2-font-size/@body-content-text-font-size;	
+}
+div.body-content h3 {
+	font-size: @body-content-header-h3-font-size/@body-content-text-font-size;
+}
+div.body-content h4 {
+	font-size: @body-content-header-h4-font-size/@body-content-text-font-size;
+}
+
+/*------------------------BODY CONTENT PARAGRAPH------------------------*/
+
+div.body-content {
+	/*body-content-text*/
+	line-height: @body-content-text-line-height;
+	color: @body-content-text-color;
+	font-family: @main-font-family;
+	font-style: @body-content-text-font-style;
+	font-size: @body-content-text-font-size;
+	font-weight: @body-content-text-font-weight;
+	text-align: left;
+}
+div.body-content p {
+	text-align: @body-content-paragraph-text-align;
+	line-height: @body-content-paragraph-line-height;
+	margin-bottom: @body-content-paragraph-space-after;
+}	
+
+/*button,
+div.body-content button,
+input.button,
+div.body-content input.button,
+.btn,
+div.body-content .btn,
+.btn-primary,
+div.body-content .btn-primary,
+a.btn,
+div.body-content a.btn {
+	width: @general-button-width;
+	max-width: @general-button-max-width;
+	background: @general-button-background-color @general-button-background-image @general-button-background-repeat @general-button-background-position;
+	*background-color: @general-button-background-color;
+	background-size: @general-button-background-size;
+	height: @general-button-height;
+	border: @general-button-border-width @general-button-border-style @general-button-border-color;
+	border-radius: @general-button-border-radius;
+	-moz-border-radius: @general-button-border-radius;
+	-webkit-border-radius: @general-button-border-radius;
+	box-shadow: none;
+	color: transparent;
+	font-size: 0;
+	cursor: pointer;
+	float: left;
+	display: block;
+	padding: 0;
+	box-sizing: border-box;	
+}*/
+
+button,
+.button,
+input.button,
+div.body-content a.button,
+div.body-content button,
+div.body-content input.button,
+div.input-file-wrapper,
+input[type=submit],
+div.body-content input[type=submit] {
+	/*width: @general-button-width;*/
+	min-width: @general-button-min-width;
+	background-color: @general-button-background-color; /*@general-button-background-image no-repeat @general-button-background-position;*/
+	*background-color: @general-button-background-color;
+	height: @general-button-height;
+	border-width: 0;
+	border-radius: @general-button-border-radius;
+	-moz-border-radius: @general-button-border-radius;
+	-webkit-border-radius: @general-button-border-radius;
+	box-shadow: none;
+	text-align: center;
+	color: @general-button-color;
+	font-size: @general-button-font-size;
+	line-height: @general-button-font-size;
+	letter-spacing: @general-button-letter-spacing;
+	text-transform: @general-button-text-transform;
+	font-family: @general-button-font-family;
+	font-weight: @general-button-font-weight;
+	cursor: pointer;
+	float: left;
+	width: auto;
+	clear: both;
+	display: block;
+	padding: 0;
+	box-sizing: border-box;	
+	padding: 0 @general-button-side-padding;
+}
+.btn:hover,
+a.btn:hover,
+button:hover,
+div.body-content button:hover,
+input.button:hover,
+input.button:focus,
+input.button:active,
+div.body-content input.button:hover,
+div.body-content input.button:focus,
+div.body-content input.button:active,
+div.body-content .btn:hover,
+div.body-content a.btn:hover,
+div.input-file-wrapper:hover,
+input[type=submit]:hover,
+div.body-content input[type=submit]:hover  {
+	
+	background: @general-button-hover-background-color @general-button-background-image @general-button-background-repeat @general-button-background-position;
+	background-size: @general-button-background-size;
+	height: @general-button-height;
+	color: @general-button-hover-color;
+	cursor: pointer;
+	display: block;
+	border-radius: @general-button-border-radius;
+	-moz-border-radius: @general-button-border-radius;
+	-webkit-border-radius: @general-button-border-radius;
+	transition: inherit !important;	
+	box-shadow: inherit !important;
+	
+}
+
+div.body-content select {
+	text-transform: @select-text-transform;
+   	color: @select-color;
+	border-radius: @select-border-radius;
+	-moz-border-radius: @select-border-radius;
+	-webkit-border-radius: @select-border-radius;
+	border: 1px solid @select-border-color;
+	width: 220px;
+    display: inline-block;
+    height: 18px;
+    line-height: 13px !important;
+    margin-bottom: 9px;
+    padding: 4px 6px;
+    vertical-align: middle;
+	height: 28px;
+    font-size: 13px;
+    font-weight: normal;
+    cursor: pointer;
+	background-color: #f5f5f5;
+    background-image: linear-gradient(to bottom, #ffffff, #e6e6e6);
+	font-family: Arial, Helvetica, sans-serif;
+	clear: both;
+	float: left;
+	margin-top: 10px;
+}
+
+div.body-content select option {
+	background-color: @option-background-color;
+    border-top-color: @option-border-color;
+   	text-transform: @option-text-transform;
+	font-family: @option-font-family;
+    color: @option-color;
+    font-size: 1em; 
+	border-top-width: 1px;
+	border-top-style: solid;
+    padding-top: 4px;
+}
+
+div.body-content img {
+	max-width: 100%;
+	width: auto;
+	height: auto;	
+}
+div.body-content span.wf_caption.img-float-left,
+div.body-content img.img-float-left {
+	margin-right: 20px;
+	margin-bottom: 10px;
+
+}
+div.body-content span.wf_caption.img-float-right,
+div.body-content img.img-float-right {
+	margin-left: 20px;
+	margin-bottom: 10px;
+}
+
+
+input,
+textarea,
+.uneditable-input,
+div.body-content input,
+div.body-content textarea,
+div.body-content .uneditable-input  {
+	border-radius: @general-input-border-radius;
+	-moz-border-radius: @general-input-border-radius;
+	-webkit-border-radius: @general-input-border-radius;
+	height: @general-input-height;
+	font-family: @general-input-font-family; 
+	margin-top: @general-input-margin-top;
+	margin-bottom: @general-input-margin-bottom;
+	width: @general-input-width;
+	padding: @general-input-top-bottom-padding @general-input-side-padding;
+	float: @general-input-float;
+	text-indent: 8px;
+	box-sizing: border-box;
+	background-color: @general-input-background-color;
+	color: @general-input-color;
+	border: @general-input-border-width @general-input-border-style @general-input-border-color;
+}
+
+input:hover,
+textarea:hover,
+.uneditable-input:hover {
+	border-color: @general-input-hover-border-color;
+}
+
+input:focus,
+textarea:focus,
+.uneditable-input:focus {
+	-webkit-transition: inherit;
+    -moz-transition: inherit;
+    -o-transition: inherit;
+    transition: inherit;
+	-webkit-box-shadow: inherit;
+    -moz-box-shadow: inherit;
+    box-shadow: inherit;	
+    outline: 0;
+	border-color: @general-input-focus-border-color;
+}
+
+div.body-content input,
+div.body-content textarea,
+div.body-content .uneditable-input {
+	background-color: @body-content-input-background-color;
+	color: @body-content-input-color;
+	border: @general-input-border-width @general-input-border-style @body-content-input-border-color;
+	
+}  
+
+div.body-content input:hover,
+div.body-content .uneditable-input:hover, 
+div.body-content textarea:hover {
+	border-color: @body-content-input-hover-border-color;
+}
+
+div.body-content input:focus,
+div.body-content input[type="text"]:focus,
+div.body-content input[type="password"]:focus,
+div.body-content input[type="datetime"]:focus,
+div.body-content input[type="datetime-local"]:focus,
+div.body-content input[type="date"]:focus,
+div.body-content input[type="month"]:focus,
+div.body-content input[type="time"]:focus,
+div.body-content input[type="week"]:focus,
+div.body-content input[type="number"]:focus,
+div.body-content input[type="email"]:focus,
+div.body-content input[type="url"]:focus,
+div.body-content input[type="search"]:focus,
+div.body-content input[type="tel"]:focus,
+div.body-content input[type="color"]:focus,
+div.body-content .uneditable-input:focus, 
+div.body-content textarea:focus {
+	-webkit-transition: inherit;
+    -moz-transition: inherit;
+    -o-transition: inherit;
+    transition: inherit;
+	-webkit-box-shadow: inherit;
+    -moz-box-shadow: inherit;
+    box-shadow: inherit;	
+    outline: 0;
+	border-color: @body-content-input-focus-border-color;
+	background-color: @body-content-input-focus-background-color;
+
+
+}
+textarea,
+textarea:focus,
+div.body-content textarea,
+div.body-content textarea:focus {
+	height: 120px;	
+}
+
+
+div.body-content label {
+	/*body-content-form-label*/
+	font-style: @body-content-text-font-style;
+	color: @body-content-form-label-color;
+	float: @body-content-form-label-float;
+	font-weight: @body-content-form-label-font-weight;
+	line-height: 100%;
+	font-family: @main-font-family;
+	text-align: left;	
+}
+
+input[type='radio'], 
+div.body-content input[type='radio'],
+input[type='checkbox'],
+div.body-content input[type='checkbox'] {
+	width: @radio-button-checkbox-width-height !important;
+	height: @radio-button-checkbox-width-height !important;
+	margin-right: 5px !important;
+	margin-top: @radio-button-checkbox-margin-top !important;
+	margin-bottom: 0;
+	float: left;
+}	
+
+/*--Better styling for radio buttons--*/
+
+div.radio-checkbox-wrapper {
+	position: relative;
+	float: left;
+	margin: @radio-button-checkbox-margin-top 5px 0 0;	
+}
+
+div.radio-checkbox-wrapper input[type='radio'], 
+div.radio-checkbox-wrapper input[type='checkbox'] {
+	width: @radio-button-checkbox-width-height !important;
+	height: @radio-button-checkbox-width-height !important;
+	float: left;
+	opacity: 0;
+	position: absolute;
+	left: 0;
+	top: 0;
+	margin-top: 0 !important;
+	cursor: pointer;
+}	
+
+input[type=radio] + div.radio-checkbox-dummy,
+input[type=checkbox] + div.radio-checkbox-dummy {
+	float: left;
+	height: @radio-button-checkbox-width-height;
+	width: @radio-button-checkbox-width-height;
+	box-sizing: border-box;
+	border-radius: @general-input-border-radius;
+	-moz-border-radius: @general-input-border-radius;
+	-webkit-border-radius: @general-input-border-radius;
+	background: @radio-button-checkbox-background-color url("../images/buttons.png") no-repeat center top;
+	border: @general-input-border-width @general-input-border-style @general-input-border-color;
+	background-size: 300px
+}
+
+input[type=radio]:hover + div.radio-checkbox-dummy,
+input[type=checkbox]:hover + div.radio-checkbox-dummy {
+	border-color: @general-input-hover-border-color;
+
+}
+
+input[type=radio]:checked + div.radio-checkbox-dummy,
+input[type=checkbox]:checked + div.radio-checkbox-dummy {
+	background-position: @radio-checkbox-selected-background-position;	
+	border-color: @general-input-focus-border-color;
+	background-color: @radio-checkbox-selected-background-color;
+}
+
+div.body-content input[type=radio] + div.radio-checkbox-dummy,
+div.body-content input[type=checkbox] + div.radio-checkbox-dummy {
+	border-color: @body-content-input-border-color;
+}
+
+div.body-content input[type=radio]:hover + div.radio-checkbox-dummy,
+div.body-content input[type=checkbox]:hover + div.radio-checkbox-dummy {
+	border-color: @body-content-input-hover-border-color;
+}
+
+div.body-content input[type=radio]:checked + div.radio-checkbox-dummy,
+div.body-content input[type=checkbox]:checked + div.radio-checkbox-dummy {
+	background-position: @radio-checkbox-selected-background-position;	
+	border-color: @body-content-input-focus-border-color;
+	background-color: @radio-checkbox-selected-background-color;
+}
+
+
+
+div.body-content table {
+	border: 1px @table-border-style @table-border-color;	
+	border-radius: 0px;
+	-moz-border-radius: 0px;
+	-webkit-border-radius: 0px;	
+	margin-bottom: 20px;
+	border-collapse: collapse;
+}
+
+div.body-content table th{
+	color: @table-header-cell-color;
+	background-color: @table-header-cell-background-color;
+	font-size: @table-header-cell-font-size/@body-content-text-font-size;
+	text-transform: @table-header-cell-text-transform;
+	text-align: @table-header-cell-text-align;
+	font-family: @table-header-cell-font-family;
+	font-weight: @table-header-cell-font-weight;
+	padding: @table-cell-padding-top @table-cell-padding-left-right @table-cell-padding-bottom;
+	border: 1px @table-border-style @table-border-color;	
+	border-radius: 0px;
+	-moz-border-radius: 0px;
+	-webkit-border-radius: 0px;	
+	font-size: @table-header-cell-font-size/@body-content-text-font-size;
+}
+div.body-content table td {
+	color: @table-cell-color;
+	background-color: @table-cell-background-color;
+	font-family: @table-cell-font-family;
+	line-height: @table-cell-text-line-height;
+	padding: @table-cell-padding-top @table-cell-padding-left-right @table-cell-padding-bottom;
+	font-size: 1em;	
+	border: 1px @table-border-style @table-border-color;	
+		
+}
+
+/*------------------------LINE-HEIGHT------------------------*/
+
+ 
+div.body-content th,
+div.body-content dd,
+div.body-content dt,
+div.body-content ul li, 
+div.body-content ol li  {
+	line-height: @body-content-text-line-height; 	
+}
+
+div.body-content ul, div.body-content ol {
+	margin-bottom: @body-content-paragraph-space-after;
+	padding: 0px;
+}
+
+div.body-content ul li, div.body-content ol li {
+	margin-left: 1em;
+	padding-left: 0.5em;
+	font-family: @main-font-family;
+}
+
+div.body-content a {
+	color: @body-content-link-color;
+	text-decoration: @body-content-link-text-decoration;
+}
+div.body-content a.visited {
+	color: @body-content-link-visited-color;
+	text-decoration: @body-content-link-text-decoration;
+}	
+div.body-content a:hover {
+	color: @body-content-link-hover-color;
+	text-decoration: @body-content-link-hover-text-decoration;
+
+}
+
+
+/*------------------------BLOCKQUOTES------------------------*/
+
+
+div.body-content blockquote {
+	background: @blockquote-background-color;
+	font-style: @blockquote-font-style;
+	font-weight: @blockquote-font-weight;
+	color: @blockquote-color;
+	font-size: @blockquote-font-size/@body-content-text-font-size;
+	margin:1.5em 0;
+	padding: 0;
+	border-left-width: 0;
+	width: 100%;
+	position: relative;
+	
+}
+       
+div.body-content blockquote span.blockquote-open {
+	width: 28px;
+	height: 20px;
+	margin-right: 10px;
+	position: absolute;
+	top: 7px;
+	left: 0;
+	background: url("../images/user-links-bg.png") no-repeat left -936px;
+	
+}
+
+div.body-content blockquote span.blockquote-closed {
+	width: 28px;
+	margin-left: 10px;
+	position: absolute;
+	bottom: 0px;
+	right: 0;
+	height: 20px;
+	background: url("../images/user-links-bg.png") no-repeat right -936px;
+}
+
+
+
+div.body-content blockquote p {
+	font-size: 1em;
+	padding: 0 45px;	
+	
+}
+
+
+div.body-content dl.dl-horizontal dt {
+	color: #555;
+}
+
+div.body-content dl.dl-horizontal dd {
+	margin-left: 180px;	
+}
+
+div.body-content a:active {
+	color: @body-content-link-color;
+}
+
+
+
+div.body-content hr {
+	border-width: 0;
+	border-top: @body-content-hr-border-top-width solid @body-content-hr-border-top-color;
+	margin-top: 1em;
+	margin-bottom: 1em; 
+	line-height: @body-content-text-line-height;
+	font-size: @body-content-text-font-size; 
+}
+
+
+.no-follow {
+	color: @body-content-text-color;
+	text-decoration: none;
+}	
+
+
+.clear, 
+.clr {
+	clear: both;
+	line-height: 0;
+}
+
+.no-display {
+	display: none;	
+}
+.show-below-979px {
+	display: none;
+}
+
+.show-below-767px {
+	display: none;
+}
+
+.show-below-667px {
+	display: none;
+}
+
+.show-below-599px {
+	display: none;
+}
+.show-below-479px {
+	display: none;
+}
+
+.show-below-379px {
+	display: none;
+}
+
+.show-below-322px {
+	display: none;	
+}
+
+
+.btn {
+	padding: 0;
+	margin: 0;
+}
+
+.star,
+.asterisk,
+div.body-content .asterisk {
+	/*asterisk*/
+	color: @general-asterisk-color;	
+	font-size: @general-asterisk-font-size;
+	font-weight: @general-asterisk-font-weight;
+	line-height: @general-asterisk-font-size;
+	font-family: Arial, Helvetica, sans-serif;
+	
+}
+
+
+.transparent {
+	color: transparent;	
+}
+
+.max-width-600px {
+	max-width: 600px;	
+}
+
+span.body-content-header-color {
+	color: @body-content-header-color;	
+}
+
+.control-label span.optional {
+	margin-left: 5px;
+	padding-top: 3px;	
+	display: block;
+	float: left;
+}
+
+span.empasis {
+	color: #fff;
+	font-size: 1.6em;	
+}
+
+/*---------------------------------------------------------------------------
+FOOTER STRIP TEXT STYLE OVERRIDES {CORRESPONDS TO "01-variables-bits-and-pieces.less"}
+---------------------------------------------------------------------------*/
+
+footer ul li {
+	line-height: @body-content-text-line-height;	
+}
+span.edit-menu,
+span.edit-item,
+a.edit-item {
+	display: none;	
+}
+
+
+div.back-to-top-button,
+a.back-to-top-button  {
+	opacity: 0;
+	height: @back-to-top-button-height;
+	width: @back-to-top-button-width;
+	padding: @back-to-top-button-padding;
+	background-color: @back-to-top-button-background-color;
+	position: fixed;
+	bottom: @back-to-top-button-bottom-position;
+	right: @back-to-top-button-right-position;
+	z-index: 9999999999;
+	border: @back-to-top-button-border-width @back-to-top-button-border-style @back-to-top-button-border-color;
+	border-radius: @back-to-top-button-border-radius;
+	-webkit-border-radius: @back-to-top-button-border-radius;
+	-moz-border-radius: @back-to-top-button-border-radius;
+	overflow: hidden;
+	-webkit-transition: all 400ms ease;
+	-moz-transition: all 400ms ease;
+	-ms-transition: all 400ms ease;
+	-o-transition: all 400ms ease;
+	transition: all 400ms ease;
+}
+
+
+a.back-to-top-button.show  {
+	opacity: @back-to-top-button-opacity;
+	-webkit-transition: all 800ms ease;
+	-moz-transition: all 800ms ease;
+	-ms-transition: all 800ms ease;
+	-o-transition: all 800ms ease;
+	transition: all 800ms ease;
+}
+
+a.back-to-top-button span {
+	background: @back-to-top-button-background-image no-repeat @back-to-top-button-background-position;
+	background-size: @back-to-top-button-background-size;
+	height: @back-to-top-button-height;
+	width: @back-to-top-button-width;
+	display: block;
+}
+
+a.back-to-top-button span:hover {
+	cursor: pointer;
+}
+
+.moduletable.terms-of-use-bar {
+	background-color: transparent;
+	background-image: url("../images/overlays/black-overlay-80.png");
+	width: 100%;
+	float: left;
+	height: 30px;
+	border-top: 1px solid #222;
+	position: fixed;
+	bottom: 0;
+	z-index: 999999999;	
+}
+
+
+.moduletable.terms-of-use-bar p {
+	font-size: 1.3em;
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+	text-align: center;	
+	line-height: 140%;
+	color: #fff;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+.moduletable.terms-of-use-bar p a {
+	text-decoration: underline;
+	color: #fff;
+}
+div.body-content .label.label-success,
+div.body-content .label.label-warning,
+div.body-content .label.label-important,
+div.body-content .label.label-info,
+div.body-content .label.label-inverse
+  {
+	color: #fff;
+	padding: 8px;	
+}
+
+a.void:hover {
+	cursor: default;	
+}
+
+.body-content p img {
+	margin-bottom: 0;
+}
+
+div.body-content span.wf_caption {
+	position: relative;	
+	overflow: hidden;
+}
+
+
+div.body-content span.wf_caption > span {
+	line-height: 120%;
+	font-size: 12px;
+	font-family: Arial, Helvetica, sans-serif;
+	padding: 10px 2%;
+	background: url("../images/overlays/black-overlay-75.png") repeat center top;
+	color: #fff;
+	text-align: left;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	display: block;
+	width: 96%;
+}
+
+#k2Container.itemView div.body-content span.wf_caption span img {
+	margin-bottom: 0;	
+}
+
+div.body-content span.wf_caption a,
+div.body-content span.wf_caption a:hover {
+	color: #fff;
+	text-decoration: underline;	
+}
+
+div.body-content iframe {
+	border-width: 0;	
+}
+
+.page-header {
+	
+border-width: 0;
+}
+
+.remove-flickr-image-link,
+.remove-flickr-image-link:hover {
+	cursor: default;	
+	z-index: -10;
+}
+
+/*-------------------
+RECAPTHCA STYLES
+-------------------*/
+
+div#recaptcha_area {
+	margin-bottom: 10px;
+	margin-top: 10px;	
+}
+
+label.formRecaptcha {
+	clear: both;	
+	float: none !important;
+}
+
+div#recaptcha_area th,
+div#recaptcha_area td {
+	line-height: inherit;	
+}
+
+div#recaptcha_area input#recaptcha_response_field {
+	height: 20px !important;	
+	font-size: 1em !important;
+	text-transform: none !important;
+	font-style: normal !important;
+	background: #fff !important;
+	border-width: 0 !important;
+}
+
+div#recaptcha_area td a {
+	font-style: normal !important;
+	text-decoration: none;	
+}
+
+span#recaptcha_privacy {
+	line-height: 0;	
+}
+
+span#recaptcha_privacy a {
+	color: #fff !important;	
+	line-height: 0;	
+}
+
+span#recaptcha_privacy a {
+	color: #fff !important;	
+}
+
+div.input-file-wrapper {
+	padding-top: 16px;
+	position: relative;
+}
+
+div.input-file-wrapper input {
+	opacity: 0;
+	position: absolute;
+	top: 0;
+	left: 0;
+	
+}
+
+div.input-file-wrapper input:hover {
+	cursor: pointer;
+}
+
+

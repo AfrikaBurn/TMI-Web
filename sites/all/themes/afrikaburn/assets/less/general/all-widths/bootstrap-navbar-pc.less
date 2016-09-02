@@ -1,0 +1,344 @@
+@media (min-width: 980px) {
+	.nav-collapse.collapse {
+	    height: auto!important;
+	    overflow: visible!important;
+	}
+
+	.btn.btn-navbar {
+		display: none;
+	}
+}
+
+.collapse {
+    position: relative;
+    -webkit-transition: height .35s ease;
+    -moz-transition: height .35s ease;
+    -o-transition: height .35s ease;
+    transition: height .35s ease;
+}
+
+.navbar .nav {
+    position: relative;
+    left: 0;
+    display: block;
+    float: left;
+    
+}
+.nav {
+    list-style: none;
+}
+
+.navbar .nav>li {
+    float: left;
+}
+
+/*-------------------------
+DESKTOP MAIN NAV CONTAINERS
+-------------------------*/
+
+.navbar-outer .navbar {
+	position: relative;	
+}
+
+.navbar {
+	
+	/*Set the contaning ribbon to the same height as this! Don't float this element- for a right or left aligned meny, float navbar inner*/
+	height: @pc-main-nav-bar-height;
+	background: @pc-main-nav-bar-background-color @pc-main-nav-bar-background-image @pc-main-nav-bar-background-repeat @pc-main-nav-bar-background-position;
+	font-family: @pc-main-nav-font-family; 
+	font-size: 1em;
+	margin-bottom: 0;
+	
+	
+}
+.navbar .navbar-inner {
+	min-height: 0px;
+	background-image: none;
+	border-width: 0px;
+	box-shadow: none;
+   	background-color: transparent;
+	padding: 0;
+	-webkit-border-radius: 0px;
+	-moz-border-radius: 0px;
+	border-radius: 0px;
+	box-shadow: none;
+	filter: none;
+}
+.navbar .navbar-inner .container-fluid {
+	padding: 0;
+}
+
+/*--------------------------
+DESKTOP MAIN NAV LEVEL 1 UL
+--------------------------*/
+
+.navbar .navbar-inner .nav-collapse ul.menu,
+.navbar .navbar-inner .nav-collapse .moduletable ul.menu {
+	/*Never set height for this element.
+	Never set bottom border on this element*/
+	border-width: 0;
+	margin: 0;
+}
+
+
+/*----------------------------
+DESKTOP MAIN NAV LEVEL 1 ITEMS
+----------------------------*/
+
+.navbar .navbar-inner .nav-collapse ul.menu > li {
+	/*Never set bottom border on this element*/
+	border-left-color: @pc-main-nav-level-1-item-border-color;
+	border-left-style: @pc-main-nav-level-1-item-border-style;
+	border-left-width: @pc-main-nav-level-1-item-border-left-right-width;
+	position: relative;
+	line-height: 100%;
+	font-size: 1em;
+	margin: 0;
+	padding: 0;
+}
+
+.navbar .navbar-inner .nav-collapse ul.menu li a,
+.navbar .navbar-inner .nav-collapse ul.menu li span.separator {
+	font-family: @pc-main-nav-font-family;
+	font-weight: @main-nav-font-weight;
+	font-style: @main-nav-font-style;
+	font-size: @pc-main-nav-level-1-item-font-size;
+	color: @pc-main-nav-level-1-item-color;
+	text-transform: @pc-main-nav-level-1-text-transform;
+	background-color: @pc-main-nav-level-1-item-background-color;
+	height: @pc-main-nav-level-1-item-height - @pc-main-nav-level-1-item-padding-top;
+	padding: @pc-main-nav-level-1-item-padding-top @pc-main-nav-item-padding-left-right 0;
+	min-width: @pc-main-nav-level-1-item-min-width - 2*@pc-main-nav-level-1-item-border-left-right-width;
+	letter-spacing: 0.5px;
+	text-decoration: none;
+	margin: 0;
+	text-shadow: none;
+	display: block;
+}
+
+
+.navbar .navbar-inner .nav-collapse ul.menu > li > a:focus, 
+.navbar .navbar-inner .nav-collapse ul.menu > li > a:hover,
+.navbar .navbar-inner .nav-collapse ul.menu > li > span.separator:hover {
+	color: @pc-main-nav-level-1-hover-color;
+	background-color: @pc-main-nav-level-1-hover-background-color;
+	cursor: pointer;
+}
+
+.navbar .navbar-inner .nav-collapse ul.menu > li > span.separator:hover {
+	cursor: default;
+}
+
+.navbar .navbar-inner .nav-collapse ul.menu > li > a.nav-menu-no-follow:focus, 
+.navbar .navbar-inner .nav-collapse ul.menu > li > a.nav-menu-no-follow:hover {
+	cursor: default;
+	color: @pc-main-nav-level-1-item-color;
+	background-color: @pc-main-nav-level-1-item-background-color;
+	
+}
+
+.navbar .navbar-inner .nav-collapse ul.menu > .active > a,
+.navbar .navbar-inner .nav-collapse ul.menu > .active > span.separator {
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+}
+
+.navbar .navbar-inner .nav-collapse ul.menu > li.active > a:hover, 
+.navbar .navbar-inner .nav-collapse ul.menu > li.active > a:focus,
+.navbar .navbar-inner .nav-collapse ul.menu > li.active > span.separator:hover {
+	cursor: default;
+	color: @pc-main-nav-level-1-active-hover-color; 
+	background-color: @pc-main-nav-level-1-active-hover-background-color;
+	
+}
+
+/*------------------------------------------------
+DESKTOP MAIN-NAV LEVEL 2 (ANIMATED DROPDOWN MENU)
+------------------------------------------------*/
+.navbar .navbar-inner .nav-collapse ul.menu-child {
+	position: absolute;
+	top: @pc-main-nav-bar-height;
+	border-color: @pc-main-nav-level-2-item-border-color;
+	border-style: @pc-main-nav-level-2-item-border-style;
+	border-left-width: @pc-main-nav-level-2-item-border-left-right-width;
+	border-right-width: @pc-main-nav-level-2-item-border-left-right-width;
+	border-top-width: @pc-main-nav-level-2-item-border-top-bottom-width;
+	/*Keep bottom border to 0*/
+	border-bottom-width: 0;
+	min-width: 100%;
+	margin: 0 0 0 -1*@pc-main-nav-level-2-item-border-left-right-width;
+	left: 0;
+	z-index: 1000;
+	display: none;
+	float: left;
+	padding: 0;
+	list-style: none;
+	background-color: transparent;
+	-webkit-border-radius: 0px;
+	-moz-border-radius: 0px;
+	border-radius: 0px;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+	-webkit-background-clip: none;
+	-moz-background-clip: none;
+	background-clip: none;
+	font-size: 1em;
+}
+
+
+.navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li {
+	border-color: @pc-main-nav-level-2-item-border-color;
+	border-style: @pc-main-nav-level-2-item-border-style;
+	border-width: 0 0 @pc-main-nav-level-2-item-border-top-bottom-width 0;
+	/*Keep top left and right border to 0*/
+	padding: 0;
+	margin: 0;
+	font-size: 1em;
+	line-height: 100%;
+}
+
+.navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li a,
+.navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li span.separator  {
+	font-weight: @pc-main-nav-level-2-item-font-weight;
+	font-style: @pc-main-nav-level-2-item-color;
+	font-size: @pc-main-nav-level-2-font-size;
+	color: @pc-main-nav-level-2-item-color;
+	text-align: @pc-main-nav-level-2-item-text-align;
+	text-transform: @pc-main-nav-level-2-item-text-transform;
+	background-color: @pc-main-nav-level-2-item-background-color;
+	padding-left: @pc-main-nav-item-padding-left-right;
+	padding-right: @pc-main-nav-item-padding-left-right;
+	padding-top: @pc-main-nav-level-2-item-padding-top;
+	height: @pc-main-nav-level-2-item-height - @pc-main-nav-level-2-item-padding-top;
+	text-decoration: none;
+	display: block;
+	clear: both;
+	padding-bottom: 0;
+	white-space: nowrap;
+	text-shadow: none;
+	margin: 0;
+	min-width: @pc-main-nav-level-2-item-min-width - 2*@pc-main-nav-level-1-item-border-left-right-width;
+}
+
+.navbar .navbar-inner .nav-collapse ul.menu > li:hover > .nav-child, 
+.navbar .navbar-inner .nav-collapse ul.menu > li > a:focus + .nav-child {
+	display: block;
+}
+.navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li > a:hover, 
+.navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li > a:focus, 
+.navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li > span.separator:hover 
+{
+	text-decoration: none;
+	color: @pc-main-nav-level-2-hover-color;
+	background-color: @pc-main-nav-level-2-hover-background-color;
+	
+	
+}
+
+/*---adds the arrow to the current level 2 menu item---*/
+
+.navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li.active {
+	position: relative;	
+	
+}
+@media (min-width: 980px) {
+	.navbar .navbar-inner {
+		float: right;
+		position: relative;
+	    right: 50%;
+	}
+	.navbar .navbar-inner .container-fluid {
+		float: right;
+		position: relative;
+	    right: -50%;
+		
+	}
+	/*---Add border and colours to level 1 active menu item---*/
+	.navbar .navbar-inner .nav-collapse ul.menu > .active > a,
+	.navbar .navbar-inner .nav-collapse ul.menu > .active > span.separator  {
+		color: @pc-main-nav-level-1-active-color; 
+		background-color: @pc-main-nav-level-1-active-background-color;
+		padding-top: @pc-main-nav-level-1-item-padding-top - @pc-main-nav-level-1-active-border-top-width;	
+		border-top-width: @pc-main-nav-level-1-active-border-top-width;
+		border-top-style: @pc-main-nav-level-1-active-border-top-style;
+		border-top-color: @pc-main-nav-level-1-active-border-top-color;
+	}
+
+	.navbar .navbar-inner .nav-collapse ul.menu > li.highlighted {
+		border-bottom-width: 0px;	
+	}
+
+	.navbar .navbar-inner .nav-collapse ul.menu > li.highlighted > a,
+	.navbar .navbar-inner .nav-collapse ul.menu > li.highlighted > span.separator {
+		color: @pc-main-nav-level-1-highlighted-color;
+		background-color: @pc-main-nav-level-1-highlighted-background-color;
+
+	}
+
+	.navbar .navbar-inner .nav-collapse ul.menu > li {
+		text-align: @pc-main-nav-level-1-item-text-align;
+	}
+
+	.navbar .navbar-inner .nav-collapse ul.menu > li {
+		float: left;
+	}
+	.navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li.active > span.separator,
+	.navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li.active > a {
+		color: @pc-main-nav-level-2-active-color; 
+		background: @pc-main-nav-level-2-active-background-color @active-nav-item-background-image no-repeat @active-nav-item-background-position;
+		background-size: @active-nav-item-background-size;
+		-webkit-box-shadow: none;
+		-moz-box-shadow: none;
+		box-shadow: none;
+		padding-right: 40px;
+	}
+}
+
+
+.navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li.active div.mobile-active-1 {
+	background-color: transparent;
+	background-image: @active-nav-item-background-image;
+	background-position: @active-nav-item-background-position;
+	background-size: @active-nav-item-background-size;
+	background-repeat: no-repeat;
+	position: absolute;
+	top: 0;
+	right: 0;	
+	width: 40px;
+	height: 36px;	
+}
+
+.navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li.active > a:hover,
+.navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li.active > a:focus,
+.navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li.active > span.separator:hover {
+	color: @pc-main-nav-level-2-hover-color; 
+	background-color: @pc-main-nav-level-2-hover-background-color;
+	cursor: default;
+}
+/*--------------------------------------------
+REMOVE THE BORDER INDUCED ARROW FROM BOOTSTRAP
+---------------------------------------------*/
+.navbar .nav-child:before {
+	position: absolute;
+	top: -7px;
+	left: 9px;
+	display: inline-block;
+	border-right: 0px solid transparent;
+	border-bottom: 0px solid #00738b;
+	border-left: 0px solid transparent;
+	border-bottom-color: rgba(0,0,0,0.2);
+	content: '';
+}
+.navbar .nav-child:after {
+	position: absolute;
+	top: -6px;
+	left: 10px;
+	display: inline-block;
+	border-right: 0px solid transparent;
+	border-bottom: 0px solid #00738b;
+	border-left: 0px solid transparent;
+	content: '';
+}
+

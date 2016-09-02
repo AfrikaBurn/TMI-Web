@@ -1,0 +1,41 @@
+/*------------------------------------------------
+DESKTOP MAIN-NAV LEVEL 3 (ANIMATED DROPDOWN MENU)
+------------------------------------------------*/
+@media (min-width: 980px) {
+	.navbar .navbar-inner .nav-collapse ul.nav li ul.nav-child li {
+		position: relative;
+	}
+	.navbar .navbar-inner .nav-collapse ul.nav li ul.nav-child li.parent:hover ul.nav-child {
+		position: absolute;
+		top: 0;
+		left: 100%;
+		display: block;
+	}
+
+	.navbar .navbar-inner .nav-collapse ul.nav li ul.nav-child li.parent.highlighted a {
+		color: @pc-main-nav-level-2-highlighted-color;
+		background-color: @pc-main-nav-level-2-highlighted-background-color
+	}
+
+	.navbar .navbar-inner .nav-collapse ul.nav li ul.nav-child li.parent ul.nav-child li a {
+		color: @pc-main-nav-level-3-item-color;
+		background-color: @pc-main-nav-level-3-item-background-color;
+	}
+
+	.navbar .navbar-inner .nav-collapse ul.nav li ul.nav-child li.parent ul.nav-child li a:hover {
+		color: @pc-main-nav-level-3-hover-color;
+		background-color: @pc-main-nav-level-3-hover-background-color;
+	}
+
+	.navbar .navbar-inner .nav-collapse ul.nav li ul.nav-child li.parent ul.nav-child li a.active {
+		color: @pc-main-nav-level-3-active-color;
+		background-color: @pc-main-nav-level-3-active-background-color;
+	}
+
+}
+
+@media (max-width: 979px) {
+	.navbar .navbar-inner .nav-collapse ul.nav li ul.nav-child li.parent ul.nav-child li a {
+		padding-left: 70px;
+	}
+}

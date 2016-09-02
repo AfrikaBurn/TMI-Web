@@ -1,0 +1,30 @@
+@media (max-width: 599px) {
+	
+.show-below-599px {
+	display: block;	
+}
+
+.hide-below-599px {
+	display: none;	
+}
+
+h1, h2, h3, h4 {
+	padding-left: @599-body-content-padding-left-right;
+	padding-right: @599-body-content-padding-left-right;
+}
+
+.container-2  {
+	padding: @599-main-content-box-outer-padding-top @599-page-gutter-left-right @599-main-content-box-outer-padding-bottom;
+	
+}
+
+#main-content-strip  div.container-1 {
+	border-width: @599-main-content-box-border-width;
+}
+
+div.body-content,
+#main-content-strip div.body-content {
+	padding: @599-body-content-padding-top @599-body-content-padding-left-right @599-body-content-padding-bottom;
+}
+
+}
