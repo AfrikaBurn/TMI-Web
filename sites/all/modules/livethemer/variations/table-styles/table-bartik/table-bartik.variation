@@ -1,0 +1,8 @@
+name = Bartik's tables
+description = Style tables like Bartik.
+version = 7.0.0
+keywords = starter, table, Bartik
+
+stylesheets[] = table-bartik.css
+;thumbnail = table-bartik.png
+variation_type = table-designs

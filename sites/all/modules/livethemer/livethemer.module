@@ -1,0 +1,498 @@
+<?php
+/**
+ * @file Livethemer core module required for the them to show livethemer changes.
+ */
+define("LT_CLASS_PREFIX", "variation-");
+
+/**
+ * Implementation of hook_menu().
+ */
+function livethemer_menu() {
+  $items = array();
+ 
+   // Configuration links.
+  $items['admin/config/livethemer'] = array(
+    'title' => 'Livethemer',
+    'description' => 'Manage Livethemer',
+    'position' => 'right',
+    'weight' => -10,
+    'page callback' => 'system_admin_menu_block_page',
+    'access arguments' => array('access administration pages'),
+    'file' => 'system.admin.inc',
+    'file path' => drupal_get_path('module', 'system'),
+  );
+  
+  $items['admin/config/livethemer/livethemer'] = array(
+    'title' => 'Livethemer Configuration',
+    'description' => 'Configure Livethemer',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('livethemer_settings'),
+    //'access arguments' => array('modify theme dynamically'),
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'configuration.inc',
+  );
+
+  $items['admin/config/livethemer/info'] = array(
+    'title' => 'Livethemer Debugging Information',
+    'description' =>  'Livethemer debugging information.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('livethemer_info'),
+    'file' => 'configuration.inc',
+    'access arguments' => array('modify theme dynamically'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
+
+/*
+ * Provide the Livethemer settings page.
+ * @return a printed array of livethemer variables.
+ */
+function livethemer_inspector_settings() {
+  $theme_name = variable_get('theme_default', NULL);
+  $settings_file = theme_get_setting('livethemer_settings_file', $theme_name);
+
+  $livethemer_variables = get_set_livethemer_variables();
+  $livethemer_metadata = get_set_livethemer_metadata();
+  $output = '<p>This page requires the Devel module.</p>';
+  // Please someone make the following work nicer... in D6 a simple dsm() worked beautifully.
+  if (function_exists('dsm')) {
+    dsm($livethemer_variables);
+    dsm($livethemer_metadata);
+    $output = '<p>Printout of $livethemer_variables</p>';
+  }
+  return $output;
+}
+
+/**
+ * Implementation of hook_module_implements_alter().
+ * We want livethemer_theme() to run after
+ * every other module, so we know about any theme hooks they may define.
+ */
+function livethemer_module_implements_alter(&$implementations, $hook) {
+  if ($hook == 'theme') {
+    // Move livethemer_theme() to the end of the list.
+    $group = $implementations['livethemer'];
+    unset($implementations['livethemer']);
+    $implementations['livethemer'] = $group;
+  }
+  
+
+/*
+  if ($hook == 'page_alter') {    
+    $group = $implementations['livethemer'];
+    unset($implementations['livethemer']);
+    $implementations['livethemer'] = $group;
+  }
+*/
+}
+
+/**
+ * Implementation of Hook_init().
+ *
+ * Add the CSS and Javascript files used by any of the variations that have been used in this theme.
+ * We're not certain we'll use them all, but adding them here allows them to be cached using Drupal's
+ * usual mechanisms.
+ */
+function livethemer_init() {
+  global $theme_key;
+
+   // Include the functions which are shared between the livethemer module and the livethemer_base theme
+  livethemer_load_includes();
+  
+  $options = array(
+  	'group' => CSS_THEME,
+  	'weight' => 9998,
+  );
+  
+  // When the inspector module is running, we must not aggregate any livethemer css files.
+  if (module_exists('livethemer_inspector')) {
+    $options['preprocess'] = FALSE;
+	}
+  
+  $livethemer_variables = get_set_livethemer_variables();
+  $variations = _discover_variations();
+  $css_array = array();
+  foreach ($livethemer_variables as $variation_type_ids) {
+    foreach ($variation_type_ids as $scopes) {
+      foreach ($scopes as $scope_record) {
+        foreach ($scope_record as $item) {
+          $variation_id = $item['variation_id'];
+          if (isset($variations[$variation_id])) {
+            $this_variation = $variations[$variation_id];     
+            $path = $this_variation['path'];
+            //stylesheets & scripts may not exist in the variation.         
+            if (isset($this_variation['stylesheets'])) { 
+              foreach ($this_variation['stylesheets'] as $stylesheet) {
+                //$realpath = realpath($path . $stylesheet);
+                drupal_add_css($path . $stylesheet, $options);          
+              }
+            }  
+            if (isset($this_variation['scripts'])) {
+              foreach ($this_variation['scripts'] as $script) {
+                drupal_add_js($path . $script, array('type' => 'theme'));
+              }
+            } 
+          }         
+        }
+      }
+    }
+  }
+
+  // Add the overrides css file.
+  $file_path = lt_get_path('overrides_css');
+  //$file_path = variable_get($theme_key . '-overrides');
+
+  // If it's never previously been generated, generate it now.
+  if (!$file_path || !file_exists(drupal_realpath($file_path))) {
+    generate_custom_css_file('file');
+    //$file_path = variable_get($theme_key . '-overrides');
+  	$file_path = lt_get_path('overrides_css');
+  }
+
+	// Our overrides css file must come later than all else. $options is set earlier.
+  $options['weight'] = 9999;
+
+  drupal_add_css($file_path, $options);
+}
+
+
+/**
+ * Load previously selected variations and apply them to the object currently being themed, if appropriate.
+ *
+ * @param $variables
+ * @param $hook
+ */
+//function livethemer_preprocess(&$variables, $hook) { // todo: turned this into a process function so it overrides as much other stuff as possible eg theme template.php functions.
+function livethemer_preprocess_filtered(&$variables, $hook) {
+/*
+  // Our hook_page_alter previously stored whether each element has an applied
+  // variation. Here we retrieve this either from #lt_applied_variations or
+  // $lt_applied_variations depending whether the this theme hook specifies 
+  // ['variables'] or ['render element'].
+  $applied_variations = array();
+  if (isset($variables['lt_applied_variations'])) {
+    $applied_variations = $variables['lt_applied_variations'];
+  }
+  else {
+    $render_element = get_render_element_id($hook);
+    if (isset($variables[$render_element]) && is_array($variables[$render_element]) && isset($variables[$render_element]['#lt_applied_variations'])) {
+      $applied_variations = $variables[$render_element]['#lt_applied_variations'];
+    }
+  }
+*/
+
+  $render_element = get_render_element_id($hook);
+  if (isset($variables[$render_element])) {
+    // We have our hands on a render element.
+    $element = $variables[$render_element];
+  }
+  else {
+    // This object doesn't have any render element passed in with its variables.
+    // It's probably an archaic or ugly thing eg pager. We'll use its variables
+    // instead of a render element for such things as determining applied variations.
+    $element = $variables;
+/*
+    kpr($variables);
+    kpr('the hook without, is: '. $hook);
+*/
+  }
+  $applied_variations = get_applied_variations($element, $hook);
+
+
+/*
+if ($hook == 'page') {
+  kpr($element);
+  kpr($applied_variations);
+}
+if ($hook == 'html') {
+  kpr($element);
+  kpr($applied_variations);
+}
+*/
+
+  // Go through each applied variation and suggest its template file (if any). Also
+  // add a CSS class to the object for the variation. 
+  if (isset($applied_variations[$hook])) {
+    set_template_vars($variables, $hook, $applied_variations[$hook]);    
+  }
+  
+  // This function needs to be called after the above, but before the rest of this function.
+  if (function_exists('livethemer_inspector_postprocess')) livethemer_inspector_postprocess($variables, $hook);
+
+  // lt_classes_array is useful because it's keyed by field_id, thus allowing
+  // code in the inspector module to modify it before we add it using
+  // add_class_to_variables().
+  if (isset($variables['lt_classes_array'])) {
+    foreach ($variables['lt_classes_array'] as $field_id => $class) {
+      add_class_to_variables($variables, $hook, $class);
+    };
+    unset($variables['lt_classes_array']);
+  }
+
+  // The page template doesn't print classes (at least in the core themes as of Drupal 7.0), so we
+  // save our classes and print them from the lt_page_wrapper hook.
+  static $page_classes_array;
+  if ($hook == 'page' && !isset($page_classes_array)) {
+    $page_classes_array = $variables['classes_array'];
+  }
+  if ($hook == 'lt_page_wrapper') {  
+    $variables['classes_array'] = $page_classes_array;
+  }
+}
+
+/**
+ * An implementation of hook_theme().
+ * We need to tell Drupal where our variation template files are stored, since
+ * they are outside of the theme directory.
+ **/
+function livethemer_theme($existing, $type, $theme, $path) {
+  // Add all the templates found within our variations directory(s)
+  $templates = drupal_find_theme_templates($existing, '.tpl.php', 'variations'); 
+  $templates += drupal_find_theme_templates($existing, '.tpl.php', 'libraries/variations'); 
+  $templates += drupal_find_theme_templates($existing, '.tpl.php', drupal_get_path('module', 'livethemer') . '/variations'); 
+  
+  // We actually don't need to add ALL the templates that our variations may provide -- only the ones that we
+  // know the current Live Theme is actually using (although if the livethemer_inspector module is running,
+  // we should leave all templates in, as it's possible the user could select one through the Livethemer
+  // inspector.
+  if (!module_exists('livethemer_inspector')) { 
+    //update.php was getting here with an error undefined function _discover_variations when inspector is disabled.
+    livethemer_load_includes(); 
+    $variations = _discover_variations();
+    $templates_used = array();
+    // Check for existing variation selections in our saved data file.
+    $livethemer_variables = get_set_livethemer_variables();  
+    // todo: check the following foreach's ... the outermost array is of hooks, not var_type_ids as below
+    // check other nested foreach's going through the vars too, in case they are wrong as below.
+    foreach ($livethemer_variables as $variation_type_ids) {
+      foreach ($variation_type_ids as $scopes) {
+        foreach ($scopes as $scope_record) {
+          foreach ($scope_record as $item) {
+            // Build a list of the variations which are used. 
+            $variation_id = $item['variation_id'];
+            if (isset($variations[$variation_id]['template_file'])) {
+              $template_file = $variations[$variation_id]['template_file'];
+              $template = strtr($template_file, '-', '_');
+              $templates_used[] = $template;
+            }
+          }
+        }
+      }
+    }
+    
+    foreach ($templates as $template => $info) {
+      if (!in_array($template, $templates_used)) {
+        unset($templates[$template]);
+      }
+    }
+  }
+  
+  $templates['lt_page_wrapper'] = array(
+    'render element' => 'page',
+  );
+  
+  return $templates;
+}
+
+/**
+ * An implementation of hook_theme_registry_alter().
+ **/
+function livethemer_theme_registry_alter(&$theme_registry) { 
+  // get_set_livethemer_variables is in helper.inc which hasn't been included when update.php runs.
+  // So I am including it here again for now. see issue http://livethemer.com/node/141
+  livethemer_load_includes();
+
+  // Run our preprocess function for each hook we've applied a variation to (ie is in our settings file).
+  // Drupal will automatically run
+  // our livethemer_inspector_preprocess and livethemer_inspector_process functions for theme templates,
+  // but Drupal doesn't automatically do this for theme functions. We need it for both. 
+  $variables = get_set_livethemer_variables();
+  $hooks_of_interest = array_keys($variables);
+  
+  // Make sure we always run the process functions for the html hook.
+  $hooks_of_interest = array_merge($hooks_of_interest, array('html', 'lt_page_wrapper'));
+
+  foreach ($hooks_of_interest as $hook) {  
+    // Add our preprocess function, ensuring it's last in the list.
+    $theme_registry[$hook]['preprocess functions'][] = 'livethemer_preprocess_filtered';
+  }
+}
+
+/**
+ * Implementation of hook_form_FORM_ID_alter
+ *
+ * Allow users to select which Livethemer config file to use on their site.
+ */
+function livethemer_form_system_theme_settings_alter(&$form, &$form_state, $form_id) {
+  // Only add the Livethemer settings on theme specific pages, not the global one.
+  if ($form['var']['#value'] != 'theme_settings') {
+    // Work out the name of the theme whose form we are on and extract the name of the theme so we can use it in our 
+    // variable names. Anyone know regex?
+    $theme_form = $form['var']['#value'];
+    $theme_name = str_replace('theme_', '', $theme_form);
+    $theme_name = str_replace('_settings', '', $theme_name);
+    
+    $options = get_settings_options();
+        
+    // Adjust the theme settings form.  
+    $form['livethemer'] = array(
+      '#type' => 'item',
+      '#weight' => -100,
+    );
+  /*  $form['livethemer']['theme'] = array(
+      '#type' => 'hidden',
+      '#value' => $theme_name,
+    );
+    */
+    $form['livethemer']['config_file_fieldset'] = array(
+      '#type' => 'fieldset',
+      '#title' => '<img src="' . base_path() . drupal_get_path('module', 'livethemer') . '/images/lt-logo-small.png" title="Livethemer" alt="Livethemer">',
+      '#collapsible' => FALSE, 
+      '#collapsed' => FALSE,
+    );
+    $form['livethemer']['config_file_fieldset']['livethemer_settings_file'] = array(
+      '#type' => 'select',
+      '#title' => 'Settings file',
+      '#options' => $options,
+      '#default_value' => theme_get_setting('livethemer_settings_file', $theme_name),
+      '#description' => 'Select the Livethemer configuration file that you want to use. If you select a read-only settings file and later use the Livethemer inspector, the file will automatically be copied to your public files directory so it can be modified.',  
+    );
+    //$form['#submit'][] = 'livethemer_system_theme_settings_submit'; 
+  }
+}
+
+/**
+ * Function_comment
+ */
+function get_settings_options() {
+  $theme_default = variable_get('theme_default');
+  $theme_path  = drupal_get_path('theme', $theme_default);
+  $module_path = drupal_get_path('module', 'livethemer');
+
+  $files  = drupal_system_listing('/\.settings$/', 'public://', 'uri', 0);
+  $files += drupal_system_listing('/\.settings$/', $theme_path, 'uri', 0);
+  $files += drupal_system_listing('/\.settings$/', $module_path, 'uri', 0);
+
+  // Also look in all the places variations can live.
+  $files += drupal_system_listing('/\.settings$/', 'variations', 'uri', 0);
+  $files += drupal_system_listing('/\.settings$/', '/libraries/variations', 'uri', 0);
+  $files += drupal_system_listing('/\.settings$/', $module_path . '/variations', 'uri', 0);
+  
+  // First option is a dash so that nothing is selected by default.
+  $options = array('-' => '-');
+  
+  // Work out whether the file is writable or if it is in our module or
+  // livethemer_base theme directory. In these cases we copy it somewhere writable.
+  // See also livethemer.inspector.inc : _inspector_home()
+  $lt_base_theme_path = drupal_get_path('theme', 'livethemer_base');
+  if (!$lt_base_theme_path) $lt_base_theme_path = ''; // The livethemer_base theme may not be available.
+  
+  foreach ($files as $file) {
+    $file_path = $file->uri;
+    
+    $writable = is_writable($file_path);
+    $in_module_dir = strpos($file_path, $module_path) === 0;
+    $in_lt_theme_dir = !empty($lt_base_theme_path) ? strpos($file_path, $lt_base_theme_path) === 0 : false;
+
+    if (!$writable OR $in_module_dir OR $in_lt_theme_dir) {
+      $options['Read-only'][$file_path] = $file->name;
+    }
+    else {
+      $options['Editable'][$file_path] = $file->name;
+    }
+  }
+
+  return $options;
+}
+
+/**
+ * Submit handler for system_theme_settings form. 
+ *
+ * Set a system variable based on what the user has chosen.
+ */
+/*
+function livethemer_system_theme_settings_submit($form, &$form_state) {
+  // Grab the value of the dropdown and set a system variable.
+  $theme_name = isset($form_state['values']['theme']) ? $form_state['values']['theme'] : variable_get('theme_default', NULL);
+  $file = $form_state['values']['livethemer_settings_file'];
+  variable_set('livethemer_settings_file_' . $theme_name, $file);
+}*/
+
+/** 
+ * Implementation of hook_page_alter().
+ * 
+ * @param $page
+ */
+
+function livethemer_page_alter(&$page) {
+  // Check we should be running.
+//  if (!livethemer_allowed()) return;
+
+//5/1/12  recursively_modify_render_array($page, 'lt_find_element_variations');
+  
+  // Run the lt_page_wrapper theme function before any other theme wrappers (eg html).
+  if (!in_array('lt_page_wrapper', $page['#theme_wrappers'])) {
+    array_unshift($page['#theme_wrappers'], 'lt_page_wrapper');
+  }
+}
+/*
+function lt_find_element_variations(&$element) {
+  // Retrieve info about all the variation types available for this theme_hook (eg page, block etc).  
+  // eg If the hook is "page" then we want to retrieve all the info about typography, layout, palette objects etc 
+  $applied_variations = get_applied_variations($element);
+  if ($applied_variations) {
+    $element['#lt_applied_variations'] = $applied_variations;
+  }
+  return $element;
+}
+*/
+
+/**
+ * Function_comment
+ */
+function theme_lt_page_wrapper(&$variables) {
+  $variables['classes_array'][] = 'clearfix'; // 
+  $classes = implode(' ', $variables['classes_array']);
+  
+  $wrapped_page  = '<div class="' . $classes . '">';
+  $wrapped_page .= $variables['page']['#children'];
+  $wrapped_page .= '</div>';
+
+  return $wrapped_page;
+}
+
+/** 
+ * Implementation of hook_help().
+ * 
+ * @param $page
+ */
+function livethemer_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#livethemer':
+      $output = '';
+      $output .= '<h3>' . t('About Livethemer') . '</h3>';
+      $output .= '<p>' . t('Explanatory text to go here. For more information, see the online handbook entry for the <a href="@rdf">Livethemer module</a>.', array('@rdfa' => 'http://www.w3.org/TR/xhtml-rdfa-primer/', '@rdf' => 'http://drupal.org/handbook/modules/rdf')) . '</p>';
+      return $output;
+  }
+}
+
+/**
+ * Function_comment
+ */
+function livethemer_load_includes() {
+  $path = drupal_get_path('module', 'livethemer');
+  require_once($path . '/livethemer_helper.inc');
+  require_once($path . '/form_presets.inc');
+  require_once($path . '/hook_implementations.inc');
+}
+
+/**
+ * Implementation of hook_preprocess.
+ */
+function livethemer_preprocess_block(&$vars) {
+  // We need a clearfix on all blocks just in case everything inside is floating.
+  $vars['classes_array'][] = 'clearfix';
+}

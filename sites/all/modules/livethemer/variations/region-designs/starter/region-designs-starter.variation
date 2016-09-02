@@ -1,0 +1,8 @@
+name = Starter region design
+description = Starter region design.
+version = 7.0.0
+keywords = starter
+
+;thumbnail = simple.png
+variation_type = region-designs
+settings_form = form.inc

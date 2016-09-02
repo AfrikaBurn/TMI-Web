@@ -1104,7 +1104,7 @@ div.add-or-remove-shortcuts {
     width: 100%;
 }
 
-.form-actions {
+.remove-button {
   float: left;
   height: 41px;
   width: 100px;
@@ -1228,4 +1228,42 @@ body {
 
 #rtcentre {
 	font-weight: 200%;
+}
+
+
+
+
+
+#edit-field-breakdown-of-expenses .field-name-field-description, .field-name-field-specifications {
+  width: 210px;
+  float: left;
+  padding-right: 10px;
+}
+.field-name-field-specifications input, .field-name-field-quantity input {
+  width: 100%;
+}
+.field-name-field-quantity {
+  width: 64px;
+}
+.field-name-field-quantity, .field-name-field-price-total, .field-name-field-cost-estimates, .field-name-field-type-of-expense, .field-name-field-type-of-expense, .field-name-field-other-type-of-expense {
+  float: left;
+  padding-right: 10px;
+}
+.field-name-field-price-total {
+  width: 128px;
+}
+.field-name-field-price-total input {
+  width: 75px;
+}
+.field-name-field-price-total span {
+  white-space: normal;
+}
+
+.field-name-field-cost-estimates .description {
+  width: 243px;
+  height: 42px;
+  white-space: normal;
+}
+.form-actions {
+    width: 100%;
 }

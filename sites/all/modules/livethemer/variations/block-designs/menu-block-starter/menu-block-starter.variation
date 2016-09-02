@@ -1,0 +1,8 @@
+name = Starter Menu Block Design
+description = Starter Menu Block Design.
+version = 7.0.0
+keywords = starter menu block
+
+stylesheets[] = menu-block-starter.css
+variation_type = block-designs
+settings_form = form.inc

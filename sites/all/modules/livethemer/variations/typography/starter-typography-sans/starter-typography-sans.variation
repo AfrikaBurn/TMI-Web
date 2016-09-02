@@ -1,0 +1,9 @@
+name = Starter sans-serif typography
+description = Starter sans-serif typography.
+version = 7.0.0
+keywords = starter, sans
+
+stylesheets[] = starter-typography-sans.css
+;thumbnail = starter-typography-sans.png
+variation_type = typography
+settings_form = form.inc

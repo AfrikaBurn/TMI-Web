@@ -1,0 +1,8 @@
+name = Marmalade button
+description = Style links to look like a button on marmaladesoul.com.
+version = 7.0.0
+keywords = starter, links, button, marmalade
+
+stylesheets[] = marmalade-button.css
+;thumbnail = marmalade-button.png
+variation_type = links

@@ -1,0 +1,31 @@
+.variation-ios-button {
+  background-color: #e7e7e7; /*for IE*/
+  padding: 5px 10px;
+  border: 1px solid #8b8b8b;
+  font-weight: normal;
+  text-shadow: #fffeff 1px 1px 0;
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 90%, from(#fbfbfb), to(#d3d3d3));
+  background-image: -moz-linear-gradient(#fbfbfb 0%, #d3d3d3 90%);
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  color: #333;
+  cursor: pointer;
+  font-size: 12px;
+  display: inline-block;
+}
+
+.variation-ios-button:hover {
+  background-color: #d8d8d8; /*for IE*/
+  -webkit-box-shadow: 0px 0px 5px rgba(0,0,0,0.3);
+  -moz-box-shadow: 0px 0px 5px #888;
+  text-decoration: none;
+  border-color: #737373;
+}
+
+.variation-ios-button:active {
+  background-color: #f1f1f1; /*for IE*/
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 90%, from(#b7b7b7), to(#dedede));
+  background-image: -moz-linear-gradient(#b7b7b7 0%, #dedede 90%);
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+}

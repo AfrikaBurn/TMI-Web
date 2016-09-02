@@ -1,0 +1,1000 @@
+<?php
+/**
+ * @file
+ * The Livethemer Inspector module, which allows users to apply variations to themable objects
+ * using Drupal's theme layer.
+ */
+
+/**
+ * Implementation of hook_menu().
+ */
+function livethemer_inspector_menu() {
+  $items = array();
+  
+  $items['lt-json/save-update/%'] = array(
+    'title' => 'Save Livethemer choices',
+    'page callback' => 'lt_save_and_update',
+    'page arguments' => array(2), // where the wildcard is
+    'access arguments' => array('modify theme dynamically'),
+    // always use MENU_CALLBACK for json requests
+    'type' => MENU_CALLBACK,
+  );
+  
+  $items['lt-json/themable-object-info/%'] = array(
+    'title' => 'Return all known info about the object with the supplied object id',
+    'page callback' => 'themable_object_info',
+    'page arguments' => array(2),
+    'access arguments' => array('modify theme dynamically'),
+    'type' => MENU_CALLBACK,
+  );
+  
+  $items['lt-json/settings-form/%'] = array(
+    'title' => 'Return a rendered settings form for the provided variation id and scope id',
+    'page callback' => 'render_settings_form',
+    'page arguments' => array(2),
+    'access arguments' => array('modify theme dynamically'),
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
+ * Implementation of hook_permission().
+ *
+ * Defines access permissions that may be assigned to roles and used to restrict
+ * access.
+ */
+function livethemer_inspector_permission() {
+  return array('modify theme dynamically' => array(
+      'title' => t('Modify theme dynamically'), 
+      'description' => t('Modify theme dynamically using the Livethemer Inspector.'), 
+    ),
+  );
+}
+
+/**
+ * Implementation of hook_init().
+ *
+ */
+function livethemer_inspector_init() {
+  // Check we should be running.
+  if (!livethemer_inspector_allowed()) return;
+
+  // Rebuild the theme registry, which amongst other things will ensure we always find the templates
+  // associated with any new variations that may have been added by the user.
+  drupal_theme_rebuild();
+
+  drupal_add_library('system', 'ui.accordion');
+  drupal_add_library('system', 'ui.draggable');
+  drupal_add_library('system', 'ui.slider');
+  drupal_add_library('system', 'farbtastic'); // color picker
+  drupal_add_library('system', 'ui.dialog');
+  drupal_add_library('system', 'ui.position');
+  
+  // Make sure Drupal always includes the collapse.js file so that fieldsets added by ajax can be collapsible too.
+  drupal_add_js('misc/collapse.js');
+  drupal_add_js('misc/form.js');
+  
+  // We add these here instead of the .info file, since we don't want them added
+  // if the inspector isn't available to the current user.
+  $lti_path = drupal_get_path('module', 'livethemer_inspector');
+  drupal_add_js($lti_path . '/js/livethemer.inspector.js');
+  drupal_add_js($lti_path . '/js/livethemer.helper.js');
+  drupal_add_js($lti_path . '/js/livethemer.colorpicker.js');
+  drupal_add_js($lti_path . '/js/livethemer.highlighters.js');
+  drupal_add_js($lti_path . '/js/livethemer.scopes.js');
+  drupal_add_js($lti_path . '/js/livethemer.variations.js');
+  drupal_add_js($lti_path . '/js/livethemer.controller.js');
+  
+  drupal_add_css($lti_path . '/css/livethemer-inspector.css');
+  
+  // Pass all the CSS override rules as an array to jQuery which will generate a
+  // stylesheet from them. There's extra data passed, so the jQuery has special
+  // knowledge, for example which settings form field id was responsible for each
+  // rule. The jQuery will also be able to reorder the stylesheets so its own is
+  // always last in the DOM.
+  $css_array = generate_custom_css_file('array');
+
+  // Get the livethemer variables, to store in the drupal.settings   
+  $livethemer_variables = get_set_livethemer_variables();
+    
+  global $request_id;
+  $request_id = uniqid(rand());
+  
+  drupal_add_js(array(
+    'fileId' => $request_id,
+    'livethemerVariables' => $livethemer_variables,
+    'livethemerCSSoverrides' => $css_array,
+    'classPrefix' => LT_CLASS_PREFIX,
+    'pathToLiveThemer' => drupal_get_path('module', 'livethemer'),
+    'pathToFilesImages' => pseudo_stream_path('filesimages'),
+    'ltURL' => array( //TODO we shouldn't need this
+      'saveUpdate' => url('lt-json/save-update'),
+      'themableObjectInfo' => url('lt-json/themable-object-info'),
+      'settingsForm' => url('lt-json/settings-form'),
+     ),
+  ), 'setting');
+ 
+/* jh, 2 nov 2011: do we need this css file? It's just being removed by the js anyway?
+  // Also create a "clean" copy of the CSS file, so that the theme can use it as per usual. The
+  // javascript will remove this file from the DOM and use the one from above.
+  //$file = get_livethemer_css_filepath();
+  $file = lt_get_path('overrides_css');
+
+  generate_custom_css_file($file);
+  drupal_add_css($file, array('preprocess' => FALSE));
+*/
+   
+  // Bring in all the variation-types includes  
+  include_livethemer_variation_types();
+}
+
+/**
+ * Implementation of hook_process_html().
+ * We cannot use hook_page_alter to set up page_bottom because that hook fires too early, before
+ * any of the page is actually rendered through the theme function, which is where we capture the
+ * args which we use in this function.
+ */
+function livethemer_inspector_process_html(&$variables) {
+  // Check we should be running.
+  if (!livethemer_inspector_allowed()) return;
+
+  module_load_include('inc', 'livethemer', 'livethemer.inspector');
+  $output  = _load_inspector();
+  
+  $variables['page_bottom'] .= $output;
+}
+
+/**
+ * JSON callback function to return all required information about the given object.
+ * The supplied $object will either be a numeric object_id, or it will be a string variationType (eg layout).
+ *
+ * We will return an array similar to the following:
+ *  
+ * available_variation_types[variationType] array(
+ *   title
+ *   description
+ *   scopes[scope] = array(
+ *     'specific or broad'
+ *     'matching objects Ids' = array()
+ *     'applied variation' = array(
+ *       'id'
+ *       'data'
+ *     )
+ *   )
+ * )
+ *
+ * @param $request_id
+ * @param $object
+ */
+function themable_object_info($request_id, $object, $obj_hook) {
+  global $_lt_calling_uri;
+
+  $cache = load_stored_data($request_id);
+  $_lt_calling_uri = $cache['calling_uri'];
+  $stored_args = $cache['render_array'];
+
+  if (is_numeric($object)) {
+    // An actual object Id was supplied.
+    $object_id = $object;
+    
+    // Get all known information about this specific object.
+    $selected_object_args = $stored_args[$object_id];
+  }
+  else {
+    // An object's variation type (eg block or typography) was supplied.
+    $selected_object_args = NULL;
+    $variation_type_id = $object;
+  }
+
+  // Retrieve any existing variation selections from our saved data file.
+  $livethemer_variables = get_set_livethemer_variables();
+
+  // Retrieve info about all the variation types available for this theme_hook (page, block etc).  
+  // eg If the hook is "page" then we want to retrieve all the info about typography, layout, palette etc
+  $all_variation_types = get_filtered_variation_types();
+  
+  $variation_types = array();
+  //foreach ($hooks as $hook) {
+  if (isset($all_variation_types[$obj_hook])) {
+    $variation_types = (array) $all_variation_types[$obj_hook];
+  }
+  //}
+
+  // Set up an object containing info about all the variation types available for the selected object.
+  $available_variation_types = NULL;
+  
+  // Add the "specific scopes" and "broad scopes" together.
+  //$all_scopes = array_merge($variation_type_info['specific scopes'], $variation_type_info['broad scopes']);
+  $specific_scopes = array();  
+  if (function_exists($obj_hook . '_scopes')) {
+    $specific_scopes = call_user_func($obj_hook . '_scopes');
+  }
+  $broad_scopes = livethemer_broad_scopes();
+  $all_scopes_merged = array_merge($specific_scopes, $broad_scopes);
+  $all_scopes['specific'] = $specific_scopes;
+  $all_scopes['broad'] = $broad_scopes;
+
+  foreach ($variation_types as $variation_type_id => $variation_type_info) {
+    //$hook = $variation_types[$variation_type_id]['hook'];
+    
+    // Discover all the available variations for this variation type. Store it to send back to the JS.
+    $available_variations = _discover_variations($variation_type_id);
+    $avt = array();
+    $avt['availableVariations'] = $available_variations;
+    
+    $avt['name'] = isset($variation_type_info['name']) ? $variation_type_info['name']: FALSE;
+    $avt['title'] = $variation_type_info['title'];
+    $avt['cssWeight'] = $variation_type_info['#css_weight'];
+    $avt['variationTypeId'] = $variation_type_id;
+    $avt['variationTypeName'] = livethemer_hook_name($obj_hook);
+    $avt['description'] = $variation_type_info['description'];
+    $available_variation_types[$variation_type_id] = $avt;
+  
+    // Find which objects match each of the available scopes for this themable object type. We do all 
+    // the scopes, so that we can switch between them in the js without
+    // having to do a JSON call each time the scope is changed. 
+/* j/t 9 apr 11
+    $function_name = $obj_hook . '_scope_identifier';
+    if (function_exists($function_name)) {
+            
+*/
+      // Look at all the themable objects on the page to work out which ones match each available scope.
+      $scopes_objects = NULL;
+
+      // Restructure the array of render elements, and key the new array by livethemer_id.
+      $lt_elements = filter_render_array_by_hook($stored_args, $obj_hook);
+
+      foreach ($lt_elements as $object_id => $object) {
+        $comparison_object_args = $object;
+          
+        // Go through each of the scopes and see if this object matches.
+        $i = 0;
+
+        foreach ($all_scopes_merged  as $scope_id => $scope) {
+          // Run the livethemer _object_scope_match "hook".
+          $selected_object_scope_id = get_scope_id($obj_hook, $scope_id, $selected_object_args);
+          if (isset($comparison_object_args)) {
+            $comparison_object_scope_id = get_scope_id($obj_hook, $scope_id, $comparison_object_args);
+          }
+          else {
+            $comparison_object_scope_id = FALSE;
+          }     
+
+          // See if we have found a match between the object we're examining vs the object that was selected by the user.
+          if ($selected_object_scope_id == $comparison_object_scope_id) {
+            $scopes_objects[$scope_id][] = $object_id;
+            //$available_variation_types[$variation_type_id]['scopes'][$i]['candidateObjectIdsxxx'][] = $object_id;
+          }
+          
+          // Record which scopes have a variation applied for each object.
+          if (isset($livethemer_variables[$obj_hook][$variation_type_id][$scope_id][$comparison_object_scope_id])) {
+            $applied_variation = $livethemer_variables[$obj_hook][$variation_type_id][$scope_id][$comparison_object_scope_id];
+          }
+          else {
+            $applied_variation = NULL;
+          }
+
+          $objects_with_scope_variation[$object_id][$variation_type_id][$i] = ($applied_variation != NULL);
+                        
+          // Record the scope Id that would apply to each object for each scope.
+          // TODO -- should probably just send the scope_id to js and obtain the css class there
+          $object_scope_ids[$object_id]['rawScopeId'][$i] = $comparison_object_scope_id;
+          $object_scope_ids[$object_id]['cssClass'][$i] = css_safe($comparison_object_scope_id . '-' . $scope['css_class'], 'partial');
+          $i++;
+        }
+      }
+      
+      $available_variation_types = add_scope_information($all_scopes,  $available_variation_types, $variation_type_id, $scopes_objects, $variation_type_info, $selected_object_args, $livethemer_variables, $obj_hook);
+    }
+//  }
+  
+  // Send info back to our javascript via json.
+  drupal_json_output(
+    array(
+      'hook' => $obj_hook,
+      'availableVariationTypes' => $available_variation_types,
+      'objectsWithScopeVariation' => $objects_with_scope_variation,
+      'objectScopeIds' => $object_scope_ids,
+    )
+  );
+}
+
+// Return an array of elements which were themed using the provided hook, keyed by livethemer_id.
+function filter_render_array_by_hook($render_arrays, $hook) {  
+  $filtered_array = array();
+  foreach ($render_arrays as $element_id => $element) {
+    if ($element['#lt_themed_with'] == $hook) {
+      $filtered_array[$element_id] = $element;
+    }
+  }
+  
+  return $filtered_array;
+}
+
+function add_scope_information($all_scopes, $avt, $variation_type_id, $scopes_objects, $variation_type_info, $selected_object_args, $livethemer_variables, $hook) {
+  // Store all the scopes info ready to send back to the JS.
+  $i = 0;
+  foreach ($all_scopes as $specific_or_broad => $scopes) {
+    foreach ($scopes as $scope_id => $scope) {
+   // $avt = array();
+
+      $avt[$variation_type_id]['scopes'][$i] = $scope;
+      $avt[$variation_type_id]['scopes'][$i]['scopeId'] = $scope_id;
+      //$specific_or_broad = (isset($variation_type_info['specific scopes'][$scope_id])) ? 'specific' : 'broad';
+      $avt[$variation_type_id]['scopes'][$i]['specificOrBroad'] = $specific_or_broad;        
+      $candidate_object_ids = isset($scopes_objects[$scope_id]) ? $scopes_objects[$scope_id]: FALSE;
+      $avt[$variation_type_id]['scopes'][$i]['candidateObjectIds'] = $candidate_object_ids;
+
+    // Store the variation which is applied to this object at this scope, if any.
+      $selected_object_scope_id = get_scope_id($hook, $scope_id, $selected_object_args);
+
+    // If there's a variation set for the selected object at the current $scope, see if one of the stored scope Ids matches 
+    // the selected object's scope Id.
+      $scope_record = (isset($livethemer_variables[$hook][$variation_type_id][$scope_id])) ? $livethemer_variables[$hook][$variation_type_id][$scope_id]: FALSE;
+      if ($scope_record) {
+        $applied_variation = isset($scope_record[$selected_object_scope_id]) ? $scope_record[$selected_object_scope_id]: FALSE;
+        if ($applied_variation) {
+          $avt[$variation_type_id]['scopes'][$i]['appliedVariation'] = $applied_variation;
+        }
+      }
+    
+   // $available_variation_types[$variation_type_id] += $avt;
+      $i ++;
+    }
+  }
+  return $avt;
+}
+
+/**
+ * 
+ * @param $request_id
+ */
+function render_settings_form($request_id) {
+  $variation_id = $_POST['variationId'];
+
+  $variations = _discover_variations();
+  $variation = $variations[$variation_id];
+  // Render the settings form for the supplied variation.
+  $form = get_settings_form($variation);
+  
+  //if (isset($variation['settings_form'])) {
+  if ($form) {
+    //$function_key = include_variation_settings_form($variation);
+   
+    //if (function_exists($function_key)) {
+      $safe_variation_id = str_replace('-', '_', $variation_id);
+      $form_id = 'variation_settings_form_' . $safe_variation_id; //$function_key;
+      $form = drupal_get_form($form_id, $variation);
+      $form_html = drupal_render($form);
+      
+       // Send info back to our javascript via json.
+      drupal_json_output(
+        array(
+          'settings_form' => $form_html,
+        )
+      );
+/*
+    }
+    else{
+      watchdog('LT', "render_settings function doesn't exist");
+    }
+*/
+  }  
+}
+
+/**
+ * An implementation of hook_forms()
+ */
+function livethemer_inspector_forms($form_id, $args) {
+  if (strpos($form_id, 'variation_settings_form_') !== FALSE) {
+    $forms[$form_id] = array(
+      'callback' => 'prepare_settings_form', 
+      'callback arguments' => array(),
+    );
+    return $forms;
+  }
+}
+
+/**
+ * hook_forms() sends $variation as the third argument so we use this function
+ * to send it off to get_settings_form 
+ */
+function prepare_settings_form($form, $form_state, $variation) {
+  return get_settings_form($variation);
+}
+
+/**
+ * Form "factory" function for the variation settings forms. 
+ */
+function variation_settings_form_builder($form, &$form_state) {  
+  // Add "Apply" and "Cancel" buttons to every form.
+  $button_markup  = '<span class="apply-button"></span>';
+  $button_markup .= '<span class="cancel-button"></span>';
+
+  $form['buttons'] = array(
+    '#markup' => $button_markup,
+    '#weight' => 10,
+  );
+
+  return $form;
+}
+
+function livethemer_inspector_preprocess_filtered(&$variables, $hook) {  
+  // In some special cases, we should not store this object in our cache or attach our classes.
+  if ($hook == 'region') {
+    global $theme_info;
+     if ((is_array($theme_info->info['regions_hidden']) && isset($variables['region'])) && 
+       in_array( $variables['region'], $theme_info->info['regions_hidden'])) {      // This region is a hidden region, so we should not do anything with it.
+      return;
+    }
+  }
+  
+  // Store the render array in our cache an attribute called #livethemer_id on each element we're
+  // interested in.  
+  static $livethemer_id = 1;
+  
+  $render_element_id = get_render_element_id($hook);    
+  if (isset($render_element_id)) {
+    $element = $variables[$render_element_id];
+    $element['#lt_array_type'] = 'render array';
+  }
+  else {
+    // Save the variables instead of a render array, but add a flag so we know to use theme()
+    // rather than drupal_render() later on.
+    $element = $variables;
+    $element['#lt_array_type'] = 'variables';
+  }
+  
+  // Store the hook that we know this object was actually themed with. If this is
+  // a render element, it will not be possible to determine which of the render
+  // element's #theme or #theme_wrappers hooks was responsible for this object, as
+  // saved into our cache. 
+  $element['#lt_themed_with'] = $hook;
+
+  // Save our captured element for later, so we can rebuild it and so on from the inspector.
+  lt_aggregate_cache_data($livethemer_id, $element);
+
+  if (isset($variables['livethemer_id']) || isset($element['#livethemer_id'])) {
+    // We already have a livethemer_id on this object, so make sure we use it.
+    $livethemer_id = isset($variables['livethemer_id']) ? $variables['livethemer_id'] : $element['#livethemer_id'];
+  }
+
+  add_class_to_variables($variables, $hook, "livethemer-object-$livethemer_id");
+  add_class_to_variables($variables, $hook, "livethemer-hook-$hook");
+
+  $livethemer_id ++;
+}
+
+/**
+ * livethemer_inspector_postprocess
+ * @param array $variables
+ * @param string $hook
+ */
+function livethemer_inspector_postprocess(&$variables, $hook) {
+  if (!livethemer_inspector_allowed()) return;
+  // Discover all the variations of the $variation_types that are valid for objects built with this $hook.
+  $variation_types = get_variation_types_by_hook($hook);
+  if (empty($variation_types)) return;
+
+  // Then go through each field and see if it needs to add a class to this object.
+  $variations = array();
+  foreach ($variation_types as $variation_type_id => $variation_type) {
+    $discovered = _discover_variations($variation_type_id);
+    if (is_array($discovered)) {
+      $variations = array_merge($variations, $discovered);
+    }  
+  }
+
+  $classes = array();
+  //$overriding_classes = array();
+  foreach ($variations as $variation_id => $variation) {
+    //$function_name = include_variation_settings_form($variation);
+    $form = get_settings_form($variation);
+
+    //if ($function_name) {
+    if ($form) {
+      // Bring in the FAPI settings form array.
+      //$form = call_user_func($function_name, array()); // Send a blank starting $form to the form constructor function.
+      $form = flatten_form_array($form); 
+
+// JH TODO: 15 jan 2011 - I reckon the following code may still be faulty; if the data file contains multiple variation rules that
+// affect the same template variables (eg all the layout variations affect the same set of variables)
+// or the same rule at various scopes, we aren't differentiating... the following code will just pick the last one that
+// is in the data file array. We really need to know if it's the APPLIED variation, and if so, make sure that is the value that
+// finally comes through in the class.
+      foreach ($form as $field_id => $field) {
+        if (isset($field['#attributes']['update_action'])
+              && $field['#attributes']['update_action'] == 'tpl_variable_css_class') {
+                    
+          // Make sure we only do this once, even if there are multiple variations that adjust the same class. 
+          // Otherwise we end up with the same classes multiple times.
+          $class = "settings-field-$field_id ";
+          
+          $tpl_variable = $field['#attributes']['tpl_variable'];
+          if (isset($variables[$tpl_variable])) {
+            $class .= $variables[$tpl_variable];
+            //$overriding_classes[$tpl_variable] = $class; // If more than one variation is applied in the data file
+          }
+          elseif (isset($variables['lt_classes_array'][$field_id])) {
+            $class .= $variables['lt_classes_array'][$field_id];
+          }
+          else {
+            $class .= "settings-field-$field_id-placeholder";
+            //$classes[$tpl_variable] = $class;
+          }
+          
+          if ($tpl_variable) {
+            $classes[$tpl_variable] = $class;
+          }
+          else {
+            // There was no template variable provided, so we assume the intention
+            // is to print this class in the classes_array() which Drupal 7 kindly provides.
+            $variables['lt_classes_array'][$field_id] = $class;
+            //add_class_to_variables($variables, $hook, $class);
+          }
+        }
+      }
+    }    
+  }
+      
+  foreach ($classes as $tpl_variable => $class) {
+    $variables[$tpl_variable] = $class;
+  }
+}
+
+/**
+ * ----------------------------------------------------------------------------------------
+ * Borrowed from the devel_themer module
+ * ----------------------------------------------------------------------------------------
+ */
+ 
+/**
+ * An implementation of hook_theme_registry_alter()
+ * Intercepts all theme calls (including templates), adds to template log, and dispatches to original theme function.
+ * Iterate over theme registry, injecting our catch function into every theme call, including template calls.
+ * The catch function logs theme calls and performs divine nastiness.
+ *
+ * @return void
+ **/
+function livethemer_inspector_theme_registry_alter(&$theme_registry) {
+  if ((function_exists('livethemer_inspector_allowed') && !livethemer_inspector_allowed()) 
+  || !function_exists('livethemer_inspector_allowed')) {
+    return;
+  }
+  // Run our (pre)process functions for each hook we're interested in. Drupal will automatically run
+  // our livethemer_inspector_preprocess and livethemer_inspector_process functions for theme templates,
+  // but not for theme functions. We need it for both. We also need
+  // livethemer_inspector_preprocess_filtered() to run on the hooks we are interested in.
+  $hooks_of_interest = array_keys(get_filtered_variation_types());
+
+  foreach ($hooks_of_interest as $hook) {
+    // We need to override some theme functions, usually because the core versions don't allow us to
+    // inject our own CSS classes. The functions should be stored in hook_implementations.inc
+    // eg livethemer_menu_local_tasks
+    if (function_exists("livethemer_$hook")) {
+      $theme_registry[$hook]['function'] = "livethemer_$hook";
+    }
+
+    // Add our preprocess functions if they aren't there already.
+    //if ( !in_array('livethemer_inspector_preprocess_filtered', $theme_registry[$hook]['preprocess functions'])) {
+      $theme_registry[$hook]['preprocess functions'][] = 'livethemer_inspector_preprocess_filtered';
+      
+      // Also, tell Drupal to run the livethemer_preprocess function if it
+      // isn't already. It will already be doing this if:
+      //    - the hook uses a template (not a function)
+      //    - the hook exists in the current data file in which case 
+      //      livethemer.module's registry alter will be adding this.
+      
+      // First, remove the livethemer_preprocess_filtered function if it's already there...
+      // it must be last in the calling order.
+      $preprocess_position = array_search('livethemer_preprocess_filtered', $theme_registry[$hook]['preprocess functions']);
+      if ($preprocess_position !== FALSE) {
+        unset($theme_registry[$hook]['preprocess functions'][$preprocess_position]);
+      }
+
+      // Add it back in, ensuring it's last of everything.
+      $theme_registry[$hook]['preprocess functions'][] = 'livethemer_preprocess_filtered';
+    //}
+    
+    // If this theme hook specified ['variables'] then we must add livethemer_id
+    // to ensure it gets passed through to our theme template/function.
+    if (isset($theme_registry[$hook]['variables'])) {
+      $theme_registry[$hook]['variables']['livethemer_id'] = NULL;
+    }
+  }
+  
+/*
+  // If the page hook is of interest, we need to run livethemer_inspector_preprocess_filtered()
+  // for the lt_page_wrapper hook. This will correctly add the page hook classes in
+  //  the lt_page_wrapper hook (all this because some page.tpl.php's don't print their classes).
+  if (in_array('page', $hooks_of_interest)) {
+    $theme_registry['lt_page_wrapper']['preprocess functions'][] = 'livethemer_inspector_preprocess_filtered';
+  }
+*/
+}
+
+/*
+ * In livethemer_catch_function() we have captured the information about all the live-themable
+ * objects on this page. We also store the theme template arguments for each lt-object on this page.
+ * Then in this function we will store all this data in a file on the server, for later use by json calls.
+ *
+ * The global function $_args_being_captured is the object data to store.
+ */
+
+function livethemer_inspector_exit() {
+/*
+  global $_args_being_captured;
+  global $_livethemer_currently_rendering_id;  
+  global $request_id;
+  
+  if ($_args_being_captured) {    
+    // Write the variables information to the a file. It will be retrieved on demand via json.
+    $data['object_theme_args'] = $_args_being_captured;
+    $data['calling_uri'] = request_uri();
+
+    // we use our own cache bin here. 
+    $bin = 'cache_livethemer_inspector';
+    $ts =  time() + 3600; // now + 60 sec * 60 min.
+    cache_set($request_id, $data, $bin, $ts);
+  }
+*/
+  // The following is only set on the "capture" phase of the module ie when the page is initially generated.
+  //  On later, json-initiated calls we don't want to save the cache.
+
+  // Check we should be running.
+  if ((!livethemer_inspector_allowed()) || arg(0) == 'lt-json') return;
+  
+  global $request_id;
+
+  // Save our collected data to the db cache.
+  $data = lt_aggregate_cache_data();
+  lt_write_to_cache($request_id, $data);
+}
+
+/**
+ * load_stored_data reads and returns the livethemer tempory data file. 
+ * @param $request_id
+ * @param $key the array key to return, eg "data or data['page'] or data['request_uri']"
+ */
+function load_stored_data($request_id, $key = '') {
+  
+  if (!empty($request_id)) {
+    if ($cache = cache_get($request_id, 'cache_livethemer_inspector')) {
+      if ($key != '') {
+        return $cache->data[$key];
+      }
+      else{
+        return $cache->data;
+      }  
+    }     
+  }
+  return FALSE;
+}
+
+/**
+ * array helper function
+ */
+function is_not_empty($v) {
+  return !($v == '');
+}
+
+/**
+ * JSON callback function to save data received from the Livethemer Inspector.
+ *
+ * The data will be as follows:
+ *  - currentObjectType
+ *  - currentObjectHook
+ *  - currentScope
+ *  - objectId
+ *  - variationId
+ *  - variationData
+ *  - objectIdsToRebuild
+ *
+ * The data is saved in the following array structure:
+ *     - $variation_type eg block
+ *       - $scope eg "all blocks in this region"
+ *         - $scopeIdentifier eg to identify the "Who's new" block for scope "this block", we store the block's BID.
+ *           - $variation_info (an array of: variation_id, variation_data)
+ *
+ * This array will be used by the theme's template.php to recreate the user's Livethemer choices.
+ */
+function lt_save_and_update($request_id) {
+  $variation_type_id      = $_POST['currentVariationTypeId'];
+  $object_hook            = $_POST['currentObjectHook'];
+  $scope                  = $_POST['currentScope'];
+  $object_id              = $_POST['objectId'];
+  $variation_id           = $_POST['variationId'];
+  $variation_data_class   = $_POST['variationDataClass'];
+  $variation_data         = drupal_json_decode($_POST['variationData']);
+  $object_ids_to_rebuild  = $_POST['objectIdsToRebuild'];
+
+  // A NULL value in Javascript is passed to us as the string "null". We don't want that.
+  $variation_data_class   = ($variation_data_class == 'null') ? NULL : $variation_data_class;
+
+  if (!($object_hook) OR !($scope) OR !($object_id) OR !($variation_id)) {
+    //return FALSE; TODO
+  }
+
+  lt_save_changes($request_id, $variation_type_id, $object_hook, $scope, $object_id, $variation_id, $variation_data, $variation_data_class);  
+  $objects_markup = NULL;
+  if ($object_ids_to_rebuild) {
+    $objects_markup = retheme_objects($request_id, $variation_id, $variation_data, $variation_data_class, $object_ids_to_rebuild, $object_hook);
+  }
+
+  // Send info back to our javascript via json. We use print as we don't want Drupal to wrap this in page markup.
+  print drupal_json_encode(array(
+    'objectsMarkup' => $objects_markup,
+    'livethemerVariables' => get_set_livethemer_variables(),
+  ));
+
+}
+
+/**
+ * TODO explain params
+ * @param $request_id
+ * @param $variation_type_id
+ * @param $object_hook
+ * @param $scope
+ * @param $object_id
+ * @param $variation_id
+ * @param $variation_data
+ * @param $variation_data_class
+ */
+function lt_save_changes($request_id, $variation_type_id, $object_hook, $scope, $object_id, $variation_id, $variation_data, $variation_data_class) {
+  global $_lt_calling_uri;
+
+  $livethemer_variables = get_set_livethemer_variables();
+
+/* TODO: Will we ever actually get a hook == html?
+  // The "page" object is a special case -- it's always object zero.
+  if ($object_hook == 'html') $object_id = 0;
+*/
+
+  // Load the comparitor object info, given its Id.
+  $_lt_calling_uri = load_stored_data($request_id, "calling_uri");
+  $stored_args = load_stored_data($request_id, 'render_array');
+  
+ // $object_args = get_element_by_livethemer_id($object_id, $stored_args);
+  //$object_args = get_array_section_by_key_value( $stored_args, '#livethemer_id', $object_id);
+  $object_args = $stored_args[$object_id];
+
+  //$hook = find_theme_hook($selected_object_args);
+
+  $object_scope_identifier = get_scope_id($object_hook, $scope, $object_args);
+  
+  // Either add our new information to the template $variables, or remove it.
+  if ($variation_id == 'noVariation') {
+    unset($livethemer_variables[$object_hook][$variation_type_id][$scope][$object_scope_identifier]);
+  }  
+  else {
+    $livethemer_variables[$object_hook][$variation_type_id][$scope][$object_scope_identifier] = array(
+      'variation_id' => $variation_id,
+      'variation_data' => $variation_data,
+      'variation_data_class' => $variation_data_class,
+    );
+      
+    // Sort the scopes records in order of specificity.
+    $specific_scopes = array();  
+    if (function_exists($object_hook . '_scopes')) {
+      $specific_scopes = call_user_func($object_hook . '_scopes');
+    }
+    $broad_scopes = livethemer_broad_scopes();
+    $all_scope_ids = array_keys(array_merge($specific_scopes, $broad_scopes));
+    
+    // First, go through each record and temporarily assign a #weight value to each scope record,
+    // according to the specificity of that scope. 
+    foreach ($livethemer_variables[$object_hook][$variation_type_id] as $scope => $record) {
+      $livethemer_variables[$object_hook][$variation_type_id][$scope]['#weight'] = array_search($scope, $all_scope_ids);
+    }
+
+    uasort($livethemer_variables[$object_hook][$variation_type_id], 'element_sort'); // Use the Drupal API's element_sort() function.
+
+    // Lastly, remove the temporary #weight values from each scope record.
+    foreach ($livethemer_variables[$object_hook][$variation_type_id] as $scope => $record) {
+      unset($livethemer_variables[$object_hook][$variation_type_id][$scope]['#weight']);
+    }
+  }  
+  
+  // Store the template $variables ready for this module's preprocess function
+  get_set_livethemer_variables($livethemer_variables);
+  
+  // Regenerate the css file, so that it's all good to roll if the user has finished
+  // using the Livethemer Inspector module and turns it off.
+  $file = lt_get_path('overrides_css');
+  generate_custom_css_file($file);
+}
+
+/**
+ * Used by the livethemer inspector to rebuild the markup for all modified page objects.
+ *
+ * Returns a json object containing the markup for all the objects which need to be replaced when changing to the 
+ * provided $variation_id eg 'block_var1' (taking into account the given $scope eg 'all' or 'this').
+ *
+ * @param $request_id
+ *   A unique key that is sent to the browser in Drupal.Settings.devel_themer_request_id
+ *
+ * @param $variation_id
+ *   the Livethemer variation id.
+ *
+ * @param $scope
+ *   the scope currently chosen in the Livethemer inspector.
+ *
+ * @param $object_ids
+ *   array of object_ids from the web page which are about to receive new styling.
+ */
+function retheme_objects($request_id, $variation_id, $variation_data, $variation_data_class, $object_ids, $hook) {  
+  // global $_livethemer_currently_rendering_id;
+  global $_lt_calling_uri;
+
+  $variations = _discover_variations();
+  $variation = $variations[$variation_id];
+  $variation_type_id = $variation['variation_type'];
+
+  // $objects is passed to us as a comma separated list. We want to convert it to an array.
+  $object_ids = explode(',', $object_ids);
+  $objects_markup = array();
+
+  // Override the global variable for the current page's URI. This is to get around the fact that the 
+  // Ajax call which we are currently responding to will have a different URI to the URI in the browser
+  // for this page, and we need to know the latter when calculating the scopes at which to apply variations.
+  //TODO: is $_lt_calling_uri needed?
+  $_lt_calling_uri = load_stored_data($request_id, "calling_uri");
+  $elements = load_stored_data($request_id, 'render_array');
+  
+  foreach ($object_ids as $object_id) {
+    // Get all known information about this specific object.
+    //$cache = cache_get( $request_id, 'cache_livethemer_inspector' );
+    $element = $elements[$object_id];
+    
+    // The object will either be a render array, or just a bunch of theme
+    // function/tpl variables.
+    if ($element['#lt_array_type'] == 'variables') {
+      // The object is not a render array.
+      $variables = $elements[$object_id];
+      $variables['#lt_applied_variations'][$hook][$variation_type_id] = array(
+        'variation_id' => $variation_id,
+        'variation_data' => $variation_data,
+        'variation_data_class' => $variation_data_class,
+      );
+      $variables['livethemer_id'] = $object_id;
+      $html = theme($hook, $variables);
+    }
+    else {
+      // The object is a render array.
+      
+      ////$object_args = get_element_by_livethemer_id($object_id, $stored_args);
+      //$element = get_array_section_by_key_value($stored_args, '#livethemer_id', $object_id);
+  
+      //if (isset($element)) {
+  
+      //$variation_type = discover_variation_type($variation_type_id);
+      //$hook = $variation_type['hook'];
+            
+      // Modify the element so that livethemer.module kicks in.
+/* took out on 5 jan 12
+      $element['#lt_applied_variations'][$hook][$variation_type_id] = array(
+        'variation_id' => $variation_id,
+        'variation_data' => $variation_data,
+        'variation_data_class' => $variation_data_class,
+      );
+*/
+      $element['#livethemer_id'] = $object_id;
+
+      // The livethemer_page_alter() function looks at the element and all its
+      // children recursively to see whether any of them have variations that
+      // should be applied, based on what's in the current settings file.
+//took out on 5 jan 12      livethemer_page_alter($element);
+
+      // We NEVER want to regenerate the full HTML... it would break the JS.
+      foreach ($element['#theme_wrappers'] as $key => $wrapper) {
+        if ($wrapper == 'html') unset($element['#theme_wrappers'][$key]);
+      }
+      
+      $html = drupal_render($element);
+    }   
+      
+    $object_markup['id'] = $object_id;
+    $object_markup['markup'] = $html;
+    $objects_markup[] = $object_markup;
+    //}      
+  }
+
+  return $objects_markup;
+}
+
+function lt_aggregate_cache_data($key = NULL, $data = NULL) {
+  static $stored_arrays = array();
+  
+  if (isset($key)) {
+    $stored_arrays[$key] = $data;
+  }
+  
+  return $stored_arrays;
+}
+
+function lt_write_to_cache($cid, $render_array) {
+// kpr($render_array);
+
+  $data = array(
+    'calling_uri' => request_uri(),
+    'render_array' => $render_array,
+  );
+
+  // We use our own cache bin here. 
+  $bin = 'cache_livethemer_inspector';
+  $ts =  time() + 3600; // now + 60 sec * 60 min.
+  cache_set($cid, $data, $bin, $ts);
+}
+
+function livethemer_inspector_flush_caches() {
+  return array('cache_livethemer_inspector');
+}
+
+function reset_printed_attribute($item, $key) {
+  if ($key == '#printed') {
+    $item = 0;
+  }
+}
+
+/**
+* Converts a string to a suitable html Id or class attribute... thanks to zen.theme
+*
+* - Preceeds initial numeric with 'n' character.
+* - Replaces any character except A-Z, numbers, and underscores with dashes.
+* - Converts entire string to lowercase.
+*
+* @param $string
+* The string
+* @param $mode
+* The mode: "full": the supplied string is the full class; "partial": we are building up a class from pieces, and
+* string is just a piece of the final string.
+* @return
+* The converted string
+*/
+function css_safe($string, $mode = 'full') {
+  if (is_numeric($string{0}) && $mode == 'full') {
+    // If the first character is numeric, add 'n' in front
+    $string = 'n' . $string;
+  }
+  return strtolower(preg_replace('/[^a-zA-Z0-9_-]+/', '-', $string));
+}
+
+/**
+ * @return array of hooks.
+ * todo: is $hooks the wrong variable name here? I reckon it should be $variations or something. j/t 9 April 11 
+ */
+function get_filtered_variation_types() {
+  $variations = get_variation_types_by_hook();
+
+  // Allow other modules to modify the list of variation types presented to this user.
+  $variations_modified = module_invoke_all('variation_types_alter', $variations);
+  
+  return empty($variations_modified) ? $variations : $variations_modified;
+}
+
+/**
+ * We need a user-facing name for Drupal hooks.
+ *
+ * @param $hook
+ *   The Drupal hook for which we want to retrieve a human-readable name.
+ * @return
+ *   A string containing the human-readable hook name.
+ */
+function livethemer_hook_name($hook) {
+  $hook_names = array(
+    'html' => t('Backdrop'),
+    'page' => t('Page'),
+    'region' => t('Regions'),
+    'block' => t('Blocks'),
+    'button' => t('Buttons'),
+    'menu_local_tasks' => t('Tabs'),
+    'table' => t('Tables'),
+    'comment' => t('Comment'),
+    'node' => t('Node'),
+    'pager' => t('Pager'),
+  );
+  
+  return isset($hook_names[$hook]) ? $hook_names[$hook] : $hook;
+}

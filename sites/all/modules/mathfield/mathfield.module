@@ -1,0 +1,786 @@
+<?php
+
+/**
+ * @file
+ * Adds a dynamic math expression field.
+ */
+
+/**
+ * Implements hook_field_info().
+ */
+function mathfield_field_info() {
+  return array(
+    'mathfield' => array(
+      'label' => t('Math Expression'),
+      'description' => t('Evaluates a math expression.'),
+      'settings' => array(
+        'expression' => '',
+        'field_dependencies' => array(),
+        'precision' => 10,
+        'scale' => 2,
+        'decimal_separator' => '.',
+      ),
+      'instance_settings' => array(
+        'read-only' => FALSE,
+        'prefix' => '',
+        'suffix' => '',
+      ),
+      'default_widget' => 'mathfield_text',
+      'default_formatter' => 'number_decimal',
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_settings_form().
+ */
+function mathfield_field_settings_form($field, $instance, $has_data) {
+  $settings = $field['settings'];
+
+  $form['expression'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Math Expression'),
+    '#description' => t("Enter mathematical expressions such as 2 + 2 or sqrt(5). You may assign variables and create mathematical functions and evaluate them. Use ';' to separate these. For example: f(x) = x + 2; f(2)."),
+    '#default_value' => $settings['expression'],
+  );
+
+  $form['field_dependencies'] = array(
+    '#type' => 'value',
+    '#value' => $settings['field_dependencies'],
+    '#element_validate' => array('mathfield_validate_expression'),
+  );
+
+  $form['decimal_separator'] = array(
+    '#type' => 'select',
+    '#title' => t('Decimal marker'),
+    '#options' => array('.' => t('Decimal point'), ',' => t('Comma')),
+    '#default_value' => $settings['decimal_separator'],
+    '#description' => t('The character to mark the decimal point.'),
+  );
+
+  $form['precision'] = array(
+    '#type' => 'select',
+    '#title' => t('Precision'),
+    '#options' => drupal_map_assoc(range(10, 32)),
+    '#default_value' => $settings['precision'],
+    '#description' => t('The total number of digits to store in the database, including those to the right of the decimal.'),
+    '#disabled' => $has_data,
+  );
+
+  $form['scale'] = array(
+    '#type' => 'select',
+    '#title' => t('Scale'),
+    '#options' => drupal_map_assoc(range(0, 10)),
+    '#default_value' => $settings['scale'],
+    '#description' => t('The number of digits to the right of the decimal.'),
+    '#disabled' => $has_data,
+  );
+
+  return $form;
+}
+
+/**
+ * Element validate callback to populate the list of dependent fields.
+ */
+function mathfield_validate_expression($element, &$form_state) {
+  $dependencies = array();
+  $expression = $form_state['values']['field']['settings']['expression'];
+  $tokens = _mathfield_extract_tokens($expression);
+  foreach ($tokens as $info) {
+    $dependencies[] = $info['field_name'];
+  }
+  form_set_value($element, $dependencies, $form_state);
+}
+
+/**
+ * Implements hook_field_instance_settings_form().
+ */
+function mathfield_field_instance_settings_form($field, $instance) {
+  $settings = $instance['settings'];
+
+  $form['prefix'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Prefix'),
+    '#default_value' => $settings['prefix'],
+    '#size' => 60,
+    '#description' => t("Define a string that should be prefixed to the value, like '$ ' or '&euro; '. Leave blank for none. Separate singular and plural values with a pipe ('pound|pounds')."),
+  );
+
+  $form['suffix'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Suffix'),
+    '#default_value' => $settings['suffix'],
+    '#size' => 60,
+    '#description' => t("Define a string that should be suffixed to the value, like ' m', ' kb/s'. Leave blank for none. Separate singular and plural values with a pipe ('pound|pounds')."),
+  );
+
+  return $form;
+}
+
+/**
+ * Implements hook_field_is_empty().
+ */
+function mathfield_field_is_empty($item, $field) {
+  return empty($item['value']) && (string) $item['value'] !== '0';
+}
+
+/**
+ * Implements hook_field_widget_info().
+ */
+function mathfield_field_widget_info() {
+  return array(
+    'mathfield_text' => array(
+      'label' => t('Text field'),
+      'field types' => array('mathfield'),
+    ),
+    'mathfield_markup' => array(
+      'label' => t('Read-only'),
+      'field types' => array('mathfield'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_widget_form().
+ */
+function mathfield_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
+  if ($form_state['build_info']['form_id'] == 'field_ui_field_edit_form') {
+    // Do nothing to the field settings form.
+    return;
+  }
+
+  $field_name = $element['#field_name'];
+
+  // Add the form afterbuild only once.
+  $afterbuild_added = &drupal_static(__FUNCTION__ . '_afterbuild', FALSE);
+  if (!$afterbuild_added) {
+    $form['#after_build'][] = 'mathfield_form_afterbuild';
+    $afterbuild_added = TRUE;
+  }
+
+  // Check for existing value.
+  if (isset($form_state['values'][$field_name][$langcode][$delta]['value'])) {
+    $value = $form_state['values'][$field_name][$langcode][$delta]['value'];
+  }
+  elseif (isset($items[$delta]['value'])) {
+    $value = $items[$delta]['value'];
+  }
+  else {
+    $value = '';
+  }
+
+  // Substitute the decimal separator.
+  $value = strtr($value, '.', $field['settings']['decimal_separator']);
+
+  // Update the input value. Overrides user submitted data.
+  $form_state['input'][$field_name][$langcode][$delta]['value'] = $value;
+
+  // Add prefix and suffix.
+  $prefix = $suffix = '';
+  if (!empty($instance['settings']['prefix'])) {
+    $prefixes = explode('|', $instance['settings']['prefix']);
+    $prefix = field_filter_xss(array_pop($prefixes));
+  }
+  if (!empty($instance['settings']['suffix'])) {
+    $suffixes = explode('|', $instance['settings']['suffix']);
+    $suffix = field_filter_xss(array_pop($suffixes));
+  }
+
+  // Add defaults.
+  $element += array(
+    '#after_build' => array('mathfield_widget_afterbuild'),
+    '#settings' => $field['settings'],
+    '#widget' => $instance['widget']['type'],
+  );
+
+  // Add form validation handler only once.
+  $validation_added = &drupal_static(__FUNCTION__ . '_validate', FALSE);
+  if (!$validation_added) {
+    $form['#validate'][] = 'mathfield_widget_validate';
+    $validation_added = TRUE;
+  }
+
+  // Add ajax wrapper and settings.
+  $wrapper_id = 'mathfield-' . strtr($element['#field_name'], '_', '-') . '-wrapper';
+  $wrapper = array(
+    '#theme_wrappers' => array('container'),
+    '#attributes' => array('id' => $wrapper_id),
+  );
+  $element['#ajax'] = array(
+    'callback' => 'mathfield_widget_ajax',
+    'wrapper' => $wrapper_id,
+    'event' => 'mathfield:evaluate',
+  );
+
+  if ($instance['widget']['type'] == 'mathfield_text') {
+    $element += array(
+      '#type' => 'textfield',
+      '#default_value' => $value,
+      '#size' => $field['settings']['precision'] + 4,
+      '#maxlength' => $field['settings']['precision'] + 2,
+      '#number_type' => 'decimal',
+      '#element_validate' => array('number_field_widget_validate'),
+      '#field_prefix' => $prefix,
+      '#field_suffix' => $suffix,
+    );
+    return $wrapper + array('value' => $element);
+  }
+
+  // Default to read-only widget. The textfield element is required for AJAX
+  // functionality but is not saved.
+  $element += array(
+    '#type' => 'textfield',
+    '#default_value' => $value,
+    '#attributes' => array(
+      'class' => array('element-invisible'),
+      'readonly' => 'readonly',
+    ),
+    // Add the display as a field prefix.
+    '#field_prefix' => $prefix . '<span class="mathfield-display">' . check_plain($value) . '</span>' . $suffix,
+  );
+
+  return $wrapper + array(
+    'display' => $element,
+    // The actual value is unchangeable for a read-only widget.
+    'value' => array(
+      '#type' => 'value',
+      '#value' => $value,
+    ),
+  );
+}
+
+/**
+ * Afterbuild callback for the mathfield widgets.
+ */
+function mathfield_widget_afterbuild($element, &$form_state) {
+  // Do not add js on the field edit form.
+  if ($form_state['build_info']['form_id'] == 'field_ui_field_edit_form') {
+    return $element;
+  }
+
+  // Add the element parent info for mathfield_widget_validate.
+  $form_state['mathfield'][$element['#field_name']] = $element;
+
+  // Add js only once.
+  $js_added = &drupal_static(__FUNCTION__ . '_js_added', array());
+  if (count($js_added) == 0) {
+    drupal_add_js(drupal_get_path('module', 'mathfield') . '/js/mathfield.js');
+  }
+
+  // Create js settings for the element.
+  if (empty($js_added[$element['#field_name']])) {
+    $settings['mathfield'][$element['#field_name']] = array(
+      'name' => $element['#name'],
+      'tokens' => mathfield_get_tokens($element),
+    );
+
+    drupal_add_js($settings, 'setting');
+    $js_added[$element['#field_name']] = TRUE;
+  }
+
+  return $element;
+}
+
+/**
+ * Afterbuild callbcak for forms with math expression fields.
+ */
+function mathfield_form_afterbuild($form, &$form_state) {
+  $info = entity_get_info($form['#entity_type']);
+  $is_new = !empty($form['#entity']->{$info['entity keys']['id']});
+  if ($is_new || $form_state['rebuild'] || empty($form_state['mathfield'])) {
+    // Nothing to see here.
+    return $form;
+  }
+
+  // Order mathfield elements by dependency.
+  $elements = $form_state['mathfield'];
+  uasort($elements, '_mathfield_order_by_dependency');
+
+  // Evaluate math expression fields on initial form load for new entities.
+  foreach ($elements as $element) {
+    if ($element['#widget'] != 'mathfield_markup') {
+      // Don't override custom values.
+      $submitted_value = drupal_array_get_nested_value($form_state['values'], $element['#parents']);
+      if (is_numeric($submitted_value)) {
+        continue;
+      }
+    }
+
+    $expression = $element['#settings']['expression'];
+    $replacements = mathfield_get_token_values($element, $form_state);
+    $value = mathfield_evaluate($expression, $element['#settings'], $replacements);
+    if (is_numeric($value)) {
+      // Update the value of the mathfield.
+      $element['#value'] = $value;
+
+      // Update the value column and field prefix for readonly math
+      // expressions.
+      if ($element['#widget'] == 'mathfield_markup') {
+        $parents = $element['#array_parents'];
+        array_splice($parents, -1, 1, array('value'));
+        $value_element = drupal_array_get_nested_value($form, $parents);
+        $value_element['#value'] = $value;
+        drupal_array_set_nested_value($form, $parents, $value_element, TRUE);
+        $element['#field_prefix'] = preg_replace('/<span class="mathfield-display">*?<\/span>/i', '<span class="mathfield-display">' . check_plain($value) . '</span>', $element['#field_prefix']);
+      }
+
+      // Update the value in $form and $form_state.
+      drupal_array_set_nested_value($form, $element['#parents'], $element, TRUE);
+      mathfield_form_set_value($element, $value, $form_state);
+    }
+  }
+
+  return $form;
+}
+
+/**
+ * Validate callback to evaluate the math expression.
+ */
+function mathfield_widget_validate($form, &$form_state) {
+  $submitted = $form_state['submitted'];
+  $trigger = $form_state['triggering_element'];
+
+  // Evaluate all empty mathfield elements on form submission otherwise only
+  // evaluate the triggered mathfield. We cannot evaluate expressions in
+  // an #element_validate handler because all dependent fields may not be
+  // available yet.
+  if ($submitted && !empty($form_state['mathfield'])) {
+    foreach ($form_state['mathfield'] as $element) {
+      $submitted_value = drupal_array_get_nested_value($form_state['values'], $element['#parents']);
+      if (empty($submitted_value) || $element['#widget'] == 'mathfield_markup') {
+        _mathfield_evaluate_element($element, $form_state);
+      }
+    }
+  }
+  elseif (isset($trigger['#settings']['expression'])) {
+    _mathfield_evaluate_element($trigger, $form_state);
+  }
+}
+
+/**
+ * Helper to evaluate a single mathfield element.
+ *
+ * @param array $element
+ *   The mathfield element definition.
+ * @param array $form_state
+ *   The current form state including submitted values.
+ */
+function _mathfield_evaluate_element($element, &$form_state) {
+  $expression = $element['#settings']['expression'];
+  $replacements = mathfield_get_token_values($element, $form_state);
+  $value = mathfield_evaluate($expression, $element['#settings'], $replacements);
+  if (is_numeric($value)) {
+    mathfield_form_set_value($element, $value, $form_state);
+  }
+  else {
+    // Could not evaluate the field.
+    mathfield_form_set_value($element, '', $form_state);
+  }
+}
+
+/**
+ * Helper to set a mathfield form element value.
+ *
+ * @param array $element
+ *   A mathfield form element.
+ * @param mixed $value
+ *   The computed value for the mathfield.
+ * @param array $form_state
+ *   The form_state array.
+ */
+function mathfield_form_set_value($element, $value, &$form_state) {
+  if ($element['#widget'] == 'mathfield_markup') {
+    // For readonly math expressions, the event is triggered on the display
+    // textfield but we only want to save the 'value' column. We use
+    // array_splice() to change the column from 'display' to 'value'.
+    array_splice($element['#parents'], -1, 1, array('value'));
+  }
+  form_set_value($element, $value, $form_state);
+}
+
+/**
+ * Ajax callback: Returns the updated mathfield element.
+ */
+function mathfield_widget_ajax($form, $form_state) {
+  $trigger = $form_state['triggering_element'];
+
+  // Remove the final column portion of the parents array to update the
+  // entire trigger element.
+  $parents = $trigger['#parents'];
+  array_splice($parents, -1, 1);
+  $element = drupal_array_get_nested_value($form, $parents);
+
+  // Build the ajax response.
+  $response = array(
+    '#type' => 'ajax',
+    '#commands' => ajax_prepare_response($element),
+  );
+  $response['#commands'][] = array('command' => 'mathfieldUpdate');
+  return $response;
+}
+
+/**
+ * Implements hook_field_formatter_info_alter().
+ */
+function mathfield_field_formatter_info_alter(&$info) {
+  $info['number_decimal']['field types'][] = 'mathfield';
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter() for field_uid_field_edit_form().
+ */
+function mathfield_form_field_ui_field_edit_form_alter(&$form, &$form_state, $form_id) {
+  $field = $form['#field'];
+
+  if ($form['#field']['type'] == 'mathfield') {
+    // Hide the default value widget for mathfields.
+    $form['instance']['default_value_widget']['#access'] = FALSE;
+    $default = $form['instance']['default_value_widget'][$field['field_name']];
+    foreach (element_children($default[$default['#language']]) as $delta) {
+      $form['instance']['default_value_widget'][$field['field_name']][$default['#language']][$delta]['value']['#default_value'] = '';
+    }
+  }
+}
+
+/**
+ * Evaluate a math expression.
+ *
+ * @param string $expression
+ *   The math expression to evaluate.
+ * @param array $settings
+ *   An array of math field settings. Keys include:
+ *   - scale: The number of digits to the right of the decimal.
+ *   - decimal_separator: The character to mark the decimal point.
+ * @param array $replacements
+ *   An array of token replacements for the expression.
+ *
+ * @return string|bool
+ *   The formatted result of the expression or FALSE on error.
+ */
+function mathfield_evaluate($expression, $settings, $replacements = array()) {
+  // Add replacements.
+  if (!empty($replacements)) {
+    foreach ($replacements as $token => $value) {
+      if (!is_numeric($value)) {
+        return FALSE;
+      }
+      $expression = str_replace($token, floatval($value), $expression);
+    }
+  }
+
+  module_load_include('inc', 'mathfield', 'includes/mathfield.math_expr');
+
+  $result = FALSE;
+  $expressions = explode(';', $expression);
+  $math = new MathfieldMathExpr();
+  try {
+    foreach ($expressions as $expr) {
+      if ($expr !== '') {
+        $result = $math->evaluate($expr);
+      }
+    }
+  }
+  catch (MathfieldException $e) {
+    watchdog('mathfield', 'Could not evaluate math expression %expression. Error: @message', array(
+      '%expression' => $expression,
+      '@message' => $e->getMessage(),
+    ), WATCHDOG_WARNING);
+    drupal_set_message(t('Math error: Could not evaluate math expression %expression.', array('%expression' => $expression)), 'warning');
+  }
+
+  if ($result !== FALSE) {
+    return number_format($result, floatval($settings['scale']), $settings['decimal_separator'], '');
+  }
+  return FALSE;
+}
+
+/**
+ * Extract tokens from a mathfield expression.
+ *
+ * @param string $expression
+ *   The math expression that contains field tokens.
+ *
+ * @return array
+ *   An associative array of token data keyed by token.
+ */
+function _mathfield_extract_tokens($expression) {
+  $tokens = array();
+
+  // Match tokens with the following pattern: [$field_name:$delta:$column]
+  // $field_name may only contain lowercase alphanumeric characters and
+  // underscores. $delta is optional and will default to 0. $column is optional
+  // and will be populated from the field settings if not provided.
+  $pattern = '([a-z0-9_]+)'; // Field name.
+  $pattern .= '(:([0-9]+))?'; // Delta.
+  $pattern .= '(:([a-zA-Z0-9_]+))?'; // Column.
+  preg_match_all("/(\[$pattern\])/x", $expression, $matches);
+
+  $search = $matches[1]; // Full tokens including brackets.
+  $fields = $matches[2]; // Fields names.
+  $deltas = $matches[4]; // $matches[3] includes the ':'.
+  $columns = $matches[6]; // $matches[5] includes the ':'.
+
+  for ($i = 0; $i < count($fields); $i++) {
+    $delta = $deltas[$i];
+    if (!is_numeric($delta) || $delta < 0) {
+      $delta = 0;
+    }
+
+    $column = $columns[$i];
+    if (empty($column)) {
+      $field = field_info_field($fields[$i]);
+      $keys  = array_keys($field['columns']);
+      $column = reset($keys);
+    }
+
+    $tokens[$search[$i]] = array(
+      'field_name' => $fields[$i],
+      'delta' => $delta,
+      'column' => $column,
+    );
+  }
+
+  return $tokens;
+}
+
+/**
+ * Get the element details for mathfield expression tokens.
+ *
+ * @param array $element
+ *   The mathfield element.
+ *
+ * @return array
+ *   An associative array of elements keyed by token. Each element is an
+ *   associative array with the following keys:
+ *   - selector: The jQuery selector to watch for changes.
+ *   - event: The jQuery event to trigger the reevaluation of the mathfield.
+ */
+function mathfield_get_tokens($element) {
+  $return = array();
+  $expression = $element['#settings']['expression'];
+
+  $tokens = _mathfield_extract_tokens($expression);
+  foreach ($tokens as $token => $context) {
+    $field = field_info_field($context['field_name']);
+    $context += array(
+      'token' => $token,
+      'field' => $field,
+      'instance' => field_info_instance($element['#entity_type'], $context['field_name'], $element['#bundle']),
+      'element' => $element,
+    );
+
+    // Allow modules to add mathfield support.
+    $data = module_invoke($field['module'], 'mathfield_get_token', $context);
+    drupal_alter(array('mathfield_get_token', "mathfield_get_token_{$field['module']}"), $data, $context);
+
+    if (!empty($data)) {
+      $return[$token] = $data;
+    }
+  }
+
+  return $return;
+}
+
+/**
+ * Get the submitted values for token replacements.
+ *
+ * @param string $element
+ *   The math field form element.
+ * @param array $form_state
+ *   The submitted form_state array.
+ *
+ * @return array
+ *   An associative array of replacements keyed by token.
+ */
+function mathfield_get_token_values($element, $form_state) {
+  $replacements = array();
+  $expression = $element['#settings']['expression'];
+
+  $tokens = _mathfield_extract_tokens($expression);
+  foreach ($tokens as $token => $context) {
+    $value = FALSE;
+    $field_name = $context['field_name'];
+    $field = field_info_field($field_name);
+
+    $context += array(
+      'token' => $token,
+      'field' => $field,
+      'instance' => field_info_instance($element['#entity_type'], $field_name, $element['#bundle']),
+      'element' => $element,
+      'form_state' => $form_state,
+    );
+
+    // Allow other modules to add mathfield support.
+    $value = module_invoke($field['module'], 'mathfield_get_token_value', $context);
+    drupal_alter(array('mathfield_token_value', "mathfield_get_token_value_{$field['module']}"), $value, $context);
+    $replacements[$token] = $value;
+  }
+  return $replacements;
+}
+
+/**
+ * Order mathfield elemnets based on dependencies.
+ *
+ * Callback for usort() within mathfield_form_afterbuild().
+ */
+function _mathfield_order_by_dependency($a, $b) {
+  $field_a = $a['#field_name'];
+  $b_dependencies = $b['#settings']['field_dependencies'];
+
+  if (in_array($field_a, $b_dependencies)) {
+    return -1;
+  }
+  return 1;
+}
+
+/**
+ * @defgroup mathfield_api Default Mathfield API Implementations.
+ * @{
+ * Default mathfield API implementations to support core field types.
+ *
+ * Supports core number module fields including integer, float, and decimal.
+ * Support core list module numeric fields including list_integer, and
+ * list_float. Supports mathfield module math expressions.
+ */
+
+/**
+ * Implements hook_mathfield_get_token().
+ */
+function mathfield_mathfield_get_token($context) {
+  $field_name = $context['field']['field_name'];
+  $name = strtr('@field_name[@parts]', array(
+    '@field_name' => $field_name,
+    '@parts' => implode('][', array(
+       $context['element']['#language'],
+       $context['delta'],
+       $context['column'],
+    )),
+  ));
+  return array(
+    'selector' => 'input[name="' . $name . '"]',
+    'event' => 'blur',
+  );
+}
+
+/**
+ * Implements hook_mathfield_get_token_value().
+ */
+function mathfield_mathfield_get_token_value($context) {
+  $values = $context['form_state']['values'];
+  $field_name = $context['field_name'];
+  $language = $context['element']['#language'];
+  $delta = $context['delta'];
+  $column = $context['column'];
+
+  if (isset($values[$field_name][$language][$delta][$column]) && is_numeric($values[$field_name][$language][$delta][$column])) {
+    return $values[$field_name][$language][$delta][$column];
+  }
+  return FALSE;
+}
+
+/**
+ * Implements hook_mathfield_get_token_MODULE_alter() for the number.module.
+ */
+function mathfield_mathfield_get_token_number_alter(&$data, $context) {
+  if (empty($data)) {
+    $field_name = $context['field']['field_name'];
+    $name = strtr('@field_name[@parts]', array(
+      '@field_name' => $field_name,
+      '@parts' => implode('][', array(
+         $context['element']['#language'],
+         $context['delta'],
+         $context['column'],
+      )),
+    ));
+    $data = array(
+      'selector' => 'input[name="' . $name . '"]',
+      'event' => 'blur',
+    );
+  }
+}
+
+/**
+ * Implements hook_mathfield_get_token_value_MODULE_alter() for the number.module.
+ */
+function mathfield_mathfield_get_token_value_number_alter(&$value, $context) {
+  $values = $context['form_state']['values'];
+  $field_name = $context['field_name'];
+  $language = $context['element']['#language'];
+  $delta = $context['delta'];
+  $column = $context['column'];
+
+  if (isset($values[$field_name][$language][$delta][$column]) && is_numeric($values[$field_name][$language][$delta][$column])) {
+    $value = $values[$field_name][$language][$delta][$column];
+  }
+}
+
+/**
+ * Implements hook_mathfield_get_token_MODULE_alter() for the list.module.
+ */
+function mathfield_mathfield_get_token_list_alter(&$data, $context) {
+  if (empty($data)) {
+    if (in_array($context['field']['type'], array('list_integer', 'list_float'))) {
+      // @TODO: Support multivalue fields.
+      if ($context['field']['cardinality'] != 1 || $context['delta'] > 0) {
+        $data = array();
+        return;
+      }
+
+      $name = strtr('@field_name[@parts]', array(
+        '@field_name' => $context['field_name'],
+        '@parts' => $context['element']['#language'],
+      ));
+
+      // Support default options elements.
+      switch ($context['instance']['widget']['type']) {
+        case 'options_buttons':
+          $data = array(
+            'selector' => 'input[name="' . $name . '"]',
+            'event' => 'change',
+          );
+          break;
+
+        case 'options_select':
+          $data = array(
+            'selector' => 'select[name="' . $name . '"]',
+            'event' => 'change',
+          );
+          break;
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_mathfield_get_token_value_MODULE_alter() for the list.module.
+ */
+function mathfield_mathfield_get_token_value_list_alter(&$value, $context) {
+  // Only support numeric list types.
+  if (!in_array($context['field']['type'], array('list_integer', 'list_float'))) {
+    return;
+  }
+
+  // @todo: Support multivalue fields.
+  if ($context['field']['cardinality'] != 1 || $context['delta'] > 0) {
+    return;
+  }
+
+  $values = $context['form_state']['values'];
+  $field_name = $context['field_name'];
+  $language = $context['element']['#language'];
+  $delta = $context['delta'];
+  $column = $context['column'];
+
+  // List value is at $values[$field_name][$language] on initial form load and
+  // $values[$field_name][$language][$delta][$column] on form submission.
+  if (isset($values[$field_name][$language]) && is_numeric($values[$field_name][$language])) {
+    $value = $values[$field_name][$language];
+  }
+  elseif (isset($values[$field_name][$language][$delta][$column]) && is_numeric($values[$field_name][$language][$delta][$column])) {
+    $value = $values[$field_name][$language][$delta][$column];
+  }
+}
+
+/**
+ * @} End of "defgroup mathfield_api".
+ */

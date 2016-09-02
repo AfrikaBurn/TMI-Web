@@ -1,0 +1,41 @@
+name = Livethemer Base
+description = The default theme for the <a href="http://drupal.org/project/livethemer">Livethemer module</a> -- visit the <a href="http://livethemer.com/">Livethemer website</a> for more info.
+version = 7.0
+core = 7.x
+engine = phptemplate
+
+stylesheets[all][] = livethemer_base.css
+
+; Our theme regions, as printed in our page.tpl.php.
+regions[pre_header]     = Pre-Header
+regions[header]         = Header
+regions[help]           = Help
+regions[pre_columns]    = Pre-Columns
+regions[pre_content]    = Pre-Content 
+regions[content]        = Content
+regions[post_content]   = Post-Content
+regions[sidebar_first]  = First sidebar
+regions[sidebar_second] = Second sidebar
+regions[post_columns]   = Post-Columns
+regions[footer]         = Footer
+regions[post_footer]    = Post-footer
+
+regions[page_top] = Page top
+regions[page_bottom] = Page bottom
+
+features[] = logo
+features[] = name
+features[] = slogan
+features[] = node_user_picture
+features[] = comment_user_picture
+features[] = favicon
+;We don't implement main and secondary menu.
+;features[] = main_menu
+;features[] = secondary_menu
+
+; Information added by drupal.org packaging script on 2012-06-01
+version = "7.x-1.0"
+core = "7.x"
+project = "livethemer_base"
+datestamp = "1338518445"
+

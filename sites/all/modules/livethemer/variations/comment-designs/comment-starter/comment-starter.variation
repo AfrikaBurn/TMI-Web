@@ -1,0 +1,8 @@
+name = Starter Comment Design
+description = Starter Comment Design.
+version = 7.0.0
+keywords = starter, comment
+
+stylesheets[] = comment-starter.css
+variation_type = comment-designs
+settings_form = form.inc

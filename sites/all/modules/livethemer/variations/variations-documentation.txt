@@ -1,0 +1,369 @@
+This document is a work in progress.
+
+1   Files which define a variation
+1.1 .variation file
+1.2 
+
+2. Livethemer theme regions
+
+
+================================================================================================================
+1   Files which comprised a variation
+
+A variation is comprised of one or more of the following files, of which only .variation is mandatory:
+
+.variation
+.tpl.php
+.png
+.css
+.js
+.inc
+
+The filename of the .variation must be unique, as Livethemer will use it as the variation's ID. ie it must be in the format variation-id.variation. All other files and directories may have any desired filenaming.
+
+========================================================
+1.1 the .variation file
+
+The .variation file is a .info-style file containing the following possible directives:
+
+name =
+The name of this variation, as presented in the user interface of the inspector
+
+description = 
+A short description of this variation, as presented in the user interface of the inspector
+
+version = 
+The version number of the variation.
+
+keywords =
+An arbitrary comma separated list of keywords which describe the variation, useful for filtering large variation lists in the user interface of the inspector. 
+
+variation_type = block
+thumbnail = block-blue.png
+
+template_file = 
+Optionally, specify a .tpl.php file upon which this variation depends. This template file must be stored in the variation's directory. If multiple variations depend on the same template file, the template file must be duplicated to exist in each variation's directory. This ensures variations remain stand-alone.
+
+Template filenames must follow the format hook--variation-id.tpl.php eg block--my-variation.tpl.php
+
+Template file names must be unique, unless the same template file exists in multiple variations as mentioned above. In other words, if several variations share the same template, it will exist with the same filename in each variation's directory. Otherwise, every variation's template should have a different filename.
+
+If no template_file is specified, Livethemer will work out which template to use based on whether the variation has specified a theme_dependency (see below). 
+
+- If no theme_dependency has been specified, the most generic available form of the template will be used (tech note: achieved by reordering the template suggestions array)
+
+- If a theme_dependency has been specified, the template will be selected by Drupal's theme system, following the usual template suggestion rules. This allows the theme to provide the template to the variation.
+
+Example: template_file = block-var1.tpl.php
+
+stylesheet = block-blue.css
+scripts[] = block-var1.js
+settings_form = block-var1.inc
+theme_dependency = zen
+
+
+========================================================
+1.x the .inc file
+
+
+    '#attributes' => array(
+      'class' => 'something',
+      'update_action' => 'css',
+      'css_target' => '',
+      'css_property' => 'background-color',
+      'css_property_units' => '',
+    ),
+
+'update_action' can be one of the following:
+
+* css -- a snippet of css must be provided, which may contain placeholders which will be filled with values taken from the settings form fields. This CSS will be dynamically modified by the javascript as the user changes the value of the form field.
+
+Example form field:
+
+  $form['other_options']['easing'] = array(
+    '#id' => 'easing',
+    '#name' => 'Easing setting',
+    '#type' => 'select', 
+    '#title' => t('Easing'),
+    '#options' => array(
+      'Ease In',
+      'Ease Out',
+      'Bounce',
+      'Elastic',
+    ), 
+    '#attributes' => array(
+      'update_action' => 'css',
+      'css_target' => '.content',
+      'css_rule' => 'padding: %easing%px',
+    ),
+  );
+
+
+* tpl_variable_css_class -- this specifies that the form field is associated with a template variable which is printed as a css class in the associated template file (.tpl.php). Since Livethemer knows it is a class, it updates this dynamically as the user changes the value of the form field.
+
+Example form field:
+
+  $form['grid']['column1width'] = array(
+    '#id' => 'col1width',
+    '#name' => 'col1width',
+    '#type' => 'textfield', 
+    '#title' => t('Col 1 width in Grid Units'), 
+    '#size' => 2, 
+    '#maxlength' => 2, 
+    '#default_value' => 16, 
+    '#attributes' => array(
+      'class' => '',
+      'min_value' => '0', 
+      'max_value' => '16', 
+      'update_action' => 'tpl_variable_css_class',
+      'css_target' => '.content',
+      'css_class' => 'grid-%field_region1_gridunit%',
+      'tpl_variable' => 'gridunit_1_class',
+    ),
+  );
+  
+  tpl_variable is optional. If it is provided, the template will receive a variable by this name, and its value will
+  be the class specified by Livethemer. If tpl_variable is not provided, the class will simply be added to the
+  classes_array that most templates print on their outermost tag.
+
+* tpl_variable_live -- this specifies that the form field is associated with a template variable which is printed verbatim in the HTML markup produced by the associated template file (.tpl.php). Livethemer knows this is printed verbatim, so it updates this dynamically as the user changes the value of the form field.
+
+Example form field:
+
+  $form['options']['read_more'] = array(
+    '#id' => 'read-more',
+    '#name' => 'read_more_text',
+    '#type' => 'textfield', 
+    '#title' => t('"Read More" Text'), 
+    '#size' => 10,
+    '#maxlength' => 50,
+    '#default_value' => 'Read More', 
+    '#attributes' => array(
+      //'class' => 'some-class',
+      'update_action' => 'tpl_variable_live',
+      //'js_callback' => 'myGreatMethod',
+      'tpl_variable' => 'read_more_text',
+    ),
+  );
+
+* tpl_variable -- this specifies that the form field is associated with a template variable which is NOT printed verbatim in the HTML markup produced by the associated template file (.tpl.php). It is most likely used by the template file as part of a PHP logic construct (eg an if-else condition). Livethemer knows this is not printed verbatim, so it cannot update this dynamically as the user changes the value of the form field, but rather regenerates the entire markup of the object when the user clicks "Apply" on the settings form in the inspector.
+
+Example form field:
+
+  $form['options']['show_heading'] = array(
+    '#id' => 'show-heading',
+    '#name' => 'show_heading',
+    '#title' => t('Show heading'), 
+    '#type' => 'select', 
+    '#options' => array(
+      'Yes',
+      'No',
+    ), 
+    '#default_value' => true, 
+    '#attributes' => array(
+      //'class' => 'some-class',
+      'update_action' => 'tpl_variable',
+      //'js_callback' => 'myGreatMethod',
+      'tpl_variable' => 'show_heading',
+    ),
+  );
+
+
+
+
+
+
+========================================================
+2. Livethemer theme regions
+
+In Livethemer v1, theme regions are always added to the markup, even if there are no blocks in them. This is so that variations don't break the layout if they expect regions to be there. Eg a 3-col layout has no way of dynamically (in the javascript) adjusting the content region to be wider if one or both side columns have no blocks. If you want a different page layout, choose a layout variation which suits your needs.
+
+The following theme regions are available:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+............. in progress....................................................................................................
+  // <p>some words <span>Read more...</span> something else</p>
+
+  var myWords = "stuff";
+  
+  $('body').append('<span class="<!--comment blah-->one">One</span>');
+  $('body').append('<span class="two">Two</span>');
+  
+  <!--comment blah-->
+  
+  var grabThis = $('comment blah').html();
+  grabThis = "stuff";
+
+
+
+  
+  oldClass = "grid-{original_field_region1_gridunit}";
+  $().removeClass(oldClass)
+  newClass = "grid-{field_region1_gridunit}";
+  $().addClass(newClass)
+  
+  $read_more = '<span class="grabthis">'. $read_more .'</span>';
+  
+  
+  
+  $jeff = 'abc';
+  $('span.grabthis').html() = $jeff;
+  
+  // find all grabthis spans
+  // somehow make their contents an object which we can refer to later
+  // remove the span markup
+  $('span.grabthis').removespan();
+  $jeff = 'heyhey';
+
+
+
+  <div id="content" class="$gridunit_classes">$content $read_more...</div>
+  <div id="content" class="grid-14">my great blog content... read more...</div>
+  
+  
+  
+.............................................................................................................................
+
+
+<?php
+function sticky_note_settings_form() {
+  $form['options'] = array(
+    '#type' => 'fieldset', 
+    '#title' => t('Animation options'), 
+  );
+    
+  $form['note_color'] = array(
+    '#type' => 'select', 
+    '#title' => t('Sticky note color'), 
+    '#default_value' => '#E0DD94',
+    '#options' => array(
+      '#E0DD94' => t('Yellow'), 
+      '#a1f0ff' => t('Blue'), 
+      '#aaff83' => t('Green'),
+    ),
+    '#attributes' => array(
+      'class' => 'something',
+      'update_action' => 'css', // css or tpl_variable or tpl_variable_live_update
+      'css_target' => '.content',
+      'css_property' => 'background-color',
+      'css_rule' => '-webkit-box-shadow: 0px 1px %offset rgba(0,0,0,%alpha);-moz-box-shadow: 0px 1px %offset rgba(0,0,0,%alpha);',
+    ),
+  );
+  
+  $form['note_angle'] = array(
+    '#type' => 'select', 
+    '#title' => t('Sticky note color'), 
+    '#default_value' => '#E0DD94',
+    '#suffix' => 'px',
+    '#options' => array(
+      '#E0DD94' => t('Yellow'), 
+      '#a1f0ff' => t('Blue'), 
+      '#aaff83' => t('Green'),
+    ),
+    '#attributes' => array(
+      'class' => 'something',
+      'update_action' => 'css', // css or tpl_variable or tpl_variable_live_update
+      'css_target' => '.content',
+      //'css_property' => 'background-color',
+      //'css_rule' => '-webkit-box-shadow: 0px 1px %offset rgba(0,0,0,%alpha);-moz-box-shadow: 0px 1px %offset rgba(0,0,0,%alpha);',
+      'css_rule' => '-moz-transform:rotate(%note_angle%deg);
+                     -webkit-transform:rotate(%note_angle%deg);',
+      'css_rule' => 'padding-left: %left_padding%px;',
+    ),
+  
+  return $form;
+}
+
+.variation-blue-block-16-this-object .content {
+  background-color: 55deg;
+  background-color: 55deg;
+  background-color: 55deg;
+}
+
+.variation-blue-block-16-this-object .content {
+  -webkit-box-shadow: 0px 1px 3px rgba(0,0,0,0.25);
+}
+
+ * Variations may optionally provide a form to allow the user to directly customise variables used by the template.
+ *
+ * Special Livethemer attributes:
+ * 
+ * css_property
+ * If this form field should directly modify a css attribute for the chosen object(s), which attribute should
+ * it be affecting? We will use this to:
+ *     - dynamically apply the CSS attribute changes using javascript
+ *     - build the style.css.php CSS file dynamically
+ *
+ * If css_property is set, the following two attributes will be ignored. 
+ *  
+ * live_themer_variable
+ * Associate this FAPI element to a tpl.php variable for use by the template.
+ *
+ * live_update
+ * Does this FAPI element, when changed by the user, require a regeneration of the tpl markup? This depends on
+ * how the tpl.php file is using the variable. For example, if it's printed directly in the markup, or as a class,
+ * then it won't as javascript can make these take effect without regenerating the markup, but vars used by PHP logic
+ * constructs in the tpl.php template will require a regeneration of the tpl markup as they don't directly appear
+ * in the markup.
+ *
+
+==================
+
+  // Generic FAPI
+  $form['fieldset'] = array(
+    '#type' => 'fieldset', 
+    '#title' => $title,
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+    '#attributes' => array(
+//      'user facing name' => 'Typography',
+      'valid_objects' => 'h1, h2, h3, h4, h5, h6, p, ul, ol',
+    ),
+  );
+Typography for H1
+Typography for H2 *
+Typography for H3
+Typography for H4 *
+Typography for H5
+Typography for H6
+Typography for p
+style
+
+".stuff #that-goes .here" might be a useful selector
+p.ugly {
+------------------------------------
+  yourcssgoeshere;
+------------------------------------
+}
+ul.ugly {
+  yourfieldgoeshere;
+}
+everything in here is relative to the object you've selected
+
+$('body *').click(function(){
+  inspector.clickedObj = $(this);
+  return false;
+})
+$('body').click(function(){
+  var clickedObj = inspector.clickedObj;
+  
+  // look through every ancestor of this item until we find something of interest
+  if (clickedObj is of_interest) {
+    positionHightlighterOver(parentofclickedObj);
+    parentofclickedObj.dostuff( clickedObj );
+    
+  }
+})

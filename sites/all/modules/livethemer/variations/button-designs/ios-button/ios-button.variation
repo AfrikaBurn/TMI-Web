@@ -1,0 +1,9 @@
+name = iOS Button Style
+description = iOS Button Style.
+version = 7.0.0
+keywords = iOS, Apple
+
+stylesheets[] = ios-button.css
+thumbnail = ios-button.png
+variation_type = button-designs
+settings_form = form.inc

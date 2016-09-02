@@ -1,0 +1,7 @@
+name = Starter Header Layout
+description = Clean header layout.
+version = 7.0.0
+keywords = Header, layout, clean
+
+variation_type = header-area
+settings_form = form.inc

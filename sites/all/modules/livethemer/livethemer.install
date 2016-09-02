@@ -1,0 +1,93 @@
+<?php
+/**
+ * @file
+ * Livethemer example module's install and uninstall code.
+ */
+
+/**
+ * Implementation of hook_install().
+ *
+ * This hook is called the first time the module is installed. Unless it is
+ * explicitly uninstalled, disabling and re-enabling will not trigger this hook
+ * a second time.
+ */
+function livethemer_install() {
+
+}
+
+/**
+ * Implementation of hook_uninstall().
+ *
+ * This hook is called when the already-disabled module is explicitly uninstalled
+ * by the administrator -- simple disabling the module will trigger hook_disable().
+ * It should delete any database tables added by the module, remove any variables
+ * that are unique to the module, and clear out any cached data.
+ */
+function livethemer_uninstall() {
+  global $conf;
+
+  cache_clear_all('live_themer:*', 'cache', TRUE);
+//  variable_del('live_themer_setting');
+  
+  
+/*
+  // Delete all 'livethemer_settings_file_*' variables.
+  foreach ($conf as $key => $var) {
+    if (substr($key, 0, 23) == 'livethemer_settings_file_') {
+      variable_del($key);
+    }
+  }
+*/
+}
+
+function livethemer_modules_enabled($modules) {
+  // Only do our thing if one of the livethemer modules has just been turned on.
+  $modules_of_interest = array('livethemer', 'livethemer_inspector');
+  if (!array_intersect($modules_of_interest, $modules)) {
+    return;
+  }
+  
+  drupal_set_message( t('Livethemer requires some basic configuration before use. Visit') . ' ' . l('admin/config/livethemer', 'admin/config/livethemer') . '.', 'livethemer');
+
+/*
+  global $theme;
+  $default_theme = variable_get('theme_default', $theme); //Name of the active (non-admin) theme.
+  
+  // Has the livethemer_base theme been downloaded?
+  $all_themes = array_keys(list_themes());
+  $ltbase_theme_exists = in_array('livethemer_base', $all_themes);
+  
+  // Is the ltbase theme the active theme?
+  $ltbase_theme_is_active = ( $default_theme === 'livethemer_base');
+  
+  // Get the currently specified settings_file, if there is one.
+  $settings_file = variable_get('livethemer_settings_file_' . $default_theme, NULL);
+  
+  // Work out if the livethemer_inspector module is active.
+  $inspector_module_active = in_array('livethemer_inspector', $modules);
+  
+  // If there's a settings file, work out if it exists.
+  if ($settings_file) {
+    $settings_file_exists = file_exists($settings_file);
+  }
+  
+  // If there is a valid settings file, don't show any messages. It's unlikely to be accidental.
+  if ($settings_file && $settings_file_exists) return;
+
+  drupal_set_message("To use Livethemer, you need to select a Livethemer settings file (" . l("what's this?", "admin/help/livethemer") . ") for your current theme (" . l('admin/appearance/settings/' . $default_theme, 'admin/appearance/settings/' . $default_theme) .').', 'livethemer');
+
+  if ($ltbase_theme_exists) {
+    if (!$ltbase_theme_is_active) {
+      drupal_set_message("The Livethemer module works best with the Livethemer Base theme. To enable it, visit " . l('admin/appearance', 'admin/appearance') . " and set it as the active theme. You will then also need to select a Livethemer settings file for the Livethemer Base theme.", 'livethemer');
+    }
+  }
+  else {
+    drupal_set_message("The Livethemer module works best with the Livethemer Base theme. You may download it from ". l('http://drupal.org/project/livethemer_base','http://drupal.org/project/livethemer_base'), 'livethemer');
+  }
+  
+  
+  if (!$inspector_module_active) {
+    drupal_set_message("The Livethemer module may be used on its own to display your existing Livethemer styles, but if you wish to modify your theme using Livethemer, you will need to activate the Livethemer inspector module. ", 'livethemer');
+  }
+*/
+}

@@ -1,0 +1,19 @@
+<?php
+/**
+ * @file
+ * Livethemer Inspector module's install and uninstall code.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function livethemer_inspector_schema() {
+  $schema['cache_livethemer_inspector'] = drupal_get_schema_unprocessed('system', 'cache');
+  $schema['cache_livethemer_inspector']['description'] = 'Cache table for the Livethemer Inspector module to store Elements of the current page.';
+  
+  return $schema;
+}
+
+function livethemer_inspector_install() {
+  db_query("UPDATE {system} SET weight = 1 WHERE name = 'livethemer_inspector'");
+}

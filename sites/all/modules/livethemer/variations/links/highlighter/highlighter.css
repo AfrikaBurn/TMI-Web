@@ -1,0 +1,27 @@
+.link-highlighter-pink a {
+  background-color: #fe8fba;
+  padding: 2px 5px;
+}
+
+.link-highlighter-yellow a {
+  background-color: #fdff23;
+  padding: 2px 5px;
+}
+
+.link-highlighter-green a {
+  background-color: #00ee5f;
+  padding: 2px 5px;
+}
+
+/* hover styles */
+.link-highlighter-pink a:hover {
+  background-color: #ff6ca9;
+}
+
+.link-highlighter-yellow a:hover {
+  background-color: #fefd97;
+}
+
+.link-highlighter-green a:hover {
+  background-color: #00ff65;
+}

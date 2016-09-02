@@ -1,0 +1,8 @@
+name = Garland's tables
+description = Style tables like Garland.
+version = 7.0.0
+keywords = starter, table, Garland
+
+stylesheets[] = table-garland.css
+;thumbnail = table-garland.png
+variation_type = table-designs

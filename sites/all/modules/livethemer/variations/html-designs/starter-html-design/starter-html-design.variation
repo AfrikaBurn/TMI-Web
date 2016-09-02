@@ -1,0 +1,7 @@
+name = Starter backdrop design
+description = Starter backdrop design.
+version = 7.0.0
+keywords = simple
+
+variation_type = html-designs
+settings_form = form.inc

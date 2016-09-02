@@ -1,0 +1,10 @@
+name = Fixed width page layout
+description = Simple fixed-width layout.
+version = 7.0.0
+keywords = simple, fixed-width
+
+stylesheets[] = fixed-width.css
+;thumbnail = fixed-width.png
+variation_type = page-layouts
+settings_form = form.inc
+theme_dependency[livethemer_base][version] = 7.0

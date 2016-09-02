@@ -1,0 +1,9 @@
+name = Serif Heading/Sans body
+description = Serif headings and sans-serif body typography.
+version = 7.0.0
+keywords = starter, sans, serif
+
+stylesheets[] = serif-heading-sans-body.css
+;thumbnail = serif-heading-sans-body.png
+variation_type = typography
+settings_form = form.inc

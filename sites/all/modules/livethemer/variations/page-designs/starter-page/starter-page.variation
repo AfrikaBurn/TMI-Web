@@ -1,0 +1,8 @@
+name = Starter page design
+description = Starter page.
+version = 7.0.0
+keywords = simple, starter
+
+variation_type = page-designs
+settings_form = form.inc
+theme_dependency[livethemer_base][version] = 7.0
