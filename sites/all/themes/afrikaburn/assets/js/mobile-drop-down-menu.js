@@ -5,6 +5,7 @@
  *
  * Custom version for Joomla!
  */
+ $(document).ready(function() {
 ! function(e) {
     "use strict";
     e(function() {
@@ -89,3 +90,4 @@
         n[e(i).hasClass("in") ? "addClass" : "removeClass"]("collapsed"), e(i).collapse(s)
     })
 }(window.jQuery);
+});
