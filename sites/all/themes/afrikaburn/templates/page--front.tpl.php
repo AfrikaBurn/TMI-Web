@@ -199,7 +199,12 @@ global $user;
         <section id="footer">
             <div class='container-2'>
                 <div class='container-1'>
-                    <?php print render($page['footer']); ?>
+                    <?php print render($page['footer_left']); ?>
+                    <?php print render($page['footer_centre']); ?>
+                    <?php print render($page['footer_right']); ?>
                 </div>
             </div>
+        </section>
+        <section id="copyright">
+            <?php print render($page['copyright']); ?>
         </section>
