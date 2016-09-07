@@ -65,6 +65,7 @@
  * @see template_preprocess_page()
  * @see template_process()
  */
+global $user;
 ?>
 
  <div id="top-bar">
@@ -76,6 +77,13 @@
                       </a>
                   </div>
             </div>
+               <?php
+                    if (!$logged_in) {
+                        echo "<a class='user-link' href='user/login'>Login</a>";
+                    } else {
+                        echo "<a class='user-link logout' href='/user/logout'>Logout</a>";
+                    }
+                ?>
         </div>
     </div>
     <div class="container-3 show-below-979px" id="mobile-menu-bar">
@@ -168,11 +176,9 @@
     <section id="main-content-strip" class="container-3">
         <div class='container-2'>
             <div class='container-1'>
-                
                     <?php print render($title_prefix); ?>
                     <?php if ($title): ?><h1><?php print $title; ?></h1><?php endif; ?>
                     <?php print render($title_suffix); ?>
-                    
                      <div class="body-content">
                         <?php print $messages; ?>
                         <?php if ($tabs): ?><div class="tabs"><?php print render($tabs); ?></div><?php endif; ?>
@@ -181,11 +187,19 @@
                         <?php print render($page['content']); ?>           
                         <?php print $feed_icons; ?>
                     </div>
-
-                
-
-               
                 <div class='clr'></div>
             </div>
         </div>
     </section>
+    <section id="social-icons">
+            <div class='container-2'>
+                <?php print render($page['social']); ?>
+            </div>
+        </section>
+        <section id="footer">
+            <div class='container-2'>
+                <div class='container-1'>
+                    <?php print render($page['footer']); ?>
+                </div>
+            </div>
+        </section>

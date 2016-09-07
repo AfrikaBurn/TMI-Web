@@ -187,7 +187,7 @@ div.body-content {
 }
 div.main-block {
   width: 100%;
-  max-width: 640px;
+  max-width: 610px;
   float: left;
   position: relative;
 }
@@ -207,13 +207,13 @@ div.centred div.sidebar-outer {
 }
 div.sidebar-outer {
   width: 100%;
-  max-width: 320px;
+  max-width: 310px;
   float: right;
 }
 div.sidebar-outer > div.sidebar {
-  padding: 10px 10px 10px 10px;
-  background-color: #ffffff;
-  border: 1px solid #dddddd;
+  padding: 10px 10px 10px 15px;
+  background-color: #0d0d0d;
+  border: 1px solid #0d0d0d;
 }
 /*-----------------------------------------------------------------------
 FOOTER STRIP STYLES {CORRESPOND TO "01-variables-general-site-layout"}
@@ -465,16 +465,16 @@ div.body-content h4 {
   background-color: transparent;
 }
 div.body-content h1 {
-  font-size: 1.6em;
+  font-size: 1.71428571em;
 }
 div.body-content h2 {
-  font-size: 1.46666667em;
+  font-size: 1.57142857em;
 }
 div.body-content h3 {
-  font-size: 1.33333333em;
+  font-size: 1.42857143em;
 }
 div.body-content h4 {
-  font-size: 1.2em;
+  font-size: 1.28571429em;
 }
 /*------------------------BODY CONTENT PARAGRAPH------------------------*/
 div.body-content {
@@ -483,7 +483,7 @@ div.body-content {
   color: #cccccc;
   font-family: "Open Sans", sans-serif;
   font-style: normal;
-  font-size: 1.5em;
+  font-size: 1.4em;
   font-weight: 400;
   text-align: left;
 }
@@ -530,7 +530,7 @@ div.body-content input.button,
 div.input-file-wrapper,
 input[type=submit],
 div.body-content input[type=submit] {
-  /*width: @general-button-width;*/
+  max-width: 400px;
   min-width: 200px;
   background-color: #000000;
   /*@general-button-background-image no-repeat @general-button-background-position;*/
@@ -550,9 +550,9 @@ div.body-content input[type=submit] {
   font-family: FuturaBook, Arial;
   font-weight: 400;
   cursor: pointer;
-  float: left;
-  width: auto;
-  clear: both;
+  /*float: left;
+	width: auto;
+	clear: both;*/
   display: block;
   padding: 0;
   box-sizing: border-box;
@@ -606,8 +606,8 @@ div.body-content select {
   background-color: #f5f5f5;
   background-image: linear-gradient(to bottom, #ffffff, #e6e6e6);
   font-family: Arial, Helvetica, sans-serif;
-  clear: both;
-  float: left;
+  /*clear: both;
+	float: left;*/
   margin-top: 10px;
 }
 div.body-content select option {
@@ -651,7 +651,7 @@ div.body-content .uneditable-input {
   margin-bottom: 5px;
   width: 100%;
   padding: 2px 0px;
-  float: left;
+  /*float: @general-input-float;*/
   text-indent: 8px;
   box-sizing: border-box;
   background-color: #ffffff;
@@ -726,7 +726,7 @@ div.body-content label {
   /*body-content-form-label*/
   font-style: normal;
   color: #cccccc;
-  float: left;
+  /*float: @body-content-form-label-float;*/
   font-weight: 400;
   line-height: 100%;
   font-family: "Open Sans", sans-serif;
@@ -818,7 +818,7 @@ div.body-content table th {
   border-radius: 0px;
   -moz-border-radius: 0px;
   -webkit-border-radius: 0px;
-  font-size: 0.93333333em;
+  font-size: 1em;
 }
 div.body-content table td {
   color: #cccccc;
@@ -866,7 +866,7 @@ div.body-content blockquote {
   font-style: italic;
   font-weight: 600;
   color: inherit;
-  font-size: 1.13333333em;
+  font-size: 1.21428571em;
   margin: 1.5em 0;
   padding: 0;
   border-left-width: 0;
@@ -910,7 +910,7 @@ div.body-content hr {
   margin-top: 1em;
   margin-bottom: 1em;
   line-height: 150%;
-  font-size: 1.5em;
+  font-size: 1.4em;
 }
 .no-follow {
   color: #cccccc;
@@ -951,9 +951,10 @@ div.body-content hr {
 }
 .star,
 .asterisk,
-div.body-content .asterisk {
+div.body-content .asterisk,
+span.form-required {
   /*asterisk*/
-  color: #08733a;
+  color: #f26c55;
   font-size: 25px;
   font-weight: 400;
   line-height: 25px;
@@ -1732,7 +1733,7 @@ ul.autocompleter-choices {
   border-color: #cccccc;
   border-width: 2px;
   border-style: solid;
-  font-size: 1.5em;
+  font-size: 1.4em;
   -moz-border-radius-bottomleft: 5px;
   -webkit-border-bottom-left-radius: 5px;
   border-bottom-left-radius: 5px;
@@ -1871,6 +1872,7 @@ div.messages {
   font-size: 1em;
   text-align: justify;
   font-weight: 400;
+  text-align: left;
 }
 div.messages p,
 div.messages ul li {
@@ -1912,6 +1914,83 @@ div.tip-wrap {
   font-size: 13px;
   font-family: Arial, Helvetica, sans-serif;
   line-height: 18px;
+}
+.box-arrow {
+  padding: 15px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+.box-arrow:before,
+.box-arrow:after {
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+.box-arrow:after {
+  border-color: transparent;
+  border-width: 12px;
+}
+.box-arrow:before {
+  border-color: transparent;
+  border-width: 13px;
+}
+/*--------------------------Up----------------------------*/
+.box-arrow.up:before,
+.box-arrow.up:after {
+  bottom: 100%;
+  left: 20px;
+}
+.box-arrow.up:after {
+  border-bottom-color: #fff;
+}
+.box-arrow.up:before {
+  border-bottom-color: inherit;
+  margin-left: -1px;
+}
+/*-------------------------Down---------------------------*/
+.box-arrow.down:before,
+.box-arrow.down:after {
+  top: 100%;
+  left: 20px;
+}
+.box-arrow.down:after {
+  border-top-color: #fff;
+}
+.box-arrow.down:before {
+  border-top-color: inherit;
+  margin-left: -1px;
+}
+/*-------------------------Left---------------------------*/
+.box-arrow.left:before,
+.box-arrow.left:after {
+  right: 100%;
+  top: 20px;
+}
+.box-arrow.left:after {
+  border-right-color: #fff;
+}
+.box-arrow.left:before {
+  border-right-color: inherit;
+  margin-top: -1px;
+}
+/*-------------------------Right--------------------------*/
+.box-arrow.right:before,
+.box-arrow.right:after {
+  left: 100%;
+  top: 20px;
+}
+.box-arrow.right:after {
+  border-left-color: #fff;
+}
+.box-arrow.right:before {
+  border-left-color: inherit;
+  margin-top: -1px;
 }
 @media (max-width: 979px) {
   div.navbar-outer {
@@ -2282,33 +2361,27 @@ div.form-wrapper .form-item > label {
 .form-radios + .description {
   margin-top: 10px;
 }
-.form-item,
-div.form-wrapper,
-div.form-managed-file,
-div.input-file-wrapper,
-div.form-textarea-wrapper,
-.form-wrapper div.description,
-div.field-group-div,
-.form-item.form-type-radio,
-.form-item.form-type-radios > label,
-.form-item.form-type-radios > .form-radios {
-  clear: both;
-  float: left;
-}
 div.form-managed-file {
   margin-top: 10px;
 }
-/*div.field-type-multifield {
-	background-color: #fff;
-	padding: 20px;
-	border-radius: 20px;
-	border-width: 0;
-}*/
+div.body-content div.image-widget-data {
+  float: none;
+  clear: both;
+}
+div.body-content table.field-multiple-table,
+div.body-content input.field-add-more-submit {
+  max-width: 400px;
+  display: block;
+}
 div.body-content table.field-multiple-table,
 div.body-content table.field-multiple-table tr,
 div.body-content table.field-multiple-table td {
   border-width: 0;
   padding: 0;
+}
+div.body-content table.field-multiple-table th:last-child,
+div.body-content table.field-multiple-table tr td.delta-order {
+  display: none;
 }
 div.body-content table.field-multiple-table td.field-multiple-drag {
   display: none;
@@ -2397,7 +2470,28 @@ div#header {
 }
 #main-content-strip div.container-2 {
   background: #450b14 url("../images/content_bg.jpg") no-repeat center top;
-  /*background: #eee;*/
+}
+a.user-link {
+  float: right;
+  display: block;
+  font-family: FuturaBook, Arial;
+  color: #f26c55;
+  font-size: 1.4em;
+  padding: 14px 10px 9px;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+a.user-link.active,
+a.user-link:hover {
+  background-color: #f26c55;
+  color: #330B13;
+  cursor: pointer;
+  text-decoration: none;
+}
+div.sidebar {
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
 }
 @media (max-width: 979px) {
   div#top-bar {
@@ -2406,10 +2500,8 @@ div#header {
   .navbar a.btn.btn-navbar {
     margin-top: -54px;
   }
-  div.logo-container {
-    left: inherit;
-    right: 0;
-    width: 32%;
-    height: auto;
+  a.user-link {
+    float: left;
+    margin-left: 80px;
   }
 }

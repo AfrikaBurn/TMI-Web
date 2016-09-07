@@ -43,6 +43,7 @@
 ?><!DOCTYPE HTML>
 <html>
 <head profile="<?php print $grddl_profile; ?>">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
   <?php print $head; ?>
   <title><?php print $head_title; ?></title>
   <?php print $styles; ?>
@@ -56,24 +57,11 @@
 <body class="<?php print $classes; ?>" <?php print $attributes;?>>
     <div id="wrapper">
         <?php print $page_top; ?>
-        
         <?php print $page; ?>
-        <section id="social-icons">
-            <div class='container-2'>
-                <?php print render($page['social']); ?>
-            </div>
-        </section>
-        <section id="footer">
-            <div class='container-2'>
-                <div class='container-1'>
-                    <?php print render($page['footer']); ?>
-                </div>
-            </div>
-        </section>
         <?php print $page_bottom; ?>
         <a class="back-to-top-button"href="#"><span></span></a>
     </div>
     
-    <script type="text/javascript" src="<?php print base_path() . path_to_theme(); ?>/assets/js/mobile-drop-down-menu.js"></script>
+    
 </body>
 </html>

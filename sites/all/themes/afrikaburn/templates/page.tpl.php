@@ -73,10 +73,20 @@
                       <a href="/">
                           <img src="<?php print base_path() . path_to_theme(); ?>/assets/images/date-badge-2017.png" />
                       </a>
-                  </div>
+                </div>
+                <?php
+                   if (!$logged_in) {
+                       echo "<a class='user-link' href='user/login'>Login</a>";
+                   } else {
+                       echo "<a class='user-link logout' href='/user/logout'>Logout</a>";
+                   }
+               ?>
+            </div>
             </div>
         </div>
     </div>
+
+
     <div class="container-3 show-below-979px" id="mobile-menu-bar">
         <div class="container-2">
             <div class="container-1">
@@ -168,32 +178,40 @@
     <section id="main-content-strip" class="container-3">
         <div class='container-2'>
             <div class='container-1'>
-        		
                     <?php print render($title_prefix); ?>
                 	<?php if ($title): ?><h1><?php print $title; ?></h1><?php endif; ?>
                 	<?php print render($title_suffix); ?>
                     <div class="body-content">
                         <?php print $messages; ?>
                         <div class='main-block'>
-                		<?php if ($tabs): ?><div class="tabs"><?php print render($tabs); ?></div><?php endif; ?>
-                        <?php print render($page['help']); ?>
-                        <?php if ($action_links): ?><ul class="action-links"><?php print render($action_links); ?></ul><?php endif; ?>
-                        <?php print render($page['content']); ?>           
-                        <?php print $feed_icons; ?>
-                    </div>
-
-                </div>
-
-                <div class="sidebar-outer">
-                    <div class="sidebar-inner">
-                        <?php print render($page['sidebar']); ?>
-                    </div>
-                </div>
-                <div class='clr'></div>
+                    		<?php if ($tabs): ?><div class="tabs"><?php print render($tabs); ?></div><?php endif; ?>
+                            <?php print render($page['help']); ?>
+                            <?php if ($action_links): ?><ul class="action-links"><?php print render($action_links); ?></ul><?php endif; ?>
+                            <?php print render($page['content']); ?>           
+                            <?php print $feed_icons; ?>
+                        </div>
+                        <div class="sidebar-outer">
+                            <div class="sidebar">
+                                <?php print render($page['sidebar']); ?>
+                            </div>
+                        </div>
+                        <div class='clr'></div>
+                 </div>
             </div>
         </div>
     </section>
-    
+    <section id="social-icons">
+            <div class='container-2'>
+                <?php print render($page['social']); ?>
+            </div>
+        </section>
+        <section id="footer">
+            <div class='container-2'>
+                <div class='container-1'>
+                    <?php print render($page['footer']); ?>
+                </div>
+            </div>
+        </section>
     
 
     

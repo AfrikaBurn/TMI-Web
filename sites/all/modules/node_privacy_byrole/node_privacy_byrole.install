@@ -1,0 +1,94 @@
+<?php
+
+/**
+ * @file
+ * Install information for Node Privacy By Role.
+ */
+
+/**
+ * Implements hook_schema().
+ *
+ * @return array
+ */
+function node_privacy_byrole_schema() {
+  return array(
+    'node_privacy_byrole' => array(
+      'fields' => array(
+        'nid' => array(
+          'type' => 'int',
+          'unsigned' => TRUE,
+          'not null' => TRUE,
+          'default' => 0,
+          'disp-width' => 10,
+        ),
+        'gid' => array(
+          'type' => 'int',
+          'unsigned' => TRUE,
+          'not null' => TRUE,
+          'default' => 0,
+          'disp-width' => 10,
+        ),
+        'realm' => array(
+          'type' => 'varchar',
+          'length' => '255',
+          'not null' => TRUE,
+          'default' => '',
+        ),
+        'grant_view' => array(
+          'type' => 'int',
+          'unsigned' => TRUE,
+          'size' => 'tiny',
+          'not null' => TRUE,
+          'default' => 0,
+          'disp-width' => '3',
+        ),
+        'grant_update' => array(
+          'type' => 'int',
+          'unsigned' => TRUE,
+          'size' => 'tiny',
+          'not null' => TRUE,
+          'default' => 0,
+          'disp-width' => '3',
+        ),
+        'grant_delete' => array(
+          'type' => 'int',
+          'unsigned' => TRUE,
+          'size' => 'tiny',
+          'not null' => TRUE,
+          'default' => 0,
+          'disp-width' => '3',
+        ),
+      ),
+      'primary key' => array('nid', 'gid', 'realm'),
+    ),
+  );
+  return $schema;
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function node_privacy_byrole_uninstall() {
+  // Delete npbr variables holding defaults for content types.
+  $num_deleted = db_delete('variable')
+    ->condition('name', 'npbr_default_%', 'LIKE')
+    ->execute();
+  watchdog('update', '@num_deleted node privacy byrole default variables deleted.', array('@num_deleted' => $num_deleted), WATCHDOG_DEBUG);
+  variable_del('npbr_default_permissions');
+  drupal_set_message(t('TIP: If all your nodes say access denied, it may be necessary to !rebuild.', array('!rebuild' => l(t('rebuild permissions'), 'admin/content/node-settings'))));
+}
+
+/**
+ * Implements hook_enable().
+ */
+function node_privacy_byrole_enable() {
+  node_access_needs_rebuild();
+}
+
+/**
+ * Implements hook_disable().
+ */
+function node_privacy_byrole_disable() {
+  node_privacy_byrole_disabling(TRUE);
+  node_access_needs_rebuild();
+}

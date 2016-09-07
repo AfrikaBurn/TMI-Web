@@ -62,6 +62,21 @@ $(document).ready(function() {
 	$(function() {
 	  //setInterval("rotateImages()", 4000);
 	});
+	
+	$("a.login-box-toggler").attr("href","javascript: void(0)").click(function(e) {
+		$(".login-box").toggleClass("show-login");
+		$(this).toggleClass("active");
+		e.stopPropagation();
+	});
+
+	$(document).click(function(e) {
+	    $(".login-box").removeClass("show-login");
+	    $(this).removeClass("active");
+	});
+
+	$(".login-box").click(function(e) {
+	    e.stopPropagation();
+	});
 });
 
 

@@ -18,6 +18,7 @@ scripts[] = assets/js/theme.js
 ; Regions
 regions[featured] = Featured
 regions[content] = Content
+regions[login_box] = Login Box
 regions[sidebar] = Sidebar
 regions[social] = Social Icons
 regions[footer] = Footer
