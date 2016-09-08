@@ -1,0 +1,147 @@
+/* 
+Tried to sort these so not a 100% logical
+
+Also fully admit I need to look more in to you design flow :/ so hopefully this is a help
+
+
+THE TEAM 
+Your Crew Members and their Roles
+*/
+.field-name-field-role, .field-name-field-first-name, .field-name-field-last-name, .field-name-field-email-address, .field-name-field-phone-number {
+  max-width: 25%;
+  float: left;
+}
+.field-name-field-crew-members {
+  max-width: 100%
+}
+
+table#field-crew-members-values {
+    max-width: 100%;
+}
+
+table#field-crew-members-values {
+    max-width: 100%;
+}
+
+.field-name-field-crew-members .field-name-field-role, 
+.field-name-field-crew-members .field-name-field-first-name, 
+.field-name-field-crew-members .field-name-field-last-name, 
+.field-name-field-crew-members .field-name-field-email-address, 
+.field-name-field-crew-members .field-name-field-phone-number {
+  max-width: 17%;
+}
+
+
+/*
+the "Remove" buttons - form wide (because I was not that wise)
+
+... was have a problem with class inherited names :/ 
+*/
+
+
+#field-crew-members-values .form-actions input, 
+#edit-field-year-and-name-of-prev .form-actions input, 
+input#edit-field-associated-projects-und-0-actions-remove-button
+{
+  width: 100%;
+  min-width: 10px;
+  padding: 0 0px;
+  text-indent: 0px;
+}
+
+#field-crew-members-values .form-actions,
+#edit-field-year-and-name-of-prev .form-actions,
+.field-name-field-associated-projects .form-actions 
+{
+  max-width: 83px;
+  float: left;
+}
+
+.field-name-field-crew-members .form-actions {
+  width: 83px;
+  float: left;
+}
+
+
+
+
+
+/* 
+Year and name of previous projects
+*/
+.field-name-field-year-and-name-of-prev table {
+  max-width: 100%;
+  width: 100%;
+}
+.field-name-field-previous-project {
+  float: left;
+  width: 375px;
+  padding: 3px;
+}
+.field-name-field-year-and-event-name {
+  width: 147px;
+  float: left;
+}
+.field-name-field-year-and-event-name .form-select {
+  width: 100px;
+}
+
+
+
+/*
+THE STRUCTURE - Dimensions
+*/
+
+.field-name-field-height, .field-name-field-width, .field-name-field-depth, .field-name-field-approx-weight {
+  width: 23%;
+  Float: left;
+  padding: 1%;
+}
+.field-name-field-approx-weight label {
+  height: 25px;
+}
+
+
+
+
+
+/*
+Integer / number inputs
+Site wide, but see under Moop
+*/
+
+.field-type-number-integer input {
+  max-width: 100px;
+}
+
+
+
+/*
+
+Is your piece associated with any other projects at AfrikaBurn?
+
+*/
+.field-name-field-associated-projects table {
+  max-width: 100%;
+}
+.field-name-field-theme-camp {
+  width: 26%;
+  float: left;
+}
+.field-name-field-how-is-it-related- {
+    width: 60%;
+    float: left;
+}
+
+
+/*
+ Trying to make the lables stand out on the form ... it gets a bit confusing 
+ as we mix paragraphs extra, but I am sure this could be done better.
+ */
+div.form-wrapper .form-item > label {
+	margin: 0;
+	font-weight: 600;
+}
+.field-type-multifield span.fieldset-legend {
+    font-weight: 600;
+}
