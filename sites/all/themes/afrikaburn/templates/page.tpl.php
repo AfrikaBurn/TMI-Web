@@ -65,6 +65,44 @@
  * @see template_preprocess_page()
  * @see template_process()
  */
+    function afrikaburn_css_alter(&$css) {
+        // Remove defaults.css file.
+        //unset($css['misc/ui/jquery.ui.core.css']);
+        //unset($css['misc/ui/jquery.ui.core.css']);
+        //unset($css['misc/ui/jquery.ui.theme.css']);
+        //unset($css['misc/ui/jquery.ui.datepicker.css']);
+
+        unset($css['modules/system/system.base.css']);
+        unset($css['modules/system/system.menus.css']);
+        unset($css['modules/system/system.messages.css']);
+        unset($css['modules/system/system.theme.css']);
+        
+        unset($css['modules/overlay/overlay-parent.css']);
+        unset($css['modules/comment/comment.css']);
+        unset($css['modules/field/theme/field.css']);
+        unset($css['modules/node/node.css']);
+        unset($css['modules/search/search.css']);
+        unset($css['modules/user/user.css']);
+        unset($css['modules/shortcut/shortcut.css']);
+        unset($css['modules/toolbar/toolbar.css']);
+        unset($css['modules/poll/poll.css']);
+        unset($css['modules/forum/forum.css']);
+        unset($css['modules/file/file.css']);
+        unset($css['modules/image/image.css']);
+
+        unset($css['sites/all/modules/ctools/css/ctools.css']);
+        unset($css['sites/all/modules/panels/css/panels.css']);
+        unset($css['sites/all/modules/toolbar_hide/toolbar_hide.css']);
+        unset($css['sites/all/modules/date/date_api/date.css']); 
+        unset($css['sites/all/modules/date/date_popup/themes/datepicker.1.7.css']);
+        unset($css['sites/all/modules/date/date_repeat_field/date_repeat_field.css']);
+        unset($css['sites/all/modules/livethemer/css/livethemer.css']);
+        unset($css['sites/all/modules/logintoboggan/logintoboggan.css']);
+        unset($css['sites/all/modules/views/css/views.css']);
+        unset($css['sites/all/modules/date/date_popup/themes/jquery.timeentry.css']);
+        unset($css['sites/all/modules/ckeditor/css/ckeditor.css']);
+        unset($css['sites/all/modules/field_group/field_group.field_ui.css']);
+    }
 ?>
     <div id="top-bar">
         <div class="container-2">
@@ -76,17 +114,23 @@
                 </div>
                 <?php
                    if (!$logged_in) {
-                       echo "<a class='user-link' href='user/login'>Login</a>";
+                       echo "<a class='user-link' href='/user/login'>Login</a>";
                    } else {
                        echo "<a class='user-link logout' href='/user/logout'>Logout</a>";
                    }
                ?>
+               <div class='social-media-links'>
+                   <div class='sm-link twitter'>
+                       <a href='https://www.twitter.com/afrikaburn' title='Afrikaburn on Twitter' target='_blank'></a>
+                   </div>
+                   <div class='sm-link facebook'>
+                       <a href='https://www.facebook.com/afrikaburn' title='Afrikaburn on Facebook' target='_blank'></a>
+                   </div>
+               </div>
             </div>
             </div>
         </div>
     </div>
-
-
     <div class="container-3 show-below-979px" id="mobile-menu-bar">
         <div class="container-2">
             <div class="container-1">
@@ -100,9 +144,7 @@
                               <span class="icon-bar"></span>
                               </a>
                               <div class="nav-collapse collapse" id="main-nav">
-                                <?php if($main_menu): ?>
-                                    <?php print theme('links__system_main_menu', array('links' => $main_menu, 'attributes' => array('class' => array('menu', 'links', 'inline', 'clearfix')))); ?>
-                                <?php endif; ?>
+                                <?php print render($page['main-menu']); ?>
                             </div>
                         </div>
                       </div>
@@ -162,9 +204,7 @@
                       <div class="navbar-inner">
                           <div class="container-fluid">
                               <div class="nav-collapse collapse" id="main-nav">
-                                <?php if($main_menu): ?>
-                                    <?php print theme('links__system_main_menu', array('links' => $main_menu, 'attributes' => array('class' => array('menu', 'links', 'inline', 'clearfix')))); ?>
-                                <?php endif; ?>
+                                <?php print render($page['main-menu']); ?>
                             </div>
                         </div>
                       </div>
@@ -174,7 +214,6 @@
             </div>
         </div>
     </div>
-    
     <section id="main-content-strip" class="container-3">
         <div class='container-2'>
             <div class='container-1'>
@@ -200,43 +239,44 @@
             </div>
         </div>
     </section>
-    <section id="social-icons">
-            <div class='container-2'>
-                <?php print render($page['social']); ?>
-            </div>
-        </section>
-        <section id="footer">
-            <div class='container-2'>
-                <div class='container-1'>
-                    <h2>Volunteer now!</h2>
-                    <div class='body-content'>
-
-                        <div class="blocks-container footer three-column">
-                            <div class='block-outer'>
-                                <div class='block-inner'>
-                                <?php print render($page['footer_left']); ?>
-                                </div>
-                            </div>
-                                 <div class='block-outer'>
-                                    <div class='block-inner'>
-                                <?php print render($page['footer_centre']); ?>
-                                </div>
-                            </div>
-                                 <div class='block-outer'>
-                                    <div class='block-inner'>
-                                    <div class="fb-page" data-href="https://www.facebook.com/afrikaburn/" data-tabs="timeline" data-height="322" data-small-header="true" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="false"><blockquote cite="https://www.facebook.com/afrikaburn/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/afrikaburn/">AfrikaBurn</a></blockquote></div>                                </div>
+   <?php /*
+   <section id="social-icons">
+        <div class='container-2'>
+            <?php print render($page['social']); ?>
+        </div>
+    </section> 
+    */ ?>
+    <section id="footer">
+        <div class='container-2'>
+            <div class='container-1'>
+                <h2>Volunteer now!</h2>
+                <div class='body-content'>
+                    <div class="blocks-container footer three-column">
+                        <div class='block-outer'>
+                            <div class='block-inner'>
+                            <?php print render($page['footer_left']); ?>
                             </div>
                         </div>
-                        <div class='clr'></div>
+                             <div class='block-outer'>
+                                <div class='block-inner'>
+                            <?php print render($page['footer_centre']); ?>
+                            </div>
+                        </div>
+                             <div class='block-outer'>
+                                <div class='block-inner'>
+                                <div class="fb-page" data-href="https://www.facebook.com/afrikaburn/" data-tabs="timeline" data-height="322" data-small-header="true" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="false"><blockquote cite="https://www.facebook.com/afrikaburn/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/afrikaburn/">AfrikaBurn</a></blockquote></div>                                </div>
+                        </div>
                     </div>
+                    <div class='clr'></div>
                 </div>
             </div>
-        </section>
-        <section id="copyright">
-            <div class="copyright-inner">
-                <?php print render($page['copyright']); ?>
-            </div>
-        </section>
-    
+        </div>
+    </section>
+    <section id="copyright">
+        <div class="copyright-inner">
+            <?php print render($page['copyright']); ?>
+        </div>
+    </section>
+
 
     

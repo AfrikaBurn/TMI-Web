@@ -14,11 +14,10 @@ function select_or_other_field_widget_info() {
     'number_integer',
     'number_decimal',
     'number_float',
+    'taxonomy_term_reference',
   );
   $settings = array(
     'available_options' => '',
-    'available_options_php' => '',
-    'markup_available_options_php' => t('&lt;none&gt;'),
     'other' => t('Other'),
     'other_title' => '',
     'other_unknown_defaults' => 'other',
@@ -61,7 +60,7 @@ function select_or_other_field_widget_info() {
 /**
  * Prepare a single option.
  */
-function select_or_other_field_widget_form_prepare_option(&$options, $key, $opt, $settings) {
+function select_or_other_field_widget_form_prepare_option(&$options, $key, $opt) {
   $opt = trim($opt);
   if (empty($opt)) {
     return;
@@ -69,55 +68,65 @@ function select_or_other_field_widget_form_prepare_option(&$options, $key, $opt,
   // Sanitize the user input with a permissive filter.
   $opt = filter_xss($opt);
   // If option has a key specified
-  if (strpos($opt, '|') !== FALSE && empty($settings['available_options_php'])) {
+  if (strpos($opt, '|') !== FALSE) {
     list($key, $value) = explode('|', $opt);
     $options[$key] = (isset($value) && $value !== '') ? html_entity_decode($value) : $key;
   }
-  // If options from PHP
-  elseif (!empty($settings['available_options_php'])) {
-    $options[$key] = html_entity_decode($opt);
-  }
-  // If option has no key specified and is not from PHP
+  // If option has no key specified
   else {
     $options[$opt] = html_entity_decode($opt);
   }
 }
 
-/***
-  * Get Options from settings
-  * in a separate scope for assurance using 'available_options_php'
-  * @returns array
-  ***/
-function _select_or_other_field_widget_get_available_options($select_or_other_field_widget_settings) {
-    // Create options - similar to code from content_allowed_values().
-  if (!empty($select_or_other_field_widget_settings['available_options_php'])) {
-    ob_start();
-    $select_or_other_field_widget_list = eval($select_or_other_field_widget_settings['available_options_php']);
-    ob_end_clean();
-  } else {
-    $select_or_other_field_widget_list =  explode("\n", $select_or_other_field_widget_settings['available_options']);
+/**
+ * Helper function to get a list of options from the settings.
+ * @param $instance
+ *  Instance settings array.
+ * @param $field
+ *  Field info array.
+ * @return array
+ *  Available options.
+ */
+function _select_or_other_field_widget_get_available_options($instance, $field) {
+  $options = array();
+
+  if ($field['type'] == 'taxonomy_term_reference') {
+    if (module_exists('i18n_taxonomy')) {
+      $options_list = i18n_taxonomy_allowed_values($field);
+    }
+    else {
+      $options_list = taxonomy_allowed_values($field);
+    }
+    foreach ($options_list as $key => $val) {
+      // $select_or_other_field_widget_list[] = "{$key}|{$val}";
+      $options[] = $val;
+    }
   }
-  return $select_or_other_field_widget_list;
+  else {
+    $options = _select_or_other_invoke_available_options($instance);
+    $options = array_merge($options, explode("\n", $instance['widget']['settings']['available_options']));
+  }
+  return $options;
 }
+
 /**
  * Prepare options for the widget list.
  */
 function select_or_other_field_widget_form_prepare_options($field, $instance, $has_value = FALSE) {
   $options = array();
 
-  $settings = &$instance['widget']['settings'];
-  $list = _select_or_other_field_widget_get_available_options($settings);
+  $list = _select_or_other_field_widget_get_available_options($instance, $field);
 
   foreach ($list as $key => $opt) {
     if (is_array($opt)) {
       $optgroup_options = array();
       foreach ($opt as $optgroup_key => $optgroup_opt) {
-        select_or_other_field_widget_form_prepare_option($optgroup_options, $optgroup_key, $optgroup_opt, $settings);
+        select_or_other_field_widget_form_prepare_option($optgroup_options, $optgroup_key, $optgroup_opt);
         $options[$key] = $optgroup_options;
       }
     }
     else {
-      select_or_other_field_widget_form_prepare_option($options, $key, $opt, $settings);
+      select_or_other_field_widget_form_prepare_option($options, $key, $opt);
     }
   }
 
@@ -152,16 +161,38 @@ function select_or_other_field_widget_form_prepare_options($field, $instance, $h
 }
 
 /**
+ * Helper function to get the default taxonomy value.
+ */
+function select_or_other_taxonomy_default_value($items, $delta) {
+  // @todo this code seems odd. why perform the same check twice.
+  if (!empty($items[$delta]['tid'])) {
+    $term = taxonomy_term_load_multiple(array($items[$delta]['tid']));
+    $default_value = $items[$delta]['tid'] !== 'autocreate' ? $term[$items[$delta]['tid']]->name : NULL;
+  }
+  else {
+    $default_value = NULL;
+  }
+  return $default_value;
+}
+
+/**
  * Implements hook_field_widget_form().
  */
 function select_or_other_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
+  if ($field['type'] == 'taxonomy_term_reference') {
+    $default_value = select_or_other_taxonomy_default_value($items, $delta);
+  }
+  else {
+    $default_value = isset($items[$delta]['value']) ? $items[$delta]['value'] : NULL;
+  }
+
   // Construct the element.
   $element = $element + array(
     '#type' => 'select_or_other',
     '#other' => isset($instance['widget']['settings']['other']) ? $instance['widget']['settings']['other'] : t('Other'),
     '#other_title' => !empty($instance['widget']['settings']['other_title']) ? $instance['widget']['settings']['other_title'] : NULL,
     '#other_size' => $instance['widget']['settings']['other_size'],
-    '#default_value' => isset($items[$delta]['value']) ? $items[$delta]['value'] : NULL,
+    '#default_value' => $default_value,
     '#options' => select_or_other_field_widget_form_prepare_options($field, $instance, !empty($items[$delta])),
     '#description' => isset($instance['description']) ? $instance['description'] : '',
     '#multiple' => $field['cardinality'] == 1 ? FALSE : $field['cardinality'],
@@ -197,11 +228,38 @@ function select_or_other_field_widget_form(&$form, &$form_state, $field, $instan
   if ($element['#multiple']) {
     $element['#default_value'] = array();
     foreach ($items as $delta => $item) {
-      $element['#default_value'][$delta] = $item['value'];
+      if ($field['type'] == 'taxonomy_term_reference') {
+        $element['#default_value'][$delta] = select_or_other_taxonomy_default_value($items, $delta);
+      }
+      else {
+        $element['#default_value'][$delta] = $item['value'];
+      }
     }
   }
 
   return $element;
+}
+
+/**
+ * Helper function which invokes hook_select_or_other_available_options.
+ *
+ * @param $instance
+ *  Field instance array.
+ * @return array
+ *  Available options.
+ */
+function _select_or_other_invoke_available_options($instance){
+  $entity_type = $instance['entity_type'];
+  $bundle = $instance['bundle'];
+  $field_name = $instance['field_name'];
+
+  $available_options = module_invoke_all('select_or_other_available_options', $entity_type, $bundle, $field_name);
+  foreach ($available_options as $key => $value) {
+    if (!strpos($value, '|')) {
+      $available_options[$key] = "{$value}|{$value}";
+    }
+  }
+  return $available_options;
 }
 
 /**
@@ -211,35 +269,22 @@ function select_or_other_field_widget_settings_form($field, $instance) {
   $form = array();
 
   $settings = &$instance['widget']['settings'];
+  $provided_available_options = _select_or_other_invoke_available_options($instance);
 
-  $form['available_options'] = array(
-    '#type' => 'textarea',
-    '#title' => t('Available options'),
-    '#description' => t('A list of values that are, by default, available for selection. Enter one value per line, in the format key|label. The key is the value that will be stored in the database, and the label is what will be displayed to the user.'),
-    '#default_value' => isset($settings['available_options']) ? $settings['available_options'] : '',
-    '#element_validate' => array('select_or_other_field_widget_settings_validate'),
-  );
-
-  if (user_access('use PHP for settings')) {
-    $form['available_options_php'] = array(
+  if ($field['type'] != 'taxonomy_term_reference') {
+    $form['available_options'] = array(
       '#type' => 'textarea',
-      '#title' => t('Available options PHP'),
-      '#default_value' => !empty($settings['available_options_php']) ? $settings['available_options_php'] : '',
-      '#rows' => 6,
-      '#description' => t('Advanced usage only: PHP code that returns a keyed array of available options. Should not include &lt;?php ?&gt; delimiters. If this field is filled out, the array returned by this code will override the available options list above.'),
+      '#title' => t('Available options'),
+      '#description' => t('A list of values that are, by default, available for selection. Enter one value per line, in the format key|label. The key is the value that will be stored in the database, and the label is what will be displayed to the user.'),
+      '#default_value' => isset($settings['available_options']) ? $settings['available_options'] : '',
     );
-  }
-  else {
-    $form['available_options_php'] = array(
-      '#type' => 'value',
-      '#value' => !empty($settings['available_options_php']) ? $settings['available_options_php'] : '',
-    );
-    if (!empty($settings['available_options_php'])) {
-      $form['markup_available_options_php'] = array(
-        '#type' => 'item',
-        '#title' => t('Available options PHP'),
-        '#value' => '<code>' . check_plain($settings['available_options_php']) . '</code>',
-        '#description' => empty($settings['available_options_php']) ? t("You're not allowed to input PHP code.") : t('This PHP code was set by an administrator and will override the allowed values list above.'),
+    if($provided_available_options){
+      $form['provided_available_options'] = array(
+        '#type' => 'textarea',
+        '#disabled' => TRUE,
+        '#title' => t('Module provided Available options'),
+        '#description' => t('A list of values that are, by default, available for selection. These are provided by a module and not editable. Displayed in format key|label. The key is the value that will be stored in the database, and the label is what will be displayed to the user.'),
+        '#value' => implode("\r\n", $provided_available_options),
       );
     }
   }
@@ -256,19 +301,23 @@ function select_or_other_field_widget_settings_form($field, $instance) {
     '#description' => t('Label for the field in which the user will supply an <em>other</em> value.'),
     '#default_value' => isset($settings['other_title']) ? $settings['other_title'] : '',
   );
-  $form['other_unknown_defaults'] = array(
-    '#type' => 'select',
-    '#title' => t('<em>Other</em> value as default value'),
-    '#description' => t("If any incoming default values do not appear in <em>available options</em> (i.e. set as <em>other</em> values), what should happen?"),
-    '#options' => array(
-      'other' => t('Add the values to the other textfield'),
-      'append' => t('Append the values to the current list'),
-      'available' => t('Append the values to the available options'),
-      'ignore' => t('Ignore the values'),
-    ),
-    '#default_value' => isset($settings['other_unknown_defaults']) ? $settings['other_unknown_defaults'] : 'other',
-    '#required' => TRUE,
-  );
+
+  if ($field['type'] != 'taxonomy_term_reference') {
+    $form['other_unknown_defaults'] = array(
+      '#type' => 'select',
+      '#title' => t('<em>Other</em> value as default value'),
+      '#description' => t("If any incoming default values do not appear in <em>available options</em> (i.e. set as <em>other</em> values), what should happen?"),
+      '#options' => array(
+        'other' => t('Add the values to the other textfield'),
+        'append' => t('Append the values to the current list'),
+        'available' => t('Append the values to the available options'),
+        'ignore' => t('Ignore the values'),
+      ),
+      '#default_value' => isset($settings['other_unknown_defaults']) ? $settings['other_unknown_defaults'] : 'other',
+      '#required' => TRUE,
+    );
+  }
+
   $form['other_size'] = array(
     '#type' => 'textfield',
     '#title' => t('<em>Other</em> field size'),
@@ -294,18 +343,7 @@ function select_or_other_field_widget_settings_form($field, $instance) {
     '#size' => 5,
   );
   */
-  $form['#validate'][] = 'select_or_other_field_widget_settings_validate';
   return $form;
-}
-
-/**
- * Validate callback for a Select (or other) field widget settings form.
- */
-function select_or_other_field_widget_settings_validate($element, &$form_state, $form) {
-  $settings = &$form_state['values']['instance']['widget']['settings'];
-  if (empty($settings['available_options']) && empty($settings['available_options_php'])) {
-    form_set_error(implode('][', $element['#parents']), t('You must provide <em>Available options</em>.'));
-  }
 }
 
 /**
@@ -324,34 +362,115 @@ function _select_or_other_options_form_to_storage($value) {
 }
 
 /**
+ * Form element validate handler for taxonomy term element.
+ */
+function select_or_other_taxonomy_validate($element, &$form_state) {
+  // Autocomplete widgets do not send their tids in the form, so we must detect
+  // them here and process them independently.
+  $value = array();
+
+  // Get the selected tags and unset the select_or_other option.
+  $tags = drupal_map_assoc((array) $element['select']['#value']);
+  // Get the other value and prepare it for processing.
+  if(isset($tags['select_or_other'])){
+    unset($tags['select_or_other']);
+    $tags += drupal_explode_tags($element['other']['#value']);
+  }
+  // Unset the _none value to prevent PDO exceptions.
+  unset($tags['_none']);
+
+  if ($tags) {
+    // Collect candidate vocabularies.
+    $field = field_widget_field($element, $form_state);
+    $vocabularies = array();
+    foreach ($field['settings']['allowed_values'] as $tree) {
+      if ($vocabulary = taxonomy_vocabulary_machine_name_load($tree['vocabulary'])) {
+        $vocabularies[$vocabulary->vid] = $vocabulary;
+      }
+    }
+
+    // Translate term names into actual terms.
+    foreach ($tags as $tag) {
+      // See if the term exists in the chosen vocabulary and return the tid;
+      // otherwise, create a new 'autocreate' term for insert/update.
+      if ($possibilities = taxonomy_term_load_multiple(array(), array('name' => trim($tag), 'vid' => array_keys($vocabularies)))) {
+        $term = (array) array_pop($possibilities);
+      }
+      else {
+        $vocabulary = reset($vocabularies);
+        $term = array(
+          'tid' => 'autocreate',
+          'vid' => $vocabulary->vid,
+          'name' => $tag,
+          'vocabulary_machine_name' => $vocabulary->machine_name,
+        );
+      }
+      if ($term['tid'] !== 'autocreate'){
+        $value[$term['tid']] = $term;
+      }
+      else {
+        $value[] = $term;
+      }
+    }
+  }
+
+  form_set_value($element, $value, $form_state);
+}
+
+/**
+ * Helper function to retrieve the other value from an element.
+ */
+function _fetch_other_value($element, $return_array = TRUE){
+  $other_value = array();
+
+  if ($element['other']['#value']) {
+    // If the value in the other element was already a valid option, we want to
+    // store that value instead of the one in the other field.
+    foreach ($element['#options'] as $key => $option) {
+      if($element['other']['#value'] === $option){
+        $other_value[$key] = $option;
+        break;
+      }
+    }
+
+    if (!$other_value){
+      $other_value[$element['other']['#value']] = $element['other']['#value'];
+    }
+  }
+
+  if ($return_array){
+    return $other_value;
+  }
+  else{
+    $keys = array_keys($other_value);
+    return array_pop($keys);
+  }
+}
+
+/**
  * Element validate callback for a Select (or other) field widget.
  */
 function select_or_other_field_widget_validate($element, &$form_state) {
-  //$field_name = $element['#parents'][count($element['#parents']) - 2];
   $field_name = $element['#field_name'];
   $field_info = field_info_field($field_name);
 
-  $other_selected = FALSE;
-
-  if (is_array($element['select']['#value']) && isset($element['select']['#value']['select_or_other'])) {
-    // This is a multiselect. assoc arrays
-    $other_selected = TRUE;
-    $value = $element['select']['#value'];
+  $value = $element['select']['#value'];
+  if (is_array($value) && isset($value['select_or_other'])) {
+    // This is a multiselect which uses associated arrays.
     unset($value['select_or_other']);
-    $value[$element['other']['#value']] = $element['other']['#value'];
+    $value  += _fetch_other_value($element);
   }
-  elseif (is_string($element['select']['#value']) && $element['select']['#value'] == 'select_or_other') {
-    // This is a single select.
-    $other_selected = TRUE;
-    $value = $element['other']['#value'];
+  elseif ($value === 'select_or_other') {
+    // This is a single select which uses strings.
+    $other_value = _fetch_other_value($element, FALSE);
+    if (!$other_value) {
+      form_error($element['other'], t('!name: !title is required', array('!name' => t($element['select']['#title']), '!title' => $element['#other'])));
+    }
+    else{}
+      $value = $other_value;
   }
-  else {
-    $value = $element['select']['#value'];
-  }
-  if ($other_selected && !$element['other']['#value']) {
-    form_error($element['other'], t('!name: !title is required', array('!name' => t($element['select']['#title']), '!title' => $element['#other'])));
-  }
-  if (isset($value) && $value !== "") {
+
+  if ($value !== "") {
     if (in_array($element['#field_widget'], array('select_or_other', 'select_or_other_buttons'))) {
       // Filter out 'none' value (if present, will always be in key 0)
       if (isset($items[0]['value']) && $items[0]['value'] === '') {
@@ -375,6 +494,7 @@ function select_or_other_field_widget_validate($element, &$form_state) {
           form_error($element, t('!name field must be a string at most @max characters long.', array('!name' => t($element['select']['#title']), '@max' => $field_info['settings']['max_length'])));
           break;
         }
+
         $values[$delta++]['value'] = $v;
       }
       $value = $values;
@@ -383,7 +503,7 @@ function select_or_other_field_widget_validate($element, &$form_state) {
       $value = array('value' => $value);
     }
 
-    // Align with Drupal core select list, NULL (-None-) value.
+    // @todo Align with Drupal core select list, NULL (-None-) value.
     // http://drupal.org/node/1830090
     $value = _select_or_other_options_form_to_storage($value);
 
@@ -391,7 +511,24 @@ function select_or_other_field_widget_validate($element, &$form_state) {
     $form_state['clicked_button']['#post'][$element['#name']] = $value; // Is this something we should do?
   }
   else {
-    form_set_value($element, array(array('value' => '')), $form_state);
+    if ($field_info['type'] == 'taxonomy_term_reference') {
+      form_set_value($element, array(array('tid' => '')), $form_state);
+    }
+    else {
+      form_set_value($element, array(array('value' => '')), $form_state);
+    }
+  }
+
+  if ($field_info['type'] == 'taxonomy_term_reference' && is_array($value)) {
+    $terms = array();
+    foreach ($value as $val) {
+      if (isset($val['value'])) {
+        $terms[] = $val['value'];
+      }
+    }
+    $element['#value'] = drupal_implode_tags($terms);
+    select_or_other_taxonomy_validate($element, $form_state);
+    return;
   }
 
   // Add values to available options is configured to do so.
@@ -437,7 +574,6 @@ function select_or_other_field_formatter_info() {
  */
 function select_or_other_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   $element = array();
-  $settings = $display['settings'];
   $field_options = array();
 
   if (isset($instance['widget']['settings']['available_options'])) {
@@ -446,6 +582,7 @@ function select_or_other_field_formatter_view($entity_type, $entity, $field, $in
 
     if ($pos !== FALSE) {
       // There are keys.
+      $temp_options = array();
       foreach ($field_options as $field_item) {
         $exploded = explode('|', $field_item);
         $temp_options[$exploded[0]] = $exploded[1];

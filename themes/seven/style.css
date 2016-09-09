@@ -1010,3 +1010,6 @@ div.add-or-remove-shortcuts {
 .conditional-fields-overview select {
   max-width: 100%;
 }
+.conditional-fields-overview td:nth-child(1) {
+    border: 1px solid black;
+}

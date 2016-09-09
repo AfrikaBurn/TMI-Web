@@ -2,14 +2,18 @@
 Tried to sort these so not a 100% logical
 
 Also fully admit I need to look more in to you design flow :/ so hopefully this is a help
+*/
 
+@media (min-width: 980px) {
 
+/*
 THE TEAM 
 Your Crew Members and their Roles
 */
 .field-name-field-role, .field-name-field-first-name, .field-name-field-last-name, .field-name-field-email-address, .field-name-field-phone-number {
-  max-width: 25%;
+  max-width: 24%;
   float: left;
+  padding-right: 1%;
 }
 .field-name-field-crew-members {
   max-width: 100%
@@ -28,7 +32,8 @@ table#field-crew-members-values {
 .field-name-field-crew-members .field-name-field-last-name, 
 .field-name-field-crew-members .field-name-field-email-address, 
 .field-name-field-crew-members .field-name-field-phone-number {
-  max-width: 17%;
+  max-width: 16%;
+  padding-right: 1%;
 }
 
 
@@ -55,12 +60,14 @@ input#edit-field-associated-projects-und-0-actions-remove-button
 {
   max-width: 83px;
   float: left;
+  width: 83px;
 }
 
 .field-name-field-crew-members .form-actions {
   width: 83px;
   float: left;
 }
+
 
 
 
@@ -75,15 +82,15 @@ Year and name of previous projects
 }
 .field-name-field-previous-project {
   float: left;
-  width: 375px;
-  padding: 3px;
+  width: 343px;
+  padding: 0 16px;
 }
 .field-name-field-year-and-event-name {
-  width: 147px;
+  width: 152px;
   float: left;
 }
 .field-name-field-year-and-event-name .form-select {
-  width: 100px;
+  width: 100%;
 }
 
 
@@ -121,18 +128,21 @@ Site wide, but see under Moop
 Is your piece associated with any other projects at AfrikaBurn?
 
 */
-.field-name-field-associated-projects table {
+.field-name-field-associated-projects table, table#field-year-and-name-of-prev-values, table#field-associated-projects-values {
   max-width: 100%;
 }
 .field-name-field-theme-camp {
-  width: 26%;
+  width: 27%;
   float: left;
 }
 .field-name-field-how-is-it-related- {
-    width: 60%;
-    float: left;
+  width: 54%;
+  float: left;
+  padding: 0 16px;
 }
-
+.field-name-field-theme-camp label {
+  white-space: normal;
+}
 
 /*
  Trying to make the lables stand out on the form ... it gets a bit confusing 
@@ -142,6 +152,49 @@ div.form-wrapper .form-item > label {
 	margin: 0;
 	font-weight: 600;
 }
-.field-type-multifield span.fieldset-legend {
+.field-type-multifield span.fieldset-legend, div.field-type-multifield label {
     font-weight: 600;
 }
+.field-type-multifield legend {
+    padding-left: 0px;
+}
+.field-type-multifield div.form-wrapper .form-item > label {
+    font-weight: 400;
+}
+
+
+
+/*
+ *Continuing the help text look and feel
+ */
+.fieldset-description, .description {
+  padding-left: 15px;
+  margin: 10px 0 10px 10px;
+  margin-bottom: 1em;
+  border-left: 3px solid #f26c55;
+  color: #f26c55;
+}
+
+
+
+/*
+ * secion spaces on forms
+ */
+
+.node-form h3 {
+    margin-top: 3em;
+}
+
+
+/*
+ * File selector
+ */
+.field-widget-image-image table th:nth-child(2), .field-widget-image-image table td:nth-child(2), .field-type-file table th:nth-child(2), .field-type-file table td:nth-child(2){
+  display: none;
+}
+div.field-widget-image-image table th, div.field-type-file table th {
+    background-color: #191919;
+}
+
+}
+/* closes 980 width screen */

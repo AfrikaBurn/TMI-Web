@@ -57,10 +57,10 @@ $(document).ready(function() {
 	});
 	$("a.back-to-top-button").click(function(event) {
 		event.preventDefault();
-		$("html, body").animate({"scrollTop": "0px"}, 300);
+		$("html, body").animate({"scrollTop": "0px"}, 100);
 	});
 	$(function() {
-	  //setInterval("rotateImages()", 4000);
+	  setInterval("rotateImages()", 5000);
 	});
 	
 	$("a.login-box-toggler").attr("href","javascript: void(0)").click(function(e) {
@@ -77,6 +77,8 @@ $(document).ready(function() {
 	$(".login-box").click(function(e) {
 	    e.stopPropagation();
 	});
+
+	$("div.messages").prepend("<span class='icon'></span>");
 });
 
 

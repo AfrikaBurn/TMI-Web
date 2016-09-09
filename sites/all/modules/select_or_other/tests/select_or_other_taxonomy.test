@@ -1,0 +1,188 @@
+<?php
+
+/**
+ * Tests the select or other taxonomy field based functionality
+ */
+class SelectOrOtherTaxonomyTestCase extends DrupalWebTestCase {
+  protected $privileged_user;
+  protected $fields;
+
+  public static function getInfo() {
+    return array(
+      'name' => 'Select or Other Taxonomy',
+      'description' => 'Ensure that Select or Other functions correctly while used in combination with taxonomy term reference fields.',
+      'group' => 'Select or Other',
+    );
+  }
+
+  public function setUp() {
+    parent::setUp(array('taxonomy', 'select_or_other'));
+    // Create and log in our privileged user.
+    $this->privileged_user = $this->drupalCreateUser(
+      array('create page content', 'edit own page content')
+    );
+    $this->drupalLogin($this->privileged_user);
+
+    // Start with a clean slate
+    $this->fields = array();
+    // Configure fields.
+    foreach (array('single', 'multiple') as $cardinality) {
+      // Create vocabularies.
+      $name = $this->randomName();
+      $vocab = (object) array(
+        'name' => $name,
+        'machine_name' => strtolower($name),
+      );
+      taxonomy_vocabulary_save($vocab);
+      $vocab = taxonomy_vocabulary_machine_name_load(strtolower($name));
+
+      // Add initial term to vocabulary.
+      $term = (object) array(
+        'vid' => $vocab->vid,
+        'name' => $name,
+      );
+      taxonomy_term_save($term);
+
+      // Create the field.
+      $field_settings = array(
+        'type' => 'taxonomy_term_reference',
+        'field_name' => strtolower($this->randomName()),
+        'cardinality' => $cardinality === 'single' ? 1 : -1,
+        'settings' => array(
+          'allowed_values' => array(
+            array(
+              'vocabulary' => strtolower($name),
+              'parent' => '0',
+            ),
+          ),
+        ),
+      );
+      field_create_field($field_settings);
+      $field_settings['vocab'] = $name;
+      $this->fields[$cardinality][] = $field_settings;
+
+      $instance_settings = array(
+        'entity_type' => 'node',
+        'bundle' => 'page',
+        'field_name' => $field_settings['field_name'],
+        'widget' => array(
+          'type' => 'select_or_other',
+        ),
+        'display' => array(
+          'full' => array(
+            'type' => 'taxonomy_term_reference_plain',
+          ),
+        ),
+      );
+
+      field_create_instance($instance_settings);
+    }
+  }
+
+  /**
+   * Tests Select or Other without "other" selected.
+   */
+  function testNoOtherSelected() {
+    $langcode = LANGUAGE_NONE;
+
+    foreach ($this->fields as $cardinality => $fields) {
+      foreach ($fields as $field) {
+        $edit = array();
+        // A node requires a title
+        $edit["title"] = $this->randomName(8);
+        if ($cardinality === 'single') {
+          // Test single select.
+          $edit["{$field['field_name']}[{$langcode}][select]"] = $field['vocab'];
+        }
+        else{
+          // Test multi select.
+          $edit["{$field['field_name']}[{$langcode}][select][]"] = array($field['vocab']);
+        }
+        // Create the node.
+        $this->drupalPost('node/add/page', $edit, t('Save'));
+
+        // Check if the value has been created.
+        $this->assertRaw($field['vocab']);
+        // Check if the 'select_or_other' option is not displayed.
+        $this->assertNoRaw('select_or_other');
+      }
+    }
+  }
+
+  /**
+   * Test Select or Other with "other" selected.
+   */
+  function testOther() {
+    $langcode = LANGUAGE_NONE;
+
+    foreach ($this->fields as $cardinality => $fields) {
+      foreach ($fields as $field) {
+        $edit = array();
+        // A node requires a title
+        $edit["title"] = $this->randomName(8);
+        $other = $this->randomName();
+        if ($cardinality === 'single') {
+          // Test single select.
+          $edit["{$field['field_name']}[{$langcode}][select]"] = 'select_or_other';
+          $edit["{$field['field_name']}[{$langcode}][other]"] = $other;
+        }
+        else{
+          // Test multi select.
+          $edit["{$field['field_name']}[{$langcode}][select][]"] = 'select_or_other';
+          $edit["{$field['field_name']}[{$langcode}][other]"] = $other;
+        }
+        // Create the node.
+        $this->drupalPost('node/add/page', $edit, t('Save'));
+
+        // Check if the value has been created.
+        $this->assertRaw($other);
+        // Check if the 'select_or_other' option is not displayed.
+        $this->assertNoRaw('select_or_other');
+      }
+    }
+  }
+
+  /**
+   * Test Select or Other with "other" selected.
+   */
+  function testMultipleOther() {
+    $langcode = LANGUAGE_NONE;
+
+    foreach ($this->fields as $cardinality => $fields) {
+      foreach ($fields as $field) {
+        $edit = array();
+        // A node requires a title
+        $edit["title"] = $this->randomName(8);
+        $other_values[] = $this->randomName();
+        $other_values[] = $this->randomName();
+        $other_values[] = $this->randomName();
+        $other = implode(', ', $other_values);
+        if ($cardinality === 'single') {
+          // Test single select.
+          $edit["{$field['field_name']}[{$langcode}][select]"] = 'select_or_other';
+          $edit["{$field['field_name']}[{$langcode}][other]"] = $other;
+        }
+        else{
+          // Test multi select.
+          $edit["{$field['field_name']}[{$langcode}][select][]"] = 'select_or_other';
+          $edit["{$field['field_name']}[{$langcode}][other]"] = $other;
+        }
+        // Create the node.
+        $this->drupalPost('node/add/page', $edit, t('Save'));
+
+        if($cardinality === 'single'){
+          // Multiple values should fail form validation.
+          $this->assertRaw(t('%name: this field cannot hold more than @count values.', array('%name' => $field['field_name'],'@count' => 1)));
+        }
+        else{
+          // Check if the values have been created.
+          foreach ($other_values as $value) {
+            $this->assertRaw($value);
+          }
+          // Check if the 'select_or_other' option is not displayed.
+          $this->assertNoRaw('select_or_other');
+        }
+      }
+    }
+  }
+}

@@ -55,9 +55,6 @@ PC NAV ITEMS - ALL LEVELS
 PC NAV ITEMS - LEVEL 1 
 --------------------------------------------------------------------------------*/
 /*this padding value is subtracted from the value of "@pc-main-nav-bar-height" for item height*/
-/*The side border widths are subtracted from the 
-width of "@pc-main-nav-level-1-item-min-width". 
-It sets menu item width, inclusive of side border widths.*/
 /*The top padding of the active item will adjust to accommodate
  the top border width and maintain the same overall height.*/
 /*--------------------------------------------------------------------------------
@@ -377,24 +374,10 @@ div.block-outer {
   width: 100%;
   float: left;
 }
-/*---------------SEARCH BOX STATIC----------------*/
-div.moduletable.smart-search {
-  display: block;
-}
-div.moduletable.smart-search div.finder.smart-search button {
-  /*site-button*/
-  background-position: left 48% bottom -58px;
-  float: left;
-}
-div.moduletable.smart-search div.finder.smart-search button:hover {
-  /*site-button-hover*/
-  background-position: left 48% bottom -58px;
-  float: left;
-}
 body.contentpane {
   padding-bottom: 0;
 }
-/*---BOOTSTRAP OVERRIDES---*/
+/*---Fonts---*/
 @font-face {
   font-family: 'FuturaBook';
   src: url('../fonts/futura_book_bt-webfont.eot');
@@ -402,6 +385,7 @@ body.contentpane {
   font-weight: normal;
   font-style: normal;
 }
+/*---Change default user agent behaviour---*/
 a:active,
 a:focus {
   outline: none;
@@ -417,31 +401,10 @@ select:focus {
   -o-transition: inherit;
   transition: inherit;
 }
-.table-bordered,
-.table-bordered thead:first-child tr:first-child > th:first-child,
-.table-bordered tbody:first-child tr:first-child > td:first-child,
-.table-bordered tbody:first-child tr:first-child > th:first-child,
-.table-bordered thead:first-child tr:first-child > th:last-child,
-.table-bordered tbody:first-child tr:first-child > td:last-child,
-.table-bordered tbody:first-child tr:first-child > th:last-child,
-.table-bordered thead:last-child tr:last-child > th:first-child,
-.table-bordered tbody:last-child tr:last-child > td:first-child,
-.table-bordered tbody:last-child tr:last-child > th:first-child,
-.table-bordered tfoot:last-child tr:last-child > td:first-child,
-.table-bordered tfoot:last-child tr:last-child > th:first-child,
-.table-bordered thead:last-child tr:last-child > th:last-child,
-.table-bordered tbody:last-child tr:last-child > td:last-child,
-.table-bordered tbody:last-child tr:last-child > th:last-child,
-.table-bordered tfoot:last-child tr:last-child > td:last-child,
-.table-bordered tfoot:last-child tr:last-child > th:last-child {
-  -webkit-border-radius: 0px;
-  border-radius: 0px;
-  -moz-border-radius: 0px;
-}
-input:focus:invalid:focus,
-textarea:focus:invalid:focus,
-select:focus:invalid:focus {
-  box-shadow: none;
+fieldset {
+  border-width: 0;
+  margin: 0;
+  padding: 0;
 }
 form {
   margin-bottom: inherit;
@@ -553,35 +516,6 @@ div.body-content p {
   line-height: 170%;
   margin-bottom: 1em;
 }
-/*button,
-div.body-content button,
-input.button,
-div.body-content input.button,
-.btn,
-div.body-content .btn,
-.btn-primary,
-div.body-content .btn-primary,
-a.btn,
-div.body-content a.btn {
-	width: @general-button-width;
-	max-width: @general-button-max-width;
-	background: @general-button-background-color @general-button-background-image @general-button-background-repeat @general-button-background-position;
-	*background-color: @general-button-background-color;
-	background-size: @general-button-background-size;
-	height: @general-button-height;
-	border: @general-button-border-width @general-button-border-style @general-button-border-color;
-	border-radius: @general-button-border-radius;
-	-moz-border-radius: @general-button-border-radius;
-	-webkit-border-radius: @general-button-border-radius;
-	box-shadow: none;
-	color: transparent;
-	font-size: 0;
-	cursor: pointer;
-	float: left;
-	display: block;
-	padding: 0;
-	box-sizing: border-box;	
-}*/
 button,
 .button,
 input.button,
@@ -594,7 +528,6 @@ div.body-content input[type=submit] {
   max-width: 400px;
   min-width: 200px;
   background-color: #000000;
-  /*@general-button-background-image no-repeat @general-button-background-position;*/
   *background-color: #000000;
   height: 45px;
   border-width: 0;
@@ -634,8 +567,7 @@ div.body-content a.btn:hover,
 div.input-file-wrapper:hover,
 input[type=submit]:hover,
 div.body-content input[type=submit]:hover {
-  background: #191919 url(../images/buttons.png) repeat center top;
-  background-size: 300px;
+  background: #191919;
   height: 45px;
   color: #f26c55;
   cursor: pointer;
@@ -667,8 +599,7 @@ div.body-content select {
   background-color: #f5f5f5;
   background-image: linear-gradient(to bottom, #ffffff, #e6e6e6);
   font-family: Arial, Helvetica, sans-serif;
-  /*clear: both;
-	float: left;*/
+  display: block;
   margin-top: 10px;
 }
 div.body-content select option {
@@ -711,13 +642,16 @@ div.body-content .uneditable-input {
   margin-top: 5px;
   margin-bottom: 5px;
   width: 100%;
-  padding: 2px 0px;
-  /*float: @general-input-float;*/
-  text-indent: 8px;
+  padding: 2px 15px;
   box-sizing: border-box;
   background-color: #ffffff;
   color: #333333;
   border: 2px solid #cccccc;
+}
+textarea,
+div.body-content textarea {
+  padding-top: 8px;
+  padding-bottom: 8px;
 }
 input:hover,
 textarea:hover,
@@ -747,7 +681,7 @@ div.body-content .uneditable-input {
 div.body-content input:hover,
 div.body-content .uneditable-input:hover,
 div.body-content textarea:hover {
-  border-color: #af282d;
+  border-color: #f26c55;
 }
 div.body-content input:focus,
 div.body-content input[type="text"]:focus,
@@ -774,8 +708,8 @@ div.body-content textarea:focus {
   -moz-box-shadow: inherit;
   box-shadow: inherit;
   outline: 0;
-  border-color: #af282d;
-  background-color: #e6cccf;
+  border-color: #f26c55;
+  background-color: #f5e6e4;
 }
 textarea,
 textarea:focus,
@@ -831,20 +765,20 @@ input[type=checkbox] + div.radio-checkbox-dummy {
   border-radius: 5px;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
-  background: #ffffff url("../images/buttons.png") no-repeat center top;
+  background: #ffffff url("../images/afrikaburn-icons.png") no-repeat center -10000000px;
   border: 2px solid #cccccc;
-  background-size: 300px;
+  background-size: 200px;
 }
 input[type=radio]:hover + div.radio-checkbox-dummy,
 input[type=checkbox]:hover + div.radio-checkbox-dummy {
   border-color: #aaaaaa;
-  background-color: #e6cccf;
+  background-color: #f26c55;
 }
 input[type=radio]:checked + div.radio-checkbox-dummy,
 input[type=checkbox]:checked + div.radio-checkbox-dummy {
-  background-position: center bottom -217px;
+  background-position: center -152px;
   border-color: #888888;
-  background-color: #962738;
+  background-color: #f26c55;
 }
 div.body-content input[type=radio] + div.radio-checkbox-dummy,
 div.body-content input[type=checkbox] + div.radio-checkbox-dummy {
@@ -852,13 +786,13 @@ div.body-content input[type=checkbox] + div.radio-checkbox-dummy {
 }
 div.body-content input[type=radio]:hover + div.radio-checkbox-dummy,
 div.body-content input[type=checkbox]:hover + div.radio-checkbox-dummy {
-  border-color: #af282d;
+  border-color: #f26c55;
 }
 div.body-content input[type=radio]:checked + div.radio-checkbox-dummy,
 div.body-content input[type=checkbox]:checked + div.radio-checkbox-dummy {
-  background-position: center bottom -217px;
-  border-color: #af282d;
-  background-color: #962738;
+  background-position: center -152px;
+  border-color: #f26c55;
+  background-color: #f26c55;
 }
 div.body-content table {
   border: 1px solid #888888;
@@ -1020,7 +954,7 @@ div.body-content span.form-required {
   color: #f26c55;
   font-size: 25px;
   font-weight: 400;
-  line-height: 15px;
+  line-height: 25px;
   font-family: Arial, Helvetica, sans-serif;
 }
 .transparent {
@@ -1056,8 +990,8 @@ a.edit-item {
 div.back-to-top-button,
 a.back-to-top-button {
   opacity: 0;
-  height: 36px;
-  width: 36px;
+  height: 30px;
+  width: 30px;
   padding: 3px;
   background-color: #000000;
   position: fixed;
@@ -1065,9 +999,9 @@ a.back-to-top-button {
   right: 20px;
   z-index: 9999999999;
   border: 2px solid #ffffff;
-  border-radius: 42px;
-  -webkit-border-radius: 42px;
-  -moz-border-radius: 42px;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
   overflow: hidden;
   -webkit-transition: all 400ms ease;
   -moz-transition: all 400ms ease;
@@ -1084,10 +1018,10 @@ a.back-to-top-button.show {
   transition: all 800ms ease;
 }
 a.back-to-top-button span {
-  background: url(../images/buttons.png) no-repeat center bottom -5px;
-  background-size: 300px;
-  height: 36px;
-  width: 36px;
+  background: url("../images/afrikaburn-icons.png") no-repeat right 4px top -42px;
+  background-size: 200px;
+  height: 30px;
+  width: 30px;
   display: block;
 }
 a.back-to-top-button span:hover {
@@ -1258,22 +1192,6 @@ div.body-content ol li {
 .body-content blockquote p {
   font-size: 1em;
 }
-@media (min-width: 980px) {
-  .nav-collapse.collapse {
-    height: auto!important;
-    overflow: visible!important;
-  }
-  .btn.btn-navbar {
-    display: none;
-  }
-}
-.collapse {
-  position: relative;
-  -webkit-transition: height .35s ease;
-  -moz-transition: height .35s ease;
-  -o-transition: height .35s ease;
-  transition: height .35s ease;
-}
 .navbar .nav {
   position: relative;
   left: 0;
@@ -1294,9 +1212,6 @@ DESKTOP MAIN NAV CONTAINERS
 }
 .navbar {
   /*Set the contaning ribbon to the same height as this! Don't float this element- for a right or left aligned meny, float navbar inner*/
-  height: 50px;
-  background: #0d0d0d none repeat center top;
-  font-family: FuturaBook, Arial;
   font-size: 1em;
   margin-bottom: 0;
 }
@@ -1318,130 +1233,58 @@ DESKTOP MAIN NAV CONTAINERS
 /*--------------------------
 DESKTOP MAIN NAV LEVEL 1 UL
 --------------------------*/
-.navbar .navbar-inner .nav-collapse ul.menu,
-.navbar .navbar-inner .nav-collapse .moduletable ul.menu {
+.navbar .navbar-inner .nav-collapse aside > ul.menu {
   /*Never set height for this element.
 	Never set bottom border on this element*/
   border-width: 0;
   margin: 0;
+  padding-left: 0;
 }
 /*----------------------------
 DESKTOP MAIN NAV LEVEL 1 ITEMS
 ----------------------------*/
-.navbar .navbar-inner .nav-collapse ul.menu > li {
+.navbar .navbar-inner .nav-collapse aside > ul.menu > li {
   /*Never set bottom border on this element*/
-  border-left-color: #ffffff;
-  border-left-style: solid;
-  border-left-width: 0px;
   position: relative;
   line-height: 100%;
   font-size: 1em;
   margin: 0;
   padding: 0;
 }
-.navbar .navbar-inner .nav-collapse ul.menu li a,
-.navbar .navbar-inner .nav-collapse ul.menu li span.separator {
-  font-family: FuturaBook, Arial;
-  font-weight: 400;
-  font-style: normal;
-  font-size: 1.7em;
-  color: #b04737;
-  text-transform: uppercase;
-  background-color: transparent;
-  height: 30px;
-  padding: 20px 15px 0;
-  min-width: 0px;
-  letter-spacing: 0.5px;
+.navbar .navbar-inner .nav-collapse aside > ul.menu li a,
+.navbar .navbar-inner .nav-collapse aside > ul.menu li span.separator {
   text-decoration: none;
   margin: 0;
   text-shadow: none;
   display: block;
 }
-.navbar .navbar-inner .nav-collapse ul.menu > li > a:focus,
-.navbar .navbar-inner .nav-collapse ul.menu > li > a:hover,
-.navbar .navbar-inner .nav-collapse ul.menu > li > span.separator:hover {
-  color: #f26c55;
-  background-color: #330b12;
+.navbar .navbar-inner .nav-collapse aside > ul.menu > li > a:focus,
+.navbar .navbar-inner .nav-collapse aside > ul.menu > li > a:hover,
+.navbar .navbar-inner .nav-collapse aside > ul.menu > li > span.separator:hover {
   cursor: pointer;
 }
-.navbar .navbar-inner .nav-collapse ul.menu > li > span.separator:hover {
+.navbar .navbar-inner .nav-collapse aside > ul.menu > li.active > a:hover,
+.navbar .navbar-inner .nav-collapse aside > ul.menu > li.active > a:focus,
+.navbar .navbar-inner .nav-collapse aside > ul.menu > li > span.separator:hover .navbar .navbar-inner .nav-collapse aside > ul.menu > li.active > span.separator:hover {
   cursor: default;
-}
-.navbar .navbar-inner .nav-collapse ul.menu > li > a.nav-menu-no-follow:focus,
-.navbar .navbar-inner .nav-collapse ul.menu > li > a.nav-menu-no-follow:hover {
-  cursor: default;
-  color: #b04737;
-  background-color: transparent;
-}
-.navbar .navbar-inner .nav-collapse ul.menu > .active > a,
-.navbar .navbar-inner .nav-collapse ul.menu > .active > span.separator {
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
-}
-.navbar .navbar-inner .nav-collapse ul.menu > li.active > a:hover,
-.navbar .navbar-inner .nav-collapse ul.menu > li.active > a:focus,
-.navbar .navbar-inner .nav-collapse ul.menu > li.active > span.separator:hover {
-  cursor: default;
-  color: #f26c55;
-  background-color: #330b12;
 }
 /*------------------------------------------------
 DESKTOP MAIN-NAV LEVEL 2 (ANIMATED DROPDOWN MENU)
 ------------------------------------------------*/
-.navbar .navbar-inner .nav-collapse ul.menu-child {
-  position: absolute;
-  top: 50px;
-  border-color: #0000ff;
-  border-style: solid;
-  border-left-width: 0px;
-  border-right-width: 0px;
-  border-top-width: 0px;
-  /*Keep bottom border to 0*/
-  border-bottom-width: 0;
-  min-width: 100%;
-  margin: 0 0 0 0px;
-  left: 0;
-  z-index: 1000;
-  display: none;
-  float: left;
+.navbar .navbar-inner .nav-collapse ul.menu ul.menu {
   padding: 0;
   list-style: none;
   background-color: transparent;
-  -webkit-border-radius: 0px;
-  -moz-border-radius: 0px;
-  border-radius: 0px;
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
-  -webkit-background-clip: none;
-  -moz-background-clip: none;
-  background-clip: none;
-  font-size: 1em;
 }
-.navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li {
-  border-color: #0000ff;
-  border-style: solid;
-  border-width: 0 0 0px 0;
+.navbar .navbar-inner .nav-collapse ul.menu li ul.menu li {
   /*Keep top left and right border to 0*/
   padding: 0;
   margin: 0;
   font-size: 1em;
   line-height: 100%;
 }
-.navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li a,
-.navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li span.separator {
-  font-weight: 400;
-  font-style: #555555;
-  font-size: 1.7em;
-  color: #555555;
-  text-align: left;
-  text-transform: none;
-  background-color: #330b12;
-  padding-left: 15px;
-  padding-right: 15px;
-  padding-top: 20px;
-  height: 30px;
+.navbar .navbar-inner .nav-collapse ul.menu li ul.menu li a,
+.navbar .navbar-inner .nav-collapse ul.menu li ul.menu li span.separator {
   text-decoration: none;
   display: block;
   clear: both;
@@ -1449,24 +1292,34 @@ DESKTOP MAIN-NAV LEVEL 2 (ANIMATED DROPDOWN MENU)
   white-space: nowrap;
   text-shadow: none;
   margin: 0;
-  min-width: 0px;
 }
-.navbar .navbar-inner .nav-collapse ul.menu > li:hover > .nav-child,
-.navbar .navbar-inner .nav-collapse ul.menu > li > a:focus + .nav-child {
+.navbar .navbar-inner .nav-collapse ul.menu > li:hover > ul.menu,
+.navbar .navbar-inner .nav-collapse ul.menu > li > a:focus + ul.menu {
   display: block;
 }
-.navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li > a:hover,
-.navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li > a:focus,
-.navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li > span.separator:hover {
+.navbar .navbar-inner .nav-collapse ul.menu li ul.menu li > a:hover,
+.navbar .navbar-inner .nav-collapse ul.menu li ul.menu li > a:focus,
+.navbar .navbar-inner .nav-collapse ul.menu li ul.menu li > span.separator:hover {
   text-decoration: none;
-  color: #222222;
-  background-color: #f3f3f3;
 }
 /*---adds the arrow to the current level 2 menu item---*/
-.navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li.active {
+.navbar .navbar-inner .nav-collapse ul.menu li ul.menu li.active {
   position: relative;
 }
 @media (min-width: 980px) {
+  .nav-collapse.collapse {
+    height: auto!important;
+    overflow: visible!important;
+  }
+  .navbar {
+    /*Set the contaning ribbon to the same height as this! Don't float this element- for a right or left aligned meny, float navbar inner*/
+    height: 50px;
+    background: #0d0d0d none repeat center top;
+    font-family: FuturaBook, Arial;
+  }
+  .btn.btn-navbar {
+    display: none;
+  }
   .navbar .navbar-inner {
     float: right;
     position: relative;
@@ -1477,15 +1330,43 @@ DESKTOP MAIN-NAV LEVEL 2 (ANIMATED DROPDOWN MENU)
     position: relative;
     right: -50%;
   }
+  .navbar .navbar-inner .nav-collapse aside > ul.menu > li {
+    float: left;
+  }
+  .navbar .navbar-inner .nav-collapse aside > ul.menu li a,
+  .navbar .navbar-inner .nav-collapse aside > ul.menu li span.separator {
+    font-family: FuturaBook, Arial;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 1.7em;
+    color: #b04737;
+    text-transform: uppercase;
+    background-color: transparent;
+    height: 27px;
+    padding: 15px 15px 0;
+    min-width: 0;
+  }
+  .navbar .navbar-inner .nav-collapse aside > ul.menu > li > a:focus,
+  .navbar .navbar-inner .nav-collapse aside > ul.menu > li > a:hover,
+  .navbar .navbar-inner .nav-collapse aside > ul.menu > li > span.separator:hover {
+    color: #f26c55;
+    background-color: #330b12;
+  }
   /*---Add border and colours to level 1 active menu item---*/
   .navbar .navbar-inner .nav-collapse ul.menu > .active > a,
   .navbar .navbar-inner .nav-collapse ul.menu > .active > span.separator {
     color: #f26c55;
     background-color: transparent;
-    padding-top: 20px;
+    padding-top: 15px;
     border-top-width: 0px;
     border-top-style: solid;
     border-top-color: #f26c55;
+  }
+  .navbar .navbar-inner .nav-collapse aside > ul.menu > li.active > a:hover,
+  .navbar .navbar-inner .nav-collapse aside > ul.menu > li.active > a:focus,
+  .navbar .navbar-inner .nav-collapse aside > ul.menu > li.active > span.separator:hover {
+    color: #f26c55;
+    background-color: #330b12;
   }
   .navbar .navbar-inner .nav-collapse ul.menu > li.highlighted {
     border-bottom-width: 0px;
@@ -1495,367 +1376,168 @@ DESKTOP MAIN-NAV LEVEL 2 (ANIMATED DROPDOWN MENU)
     color: #f26c55;
     background-color: #330b12;
   }
-  .navbar .navbar-inner .nav-collapse ul.menu > li {
-    text-align: center;
-  }
-  .navbar .navbar-inner .nav-collapse ul.menu > li {
+  /*------------------------------------------------
+	DESKTOP MAIN-NAV LEVEL 2 (ANIMATED DROPDOWN MENU)
+	------------------------------------------------*/
+  .navbar .navbar-inner .nav-collapse ul.menu ul.menu {
+    position: absolute;
+    top: 50px;
+    min-width: 100%;
+    margin: 0;
+    left: 0;
+    z-index: 1000;
+    display: none;
     float: left;
+    font-size: 1em;
   }
-  .navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li.active > span.separator,
-  .navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li.active > a {
-    color: #555555;
-    background: #330b12 url(../images/buttons.png) no-repeat right 8px bottom -150px;
+  .navbar .navbar-inner .nav-collapse ul.menu li ul.menu li a,
+  .navbar .navbar-inner .nav-collapse ul.menu li ul.menu li span.separator {
+    font-weight: 400;
+    font-style: #dddddd;
+    font-size: 1.7em;
+    color: #dddddd;
+    text-align: left;
+    text-transform: uppercase;
+    background-color: #0d0d0d;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 20px;
+    height: 30px;
+    min-width: 0;
+  }
+  .navbar .navbar-inner .nav-collapse ul.menu li ul.menu li > a:hover,
+  .navbar .navbar-inner .nav-collapse ul.menu li ul.menu li > a:focus,
+  .navbar .navbar-inner .nav-collapse ul.menu li ul.menu li > span.separator:hover {
+    color: #f26c55;
+    background-color: #0d0d0d;
+  }
+  .navbar .navbar-inner .nav-collapse ul.menu li ul.menu li.active > span.separator,
+  .navbar .navbar-inner .nav-collapse ul.menu li ul.menu li.active > a {
+    color: #dddddd;
+    background: #0d0d0d url("../images/afrikaburn-icons.png") no-repeat right 8px bottom -150px;
     background-size: 300px;
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
     padding-right: 40px;
   }
-}
-.navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li.active div.mobile-active-1 {
-  background-color: transparent;
-  background-image: url(../images/buttons.png);
-  background-position: right 8px bottom -150px;
-  background-size: 300px;
-  background-repeat: no-repeat;
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 40px;
-  height: 36px;
-}
-.navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li.active > a:hover,
-.navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li.active > a:focus,
-.navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li.active > span.separator:hover {
-  color: #222222;
-  background-color: #f3f3f3;
-  cursor: default;
-}
-/*--------------------------------------------
-REMOVE THE BORDER INDUCED ARROW FROM BOOTSTRAP
----------------------------------------------*/
-.navbar .nav-child:before {
-  position: absolute;
-  top: -7px;
-  left: 9px;
-  display: inline-block;
-  border-right: 0px solid transparent;
-  border-bottom: 0px solid #00738b;
-  border-left: 0px solid transparent;
-  border-bottom-color: rgba(0, 0, 0, 0.2);
-  content: '';
-}
-.navbar .nav-child:after {
-  position: absolute;
-  top: -6px;
-  left: 10px;
-  display: inline-block;
-  border-right: 0px solid transparent;
-  border-bottom: 0px solid #00738b;
-  border-left: 0px solid transparent;
-  content: '';
-}
-.moduletable.user-greeting {
-  float: right;
-}
-div#user-greeting {
-  padding-top: 7px;
-  padding-bottom: 7px;
-}
-div#user-greeting:hover {
-  cursor: pointer;
-}
-/*Display of user's name*/
-.moduletable.user-greeting div.users-name {
-  float: left;
-}
-.moduletable.user-greeting #login-form .logout-button {
-  display: none;
-}
-.moduletable.user-greeting #login-form .login-greeting {
-  color: #999999;
-  text-align: left;
-  margin-right: 7px;
-  text-transform: none;
-  font-weight: 400;
-  font-style: normal;
-  font-family: "Open Sans", sans-serif;
-  font-size: 1.4em;
-}
-div#user-greeting:hover #login-form .login-greeting {
-  color: #666666;
-}
-/*---Hamburger icon next to user's name---*/
-div.user-menu-icon {
-  float: left;
-  margin-top: 2px;
-  cursor: pointer;
-  padding-top: 2px;
-}
-div.user-menu-icon span.icon-bar {
-  display: block;
-  height: 2px;
-  background-color: #999999;
-  border-radius: 2px;
-}
-div#user-greeting:hover div.user-menu-icon span.icon-bar {
-  background-color: #666666;
-}
-div.user-menu-icon span.icon-bar + span.icon-bar {
-  margin-top: 2px;
-}
-/*---User actions pop out box---*/
-div.user-block {
-  float: right;
-  margin: 0 0 0 0;
-}
-div.user-actions {
-  float: right;
-  max-height: 0;
-  overflow: hidden;
-}
-div.show-actions div.user-actions {
-  max-height: 1000px;
-  -webkit-transition: max-height 0.5s ease-in;
-  -moz-transition: max-height 0.5s ease-in;
-  -ms-transition: max-height 0.5s ease-in;
-  -o-transition: max-height 0.5s ease-in;
-  transition: max-height 0.5s ease-in;
-}
-div.user-popout-inner {
-  padding: 15px;
-  background-color: #f0f0f0;
-}
-/*--User Actions Links---*/
-div.user-actions ul.nav {
-  margin-bottom: 0;
-}
-div.user-actions ul.nav li {
-  margin-bottom: 5px;
-}
-div.user-actions ul.nav li a {
-  text-decoration: none;
-  color: #999999;
-  font-size: 1.3em;
-  font-weight: 600;
-}
-div.user-actions ul.nav li a:hover {
-  text-decoration: none;
-  color: #666666;
-}
-/*---Logout Button---*/
-div.user-actions div.moduletable.logout-link {
-  float: left;
-}
-div.user-actions div.logout-button input.btn {
-  background-position: center -60px;
-  margin-top: 10px;
-  width: 120px;
-  max-width: 120px;
-}
-div.user-actions div.logout-button input.btn span {
-  display: none;
+  .navbar .navbar-inner .nav-collapse ul.menu li ul.menu li.active div.mobile-active-1 {
+    background-color: transparent;
+    background-image: url("../images/afrikaburn-icons.png");
+    background-position: right 8px bottom -150px;
+    background-size: 300px;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40px;
+    height: 36px;
+  }
+  .navbar .navbar-inner .nav-collapse ul.menu li ul.menu li.active > a:hover,
+  .navbar .navbar-inner .nav-collapse ul.menu li ul.menu li.active > a:focus,
+  .navbar .navbar-inner .nav-collapse ul.menu li ul.menu li.active > span.separator:hover {
+    color: #f26c55;
+    background-color: #0d0d0d;
+    cursor: default;
+  }
+  /*--------------------------------------------
+	REMOVE THE BORDER INDUCED ARROW FROM BOOTSTRAP
+	---------------------------------------------*/
+  .navbar .nav-child:before {
+    position: absolute;
+    top: -7px;
+    left: 9px;
+    display: inline-block;
+    border-right: 0px solid transparent;
+    border-bottom: 0px solid #00738b;
+    border-left: 0px solid transparent;
+    border-bottom-color: rgba(0, 0, 0, 0.2);
+    content: '';
+  }
+  .navbar .nav-child:after {
+    position: absolute;
+    top: -6px;
+    left: 10px;
+    display: inline-block;
+    border-right: 0px solid transparent;
+    border-bottom: 0px solid #00738b;
+    border-left: 0px solid transparent;
+    content: '';
+  }
 }
 /*----------------------------------------------------------
 SOCIAL MEDIA LINKS
 -----------------------------------------------------------*/
-div.sm-links-container.centred {
-  width: 100%;
-  float: left;
+/*div.sm-links-container.centred {
+	width: 100%;
+	float: left;	
 }
+
 div.sm-links-container.centred div.sm-links {
-  float: right;
-  position: relative;
-  right: 50%;
+	float: right;
+	position: relative;
+	right: 50%;	
 }
+
 div.sm-links-container.centred div.sm-links div.sm-links {
+	float: right;
+	position: relative;
+	right: -50%;
+	
+}*/
+div.social-media-links {
   float: right;
-  position: relative;
-  right: -50%;
 }
-p.sm-link {
+div.sm-link {
   height: 40px;
   width: 40px;
   float: left;
-  margin: 5px;
+  margin: 0 5px;
 }
-p.sm-link a:link {
+div.sm-link a:link {
   height: 40px;
   width: 40px;
   display: block;
   color: transparent !important;
   font-size: 0;
-  background: #555555 url("../images/sm-links.png") no-repeat center top;
+  background: transparent url("../images/afrikaburn-sm-icons.png") no-repeat center top;
   background-size: 40px;
   float: left;
   border-radius: 40px;
   -webkit-border-radius: 40px;
   -moz-border-radius: 40px;
 }
-p.sm-link.twitter a:link {
-  background-color: #555555;
+div.sm-link.twitter a:link {
+  background-color: transparent;
   background-position: center top;
 }
-p.sm-link.twitter a:hover {
-  background-color: #58ccff;
-  background-position: center top;
-}
-p.sm-link.facebook a:link {
-  background-color: #555555;
-  background-position: center -40px;
-}
-p.sm-link.facebook a:hover {
-  background-color: #3b5998;
-  background-position: center -40px;
-}
-p.sm-link.instagram a:link {
-  background-color: #555555;
-  background-position: center -80px;
-}
-p.sm-link.instagram a:hover {
-  background-color: #9a7658;
-  background-position: center -80px;
-}
-p.sm-link.pinterest a:link {
-  background-color: #555555;
+div.sm-link.twitter a:hover {
+  background-color: transparent;
   background-position: center -120px;
 }
-p.sm-link.pinterest a:hover {
-  background-color: #cb2027;
+div.sm-link.facebook a:link {
+  background-color: transparent;
+  background-position: center -40px;
+}
+div.sm-link.facebook a:hover {
+  background-color: transparent;
+  background-position: center -160px;
+}
+div.sm-link.instagram a:link {
+  background-color: transparent;
+  background-position: center -80px;
+}
+div.sm-link.instagram a:hover {
+  background-color: transparent;
+  background-position: center -200px;
+}
+div.sm-link.pinterest a:link {
+  background-color: transparent;
   background-position: center -120px;
 }
-div.moduletable.smart-search label {
-  display: none;
-}
-div.moduletable.smart-search form#mod-finder-searchform {
-  margin-top: 0;
-  padding-bottom: 10px;
-  position: relative;
-}
-div.moduletable.smart-search div.finder.smart-search {
-  overflow: visible;
-  float: left;
-  line-height: 0;
-  width: 100%;
-}
-div.moduletable.smart-search div.finder.smart-search input {
-  max-width: 200px;
-  padding-left: 30px;
-  margin: 0;
-}
-div.moduletable.smart-search div.finder.smart-search button {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 30px;
-  margin: 0;
-  -webkit-border-top-right-radius: 0;
-  -moz-border-radius-topright: 0;
-  border-top-right-radius: 0;
-  -webkit-border-bottom-right-radius: 0;
-  -moz-border-radius-bottomright: 0;
-  border-bottom-right-radius: 0;
+div.sm-link.pinterest a:hover {
   background-color: transparent;
-  border-width: 0;
-}
-div.moduletable.smart-search div.finder.smart-search button i {
-  display: none;
-}
-ul.autocompleter-choices {
-  background-color: #ffffff;
-  border-color: #cccccc;
-  border-width: 2px;
-  border-style: solid;
-  font-size: 1.5em;
-  -moz-border-radius-bottomleft: 5px;
-  -webkit-border-bottom-left-radius: 5px;
-  border-bottom-left-radius: 5px;
-  -moz-border-radius-bottomright: 5px;
-  -webkit-border-bottom-right-radius: 5px;
-  border-bottom-right-radius: 5px;
-  border-top: none;
-  margin-top: -2px;
-  margin-left: 1px;
-  display: none;
-  z-index: 99999999999 !important;
-  width: inherit !important;
-}
-div.autocomplete-suggestions {
-  background-color: #ffffff;
-  border: 1px solid #cccccc;
-}
-div.autocomplete-suggestions div.autocomplete-suggestion {
-  color: #999999;
-  font-family: "Open Sans", sans-serif;
-  font-size: 1.4em;
-  padding-top: 7px;
-  padding-bottom: 7px;
-  border-bottom: 1px solid #cccccc;
-  background-color: transparent;
-}
-div.autocomplete-suggestions div.autocomplete-suggestion:hover {
-  background-color: #f5f5f5;
-  cursor: pointer;
-}
-div.autocomplete-suggestions div.autocomplete-suggestion:last-child {
-  border-width: 0;
-}
-div.autocomplete-suggestions div.autocomplete-suggestion strong {
-  color: #f26c55;
-}
-form#mod-finder-searchform i.icon-search,
-form#mod-finder-searchform span.icon-search {
-  display: none;
-}
-@media (min-width: 980px) {
-  div.moduletable.smart-search {
-    float: left;
-    width: 200px;
-    margin: 8px 0 8px 0;
-  }
-}
-@media (max-width: 979px) {
-  div#search-container {
-    border-top: 1px solid #000000;
-    background-color: #330b12;
-  }
-  div#search-container div.moduletable.smart-search {
-    float: left;
-    width: 200px;
-    margin: 8px 0 8px 20px;
-  }
-}
-div#login-block {
-  max-height: 0;
-  overflow: hidden;
-}
-body.placeholders-supported form#login-form #form-login-username label,
-body.placeholders-supported form#login-form #form-login-password label {
-  display: none;
-}
-div#login-block.show-login {
-  max-height: 1000px;
-  -webkit-transition: max-height 0.5s ease-in;
-  -moz-transition: max-height 0.5s ease-in;
-  -ms-transition: max-height 0.5s ease-in;
-  -o-transition: max-height 0.5s ease-in;
-  transition: max-height 0.5s ease-in;
-}
-div#login-block form#login-form input.button {
-  margin-bottom: 15px;
-  background-position: center -10px;
-}
-div#login-block form#login-form #form-login-remember label {
-  color: #999999;
-}
-div#login-block form#login-form ul.helpLinks li {
-  list-style: none;
-  font-size: 1.3em;
-  margin-left: 0;
-  padding-left: 0;
-}
-div#login-block form#login-form ul.helpLinks li a {
-  text-decoration: none;
+  background-position: center -120px;
 }
 /*------------------------------------------------
 DESKTOP MAIN-NAV LEVEL 3 (ANIMATED DROPDOWN MENU)
@@ -1871,20 +1553,20 @@ DESKTOP MAIN-NAV LEVEL 3 (ANIMATED DROPDOWN MENU)
     display: block;
   }
   .navbar .navbar-inner .nav-collapse ul.nav li ul.nav-child li.parent.highlighted a {
-    color: #222222;
-    background-color: #f3f3f3;
+    color: #f26c55;
+    background-color: #0d0d0d;
   }
   .navbar .navbar-inner .nav-collapse ul.nav li ul.nav-child li.parent ul.nav-child li a {
-    color: #222222;
-    background-color: #f3f3f3;
+    color: #f26c55;
+    background-color: #0d0d0d;
   }
   .navbar .navbar-inner .nav-collapse ul.nav li ul.nav-child li.parent ul.nav-child li a:hover {
     color: #000000;
     background-color: #e9e9e9;
   }
   .navbar .navbar-inner .nav-collapse ul.nav li ul.nav-child li.parent ul.nav-child li a.active {
-    color: #555555;
-    background-color: #330b12;
+    color: #dddddd;
+    background-color: #0d0d0d;
   }
 }
 @media (max-width: 979px) {
@@ -1896,7 +1578,7 @@ DESKTOP MAIN-NAV LEVEL 3 (ANIMATED DROPDOWN MENU)
 SYSTEM MESSAGE STYLES
 -------------------*/
 div.messages {
-  padding-left: 45px;
+  padding: 12px 15px 12px 38px;
   margin-bottom: 20px;
   position: relative;
   line-height: 150%;
@@ -1907,11 +1589,38 @@ div.messages {
   font-weight: 400;
   text-align: left;
 }
+div.messages span.icon {
+  width: 24px;
+  height: 20px;
+  display: block;
+  position: absolute;
+  left: 8px;
+  top: 15px;
+  background-image: url("../images/afrikaburn-icons.png");
+  background-repeat: no-repeat;
+  background-position: left -40px top -50px;
+  background-size: 200px;
+}
+div.messages.status span.icon {
+  background-position: left 0px top -50px;
+}
+div.messages .element-invisible {
+  display: none;
+}
+div.messages,
 div.messages p,
 div.messages ul li {
   font-size: 1em;
-  color: #000;
+  color: #eee;
   text-align: left;
+}
+div.messages a {
+  color: #fff;
+  font-weight: 600;
+}
+div.messages a:hover {
+  color: #111;
+  text-decoration: underline;
 }
 div.messages {
   border: 2px solid #4B8192;
@@ -1921,16 +1630,16 @@ div.messages {
   -webkit-border-radius: 5px;
 }
 div.messages.error {
-  background-color: #ffaaaa;
+  background-color: #e85157;
   border: 2px solid #802727;
 }
 div.messages.warning {
-  background-color: #FFD862;
+  background-color: #E0A72B;
   border: 2px solid #D29E00;
 }
 div.messages.status {
   border: 2px solid #23783D;
-  background-color: #7CD898;
+  background-color: #4DA87D;
 }
 /*----------------------
 JOOMLA! TIP BOX STYLES
@@ -2026,6 +1735,13 @@ div.tip-wrap {
   margin-top: -1px;
 }
 @media (max-width: 979px) {
+  .collapse {
+    position: relative;
+    -webkit-transition: height .35s ease;
+    -moz-transition: height .35s ease;
+    -o-transition: height .35s ease;
+    transition: height .35s ease;
+  }
   div.navbar-outer {
     background-color: #008000;
   }
@@ -2092,15 +1808,14 @@ div.tip-wrap {
   /*---------------------------------------------
 DEFAULT MENU MOBILE STYLES LEVEL 1 
 ---------------------------------------------*/
-  .navbar .navbar-inner .nav-collapse > ul.menu,
-  .navbar .navbar-inner .nav-collapse .moduletable > ul.menu {
+  .navbar .navbar-inner .nav-collapse > ul.menu {
     margin: 0;
     border-top: 0;
     border-right: 0;
     border-left: 0;
     border-bottom: 1px solid #000000;
   }
-  .navbar .navbar-inner .nav-collapse ul.menu > li {
+  .navbar .navbar-inner .nav-collapse aside > ul.menu > li {
     border-top-color: #000000;
     border-top-width: 1px;
     border-top-style: solid;
@@ -2108,8 +1823,8 @@ DEFAULT MENU MOBILE STYLES LEVEL 1
     border-bottom: 0;
     border-left: 0;
   }
-  .navbar .navbar-inner .nav-collapse ul.menu > li > a,
-  .navbar .navbar-inner .nav-collapse ul.menu > li > span.separator {
+  .navbar .navbar-inner .nav-collapse aside > ul.menu > li > a,
+  .navbar .navbar-inner .nav-collapse aside > ul.menu > li > span.separator {
     /*Leave font weight and font family here to override bootstrap*/
     font-family: FuturaBook, Arial;
     font-weight: 400;
@@ -2117,7 +1832,7 @@ DEFAULT MENU MOBILE STYLES LEVEL 1
     font-size: 1.7em;
     color: #b04737;
     text-transform: uppercase;
-    background-color: #330b12;
+    background-color: #261717;
     height: 23px;
     padding-top: 17px;
     text-align: left;
@@ -2128,28 +1843,28 @@ DEFAULT MENU MOBILE STYLES LEVEL 1
     border-radius: 0px;
     padding-bottom: 0;
   }
-  .navbar .navbar-inner .nav-collapse ul.menu > li > a:hover,
-  .navbar .navbar-inner .nav-collapse ul.menu > li > span.separator:hover {
+  .navbar .navbar-inner .nav-collapse aside > ul.menu > li > a:hover,
+  .navbar .navbar-inner .nav-collapse aside > ul.menu > li > span.separator:hover {
     color: #b04737;
     text-transform: uppercase;
-    background-color: #330b12;
+    background-color: #261717;
   }
-  .navbar .navbar-inner .nav-collapse ul.menu > li.active > a,
-  .navbar .navbar-inner .nav-collapse ul.menu > li.active > span.separator {
+  .navbar .navbar-inner .nav-collapse aside > ul.menu > li.active > a,
+  .navbar .navbar-inner .nav-collapse aside > ul.menu > li.active > span.separator {
     color: #ffffff;
-    background-color: #330b12;
+    background-color: #261717;
     background-image: none;
     border-width: 0;
   }
-  .navbar .navbar-inner .nav-collapse ul.menu > li.active > a:hover,
-  .navbar .navbar-inner .nav-collapse ul.menu > li.active > a:focus,
-  .navbar .navbar-inner .nav-collapse ul.menu > li.active > span.separator:hover {
+  .navbar .navbar-inner .nav-collapse aside > ul.menu > li.active > a:hover,
+  .navbar .navbar-inner .nav-collapse aside > ul.menu > li.active > a:focus,
+  .navbar .navbar-inner .nav-collapse aside > ul.menu > li.active > span.separator:hover {
     color: #ffffff;
-    background-color: #330b12;
+    background-color: #261717;
     cursor: default;
   }
-  .navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li.active.current > a {
-    background-image: url(../images/buttons.png);
+  .navbar .navbar-inner .nav-collapse aside > ul.menu li ul.menu li.active.current > a {
+    background-image: url("../images/afrikaburn-icons.png");
     background-repeat: no-repeat;
     background-position: right 10px bottom -155px;
     background-size: 300px;
@@ -2157,7 +1872,7 @@ DEFAULT MENU MOBILE STYLES LEVEL 1
   /*---------------------------------------------
 DEFAULT MENU MOBILE STYLES LEVEL 2
 ---------------------------------------------*/
-  .navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child {
+  .navbar .navbar-inner .nav-collapse ul.menu li ul.menu {
     position: static;
     top: auto;
     left: auto;
@@ -2180,44 +1895,44 @@ DEFAULT MENU MOBILE STYLES LEVEL 2
     -moz-background-clip: padding;
     background-clip: padding-box;
   }
-  .navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li {
+  .navbar .navbar-inner .nav-collapse ul.menu li ul.menu li {
     border-top-width: 1px;
     border-top-style: solid;
     border-top-color: #000000;
     border-bottom: 0;
     position: relative;
   }
-  .navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li a,
-  .navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li span.separator {
+  .navbar .navbar-inner .nav-collapse ul.menu li ul.menu li a,
+  .navbar .navbar-inner .nav-collapse ul.menu li ul.menu li span.separator {
     font-family: FuturaBook, Arial;
     height: 23px;
-    color: #ffffff;
+    color: #cccccc;
     font-size: 1.7em;
     text-transform: uppercase;
-    background-color: #aaaaaa;
+    background-color: #2b1e1e;
     padding-left: 40px;
     padding-top: 17px;
     padding-bottom: inherit;
     padding-bottom: 0;
     text-align: left;
   }
-  .navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li > a:hover,
-  .navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li > a:focus,
-  .navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li > span.separator:hover,
-  .navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child:hover > a {
-    color: #ffffff;
-    background-color: #aaaaaa;
+  .navbar .navbar-inner .nav-collapse ul.menu li ul.menu li > a:hover,
+  .navbar .navbar-inner .nav-collapse ul.menu li ul.menu li > a:focus,
+  .navbar .navbar-inner .nav-collapse ul.menu li ul.menu li > span.separator:hover,
+  .navbar .navbar-inner .nav-collapse ul.menu li ul.menu:hover > a {
+    color: #cccccc;
+    background-color: #2b1e1e;
   }
-  .navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li.active > a,
-  .navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li.active > span.separator {
+  .navbar .navbar-inner .nav-collapse ul.menu li ul.menu li.active > a,
+  .navbar .navbar-inner .nav-collapse ul.menu li ul.menu li.active > span.separator {
     color: #ffffff;
-    background-color: #aaaaaa;
+    background-color: #2b1e1e;
   }
-  .navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li.active > a:hover,
-  .navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li.active > a:focus,
-  .navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li.active > span.separator:hover {
+  .navbar .navbar-inner .nav-collapse ul.menu li ul.menu li.active > a:hover,
+  .navbar .navbar-inner .nav-collapse ul.menu li ul.menu li.active > a:focus,
+  .navbar .navbar-inner .nav-collapse ul.menu li ul.menu li.active > span.separator:hover {
     color: #ffffff;
-    background-color: #aaaaaa;
+    background-color: #2b1e1e;
   }
   .navbar div.mobile-active-1 {
     background-color: transparent;
@@ -2229,9 +1944,6 @@ DEFAULT MENU MOBILE STYLES LEVEL 2
     right: 0;
     width: 40px;
     height: 36px;
-  }
-  span.trash {
-    color: yes;
   }
 }
 @media (max-width: 979px) {
@@ -2291,8 +2003,8 @@ DEFAULT MENU MOBILE STYLES LEVEL 2
   h2,
   h3,
   h4 {
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
   }
   .container-2 {
     padding: 36px 0px 0px;
@@ -2302,7 +2014,7 @@ DEFAULT MENU MOBILE STYLES LEVEL 2
   }
   div.body-content,
   #main-content-strip div.body-content {
-    padding: 20px 10px 20px;
+    padding: 20px 20px 20px;
   }
 }
 @media (max-width: 479px) {
@@ -2354,8 +2066,8 @@ DEFAULT MENU MOBILE STYLES LEVEL 2
   h2,
   h3,
   h4 {
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
   }
   .container-2 {
     padding-left: 36px 0px 36px;
@@ -2365,14 +2077,10 @@ DEFAULT MENU MOBILE STYLES LEVEL 2
   }
   div.body-content,
   #main-content-strip div.body-content {
-    padding-top: 20px 10px 20px;
+    padding-top: 20px 20px 20px;
   }
 }
-fieldset {
-  border-width: 0;
-  margin: 0;
-  padding: 0;
-}
+/***All of these styles relate to markup generated by Drual***/
 div.fieldset-wrapper {
   margin: 0;
   padding: 0;
@@ -2399,15 +2107,22 @@ div.form-wrapper .form-item > label {
   margin: 0;
   font-weight: 400;
 }
+.form-item span.field-suffix,
 .form-item .description {
   padding-left: 15px;
   margin: 10px 0 10px 10px;
   margin-bottom: 1em;
   border-left: 3px solid #f26c55;
   color: #f26c55;
+  font-size: 0.9em;
+  text-align: justify;
+  padding-right: 15px;
 }
 .form-radios + .description {
   margin-top: 10px;
+}
+div.fieldset-description {
+  text-align: justify;
 }
 div.form-managed-file {
   margin-top: 10px;
@@ -2419,14 +2134,6 @@ div.body-content div.image-widget-data {
 div.body-content table.field-multiple-table,
 div.body-content input.field-add-more-submit {
   max-width: 400px;
-}
-div.body-content table.field-multiple-table,
-div.body-content table.field-multiple-table thead,
-div.body-content table.field-multiple-table tbody,
-div.body-content table.field-multiple-table tr,
-div.body-content table.field-multiple-table td {
-  width: 100%;
-  display: block;
 }
 div.body-content table.field-multiple-table,
 div.body-content table.field-multiple-table tr,
@@ -2482,6 +2189,12 @@ form#user-register-form div#edit-actions {
 div.form-textarea-wrapper div.grippie {
   display: none;
 }
+/*div.body-content input.error,
+div.body-content input[type=radio].error + div.radio-checkbox-dummy,
+div.body-content textarea.error {
+	background-color: #ED989B;
+	border-color: #AB3236;
+}*/
 div.banners {
   position: relative;
 }
@@ -2490,6 +2203,9 @@ div.banners div.slide {
   top: 0;
   left: 0;
   opacity: 0;
+}
+div.banners img {
+  display: block;
 }
 div.banners div.slide.first {
   opacity: 1;
@@ -2533,9 +2249,27 @@ a.user-link {
   font-family: FuturaBook, Arial;
   color: #f26c55;
   font-size: 1.4em;
-  padding: 14px 10px 9px;
+  padding: 14px 20px 9px;
   text-transform: uppercase;
   text-decoration: none;
+}
+div.body-content input[type=radio]:hover + div.radio-checkbox-dummy,
+div.body-content input[type=checkbox]:hover + div.radio-checkbox-dummy,
+div.body-content input[type=radio]:checked + div.radio-checkbox-dummy,
+div.body-content input[type=checkbox]:checked + div.radio-checkbox-dummy {
+  border-color: #AF282E;
+}
+@media (max-width: 979px) {
+  a.user-link {
+    padding-top: 18px;
+    padding-bottom: 15px;
+  }
+}
+@media (max-width: 479px) {
+  a.user-link {
+    padding-top: 19px;
+    padding-bottom: 16px;
+  }
 }
 a.user-link.active,
 a.user-link:hover {
@@ -2544,7 +2278,53 @@ a.user-link:hover {
   cursor: pointer;
   text-decoration: none;
 }
+input,
+textarea,
+div.body-content input,
+div.body-content textarea {
+  background-image: url("../images/paper-bg.png");
+  background-repeat: repeat;
+}
+@media (min-width: 980px) {
+  #main-content-strip {
+    margin-bottom: 36px;
+  }
+  .navbar .navbar-inner .nav-collapse aside > ul.menu > li {
+    padding-top: 4px;
+    padding-bottom: 4px;
+    margin-right: 15px;
+    margin-left: 15px;
+    list-style-image: url("../images/sep1.png");
+  }
+  .navbar .navbar-inner .nav-collapse aside > ul.menu > li:first-child {
+    list-style-image: none;
+  }
+  .navbar .navbar-inner .nav-collapse aside > ul.menu > li > a {
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+  }
+  .navbar .navbar-inner .nav-collapse ul.menu ul.menu {
+    padding: 10px 20px 0;
+    background-color: #0d0d0d;
+    -webkit-border-bottom-right-radius: 15px;
+    -webkit-border-bottom-left-radius: 15px;
+    -moz-border-radius-bottomright: 15px;
+    -moz-border-radius-bottomleft: 15px;
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+    overflow: hidden;
+  }
+  .navbar .navbar-inner .nav-collapse ul.menu ul.menu li {
+    border-top: 1px solid #961116;
+  }
+}
 @media (max-width: 979px) {
+  div.logo-container {
+    width: 39%;
+    left: inherit;
+    right: 10px;
+  }
   div#top-bar {
     height: 50px;
   }
@@ -2553,6 +2333,10 @@ a.user-link:hover {
   }
   a.user-link {
     float: left;
-    margin-left: 80px;
+    margin-left: 62px;
+  }
+  div.sidebar-outer,
+  section#footer {
+    display: none;
   }
 }
