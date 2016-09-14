@@ -463,6 +463,7 @@ a:visited {
 a:hover {
   color: #ffefb6;
   text-decoration: underline;
+  cursor: pointer;
 }
 a:active {
   color: #f26c55;
@@ -1122,6 +1123,15 @@ div.input-file-wrapper input {
 div.input-file-wrapper input:hover {
   cursor: pointer;
 }
+span.icon {
+  width: 24px;
+  height: 20px;
+  display: block;
+  background-image: url("../images/afrikaburn-icons.png");
+  background-repeat: no-repeat;
+  background-position: left -40px top -50px;
+  background-size: 200px;
+}
 .body-content table td p,
 .body-content table td b,
 .body-content table td span,
@@ -1492,7 +1502,6 @@ div.sm-link {
   height: 40px;
   width: 40px;
   float: left;
-  margin: 0 5px;
 }
 div.sm-link a:link {
   height: 40px;
@@ -1590,16 +1599,9 @@ div.messages {
   text-align: left;
 }
 div.messages span.icon {
-  width: 24px;
-  height: 20px;
-  display: block;
   position: absolute;
   left: 8px;
   top: 15px;
-  background-image: url("../images/afrikaburn-icons.png");
-  background-repeat: no-repeat;
-  background-position: left -40px top -50px;
-  background-size: 200px;
 }
 div.messages.status span.icon {
   background-position: left 0px top -50px;
@@ -2090,6 +2092,16 @@ fieldset.date-combo .container-inline-date .date-padding {
 }
 .form-item {
   margin: 0 0 10px 0;
+}
+.form-item input.error,
+.form-item textarea.error {
+  background-color: #e85157;
+  border: 2px solid #802727;
+  padding-left: 30px;
+}
+.form-item span.icon {
+  position: relative;
+  margin: 10px 0 -30px 5px;
 }
 div.group-questionaire .form-wrapper {
   padding: 20px 0;

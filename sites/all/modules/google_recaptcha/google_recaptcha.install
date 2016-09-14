@@ -1,0 +1,110 @@
+<?php
+
+/**
+ * @file
+ * Install and uninstall functions for Google reCAPTCHA
+ */
+
+/**
+ * Implements hook_install()
+ */
+function google_recaptcha_install() {
+
+  $tune = array(
+    'public_key' => '',
+    'secret_key' => '',
+    'protected_forms' => array( // forms selected by default for protection
+      'user_login',
+      'user_login_block',
+      'user_register_form',
+    ),
+    'statistics' => array(
+      'status' => 1,
+      'requests' => 0,
+      'success' => 0,
+      'fails' => 0,
+    ),
+    'settings' => array(
+      'write_log' => 0,
+      'widget_size' => 'normal', // possible values: compact, normal (default).
+      'widget_theme' => 'light', // possible values: dark, light (default).
+      'language' => 'en', // possible values: https://developers.google.com/recaptcha/docs/language
+    ),
+  );
+
+  variable_set('google_recaptcha', $tune);
+}
+
+/**
+ * Implements hook_uninstall()
+ */
+function google_recaptcha_uninstall() {
+  variable_del('google_recaptcha');
+}
+
+/**
+ * Implements hook_requirements($phase)
+ *
+ * @param $phase
+ *
+ * @return array
+ */
+function google_recaptcha_requirements($phase) {
+
+  $requirements = array();
+  if ($phase == 'runtime') {
+
+
+    $tune = variable_get('google_recaptcha');
+
+    // Set message for admin that he must enter keys (if they empty now).
+    if (empty($tune['public_key']) || empty($tune['secret_key'])) {
+
+      $description = t('Google reCAPTCHA: You must to define public and secret 
+keys to protect Your site from spam. You can do it <a href="@page-with-keys">here >></a>.
+Better not to put it off on the later time - spammers are not asleep. <b>Let\'s make 
+their life harder!! :))</b>',
+        array('@page-with-keys' => '/admin/config/spam_protection/google_recaptcha/keys'));
+
+      $requirements['google_recaptcha_empty_keys'] = array(
+        'title' => t('Integration with Google reCAPTCHA service!'),
+        'value' => 'Not defined!',
+        'severity' => REQUIREMENT_ERROR,
+        'description' => $description,
+      );
+    }
+  }
+  return $requirements;
+}
+
+/**
+ * Add new options to settings: 'widget_theme', 'widget_size' and 'write_log'.
+ */
+function google_recaptcha_update_7100() {
+  $tune = variable_get('google_recaptcha');
+  $tune['settings'] = array(
+    'write_log' => 0,
+    'widget_size' => 'normal',
+    'widget_theme' => 'light',
+  );
+  variable_set('google_recaptcha', $tune);
+}
+
+/**
+ * Added 'user_login', 'user_login_block' and 'user_register_form' forms to protected forms array.
+ * Because now they are not protected always and maybe customised by site administrator.
+ */
+function google_recaptcha_update_7101() {
+  $tune = variable_get('google_recaptcha');
+
+  $tune['protected_forms'] += array(
+    'user_login',
+    'user_login_block',
+    'user_register_form',
+  );
+
+  variable_set('google_recaptcha', $tune);
+}
+
+
+

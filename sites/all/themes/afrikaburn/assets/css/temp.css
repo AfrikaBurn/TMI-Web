@@ -99,8 +99,8 @@ Year and name of previous projects
 THE STRUCTURE - Dimensions
 */
 
-.field-name-field-height, .field-name-field-width, .field-name-field-depth, .field-name-field-approx-weight {
-  width: 23%;
+.field-name-field-height, .field-name-field-width, .field-name-field-depth, .field-name-field-approx-weight, .field-name-field-foot-print-area {
+  width: 31%;
   Float: left;
   padding: 1%;
 }
@@ -108,8 +108,18 @@ THE STRUCTURE - Dimensions
   height: 25px;
 }
 
+.field-name-field-foot-print-area .description {
+  padding-left: 11px;
+  margin-left: 0;
+}
 
+.field-name-field-dimentions-m2 .field-type-number-integer input {
+  max-width: 130px;
+}
 
+.field-name-field-approx-weight {
+  height: 118px;
+}
 
 
 /*
@@ -195,6 +205,42 @@ div.form-wrapper .form-item > label {
 div.field-widget-image-image table th, div.field-type-file table th {
     background-color: #191919;
 }
+
+
+table#field-bb-minors-details-values {
+    min-width: 100%;
+}
+
+.group-user .field-name-field-bb-minors-details .field-name-field-email-address label {
+  display: block;
+  padding-top: 4px;
+}
+
+.group-user .field-name-field-bb-minors-details .field-name-field-date-of-birth label {
+  display: none;
+}
+.group-user .field-name-field-bb-minors-details .field-name-field-last-name {
+  width: 92px;
+}
+.group-user .field-name-field-bb-minors-details .field-name-field-first-name {
+  width: 92px;
+}
+.group-user .field-name-field-bb-minors-details .field-name-field-email-address {
+  heiwidth: 22%;
+}
+.group-user .field-name-field-bb-minors-details .field-name-field-date-of-birth {
+  float: left;
+  width: 24%;
+  padding-right: 1%;
+}
+.group-user .field-name-field-bb-minors-details .field-name-field-bb-gardien-yn {
+  float: left;
+  width: 18%;
+  padding-right: 1%;
+}
+
+
+
 
 }
 /* closes 980 width screen */
@@ -302,58 +348,69 @@ div.field-name-field-bb-booze.form-wrapper {
     border-top: none;
     padding: 0;
 }
-field-name-field-bb-part-of1
-div.field-name-field-bb-dressed p {
+
+
+
+/*
+ * update burner bio
+ */
+div.group-bb-update .form-wrapper {
+    padding: 20px 0;
+    border-top: 1px solid #961116;
+    width: 100%;
+}
+
+div.field-name-field-moop-revised-burner-bio p {
     margin-bottom: 0;
 }
-div.field-name-field-bb-dressed.form-wrapper {
+div.field-name-field-moop-revised-burner-bio.form-wrapper {
     padding-bottom: 0;
 }
-div.field-name-field-bb-dressed1.form-wrapper {
+div.field-name-field-moop-revised-burner-bio2.form-wrapper {
     border-top: none;
     padding: 0;
 }
 
-div.field-name-field-bb-dressed p {
+div.field-name-field-drone-update p {
     margin-bottom: 0;
 }
-div.field-name-field-bb-dressed.form-wrapper {
+div.field-name-field-drone-update.form-wrapper {
     padding-bottom: 0;
 }
-div.field-name-field-bb-dressed1.form-wrapper {
+div.field-name-field-drone-update-p2.form-wrapper {
     border-top: none;
     padding: 0;
 }
 
-div.field-name-field-bb-dressed p {
+div.field-name-field-mutant-registration-p1 p {
     margin-bottom: 0;
 }
-div.field-name-field-bb-dressed.form-wrapper {
+div.field-name-field-mutant-registration-p1.form-wrapper {
     padding-bottom: 0;
 }
-div.field-name-field-bb-dressed1.form-wrapper {
+div.field-name-field-mutant-registration-p2.form-wrapper {
     border-top: none;
     padding: 0;
 }
 
-div.field-name-field-bb-dressed p {
+div.field-name-field-pink-bangle-p1 p {
     margin-bottom: 0;
 }
-div.field-name-field-bb-dressed.form-wrapper {
+div.field-name-field-pink-bangle-p1.form-wrapper {
     padding-bottom: 0;
 }
-div.field-name-field-bb-dressed1.form-wrapper {
+div.field-name-field-pink-bangle-p2.form-wrapper {
     border-top: none;
     padding: 0;
 }
 
-div.field-name-field-bb-dressed p {
+div.field-name-field-booze-p1 p {
     margin-bottom: 0;
 }
-div.field-name-field-bb-dressed.form-wrapper {
+div.field-name-field-booze-p1.form-wrapper {
     padding-bottom: 0;
 }
-div.field-name-field-bb-dressed1.form-wrapper {
+div.field-name-field-booze-p2.form-wrapper {
     border-top: none;
     padding: 0;
 }

@@ -60,7 +60,7 @@ $(document).ready(function() {
 		$("html, body").animate({"scrollTop": "0px"}, 100);
 	});
 	$(function() {
-	  setInterval("rotateImages()", 5000);
+	  //setInterval("rotateImages()", 5000);
 	});
 	
 	$("a.login-box-toggler").attr("href","javascript: void(0)").click(function(e) {
@@ -79,6 +79,7 @@ $(document).ready(function() {
 	});
 
 	$("div.messages").prepend("<span class='icon'></span>");
+	// $(".form-item input.error, .form-item textarea.error").before("<span class='icon'></span>");
 });
 
 
