@@ -1,0 +1,11 @@
+name = Google reCAPTCHA
+description = Provide integration with Google reCAPTCHA service for protection site forms. Read more: http://www.google.com/recaptcha
+core = 7.x
+configure = admin/config/spam_protection/google_recaptcha
+package = Spam protection
+; Information added by Drupal.org packaging script on 2016-06-21
+version = "7.x-1.2"
+core = "7.x"
+project = "google_recaptcha"
+datestamp = "1466519830"
+
