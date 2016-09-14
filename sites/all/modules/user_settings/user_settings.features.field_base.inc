@@ -1698,33 +1698,6 @@ function user_settings_field_default_field_bases() {
     'type' => 'taxonomy_term_reference',
   );
 
-  // Exported field_base: 'field_where_are_you_based'.
-  $field_bases['field_where_are_you_based'] = array(
-    'active' => 1,
-    'cardinality' => 1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'field_where_are_you_based',
-    'field_permissions' => array(
-      'type' => 0,
-    ),
-    'indexes' => array(
-      'iso2' => array(
-        0 => 'iso2',
-      ),
-    ),
-    'locked' => 0,
-    'module' => 'countries',
-    'settings' => array(
-      'continents' => array(),
-      'countries' => array(),
-      'enabled' => 1,
-      'size' => 5,
-    ),
-    'translatable' => 0,
-    'type' => 'country',
-  );
-
   // Exported field_base: 'field_year_and_event_name'.
   $field_bases['field_year_and_event_name'] = array(
     'active' => 1,
@@ -1749,70 +1722,6 @@ function user_settings_field_default_field_bases() {
     ),
     'translatable' => 0,
     'type' => 'taxonomy_term_reference',
-  );
-
-  // Exported field_base: 'og_user_node'.
-  $field_bases['og_user_node'] = array(
-    'active' => 1,
-    'cardinality' => -1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'og_user_node',
-    'indexes' => array(
-      'target_id' => array(
-        0 => 'target_id',
-      ),
-    ),
-    'locked' => 0,
-    'module' => 'entityreference',
-    'settings' => array(
-      'handler' => 'og',
-      'handler_settings' => array(
-        'behaviors' => array(
-          'og_behavior' => array(
-            'status' => TRUE,
-          ),
-        ),
-        'membership_type' => 'og_membership_type_default',
-        'target_bundles' => array(),
-      ),
-      'handler_submit' => 'Change handler',
-      'target_type' => 'node',
-    ),
-    'translatable' => 0,
-    'type' => 'entityreference',
-  );
-
-  // Exported field_base: 'og_user_taxonomy_term'.
-  $field_bases['og_user_taxonomy_term'] = array(
-    'active' => 1,
-    'cardinality' => -1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'og_user_taxonomy_term',
-    'indexes' => array(
-      'target_id' => array(
-        0 => 'target_id',
-      ),
-    ),
-    'locked' => 0,
-    'module' => 'entityreference',
-    'settings' => array(
-      'handler' => 'og',
-      'handler_settings' => array(
-        'behaviors' => array(
-          'og_behavior' => array(
-            'status' => TRUE,
-          ),
-        ),
-        'membership_type' => 'og_membership_type_default',
-        'target_bundles' => array(),
-      ),
-      'handler_submit' => 'Change handler',
-      'target_type' => 'taxonomy_term',
-    ),
-    'translatable' => 0,
-    'type' => 'entityreference',
   );
 
   return $field_bases;

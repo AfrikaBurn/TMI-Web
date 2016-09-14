@@ -10,15 +10,6 @@
 function user_settings_user_default_permissions() {
   $permissions = array();
 
-  // Exported permission: 'access all views'.
-  $permissions['access all views'] = array(
-    'name' => 'access all views',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'views',
-  );
-
   // Exported permission: 'access private fields'.
   $permissions['access private fields'] = array(
     'name' => 'access private fields',
@@ -28,25 +19,6 @@ function user_settings_user_default_permissions() {
     'module' => 'field_permissions',
   );
 
-  // Exported permission: 'access user profiles'.
-  $permissions['access user profiles'] = array(
-    'name' => 'access user profiles',
-    'roles' => array(
-      'Support' => 'Support',
-      'administrator' => 'administrator',
-    ),
-    'module' => 'user',
-  );
-
-  // Exported permission: 'administer exclude node title'.
-  $permissions['administer exclude node title'] = array(
-    'name' => 'administer exclude node title',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'exclude_node_title',
-  );
-
   // Exported permission: 'administer field permissions'.
   $permissions['administer field permissions'] = array(
     'name' => 'administer field permissions',
@@ -54,53 +26,6 @@ function user_settings_user_default_permissions() {
       'administrator' => 'administrator',
     ),
     'module' => 'field_permissions',
-  );
-
-  // Exported permission: 'administer permissions'.
-  $permissions['administer permissions'] = array(
-    'name' => 'administer permissions',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'user',
-  );
-
-  // Exported permission: 'administer users'.
-  $permissions['administer users'] = array(
-    'name' => 'administer users',
-    'roles' => array(
-      'Support' => 'Support',
-      'administrator' => 'administrator',
-    ),
-    'module' => 'user',
-  );
-
-  // Exported permission: 'administer views'.
-  $permissions['administer views'] = array(
-    'name' => 'administer views',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'views',
-  );
-
-  // Exported permission: 'cancel account'.
-  $permissions['cancel account'] = array(
-    'name' => 'cancel account',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'user',
-  );
-
-  // Exported permission: 'change own username'.
-  $permissions['change own username'] = array(
-    'name' => 'change own username',
-    'roles' => array(
-      'administrator' => 'administrator',
-      'authenticated user' => 'authenticated user',
-    ),
-    'module' => 'user',
   );
 
   // Exported permission: 'create field_bb_ab_history'.
@@ -383,13 +308,6 @@ function user_settings_user_default_permissions() {
       'anonymous user' => 'anonymous user',
     ),
     'module' => 'field_permissions',
-  );
-
-  // Exported permission: 'delete terms in volunteer_ticket'.
-  $permissions['delete terms in volunteer_ticket'] = array(
-    'name' => 'delete terms in volunteer_ticket',
-    'roles' => array(),
-    'module' => 'taxonomy',
   );
 
   // Exported permission: 'edit field_bb_ab_history'.
@@ -832,69 +750,6 @@ function user_settings_user_default_permissions() {
       'administrator' => 'administrator',
     ),
     'module' => 'field_permissions',
-  );
-
-  // Exported permission: 'edit terms in volunteer_ticket'.
-  $permissions['edit terms in volunteer_ticket'] = array(
-    'name' => 'edit terms in volunteer_ticket',
-    'roles' => array(),
-    'module' => 'taxonomy',
-  );
-
-  // Exported permission: 'exclude any node title'.
-  $permissions['exclude any node title'] = array(
-    'name' => 'exclude any node title',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'exclude_node_title',
-  );
-
-  // Exported permission: 'exclude own node title'.
-  $permissions['exclude own node title'] = array(
-    'name' => 'exclude own node title',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'exclude_node_title',
-  );
-
-  // Exported permission: 'import users'.
-  $permissions['import users'] = array(
-    'name' => 'import users',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'user_import',
-  );
-
-  // Exported permission: 'limited user import'.
-  $permissions['limited user import'] = array(
-    'name' => 'limited user import',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'user_import',
-  );
-
-  // Exported permission: 'select account cancellation method'.
-  $permissions['select account cancellation method'] = array(
-    'name' => 'select account cancellation method',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'user',
-  );
-
-  // Exported permission: 'use exclude node title'.
-  $permissions['use exclude node title'] = array(
-    'name' => 'use exclude node title',
-    'roles' => array(
-      'administrator' => 'administrator',
-      'anonymous user' => 'anonymous user',
-      'authenticated user' => 'authenticated user',
-    ),
-    'module' => 'exclude_node_title',
   );
 
   // Exported permission: 'view field_bb_ab_history'.
