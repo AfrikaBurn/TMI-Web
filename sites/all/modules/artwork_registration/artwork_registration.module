@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Artwork Registration feature.
+ */
+
+include_once 'artwork_registration.features.inc';
