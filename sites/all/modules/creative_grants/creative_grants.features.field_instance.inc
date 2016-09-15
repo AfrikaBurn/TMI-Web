@@ -563,6 +563,54 @@ function creative_grants_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-creative_grant_application-field_material'.
+  $field_instances['node-creative_grant_application-field_material'] = array(
+    'bundle' => 'creative_grant_application',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'number',
+        'settings' => array(
+          'decimal_separator' => '.',
+          'prefix_suffix' => TRUE,
+          'scale' => 0,
+          'thousand_separator' => '',
+        ),
+        'type' => 'number_integer',
+        'weight' => 4,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_material',
+    'label' => 'Materials',
+    'required' => 0,
+    'settings' => array(
+      'custom_add_another' => '',
+      'custom_remove' => '',
+      'max' => '',
+      'min' => '',
+      'prefix' => 'R',
+      'suffix' => 'ZAR (South African Rands)',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'number',
+      'settings' => array(),
+      'type' => 'number',
+      'weight' => 6,
+    ),
+  );
+
   // Exported field_instance:
   // 'node-creative_grant_application-field_other_funding'.
   $field_instances['node-creative_grant_application-field_other_funding'] = array(
@@ -1244,6 +1292,7 @@ function creative_grants_field_default_field_instances() {
   t('Is there any other info that you want to add to this grant application?');
   t('Lighting');
   t('Locations');
+  t('Materials');
   t('NOTE: In order to apply for a Grant, your Artwork or Performance must already have been registered. If you haven\'t registered your proejct, please do so and come back to this form. For Mutant Vehicle Grants please go here [LINK MISSING].');
   t('Other Type of Expense');
   t('Other? Specify');
