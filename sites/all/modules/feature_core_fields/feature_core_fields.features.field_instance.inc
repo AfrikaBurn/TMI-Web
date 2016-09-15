@@ -854,6 +854,149 @@ function feature_core_fields_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance:
+  // 'multifield-field_fire_person-field_email_address'.
+  $field_instances['multifield-field_fire_person-field_email_address'] = array(
+    'bundle' => 'field_fire_person',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'email',
+        'settings' => array(),
+        'type' => 'email_default',
+        'weight' => 2,
+      ),
+    ),
+    'entity_type' => 'multifield',
+    'field_name' => 'field_email_address',
+    'label' => 'Email Address',
+    'required' => 1,
+    'settings' => array(
+      'custom_add_another' => '',
+      'custom_remove' => '',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'email',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'email_textfield',
+      'weight' => 6,
+    ),
+  );
+
+  // Exported field_instance: 'multifield-field_fire_person-field_first_name'.
+  $field_instances['multifield-field_fire_person-field_first_name'] = array(
+    'bundle' => 'field_fire_person',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'multifield',
+    'field_name' => 'field_first_name',
+    'label' => 'First Name',
+    'required' => 1,
+    'settings' => array(
+      'custom_add_another' => '',
+      'custom_remove' => '',
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 2,
+    ),
+  );
+
+  // Exported field_instance: 'multifield-field_fire_person-field_last_name'.
+  $field_instances['multifield-field_fire_person-field_last_name'] = array(
+    'bundle' => 'field_fire_person',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 1,
+      ),
+    ),
+    'entity_type' => 'multifield',
+    'field_name' => 'field_last_name',
+    'label' => 'Last Name',
+    'required' => 1,
+    'settings' => array(
+      'custom_add_another' => '',
+      'custom_remove' => '',
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 4,
+    ),
+  );
+
+  // Exported field_instance: 'multifield-field_fire_person-field_phone_number'.
+  $field_instances['multifield-field_fire_person-field_phone_number'] = array(
+    'bundle' => 'field_fire_person',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_plain',
+        'weight' => 3,
+      ),
+    ),
+    'entity_type' => 'multifield',
+    'field_name' => 'field_phone_number',
+    'label' => 'Phone Number',
+    'required' => 1,
+    'settings' => array(
+      'custom_add_another' => '',
+      'custom_remove' => '',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'telephone',
+      'settings' => array(
+        'placeholder' => '',
+      ),
+      'type' => 'telephone_default',
+      'weight' => 8,
+    ),
+  );
+
   // Exported field_instance: 'multifield-field_fundraiser-field_email_address'.
   $field_instances['multifield-field_fundraiser-field_email_address'] = array(
     'bundle' => 'field_fundraiser',
@@ -1779,6 +1922,152 @@ function feature_core_fields_field_default_field_instances() {
       ),
       'type' => 'telephone_default',
       'weight' => 8,
+    ),
+  );
+
+  // Exported field_instance:
+  // 'multifield-field_team_structural_rep-field_email_address'.
+  $field_instances['multifield-field_team_structural_rep-field_email_address'] = array(
+    'bundle' => 'field_team_structural_rep',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'email',
+        'settings' => array(),
+        'type' => 'email_default',
+        'weight' => 1,
+      ),
+    ),
+    'entity_type' => 'multifield',
+    'field_name' => 'field_email_address',
+    'label' => 'Email Address',
+    'required' => 1,
+    'settings' => array(
+      'custom_add_another' => '',
+      'custom_remove' => '',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'email',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'email_textfield',
+      'weight' => 3,
+    ),
+  );
+
+  // Exported field_instance:
+  // 'multifield-field_team_structural_rep-field_first_name'.
+  $field_instances['multifield-field_team_structural_rep-field_first_name'] = array(
+    'bundle' => 'field_team_structural_rep',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 3,
+      ),
+    ),
+    'entity_type' => 'multifield',
+    'field_name' => 'field_first_name',
+    'label' => 'First Name',
+    'required' => 1,
+    'settings' => array(
+      'custom_add_another' => '',
+      'custom_remove' => '',
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 1,
+    ),
+  );
+
+  // Exported field_instance:
+  // 'multifield-field_team_structural_rep-field_last_name'.
+  $field_instances['multifield-field_team_structural_rep-field_last_name'] = array(
+    'bundle' => 'field_team_structural_rep',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 4,
+      ),
+    ),
+    'entity_type' => 'multifield',
+    'field_name' => 'field_last_name',
+    'label' => 'Last Name',
+    'required' => 1,
+    'settings' => array(
+      'custom_add_another' => '',
+      'custom_remove' => '',
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 2,
+    ),
+  );
+
+  // Exported field_instance:
+  // 'multifield-field_team_structural_rep-field_phone_number'.
+  $field_instances['multifield-field_team_structural_rep-field_phone_number'] = array(
+    'bundle' => 'field_team_structural_rep',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_plain',
+        'weight' => 2,
+      ),
+    ),
+    'entity_type' => 'multifield',
+    'field_name' => 'field_phone_number',
+    'label' => 'Phone Number',
+    'required' => 1,
+    'settings' => array(
+      'custom_add_another' => '',
+      'custom_remove' => '',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'telephone',
+      'settings' => array(
+        'placeholder' => '',
+      ),
+      'type' => 'telephone_default',
+      'weight' => 4,
     ),
   );
 

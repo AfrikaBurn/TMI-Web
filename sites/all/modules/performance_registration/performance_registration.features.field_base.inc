@@ -10,39 +10,6 @@
 function performance_registration_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'field_fire_person'.
-  $field_bases['field_fire_person'] = array(
-    'active' => 1,
-    'cardinality' => 1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'field_fire_person',
-    'field_permissions' => array(
-      'type' => 0,
-    ),
-    'indexes' => array(
-      'field_first_name_format' => array(
-        0 => 'field_first_name_format',
-      ),
-      'field_last_name_format' => array(
-        0 => 'field_last_name_format',
-      ),
-      'id' => array(
-        0 => 'id',
-      ),
-    ),
-    'locked' => 0,
-    'module' => 'multifield',
-    'settings' => array(
-      'entity_translation_sync' => array(
-        0 => 'id',
-      ),
-      'hide_blank_items' => 1,
-    ),
-    'translatable' => 0,
-    'type' => 'multifield',
-  );
-
   // Exported field_base: 'field_fire_yn'.
   $field_bases['field_fire_yn'] = array(
     'active' => 1,
@@ -150,58 +117,6 @@ function performance_registration_field_default_field_bases() {
     ),
     'translatable' => 0,
     'type' => 'list_text',
-  );
-
-  // Exported field_base: 'field_team_structural_rep'.
-  $field_bases['field_team_structural_rep'] = array(
-    'active' => 1,
-    'cardinality' => 1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'field_team_structural_rep',
-    'field_permissions' => array(
-      'type' => 0,
-    ),
-    'indexes' => array(
-      'field_first_name_format' => array(
-        0 => 'field_first_name_format',
-      ),
-      'field_last_name_format' => array(
-        0 => 'field_last_name_format',
-      ),
-      'id' => array(
-        0 => 'id',
-      ),
-    ),
-    'locked' => 0,
-    'module' => 'multifield',
-    'settings' => array(
-      'entity_translation_sync' => array(
-        0 => 'id',
-      ),
-      'hide_blank_items' => 1,
-    ),
-    'translatable' => 0,
-    'type' => 'multifield',
-  );
-
-  // Exported field_base: 'field_transport'.
-  $field_bases['field_transport'] = array(
-    'active' => 1,
-    'cardinality' => 1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'field_transport',
-    'indexes' => array(
-      'format' => array(
-        0 => 'format',
-      ),
-    ),
-    'locked' => 0,
-    'module' => 'text',
-    'settings' => array(),
-    'translatable' => 0,
-    'type' => 'text_long',
   );
 
   return $field_bases;

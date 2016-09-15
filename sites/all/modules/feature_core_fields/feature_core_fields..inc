@@ -54,6 +54,13 @@ function feature_core_fields_multifield_default_multifield() {
 
   $multifield = new stdClass();
   $multifield->disabled = FALSE; /* Edit this to true to make a default multifield disabled initially */
+  $multifield->machine_name = 'field_fire_person';
+  $multifield->label = 'field_fire_person';
+  $multifield->description = '';
+  $export['field_fire_person'] = $multifield;
+
+  $multifield = new stdClass();
+  $multifield->disabled = FALSE; /* Edit this to true to make a default multifield disabled initially */
   $multifield->machine_name = 'field_fundraiser';
   $multifield->label = 'field_fundraiser';
   $multifield->description = '';
@@ -100,6 +107,13 @@ function feature_core_fields_multifield_default_multifield() {
   $multifield->label = 'field_sound_person';
   $multifield->description = '';
   $export['field_sound_person'] = $multifield;
+
+  $multifield = new stdClass();
+  $multifield->disabled = FALSE; /* Edit this to true to make a default multifield disabled initially */
+  $multifield->machine_name = 'field_team_structural_rep';
+  $multifield->label = 'field_team_structural_rep';
+  $multifield->description = '';
+  $export['field_team_structural_rep'] = $multifield;
 
   $multifield = new stdClass();
   $multifield->disabled = FALSE; /* Edit this to true to make a default multifield disabled initially */
