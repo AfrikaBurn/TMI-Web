@@ -1,22 +1,25 @@
 <?php
 /**
  * @file
- * artwork_registration_features_download.features.field_base.inc
+ * feature_core_fields.features.field_base.inc
  */
 
 /**
  * Implements hook_field_default_field_bases().
  */
-function artwork_registration_features_download_field_default_field_bases() {
+function feature_core_fields_field_default_field_bases() {
   $field_bases = array();
 
   // Exported field_base: 'field_additional_docs'.
   $field_bases['field_additional_docs'] = array(
     'active' => 1,
-    'cardinality' => 1,
+    'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_additional_docs',
+    'field_permissions' => array(
+      'type' => 0,
+    ),
     'indexes' => array(
       'fid' => array(
         0 => 'fid',
@@ -40,6 +43,9 @@ function artwork_registration_features_download_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_anything_else',
+    'field_permissions' => array(
+      'type' => 0,
+    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -80,21 +86,6 @@ function artwork_registration_features_download_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_approx_weight'.
-  $field_bases['field_approx_weight'] = array(
-    'active' => 1,
-    'cardinality' => 1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'field_approx_weight',
-    'indexes' => array(),
-    'locked' => 0,
-    'module' => 'number',
-    'settings' => array(),
-    'translatable' => 0,
-    'type' => 'number_integer',
-  );
-
   // Exported field_base: 'field_artwork_site_clean'.
   $field_bases['field_artwork_site_clean'] = array(
     'active' => 1,
@@ -102,6 +93,9 @@ function artwork_registration_features_download_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_artwork_site_clean',
+    'field_permissions' => array(
+      'type' => 0,
+    ),
     'indexes' => array(
       'id' => array(
         0 => 'id',
@@ -126,6 +120,9 @@ function artwork_registration_features_download_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_associated_projects',
+    'field_permissions' => array(
+      'type' => 0,
+    ),
     'indexes' => array(
       'field_how_is_it_related__format' => array(
         0 => 'field_how_is_it_related__format',
@@ -156,6 +153,9 @@ function artwork_registration_features_download_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_burn_safety_consideration',
+    'field_permissions' => array(
+      'type' => 0,
+    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -203,6 +203,9 @@ function artwork_registration_features_download_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_contact_person',
+    'field_permissions' => array(
+      'type' => 0,
+    ),
     'indexes' => array(
       'field_first_name_format' => array(
         0 => 'field_first_name_format',
@@ -233,6 +236,9 @@ function artwork_registration_features_download_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_creative_lead',
+    'field_permissions' => array(
+      'type' => 0,
+    ),
     'indexes' => array(
       'field_first_name_format' => array(
         0 => 'field_first_name_format',
@@ -263,6 +269,9 @@ function artwork_registration_features_download_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_crew_members',
+    'field_permissions' => array(
+      'type' => 0,
+    ),
     'indexes' => array(
       'field_first_name_format' => array(
         0 => 'field_first_name_format',
@@ -289,21 +298,6 @@ function artwork_registration_features_download_field_default_field_bases() {
     'type' => 'multifield',
   );
 
-  // Exported field_base: 'field_depth'.
-  $field_bases['field_depth'] = array(
-    'active' => 1,
-    'cardinality' => 1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'field_depth',
-    'indexes' => array(),
-    'locked' => 0,
-    'module' => 'number',
-    'settings' => array(),
-    'translatable' => 0,
-    'type' => 'number_integer',
-  );
-
   // Exported field_base: 'field_describe_your_project'.
   $field_bases['field_describe_your_project'] = array(
     'active' => 1,
@@ -311,6 +305,9 @@ function artwork_registration_features_download_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_describe_your_project',
+    'field_permissions' => array(
+      'type' => 0,
+    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -323,21 +320,17 @@ function artwork_registration_features_download_field_default_field_bases() {
     'type' => 'text_long',
   );
 
-  // Exported field_base: 'field_dimensions'.
-  $field_bases['field_dimensions'] = array(
+  // Exported field_base: 'field_dimentions_foot_print_m2'.
+  $field_bases['field_dimentions_foot_print_m2'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'field_dimensions',
-    'indexes' => array(
-      'field_other_relevant_phisical_at_format' => array(
-        0 => 'field_other_relevant_phisical_at_format',
-      ),
-      'id' => array(
-        0 => 'id',
-      ),
+    'field_name' => 'field_dimentions_foot_print_m2',
+    'field_permissions' => array(
+      'type' => 0,
     ),
+    'indexes' => array(),
     'locked' => 0,
     'module' => 'multifield',
     'settings' => array(
@@ -421,24 +414,14 @@ function artwork_registration_features_download_field_default_field_bases() {
     'type' => 'email',
   );
 
-  // Exported field_base: 'field_fire_person'.
-  $field_bases['field_fire_person'] = array(
+  // Exported field_base: 'field_field_year_and_name_of_pre'.
+  $field_bases['field_field_year_and_name_of_pre'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'field_fire_person',
-    'indexes' => array(
-      'field_first_name_format' => array(
-        0 => 'field_first_name_format',
-      ),
-      'field_last_name_format' => array(
-        0 => 'field_last_name_format',
-      ),
-      'id' => array(
-        0 => 'id',
-      ),
-    ),
+    'field_name' => 'field_field_year_and_name_of_pre',
+    'indexes' => array(),
     'locked' => 0,
     'module' => 'multifield',
     'settings' => array(
@@ -505,21 +488,6 @@ function artwork_registration_features_download_field_default_field_bases() {
     'type' => 'multifield',
   );
 
-  // Exported field_base: 'field_height'.
-  $field_bases['field_height'] = array(
-    'active' => 1,
-    'cardinality' => 1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'field_height',
-    'indexes' => array(),
-    'locked' => 0,
-    'module' => 'number',
-    'settings' => array(),
-    'translatable' => 0,
-    'type' => 'number_integer',
-  );
-
   // Exported field_base: 'field_history'.
   $field_bases['field_history'] = array(
     'active' => 1,
@@ -527,6 +495,9 @@ function artwork_registration_features_download_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_history',
+    'field_permissions' => array(
+      'type' => 0,
+    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -565,6 +536,9 @@ function artwork_registration_features_download_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_how_long_do_you_estimate_i',
+    'field_permissions' => array(
+      'type' => 0,
+    ),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'number',
@@ -580,6 +554,9 @@ function artwork_registration_features_download_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_if_in_south_africa_please_',
+    'field_permissions' => array(
+      'type' => 0,
+    ),
     'indexes' => array(
       'value' => array(
         0 => 'value',
@@ -700,6 +677,9 @@ function artwork_registration_features_download_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_location_map',
+    'field_permissions' => array(
+      'type' => 0,
+    ),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'markup',
@@ -708,9 +688,9 @@ function artwork_registration_features_download_field_default_field_bases() {
         'format' => 'full_html',
         'value' => '<h3>Placement</h3>
 
-<p>Please select your prefered location with in Tankwa Town from the drop down list below.</p>
+<p>Please select your prefered location from the drop down list below.</p>
 
-<p><img alt="Tankwa Town Artwork Placement" src="http://drupal7.afrikaburn.com/sites/default/files/Tankwa-Town-Artwork-Placement_0.png" /></p>
+<p><a href="/sites/default/files/AB_ArtPlacement%20Map_2017%20no%20hidden%20items.pdf" target="_blank"><img alt="Tankwa Town Artwork Placement" src="/sites/default/files/AB_ArtPlacement%20Map_2017%20no%20hidden%20items.jpg" style="height:435px; width:610px" /></a></p>
 ',
       ),
     ),
@@ -725,6 +705,9 @@ function artwork_registration_features_download_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_location_picker',
+    'field_permissions' => array(
+      'type' => 0,
+    ),
     'indexes' => array(
       'tid' => array(
         0 => 'tid',
@@ -766,6 +749,9 @@ function artwork_registration_features_download_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_materials',
+    'field_permissions' => array(
+      'type' => 0,
+    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -785,6 +771,9 @@ function artwork_registration_features_download_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_moop_representative',
+    'field_permissions' => array(
+      'type' => 0,
+    ),
     'indexes' => array(
       'field_first_name_format' => array(
         0 => 'field_first_name_format',
@@ -808,13 +797,42 @@ function artwork_registration_features_download_field_default_field_bases() {
     'type' => 'multifield',
   );
 
-  // Exported field_base: 'field_name_of_the_collective'.
-  $field_bases['field_name_of_the_collective'] = array(
+  // Exported field_base: 'field_munciple_district'.
+  $field_bases['field_munciple_district'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'field_name_of_the_collective',
+    'field_name' => 'field_munciple_district',
+    'field_permissions' => array(
+      'type' => 0,
+    ),
+    'indexes' => array(
+      'tid' => array(
+        0 => 'tid',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'taxonomy',
+    'settings' => array(
+      'allowed_values' => array(
+        0 => array(
+          'vocabulary' => 'municpal_district',
+          'parent' => 0,
+        ),
+      ),
+    ),
+    'translatable' => 0,
+    'type' => 'taxonomy_term_reference',
+  );
+
+  // Exported field_base: 'field_name_of_collective'.
+  $field_bases['field_name_of_collective'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_name_of_collective',
     'field_permissions' => array(
       'type' => 0,
     ),
@@ -839,6 +857,9 @@ function artwork_registration_features_download_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_new_members',
+    'field_permissions' => array(
+      'type' => 0,
+    ),
     'indexes' => array(
       'value' => array(
         0 => 'value',
@@ -864,6 +885,9 @@ function artwork_registration_features_download_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_new_members_details',
+    'field_permissions' => array(
+      'type' => 0,
+    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -883,6 +907,9 @@ function artwork_registration_features_download_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_new_members_email',
+    'field_permissions' => array(
+      'type' => 0,
+    ),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'email',
@@ -923,9 +950,12 @@ function artwork_registration_features_download_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_offsite_building',
+    'field_permissions' => array(
+      'type' => 0,
+    ),
     'indexes' => array(
-      'field_where_are_you_going_to_bui_value' => array(
-        0 => 'field_where_are_you_going_to_bui_value',
+      'field_munciple_district_tid' => array(
+        0 => 'field_munciple_district_tid',
       ),
       'id' => array(
         0 => 'id',
@@ -950,6 +980,9 @@ function artwork_registration_features_download_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_on_site_building',
+    'field_permissions' => array(
+      'type' => 0,
+    ),
     'indexes' => array(
       'id' => array(
         0 => 'id',
@@ -974,6 +1007,9 @@ function artwork_registration_features_download_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_other_relevant_phisical_at',
+    'field_permissions' => array(
+      'type' => 0,
+    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -999,35 +1035,6 @@ function artwork_registration_features_download_field_default_field_bases() {
     'settings' => array(),
     'translatable' => 0,
     'type' => 'number_integer',
-  );
-
-  // Exported field_base: 'field_performer_types'.
-  $field_bases['field_performer_types'] = array(
-    'active' => 1,
-    'cardinality' => -1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'field_performer_types',
-    'field_permissions' => array(
-      'type' => 0,
-    ),
-    'indexes' => array(
-      'tid' => array(
-        0 => 'tid',
-      ),
-    ),
-    'locked' => 0,
-    'module' => 'taxonomy',
-    'settings' => array(
-      'allowed_values' => array(
-        0 => array(
-          'vocabulary' => 'performer_types',
-          'parent' => 0,
-        ),
-      ),
-    ),
-    'translatable' => 0,
-    'type' => 'taxonomy_term_reference',
   );
 
   // Exported field_base: 'field_person_lighting'.
@@ -1070,6 +1077,9 @@ function artwork_registration_features_download_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_philosophical_statement',
+    'field_permissions' => array(
+      'type' => 0,
+    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -1107,6 +1117,9 @@ function artwork_registration_features_download_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_placement',
+    'field_permissions' => array(
+      'type' => 0,
+    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -1126,6 +1139,9 @@ function artwork_registration_features_download_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_planned_activities',
+    'field_permissions' => array(
+      'type' => 0,
+    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -1145,6 +1161,9 @@ function artwork_registration_features_download_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_planning_to_start_building',
+    'field_permissions' => array(
+      'type' => 0,
+    ),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'date',
@@ -1168,25 +1187,6 @@ function artwork_registration_features_download_field_default_field_bases() {
     'type' => 'datetime',
   );
 
-  // Exported field_base: 'field_please_describe_your_light'.
-  $field_bases['field_please_describe_your_light'] = array(
-    'active' => 1,
-    'cardinality' => 1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'field_please_describe_your_light',
-    'indexes' => array(
-      'format' => array(
-        0 => 'format',
-      ),
-    ),
-    'locked' => 0,
-    'module' => 'text',
-    'settings' => array(),
-    'translatable' => 0,
-    'type' => 'text_long',
-  );
-
   // Exported field_base: 'field_please_submit_concept_imag'.
   $field_bases['field_please_submit_concept_imag'] = array(
     'active' => 1,
@@ -1194,6 +1194,9 @@ function artwork_registration_features_download_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_please_submit_concept_imag',
+    'field_permissions' => array(
+      'type' => 0,
+    ),
     'indexes' => array(
       'fid' => array(
         0 => 'fid',
@@ -1209,46 +1212,6 @@ function artwork_registration_features_download_field_default_field_bases() {
     'type' => 'image',
   );
 
-  // Exported field_base: 'field_power_sources'.
-  $field_bases['field_power_sources'] = array(
-    'active' => 1,
-    'cardinality' => 1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'field_power_sources',
-    'indexes' => array(
-      'format' => array(
-        0 => 'format',
-      ),
-    ),
-    'locked' => 0,
-    'module' => 'text',
-    'settings' => array(),
-    'translatable' => 0,
-    'type' => 'text_long',
-  );
-
-  // Exported field_base: 'field_previous_project'.
-  $field_bases['field_previous_project'] = array(
-    'active' => 1,
-    'cardinality' => 1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'field_previous_project',
-    'indexes' => array(
-      'format' => array(
-        0 => 'format',
-      ),
-    ),
-    'locked' => 0,
-    'module' => 'text',
-    'settings' => array(
-      'max_length' => 255,
-    ),
-    'translatable' => 0,
-    'type' => 'text',
-  );
-
   // Exported field_base: 'field_project_manager'.
   $field_bases['field_project_manager'] = array(
     'active' => 1,
@@ -1256,6 +1219,9 @@ function artwork_registration_features_download_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_project_manager',
+    'field_permissions' => array(
+      'type' => 0,
+    ),
     'indexes' => array(
       'field_first_name_format' => array(
         0 => 'field_first_name_format',
@@ -1277,35 +1243,6 @@ function artwork_registration_features_download_field_default_field_bases() {
     ),
     'translatable' => 0,
     'type' => 'multifield',
-  );
-
-  // Exported field_base: 'field_project_size'.
-  $field_bases['field_project_size'] = array(
-    'active' => 1,
-    'cardinality' => 1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'field_project_size',
-    'field_permissions' => array(
-      'type' => 0,
-    ),
-    'indexes' => array(
-      'tid' => array(
-        0 => 'tid',
-      ),
-    ),
-    'locked' => 0,
-    'module' => 'taxonomy',
-    'settings' => array(
-      'allowed_values' => array(
-        0 => array(
-          'vocabulary' => 'project_size',
-          'parent' => 0,
-        ),
-      ),
-    ),
-    'translatable' => 0,
-    'type' => 'taxonomy_term_reference',
   );
 
   // Exported field_base: 'field_role'.
@@ -1358,6 +1295,9 @@ function artwork_registration_features_download_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_sound_level',
+    'field_permissions' => array(
+      'type' => 0,
+    ),
     'indexes' => array(
       'tid' => array(
         0 => 'tid',
@@ -1384,6 +1324,9 @@ function artwork_registration_features_download_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_sound_person',
+    'field_permissions' => array(
+      'type' => 0,
+    ),
     'indexes' => array(
       'field_first_name_format' => array(
         0 => 'field_first_name_format',
@@ -1407,13 +1350,13 @@ function artwork_registration_features_download_field_default_field_bases() {
     'type' => 'multifield',
   );
 
-  // Exported field_base: 'field_stage_performers_dscr'.
-  $field_bases['field_stage_performers_dscr'] = array(
+  // Exported field_base: 'field_structural_safety'.
+  $field_bases['field_structural_safety'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'field_stage_performers_dscr',
+    'field_name' => 'field_structural_safety',
     'field_permissions' => array(
       'type' => 0,
     ),
@@ -1429,55 +1372,6 @@ function artwork_registration_features_download_field_default_field_bases() {
     'type' => 'text_long',
   );
 
-  // Exported field_base: 'field_structural_safety'.
-  $field_bases['field_structural_safety'] = array(
-    'active' => 1,
-    'cardinality' => 1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'field_structural_safety',
-    'indexes' => array(
-      'format' => array(
-        0 => 'format',
-      ),
-    ),
-    'locked' => 0,
-    'module' => 'text',
-    'settings' => array(),
-    'translatable' => 0,
-    'type' => 'text_long',
-  );
-
-  // Exported field_base: 'field_team_structural_rep'.
-  $field_bases['field_team_structural_rep'] = array(
-    'active' => 1,
-    'cardinality' => 1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'field_team_structural_rep',
-    'indexes' => array(
-      'field_first_name_format' => array(
-        0 => 'field_first_name_format',
-      ),
-      'field_last_name_format' => array(
-        0 => 'field_last_name_format',
-      ),
-      'id' => array(
-        0 => 'id',
-      ),
-    ),
-    'locked' => 0,
-    'module' => 'multifield',
-    'settings' => array(
-      'entity_translation_sync' => array(
-        0 => 'id',
-      ),
-      'hide_blank_items' => 1,
-    ),
-    'translatable' => 0,
-    'type' => 'multifield',
-  );
-
   // Exported field_base: 'field_theme_camp'.
   $field_bases['field_theme_camp'] = array(
     'active' => 1,
@@ -1485,6 +1379,9 @@ function artwork_registration_features_download_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_theme_camp',
+    'field_permissions' => array(
+      'type' => 0,
+    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -1499,13 +1396,16 @@ function artwork_registration_features_download_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_transport'.
-  $field_bases['field_transport'] = array(
+  // Exported field_base: 'field_trailer_lighting'.
+  $field_bases['field_trailer_lighting'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'field_transport',
+    'field_name' => 'field_trailer_lighting',
+    'field_permissions' => array(
+      'type' => 0,
+    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -1525,6 +1425,9 @@ function artwork_registration_features_download_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_website',
+    'field_permissions' => array(
+      'type' => 0,
+    ),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'link',
@@ -1554,6 +1457,9 @@ function artwork_registration_features_download_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_when_are_you_planning_to_s',
+    'field_permissions' => array(
+      'type' => 0,
+    ),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'date',
@@ -1604,79 +1510,6 @@ function artwork_registration_features_download_field_default_field_bases() {
     'type' => 'country',
   );
 
-  // Exported field_base: 'field_where_are_you_going_to_bui'.
-  $field_bases['field_where_are_you_going_to_bui'] = array(
-    'active' => 1,
-    'cardinality' => 1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'field_where_are_you_going_to_bui',
-    'indexes' => array(
-      'value' => array(
-        0 => 'value',
-      ),
-    ),
-    'locked' => 0,
-    'module' => 'list',
-    'settings' => array(
-      'allowed_values' => array(
-        'Eastern_Cape_Barkly_East' => 'Eastern Cape→Barkly East',
-        'Eastern_Cape_East_London' => 'Eastern Cape→East London',
-        'Eastern_Cape_Mount_Ayliff' => 'Eastern Cape→Mount Ayliff',
-        'Eastern_Cape_Mthatha' => 'Eastern Cape→Mthatha',
-        'Eastern_Cape_Port_Elizabeth' => 'Eastern Cape→Port Elizabeth',
-        'Eastern_Cape_Queenstown' => 'Eastern Cape→Queenstown',
-        'Free_State_Bloemfontein' => 'Free State→Bloemfontein',
-        'Free_State_Phuthaditjhaba' => 'Free State→Phuthaditjhaba',
-        'Free_State_Sasolburg' => 'Free State→Sasolburg',
-        'Free_State_Trompsburg' => 'Free State→Trompsburg',
-        'Free_State_Welkom' => 'Free State→Welkom',
-        'Gauteng_Germiston' => 'Gauteng→Germiston',
-        'Gauteng_Johannesburg' => 'Gauteng→Johannesburg',
-        'Gauteng_Pretoria' => 'Gauteng→Pretoria',
-        'Gauteng_Randfontein' => 'Gauteng→Randfontein',
-        'Gauteng_Vereeniging' => 'Gauteng→Vereeniging',
-        'KwaZulu_Natal_Dundee' => 'KwaZulu-Natal→Dundee',
-        'KwaZulu_Natal_Durban' => 'KwaZulu-Natal→Durban',
-        'KwaZulu_Natal_Ixopo' => 'KwaZulu-Natal→Ixopo',
-        'KwaZulu_Natal_KwaDukuza' => 'KwaZulu-Natal→KwaDukuza',
-        'KwaZulu_Natal_Ladysmith' => 'KwaZulu-Natal→Ladysmith',
-        'KwaZulu_Natal_Mkuze' => 'KwaZulu-Natal→Mkuze',
-        'KwaZulu_Natal_Newcastle' => 'KwaZulu-Natal→Newcastle',
-        'KwaZulu_Natal_Pietermaritzburg' => 'KwaZulu-Natal→Pietermaritzburg',
-        'KwaZulu_Natal_Port_Shepstone' => 'KwaZulu-Natal→Port Shepstone',
-        'KwaZulu_Natal_Richards_Bay' => 'KwaZulu-Natal→Richards Bay',
-        'KwaZulu_Natal_Ulundi' => 'KwaZulu-Natal→Ulundi',
-        'Limpopo_Giyani' => 'Limpopo→Giyani',
-        'Limpopo_Groblersdal' => 'Limpopo→Groblersdal',
-        'Limpopo_Modimolle' => 'Limpopo→Modimolle',
-        'Limpopo_Polokwane' => 'Limpopo→Polokwane',
-        'Limpopo_Thohoyandou' => 'Limpopo→Thohoyandou',
-        'Mpumalanga_Middelburg' => 'Mpumalanga→Middelburg',
-        'Mpumalanga_Nelspruit' => 'Mpumalanga→Nelspruit',
-        'Mpumalanga_Secunda' => 'Mpumalanga→Secunda',
-        'North_West_Klerksdorp' => 'North West→Klerksdorp',
-        'North_West_Mafikeng' => 'North West→Mafikeng',
-        'North_West_Rustenburg' => 'North West→Rustenburg',
-        'North_West_Vryburg' => 'North West→Vryburg',
-        'Northern_Cape_De_Aar' => 'Northern Cape→De Aar',
-        'Northern_Cape_Kimberley' => 'Northern Cape→Kimberley',
-        'Northern_Cape_Kuruman' => 'Northern Cape→Kuruman',
-        'Northern_Cape_Springbok' => 'Northern Cape→Springbok',
-        'Northern_Cape_Upington' => 'Northern Cape→Upington',
-        'Western_Cape_Beaufort_West' => 'Western Cape→Beaufort West',
-        'Western_Cape_Bredasdorp' => 'Western Cape→Bredasdorp',
-        'Western_Cape_Cape_Town' => 'Western Cape→Cape Town',
-        'Western_Cape_George' => 'Western Cape→George',
-        'Western_Cape_Moorreesburg' => 'Western Cape→Moorreesburg',
-        'Western_Cape_Worcester' => 'Western Cape→Worcester',
-      ),
-      'allowed_values_function' => '',
-    ),
-    'translatable' => 0,
-    'type' => 'list_text',
-  );
-
   // Exported field_base: 'field_who_are_you_brief_bio_'.
   $field_bases['field_who_are_you_brief_bio_'] = array(
     'active' => 1,
@@ -1684,6 +1517,9 @@ function artwork_registration_features_download_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_who_are_you_brief_bio_',
+    'field_permissions' => array(
+      'type' => 0,
+    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -1696,28 +1532,13 @@ function artwork_registration_features_download_field_default_field_bases() {
     'type' => 'text_long',
   );
 
-  // Exported field_base: 'field_width'.
-  $field_bases['field_width'] = array(
+  // Exported field_base: 'field_year_and_name_of_previous'.
+  $field_bases['field_year_and_name_of_previous'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'field_width',
-    'indexes' => array(),
-    'locked' => 0,
-    'module' => 'number',
-    'settings' => array(),
-    'translatable' => 0,
-    'type' => 'number_integer',
-  );
-
-  // Exported field_base: 'field_year_and_event_name'.
-  $field_bases['field_year_and_event_name'] = array(
-    'active' => 1,
-    'cardinality' => 1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'field_year_and_event_name',
+    'field_name' => 'field_year_and_name_of_previous',
     'indexes' => array(
       'tid' => array(
         0 => 'tid',
@@ -1728,43 +1549,13 @@ function artwork_registration_features_download_field_default_field_bases() {
     'settings' => array(
       'allowed_values' => array(
         0 => array(
-          'vocabulary' => 'event_years',
+          'vocabulary' => '',
           'parent' => 0,
         ),
       ),
     ),
     'translatable' => 0,
     'type' => 'taxonomy_term_reference',
-  );
-
-  // Exported field_base: 'field_year_and_name_of_prev'.
-  $field_bases['field_year_and_name_of_prev'] = array(
-    'active' => 1,
-    'cardinality' => -1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'field_year_and_name_of_prev',
-    'indexes' => array(
-      'field_previous_project_format' => array(
-        0 => 'field_previous_project_format',
-      ),
-      'field_year_and_event_name_tid' => array(
-        0 => 'field_year_and_event_name_tid',
-      ),
-      'id' => array(
-        0 => 'id',
-      ),
-    ),
-    'locked' => 0,
-    'module' => 'multifield',
-    'settings' => array(
-      'entity_translation_sync' => array(
-        0 => 'id',
-      ),
-      'hide_blank_items' => 1,
-    ),
-    'translatable' => 0,
-    'type' => 'multifield',
   );
 
   return $field_bases;

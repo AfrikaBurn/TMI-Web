@@ -160,5 +160,35 @@ function user_settings_default_field_validation_rule() {
   $rule->error_message = 'Please click an option under the Pink Wristband question';
   $export['bb_pink_blank'] = $rule;
 
+  $rule = new stdClass();
+  $rule->disabled = FALSE; /* Edit this to true to make a default rule disabled initially */
+  $rule->api_version = 2;
+  $rule->rulename = 'bb Plug and Play';
+  $rule->name = 'bb_plug_and_play';
+  $rule->field_name = 'field_bb_plug_and_play_2b';
+  $rule->col = 'value';
+  $rule->entity_type = 'user';
+  $rule->bundle = 'user';
+  $rule->validator = 'field_validation_oneofseveral_validator';
+  $rule->settings = array(
+    'data' => '',
+    'bypass' => 1,
+    'roles' => array(
+      1 => '1',
+      4 => '4',
+      3 => '3',
+      2 => 0,
+    ),
+    'errors' => 0,
+    'condition' => 0,
+    'condition_wrapper' => array(
+      'condition_field' => '',
+      'condition_operator' => 'equals',
+      'condition_value' => '',
+    ),
+  );
+  $rule->error_message = 'Please click an option under the question about Plug and Play';
+  $export['bb_plug_and_play'] = $rule;
+
   return $export;
 }

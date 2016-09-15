@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the Artwork Registration Features Download feature.
- */
-
-include_once 'artwork_registration_features_download.features.inc';

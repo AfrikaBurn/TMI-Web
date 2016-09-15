@@ -10,22 +10,61 @@
 function user_settings_user_default_permissions() {
   $permissions = array();
 
-  // Exported permission: 'access private fields'.
-  $permissions['access private fields'] = array(
-    'name' => 'access private fields',
+  // Exported permission: 'access user profiles'.
+  $permissions['access user profiles'] = array(
+    'name' => 'access user profiles',
     'roles' => array(
+      'Support' => 'Support',
       'administrator' => 'administrator',
     ),
-    'module' => 'field_permissions',
+    'module' => 'user',
   );
 
-  // Exported permission: 'administer field permissions'.
-  $permissions['administer field permissions'] = array(
-    'name' => 'administer field permissions',
+  // Exported permission: 'administer CAPTCHA settings'.
+  $permissions['administer CAPTCHA settings'] = array(
+    'name' => 'administer CAPTCHA settings',
     'roles' => array(
       'administrator' => 'administrator',
     ),
-    'module' => 'field_permissions',
+    'module' => 'captcha',
+  );
+
+  // Exported permission: 'administer permissions'.
+  $permissions['administer permissions'] = array(
+    'name' => 'administer permissions',
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
+    'module' => 'user',
+  );
+
+  // Exported permission: 'administer users'.
+  $permissions['administer users'] = array(
+    'name' => 'administer users',
+    'roles' => array(
+      'Support' => 'Support',
+      'administrator' => 'administrator',
+    ),
+    'module' => 'user',
+  );
+
+  // Exported permission: 'cancel account'.
+  $permissions['cancel account'] = array(
+    'name' => 'cancel account',
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
+    'module' => 'user',
+  );
+
+  // Exported permission: 'change own username'.
+  $permissions['change own username'] = array(
+    'name' => 'change own username',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'authenticated user' => 'authenticated user',
+    ),
+    'module' => 'user',
   );
 
   // Exported permission: 'create field_bb_ab_history'.
@@ -226,9 +265,36 @@ function user_settings_user_default_permissions() {
     'module' => 'field_permissions',
   );
 
-  // Exported permission: 'create field_bb_preamble'.
-  $permissions['create field_bb_preamble'] = array(
-    'name' => 'create field_bb_preamble',
+  // Exported permission: 'create field_bb_plug_and_play_1a'.
+  $permissions['create field_bb_plug_and_play_1a'] = array(
+    'name' => 'create field_bb_plug_and_play_1a',
+    'roles' => array(
+      'anonymous user' => 'anonymous user',
+    ),
+    'module' => 'field_permissions',
+  );
+
+  // Exported permission: 'create field_bb_plug_and_play_1b'.
+  $permissions['create field_bb_plug_and_play_1b'] = array(
+    'name' => 'create field_bb_plug_and_play_1b',
+    'roles' => array(
+      'anonymous user' => 'anonymous user',
+    ),
+    'module' => 'field_permissions',
+  );
+
+  // Exported permission: 'create field_bb_plug_and_play_2a'.
+  $permissions['create field_bb_plug_and_play_2a'] = array(
+    'name' => 'create field_bb_plug_and_play_2a',
+    'roles' => array(
+      'anonymous user' => 'anonymous user',
+    ),
+    'module' => 'field_permissions',
+  );
+
+  // Exported permission: 'create field_bb_plug_and_play_2b'.
+  $permissions['create field_bb_plug_and_play_2b'] = array(
+    'name' => 'create field_bb_plug_and_play_2b',
     'roles' => array(
       'anonymous user' => 'anonymous user',
     ),
@@ -258,6 +324,19 @@ function user_settings_user_default_permissions() {
     'name' => 'create field_bb_theme',
     'roles' => array(
       'anonymous user' => 'anonymous user',
+    ),
+    'module' => 'field_permissions',
+  );
+
+  // Exported permission: 'create field_drivers_licence_number'.
+  $permissions['create field_drivers_licence_number'] = array(
+    'name' => 'create field_drivers_licence_number',
+    'roles' => array(
+      'DMV Admin' => 'DMV Admin',
+      'Support' => 'Support',
+      'administrator' => 'administrator',
+      'anonymous user' => 'anonymous user',
+      'authenticated user' => 'authenticated user',
     ),
     'module' => 'field_permissions',
   );
@@ -464,9 +543,30 @@ function user_settings_user_default_permissions() {
     'module' => 'field_permissions',
   );
 
-  // Exported permission: 'edit field_bb_preamble'.
-  $permissions['edit field_bb_preamble'] = array(
-    'name' => 'edit field_bb_preamble',
+  // Exported permission: 'edit field_bb_plug_and_play_1a'.
+  $permissions['edit field_bb_plug_and_play_1a'] = array(
+    'name' => 'edit field_bb_plug_and_play_1a',
+    'roles' => array(),
+    'module' => 'field_permissions',
+  );
+
+  // Exported permission: 'edit field_bb_plug_and_play_1b'.
+  $permissions['edit field_bb_plug_and_play_1b'] = array(
+    'name' => 'edit field_bb_plug_and_play_1b',
+    'roles' => array(),
+    'module' => 'field_permissions',
+  );
+
+  // Exported permission: 'edit field_bb_plug_and_play_2a'.
+  $permissions['edit field_bb_plug_and_play_2a'] = array(
+    'name' => 'edit field_bb_plug_and_play_2a',
+    'roles' => array(),
+    'module' => 'field_permissions',
+  );
+
+  // Exported permission: 'edit field_bb_plug_and_play_2b'.
+  $permissions['edit field_bb_plug_and_play_2b'] = array(
+    'name' => 'edit field_bb_plug_and_play_2b',
     'roles' => array(),
     'module' => 'field_permissions',
   );
@@ -489,6 +589,18 @@ function user_settings_user_default_permissions() {
   $permissions['edit field_bb_theme'] = array(
     'name' => 'edit field_bb_theme',
     'roles' => array(),
+    'module' => 'field_permissions',
+  );
+
+  // Exported permission: 'edit field_drivers_licence_number'.
+  $permissions['edit field_drivers_licence_number'] = array(
+    'name' => 'edit field_drivers_licence_number',
+    'roles' => array(
+      'DMV Admin' => 'DMV Admin',
+      'DMV Wrangle' => 'DMV Wrangle',
+      'Support' => 'Support',
+      'administrator' => 'administrator',
+    ),
     'module' => 'field_permissions',
   );
 
@@ -685,9 +797,30 @@ function user_settings_user_default_permissions() {
     'module' => 'field_permissions',
   );
 
-  // Exported permission: 'edit own field_bb_preamble'.
-  $permissions['edit own field_bb_preamble'] = array(
-    'name' => 'edit own field_bb_preamble',
+  // Exported permission: 'edit own field_bb_plug_and_play_1a'.
+  $permissions['edit own field_bb_plug_and_play_1a'] = array(
+    'name' => 'edit own field_bb_plug_and_play_1a',
+    'roles' => array(),
+    'module' => 'field_permissions',
+  );
+
+  // Exported permission: 'edit own field_bb_plug_and_play_1b'.
+  $permissions['edit own field_bb_plug_and_play_1b'] = array(
+    'name' => 'edit own field_bb_plug_and_play_1b',
+    'roles' => array(),
+    'module' => 'field_permissions',
+  );
+
+  // Exported permission: 'edit own field_bb_plug_and_play_2a'.
+  $permissions['edit own field_bb_plug_and_play_2a'] = array(
+    'name' => 'edit own field_bb_plug_and_play_2a',
+    'roles' => array(),
+    'module' => 'field_permissions',
+  );
+
+  // Exported permission: 'edit own field_bb_plug_and_play_2b'.
+  $permissions['edit own field_bb_plug_and_play_2b'] = array(
+    'name' => 'edit own field_bb_plug_and_play_2b',
     'roles' => array(),
     'module' => 'field_permissions',
   );
@@ -710,6 +843,18 @@ function user_settings_user_default_permissions() {
   $permissions['edit own field_bb_theme'] = array(
     'name' => 'edit own field_bb_theme',
     'roles' => array(),
+    'module' => 'field_permissions',
+  );
+
+  // Exported permission: 'edit own field_drivers_licence_number'.
+  $permissions['edit own field_drivers_licence_number'] = array(
+    'name' => 'edit own field_drivers_licence_number',
+    'roles' => array(
+      'DMV Admin' => 'DMV Admin',
+      'Support' => 'Support',
+      'administrator' => 'administrator',
+      'authenticated user' => 'authenticated user',
+    ),
     'module' => 'field_permissions',
   );
 
@@ -750,6 +895,42 @@ function user_settings_user_default_permissions() {
       'administrator' => 'administrator',
     ),
     'module' => 'field_permissions',
+  );
+
+  // Exported permission: 'import users'.
+  $permissions['import users'] = array(
+    'name' => 'import users',
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
+    'module' => 'user_import',
+  );
+
+  // Exported permission: 'limited user import'.
+  $permissions['limited user import'] = array(
+    'name' => 'limited user import',
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
+    'module' => 'user_import',
+  );
+
+  // Exported permission: 'select account cancellation method'.
+  $permissions['select account cancellation method'] = array(
+    'name' => 'select account cancellation method',
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
+    'module' => 'user',
+  );
+
+  // Exported permission: 'skip CAPTCHA'.
+  $permissions['skip CAPTCHA'] = array(
+    'name' => 'skip CAPTCHA',
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
+    'module' => 'captcha',
   );
 
   // Exported permission: 'view field_bb_ab_history'.
@@ -906,9 +1087,30 @@ function user_settings_user_default_permissions() {
     'module' => 'field_permissions',
   );
 
-  // Exported permission: 'view field_bb_preamble'.
-  $permissions['view field_bb_preamble'] = array(
-    'name' => 'view field_bb_preamble',
+  // Exported permission: 'view field_bb_plug_and_play_1a'.
+  $permissions['view field_bb_plug_and_play_1a'] = array(
+    'name' => 'view field_bb_plug_and_play_1a',
+    'roles' => array(),
+    'module' => 'field_permissions',
+  );
+
+  // Exported permission: 'view field_bb_plug_and_play_1b'.
+  $permissions['view field_bb_plug_and_play_1b'] = array(
+    'name' => 'view field_bb_plug_and_play_1b',
+    'roles' => array(),
+    'module' => 'field_permissions',
+  );
+
+  // Exported permission: 'view field_bb_plug_and_play_2a'.
+  $permissions['view field_bb_plug_and_play_2a'] = array(
+    'name' => 'view field_bb_plug_and_play_2a',
+    'roles' => array(),
+    'module' => 'field_permissions',
+  );
+
+  // Exported permission: 'view field_bb_plug_and_play_2b'.
+  $permissions['view field_bb_plug_and_play_2b'] = array(
+    'name' => 'view field_bb_plug_and_play_2b',
     'roles' => array(),
     'module' => 'field_permissions',
   );
@@ -931,6 +1133,17 @@ function user_settings_user_default_permissions() {
   $permissions['view field_bb_theme'] = array(
     'name' => 'view field_bb_theme',
     'roles' => array(),
+    'module' => 'field_permissions',
+  );
+
+  // Exported permission: 'view field_drivers_licence_number'.
+  $permissions['view field_drivers_licence_number'] = array(
+    'name' => 'view field_drivers_licence_number',
+    'roles' => array(
+      'DMV Admin' => 'DMV Admin',
+      'Support' => 'Support',
+      'administrator' => 'administrator',
+    ),
     'module' => 'field_permissions',
   );
 
@@ -1127,9 +1340,30 @@ function user_settings_user_default_permissions() {
     'module' => 'field_permissions',
   );
 
-  // Exported permission: 'view own field_bb_preamble'.
-  $permissions['view own field_bb_preamble'] = array(
-    'name' => 'view own field_bb_preamble',
+  // Exported permission: 'view own field_bb_plug_and_play_1a'.
+  $permissions['view own field_bb_plug_and_play_1a'] = array(
+    'name' => 'view own field_bb_plug_and_play_1a',
+    'roles' => array(),
+    'module' => 'field_permissions',
+  );
+
+  // Exported permission: 'view own field_bb_plug_and_play_1b'.
+  $permissions['view own field_bb_plug_and_play_1b'] = array(
+    'name' => 'view own field_bb_plug_and_play_1b',
+    'roles' => array(),
+    'module' => 'field_permissions',
+  );
+
+  // Exported permission: 'view own field_bb_plug_and_play_2a'.
+  $permissions['view own field_bb_plug_and_play_2a'] = array(
+    'name' => 'view own field_bb_plug_and_play_2a',
+    'roles' => array(),
+    'module' => 'field_permissions',
+  );
+
+  // Exported permission: 'view own field_bb_plug_and_play_2b'.
+  $permissions['view own field_bb_plug_and_play_2b'] = array(
+    'name' => 'view own field_bb_plug_and_play_2b',
     'roles' => array(),
     'module' => 'field_permissions',
   );
@@ -1152,6 +1386,18 @@ function user_settings_user_default_permissions() {
   $permissions['view own field_bb_theme'] = array(
     'name' => 'view own field_bb_theme',
     'roles' => array(),
+    'module' => 'field_permissions',
+  );
+
+  // Exported permission: 'view own field_drivers_licence_number'.
+  $permissions['view own field_drivers_licence_number'] = array(
+    'name' => 'view own field_drivers_licence_number',
+    'roles' => array(
+      'DMV Admin' => 'DMV Admin',
+      'Support' => 'Support',
+      'administrator' => 'administrator',
+      'authenticated user' => 'authenticated user',
+    ),
     'module' => 'field_permissions',
   );
 
