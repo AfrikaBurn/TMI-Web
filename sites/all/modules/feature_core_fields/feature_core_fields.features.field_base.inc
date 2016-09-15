@@ -439,26 +439,6 @@ function feature_core_fields_field_default_field_bases() {
     'type' => 'email',
   );
 
-  // Exported field_base: 'field_field_year_and_name_of_pre'.
-  $field_bases['field_field_year_and_name_of_pre'] = array(
-    'active' => 1,
-    'cardinality' => 1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'field_field_year_and_name_of_pre',
-    'indexes' => array(),
-    'locked' => 0,
-    'module' => 'multifield',
-    'settings' => array(
-      'entity_translation_sync' => array(
-        0 => 'id',
-      ),
-      'hide_blank_items' => 1,
-    ),
-    'translatable' => 0,
-    'type' => 'multifield',
-  );
-
   // Exported field_base: 'field_first_name'.
   $field_bases['field_first_name'] = array(
     'active' => 1,

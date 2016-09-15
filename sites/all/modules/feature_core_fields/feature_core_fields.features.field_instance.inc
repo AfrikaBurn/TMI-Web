@@ -854,42 +854,6 @@ function feature_core_fields_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance:
-  // 'multifield-field_field_year_and_name_of_pre-field_year_and_name_of_previous'.
-  $field_instances['multifield-field_field_year_and_name_of_pre-field_year_and_name_of_previous'] = array(
-    'bundle' => 'field_field_year_and_name_of_pre',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'taxonomy',
-        'settings' => array(),
-        'type' => 'taxonomy_term_reference_link',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'multifield',
-    'field_name' => 'field_year_and_name_of_previous',
-    'label' => 'Year and Event Name',
-    'required' => FALSE,
-    'settings' => array(
-      'custom_add_another' => '',
-      'custom_remove' => '',
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'module' => 'taxonomy',
-      'settings' => array(
-        'autocomplete_path' => 'taxonomy/autocomplete',
-        'size' => 60,
-      ),
-      'type' => 'taxonomy_autocomplete',
-      'weight' => 1,
-    ),
-  );
-
   // Exported field_instance: 'multifield-field_fundraiser-field_email_address'.
   $field_instances['multifield-field_fundraiser-field_email_address'] = array(
     'bundle' => 'field_fundraiser',
@@ -1818,92 +1782,6 @@ function feature_core_fields_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance:
-  // 'node-artwork_registration-field_stage_performers_dscr'.
-  $field_instances['node-artwork_registration-field_stage_performers_dscr'] = array(
-    'bundle' => 'artwork_registration',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 59,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_stage_performers_dscr',
-    'label' => 'Provide a description of the space and performers you are looking for',
-    'required' => 1,
-    'settings' => array(
-      'custom_add_another' => '',
-      'custom_remove' => '',
-      'text_processing' => 0,
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'text',
-      'settings' => array(
-        'rows' => 5,
-      ),
-      'type' => 'text_textarea',
-      'weight' => 15,
-    ),
-  );
-
-  // Exported field_instance: 'node-theme_camps-field_stage_performers_dscr'.
-  $field_instances['node-theme_camps-field_stage_performers_dscr'] = array(
-    'bundle' => 'theme_camps',
-    'custom_add_another' => '',
-    'custom_remove' => '',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'text',
-        'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 20,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_stage_performers_dscr',
-    'label' => 'Provide info on the space and kind of performers you\'re looking for',
-    'required' => 0,
-    'settings' => array(
-      'custom_add_another' => '',
-      'custom_remove' => '',
-      'text_processing' => 0,
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'text',
-      'settings' => array(
-        'rows' => 5,
-      ),
-      'type' => 'text_textarea',
-      'weight' => 9,
-    ),
-  );
-
   // Translatables
   // Included for use with string extractors like potx.
   t(' Email Address');
@@ -1926,13 +1804,10 @@ function feature_core_fields_field_default_field_instances() {
   t('Other Relevant Phisical Attributes');
   t('Phone');
   t('Phone Number');
-  t('Provide a description of the space and performers you are looking for');
-  t('Provide info on the space and kind of performers you\'re looking for');
   t('Role');
   t('What is the name(s) of that/those project(s)?');
   t('When are you planning to start building offsite?');
   t('When are you planning to start building on site?');
-  t('Year and Event Name');
   t('in metres square');
 
   return $field_instances;
