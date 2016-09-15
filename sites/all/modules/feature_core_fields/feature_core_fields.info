@@ -174,3 +174,5 @@ features[taxonomy][] = municpal_district
 features[taxonomy][] = performer_types
 features[taxonomy][] = sound_level
 features[taxonomy][] = volunteer_ticket
+features[user_permission][] = delete terms in sound_level
+features[user_permission][] = edit terms in sound_level
