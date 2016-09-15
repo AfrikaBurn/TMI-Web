@@ -338,29 +338,6 @@ function feature_core_fields_field_default_field_bases() {
     'type' => 'text_long',
   );
 
-  // Exported field_base: 'field_dimentions_foot_print_m2'.
-  $field_bases['field_dimentions_foot_print_m2'] = array(
-    'active' => 1,
-    'cardinality' => 1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'field_dimentions_foot_print_m2',
-    'field_permissions' => array(
-      'type' => 0,
-    ),
-    'indexes' => array(),
-    'locked' => 0,
-    'module' => 'multifield',
-    'settings' => array(
-      'entity_translation_sync' => array(
-        0 => 'id',
-      ),
-      'hide_blank_items' => 1,
-    ),
-    'translatable' => 0,
-    'type' => 'multifield',
-  );
-
   // Exported field_base: 'field_dimentions_m2'.
   $field_bases['field_dimentions_m2'] = array(
     'active' => 1,

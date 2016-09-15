@@ -682,42 +682,6 @@ function feature_core_fields_field_default_field_instances() {
   );
 
   // Exported field_instance:
-  // 'multifield-field_dimentions_foot_print_m2-field_other_relevant_phisical_at'.
-  $field_instances['multifield-field_dimentions_foot_print_m2-field_other_relevant_phisical_at'] = array(
-    'bundle' => 'field_dimentions_foot_print_m2',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'text',
-        'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'multifield',
-    'field_name' => 'field_other_relevant_phisical_at',
-    'label' => 'Other Relevant Phisical Attributes',
-    'required' => FALSE,
-    'settings' => array(
-      'custom_add_another' => '',
-      'custom_remove' => '',
-      'text_processing' => 0,
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'module' => 'text',
-      'settings' => array(
-        'rows' => 5,
-      ),
-      'type' => 'text_textarea',
-      'weight' => 2,
-    ),
-  );
-
-  // Exported field_instance:
   // 'multifield-field_dimentions_m2-field_approx_weight'.
   $field_instances['multifield-field_dimentions_m2-field_approx_weight'] = array(
     'bundle' => 'field_dimentions_m2',
