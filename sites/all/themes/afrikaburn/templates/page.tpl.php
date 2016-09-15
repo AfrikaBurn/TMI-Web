@@ -108,25 +108,21 @@
         <div class="container-2">
             <div class="container-1">
                 <div class='logo-container'>
-                      <a href="/">
+                      <a href="http://www.afrikaburn.com">
                           <img src="<?php print base_path() . path_to_theme(); ?>/assets/images/date-badge-2017.png" />
                       </a>
                 </div>
-                <?php
-                   if (!$logged_in) {
-                       echo "<a class='user-link' href='/user/login'>Login</a>";
-                   } else {
-                       echo "<a class='user-link logout' href='/user/logout'>Logout</a>";
-                   }
-               ?>
-               <div class='social-media-links'>
+                <div class='user-menu'>
+                   <?php print render($page['user-menu']); ?>
+                </div>
+                <div class='social-media-links'>
                    <div class='sm-link twitter'>
                        <a href='https://www.twitter.com/afrikaburn' title='Afrikaburn on Twitter' target='_blank'></a>
                    </div>
                    <div class='sm-link facebook'>
                        <a href='https://www.facebook.com/afrikaburn' title='Afrikaburn on Facebook' target='_blank'></a>
                    </div>
-               </div>
+                </div>
             </div>
             </div>
         </div>

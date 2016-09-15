@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Performance Registration feature.
+ */
+
+include_once 'performance_registration.features.inc';

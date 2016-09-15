@@ -718,6 +718,179 @@ function feature_core_fields_field_default_field_instances() {
   );
 
   // Exported field_instance:
+  // 'multifield-field_dimentions_m2-field_approx_weight'.
+  $field_instances['multifield-field_dimentions_m2-field_approx_weight'] = array(
+    'bundle' => 'field_dimentions_m2',
+    'custom_add_another' => '',
+    'custom_remove' => '',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'number',
+        'settings' => array(
+          'decimal_separator' => '.',
+          'prefix_suffix' => TRUE,
+          'scale' => 0,
+          'thousand_separator' => '',
+        ),
+        'type' => 'number_integer',
+        'weight' => 3,
+      ),
+    ),
+    'entity_type' => 'multifield',
+    'field_name' => 'field_approx_weight',
+    'label' => 'Approx Weight',
+    'required' => 0,
+    'settings' => array(
+      'custom_add_another' => '',
+      'custom_remove' => '',
+      'max' => '',
+      'min' => '',
+      'prefix' => '',
+      'suffix' => '',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'number',
+      'settings' => array(),
+      'type' => 'number',
+      'weight' => 2,
+    ),
+  );
+
+  // Exported field_instance:
+  // 'multifield-field_dimentions_m2-field_foot_print_area'.
+  $field_instances['multifield-field_dimentions_m2-field_foot_print_area'] = array(
+    'bundle' => 'field_dimentions_m2',
+    'custom_add_another' => '',
+    'custom_remove' => '',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => 'in metres square',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'number',
+        'settings' => array(
+          'decimal_separator' => '.',
+          'prefix_suffix' => TRUE,
+          'scale' => 0,
+          'thousand_separator' => '',
+        ),
+        'type' => 'number_integer',
+        'weight' => 2,
+      ),
+    ),
+    'entity_type' => 'multifield',
+    'field_name' => 'field_foot_print_area',
+    'label' => 'Foot Print Area',
+    'required' => 1,
+    'settings' => array(
+      'custom_add_another' => '',
+      'custom_remove' => '',
+      'max' => '',
+      'min' => '',
+      'prefix' => '',
+      'suffix' => '',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'number',
+      'settings' => array(),
+      'type' => 'number',
+      'weight' => 1,
+    ),
+  );
+
+  // Exported field_instance: 'multifield-field_dimentions_m2-field_height'.
+  $field_instances['multifield-field_dimentions_m2-field_height'] = array(
+    'bundle' => 'field_dimentions_m2',
+    'custom_add_another' => '',
+    'custom_remove' => '',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'number',
+        'settings' => array(
+          'decimal_separator' => '.',
+          'prefix_suffix' => TRUE,
+          'scale' => 0,
+          'thousand_separator' => '',
+        ),
+        'type' => 'number_integer',
+        'weight' => 1,
+      ),
+    ),
+    'entity_type' => 'multifield',
+    'field_name' => 'field_height',
+    'label' => 'Height',
+    'required' => 1,
+    'settings' => array(
+      'custom_add_another' => '',
+      'custom_remove' => '',
+      'max' => '',
+      'min' => '',
+      'prefix' => '',
+      'suffix' => '',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'number',
+      'settings' => array(),
+      'type' => 'number',
+      'weight' => 0,
+    ),
+  );
+
+  // Exported field_instance:
+  // 'multifield-field_dimentions_m2-field_other_relevant_phisical_at'.
+  $field_instances['multifield-field_dimentions_m2-field_other_relevant_phisical_at'] = array(
+    'bundle' => 'field_dimentions_m2',
+    'custom_add_another' => '',
+    'custom_remove' => '',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => 'Is it round? A string of balloons? A tree? etc.',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'multifield',
+    'field_name' => 'field_other_relevant_phisical_at',
+    'label' => 'Other Relevant Phisical Attributes',
+    'required' => 1,
+    'settings' => array(
+      'custom_add_another' => '',
+      'custom_remove' => '',
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'rows' => 5,
+      ),
+      'type' => 'text_textarea',
+      'weight' => 3,
+    ),
+  );
+
+  // Exported field_instance:
   // 'multifield-field_field_year_and_name_of_pre-field_year_and_name_of_previous'.
   $field_instances['multifield-field_field_year_and_name_of_pre-field_year_and_name_of_previous'] = array(
     'bundle' => 'field_field_year_and_name_of_pre',
@@ -1681,29 +1854,122 @@ function feature_core_fields_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance:
+  // 'node-artwork_registration-field_stage_performers_dscr'.
+  $field_instances['node-artwork_registration-field_stage_performers_dscr'] = array(
+    'bundle' => 'artwork_registration',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 59,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_stage_performers_dscr',
+    'label' => 'Provide a description of the space and performers you are looking for',
+    'required' => 1,
+    'settings' => array(
+      'custom_add_another' => '',
+      'custom_remove' => '',
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'rows' => 5,
+      ),
+      'type' => 'text_textarea',
+      'weight' => 15,
+    ),
+  );
+
+  // Exported field_instance: 'node-theme_camps-field_stage_performers_dscr'.
+  $field_instances['node-theme_camps-field_stage_performers_dscr'] = array(
+    'bundle' => 'theme_camps',
+    'custom_add_another' => '',
+    'custom_remove' => '',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 20,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_stage_performers_dscr',
+    'label' => 'Provide info on the space and kind of performers you\'re looking for',
+    'required' => 0,
+    'settings' => array(
+      'custom_add_another' => '',
+      'custom_remove' => '',
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'rows' => 5,
+      ),
+      'type' => 'text_textarea',
+      'weight' => 9,
+    ),
+  );
+
   // Translatables
   // Included for use with string extractors like potx.
   t(' Email Address');
   t(' First Name');
   t(' Last Name');
   t(' Phone Number');
+  t('Approx Weight');
   t('Email');
   t('Email Address');
   t('First Name');
+  t('Foot Print Area');
+  t('Height');
   t('How is it related?');
   t('How long do you estimate it will take to install your piece on site?');
   t('How long do you estimate that it will take');
   t('How many people do you have to help you clean up your site after removal or burn of the artwork');
+  t('Is it round? A string of balloons? A tree? etc.');
   t('Last Name');
   t('Muncipal District');
   t('Other Relevant Phisical Attributes');
   t('Phone');
   t('Phone Number');
+  t('Provide a description of the space and performers you are looking for');
+  t('Provide info on the space and kind of performers you\'re looking for');
   t('Role');
   t('What is the name(s) of that/those project(s)?');
   t('When are you planning to start building offsite?');
   t('When are you planning to start building on site?');
   t('Year and Event Name');
+  t('in metres square');
 
   return $field_instances;
 }

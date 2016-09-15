@@ -86,6 +86,24 @@ function feature_core_fields_field_default_field_bases() {
     'type' => 'list_text',
   );
 
+  // Exported field_base: 'field_approx_weight'.
+  $field_bases['field_approx_weight'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_approx_weight',
+    'field_permissions' => array(
+      'type' => 0,
+    ),
+    'indexes' => array(),
+    'locked' => 0,
+    'module' => 'number',
+    'settings' => array(),
+    'translatable' => 0,
+    'type' => 'number_integer',
+  );
+
   // Exported field_base: 'field_artwork_site_clean'.
   $field_bases['field_artwork_site_clean'] = array(
     'active' => 1,
@@ -343,6 +361,36 @@ function feature_core_fields_field_default_field_bases() {
     'type' => 'multifield',
   );
 
+  // Exported field_base: 'field_dimentions_m2'.
+  $field_bases['field_dimentions_m2'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_dimentions_m2',
+    'field_permissions' => array(
+      'type' => 0,
+    ),
+    'indexes' => array(
+      'field_other_relevant_phisical_at_format' => array(
+        0 => 'field_other_relevant_phisical_at_format',
+      ),
+      'id' => array(
+        0 => 'id',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'multifield',
+    'settings' => array(
+      'entity_translation_sync' => array(
+        0 => 'id',
+      ),
+      'hide_blank_items' => 1,
+    ),
+    'translatable' => 0,
+    'type' => 'multifield',
+  );
+
   // Exported field_base: 'field_do_you_have_a_stage'.
   $field_bases['field_do_you_have_a_stage'] = array(
     'active' => 1,
@@ -458,6 +506,24 @@ function feature_core_fields_field_default_field_bases() {
     'type' => 'text',
   );
 
+  // Exported field_base: 'field_foot_print_area'.
+  $field_bases['field_foot_print_area'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_foot_print_area',
+    'field_permissions' => array(
+      'type' => 0,
+    ),
+    'indexes' => array(),
+    'locked' => 0,
+    'module' => 'number',
+    'settings' => array(),
+    'translatable' => 0,
+    'type' => 'number_integer',
+  );
+
   // Exported field_base: 'field_fundraiser'.
   $field_bases['field_fundraiser'] = array(
     'active' => 1,
@@ -486,6 +552,24 @@ function feature_core_fields_field_default_field_bases() {
     ),
     'translatable' => 0,
     'type' => 'multifield',
+  );
+
+  // Exported field_base: 'field_height'.
+  $field_bases['field_height'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_height',
+    'field_permissions' => array(
+      'type' => 0,
+    ),
+    'indexes' => array(),
+    'locked' => 0,
+    'module' => 'number',
+    'settings' => array(),
+    'translatable' => 0,
+    'type' => 'number_integer',
   );
 
   // Exported field_base: 'field_history'.
@@ -1348,6 +1432,28 @@ function feature_core_fields_field_default_field_bases() {
     ),
     'translatable' => 0,
     'type' => 'multifield',
+  );
+
+  // Exported field_base: 'field_stage_performers_dscr'.
+  $field_bases['field_stage_performers_dscr'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_stage_performers_dscr',
+    'field_permissions' => array(
+      'type' => 0,
+    ),
+    'indexes' => array(
+      'format' => array(
+        0 => 'format',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'text',
+    'settings' => array(),
+    'translatable' => 0,
+    'type' => 'text_long',
   );
 
   // Exported field_base: 'field_structural_safety'.

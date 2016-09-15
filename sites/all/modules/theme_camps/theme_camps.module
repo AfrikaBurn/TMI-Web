@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Theme Camps feature.
+ */
+
+include_once 'theme_camps.features.inc';

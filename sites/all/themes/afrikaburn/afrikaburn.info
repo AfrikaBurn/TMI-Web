@@ -14,6 +14,7 @@ scripts[] = assets/js/theme.js
 
 ; Regions
 regions[featured] = Featured
+regions[user-menu] = User menu
 regions[main-menu] = Main menu
 regions[content] = Content
 regions[login_box] = Login Box

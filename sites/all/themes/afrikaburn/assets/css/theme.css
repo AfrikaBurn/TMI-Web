@@ -1355,6 +1355,7 @@ DESKTOP MAIN-NAV LEVEL 2 (ANIMATED DROPDOWN MENU)
     height: 27px;
     padding: 15px 15px 0;
     min-width: 0;
+    text-align: center;
   }
   .navbar .navbar-inner .nav-collapse aside > ul.menu > li > a:focus,
   .navbar .navbar-inner .nav-collapse aside > ul.menu > li > a:hover,
@@ -2097,12 +2098,13 @@ fieldset.date-combo .container-inline-date .date-padding {
 .form-item textarea.error {
   background-color: #e85157;
   border: 2px solid #802727;
-  padding-left: 30px;
+  /*padding-left: 30px;*/
 }
-.form-item span.icon {
-  position: relative;
-  margin: 10px 0 -30px 5px;
-}
+/*.form-item span.icon { 
+	position: relative;
+	margin: 10px 0 -30px 5px;
+
+}*/
 div.group-questionaire .form-wrapper {
   padding: 20px 0;
   border-top: 1px solid #961116;
@@ -2150,6 +2152,7 @@ div.body-content input.field-add-more-submit {
 div.body-content table.field-multiple-table,
 div.body-content table.field-multiple-table tr,
 div.body-content table.field-multiple-table td,
+div.body-content table.field-multiple-table th,
 div.body-content table.field-multiple-table tbody {
   border-width: 0;
   padding: 0;
@@ -2181,6 +2184,8 @@ div.body-content table.field-multiple-table th {
   font-size: inherit;
   border-width: 0;
   background-color: transparent;
+  text-align: left;
+  padding-bottom: 5px;
 }
 div.body-content table.field-multiple-table th label {
   margin-bottom: 1em;
@@ -2231,7 +2236,7 @@ div.slide.current {
 div.logo-container {
   position: absolute;
   top: 0px;
-  left: 0;
+  left: 7px;
   z-index: 3;
 }
 div#top-bar {
@@ -2252,18 +2257,11 @@ div#top-bar div.container-2 {
 div#header {
   height: auto;
 }
+div#wrapper {
+  background-size: 100%;
+}
 #main-content-strip div.container-2 {
   background: #450b14 url("../images/content_bg.jpg") no-repeat center top;
-}
-a.user-link {
-  float: right;
-  display: block;
-  font-family: FuturaBook, Arial;
-  color: #f26c55;
-  font-size: 1.4em;
-  padding: 14px 20px 9px;
-  text-transform: uppercase;
-  text-decoration: none;
 }
 div.body-content input[type=radio]:hover + div.radio-checkbox-dummy,
 div.body-content input[type=checkbox]:hover + div.radio-checkbox-dummy,
@@ -2271,24 +2269,48 @@ div.body-content input[type=radio]:checked + div.radio-checkbox-dummy,
 div.body-content input[type=checkbox]:checked + div.radio-checkbox-dummy {
   border-color: #AF282E;
 }
+div.user-menu,
+div.user-menu ul,
+div.user-menu ul li {
+  margin: 0;
+  padding: 0;
+}
+div.user-menu,
+div.user-menu ul {
+  float: right;
+  list-style: none;
+}
+div.user-menu ul li {
+  float: left;
+}
+div.user-menu a {
+  float: right;
+  display: block;
+  font-family: FuturaBook, Arial;
+  color: #f26c55;
+  font-size: 1.4em;
+  padding: 14px 10px 9px;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+div.user-menu a.active,
+div.user-menu a:hover {
+  background-color: #f26c55;
+  color: #330B13;
+  cursor: pointer;
+  text-decoration: none;
+}
 @media (max-width: 979px) {
-  a.user-link {
+  div.user-menu a {
     padding-top: 18px;
     padding-bottom: 15px;
   }
 }
 @media (max-width: 479px) {
-  a.user-link {
+  div.user-menu a {
     padding-top: 19px;
     padding-bottom: 16px;
   }
-}
-a.user-link.active,
-a.user-link:hover {
-  background-color: #f26c55;
-  color: #330B13;
-  cursor: pointer;
-  text-decoration: none;
 }
 input,
 textarea,
@@ -2343,12 +2365,21 @@ div.body-content textarea {
   .navbar a.btn.btn-navbar {
     margin-top: -54px;
   }
-  a.user-link {
+  div.user-menu {
     float: left;
     margin-left: 62px;
+  }
+  div.social-media-links {
+    float: left;
+    margin-top: 5px;
   }
   div.sidebar-outer,
   section#footer {
     display: none;
+  }
+}
+@media (max-width: 510px) {
+  div.logo-container {
+    top: 54px;
   }
 }
