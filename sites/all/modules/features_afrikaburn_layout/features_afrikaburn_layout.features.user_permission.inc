@@ -55,41 +55,6 @@ function features_afrikaburn_layout_user_default_permissions() {
     'module' => 'panelizer',
   );
 
-  // Exported permission: 'administer panelizer node artwork_registration defaults'.
-  $permissions['administer panelizer node artwork_registration defaults'] = array(
-    'name' => 'administer panelizer node artwork_registration defaults',
-    'roles' => array(),
-    'module' => 'panelizer',
-  );
-
-  // Exported permission: 'administer panelizer node creative_grant_application defaults'.
-  $permissions['administer panelizer node creative_grant_application defaults'] = array(
-    'name' => 'administer panelizer node creative_grant_application defaults',
-    'roles' => array(),
-    'module' => 'panelizer',
-  );
-
-  // Exported permission: 'administer panelizer node theme_camps defaults'.
-  $permissions['administer panelizer node theme_camps defaults'] = array(
-    'name' => 'administer panelizer node theme_camps defaults',
-    'roles' => array(),
-    'module' => 'panelizer',
-  );
-
-  // Exported permission: 'administer panelizer taxonomy_term volunteer_ticket defaults'.
-  $permissions['administer panelizer taxonomy_term volunteer_ticket defaults'] = array(
-    'name' => 'administer panelizer taxonomy_term volunteer_ticket defaults',
-    'roles' => array(),
-    'module' => 'panelizer',
-  );
-
-  // Exported permission: 'administer panelizer user user defaults'.
-  $permissions['administer panelizer user user defaults'] = array(
-    'name' => 'administer panelizer user user defaults',
-    'roles' => array(),
-    'module' => 'panelizer',
-  );
-
   // Exported permission: 'administer panels layouts'.
   $permissions['administer panels layouts'] = array(
     'name' => 'administer panels layouts',

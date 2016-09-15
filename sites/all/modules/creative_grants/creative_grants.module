@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Creative Grants feature.
+ */
+
+include_once 'creative_grants.features.inc';

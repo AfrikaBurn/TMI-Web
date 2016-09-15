@@ -47,7 +47,7 @@ function features_afrikaburn_layout_menu_default_menu_links() {
     'hidden' => 0,
     'external' => 1,
     'has_children' => 1,
-    'expanded' => 0,
+    'expanded' => 1,
     'weight' => -49,
     'customized' => 1,
   );
@@ -193,7 +193,7 @@ function features_afrikaburn_layout_menu_default_menu_links() {
     'hidden' => 0,
     'external' => 1,
     'has_children' => 1,
-    'expanded' => 0,
+    'expanded' => 1,
     'weight' => -47,
     'customized' => 1,
   );
@@ -296,7 +296,7 @@ function features_afrikaburn_layout_menu_default_menu_links() {
     'hidden' => 0,
     'external' => 1,
     'has_children' => 1,
-    'expanded' => 0,
+    'expanded' => 1,
     'weight' => -45,
     'customized' => 1,
   );
@@ -459,7 +459,7 @@ function features_afrikaburn_layout_menu_default_menu_links() {
     'hidden' => 0,
     'external' => 1,
     'has_children' => 1,
-    'expanded' => 0,
+    'expanded' => 1,
     'weight' => -46,
     'customized' => 1,
   );
