@@ -9,10 +9,10 @@
  */
 function artwork_registration_taxonomy_default_vocabularies() {
   return array(
-    'artwork_placement' => array(
-      'name' => 'Artwork Placement',
-      'machine_name' => 'artwork_placement',
-      'description' => '',
+    'project_size' => array(
+      'name' => 'Project Size',
+      'machine_name' => 'project_size',
+      'description' => 'In terms of size, how would you classify your project?',
       'hierarchy' => 0,
       'module' => 'taxonomy',
       'weight' => 0,
