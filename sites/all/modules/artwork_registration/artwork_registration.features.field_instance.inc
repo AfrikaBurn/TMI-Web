@@ -10,6 +10,52 @@
 function artwork_registration_field_default_field_instances() {
   $field_instances = array();
 
+  // Exported field_instance: 'node-artwork_registration-field_additional_docs'.
+  $field_instances['node-artwork_registration-field_additional_docs'] = array(
+    'bundle' => 'artwork_registration',
+    'custom_add_another' => '',
+    'custom_remove' => '',
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'file',
+        'settings' => array(),
+        'type' => 'file_default',
+        'weight' => 48,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_additional_docs',
+    'label' => 'Got additional docs or PDF\'s? Add them here.',
+    'required' => 0,
+    'settings' => array(
+      'custom_add_another' => '',
+      'custom_remove' => '',
+      'description_field' => 0,
+      'file_directory' => 'artwork_registration',
+      'file_extensions' => 'pdf docx xlsx pptx doc xls ppt odt fodt ods fods odp fodp odg fodg odf',
+      'max_filesize' => '2 MB',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'file',
+      'settings' => array(
+        'progress_indicator' => 'bar',
+      ),
+      'type' => 'file_generic',
+      'weight' => 8,
+    ),
+  );
+
   // Exported field_instance:
   // 'node-artwork_registration-field_does_it_have_sound_effects'.
   $field_instances['node-artwork_registration-field_does_it_have_sound_effects'] = array(
@@ -307,6 +353,7 @@ function artwork_registration_field_default_field_instances() {
   t('Describe your lighting plan');
   t('Does your artwork have a sound component?');
   t('Even if you\'re not using light as an aesthetic component of your piece, you need to make it visible at night (including guy ropes/anchors).');
+  t('Got additional docs or PDF\'s? Add them here.');
   t('How are you planning to transport your artwork to Tankwa Town?');
   t('If you plan to burn your piece, you\'ll need a designated Pyro Co-ordinator (This can be you).');
   t('In terms of size, how would you classify your project?');
