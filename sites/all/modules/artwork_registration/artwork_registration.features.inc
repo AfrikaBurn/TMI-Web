@@ -18,3 +18,21 @@ function artwork_registration_ctools_plugin_api($module = NULL, $api = NULL) {
     return array("version" => "");
   }
 }
+
+/**
+ * Implements hook_node_info().
+ */
+function artwork_registration_node_info() {
+  $items = array(
+    'artwork_registration' => array(
+      'name' => t('Artwork Registration'),
+      'base' => 'node_content',
+      'description' => '',
+      'has_title' => '1',
+      'title_label' => t('Title of the project'),
+      'help' => '',
+    ),
+  );
+  drupal_alter('node_info', $items);
+  return $items;
+}
