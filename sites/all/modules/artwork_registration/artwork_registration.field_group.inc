@@ -238,12 +238,117 @@ function artwork_registration_field_group_info() {
   );
   $field_groups[''] = $field_group;
 
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_moop|node|artwork_registration|form';
+  $field_group->group_name = 'group_moop';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'artwork_registration';
+  $field_group->mode = 'form';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Moop',
+    'weight' => '10',
+    'children' => array(
+      0 => 'field_moop_representative',
+      1 => 'field_artwork_site_clean',
+    ),
+    'format_type' => 'div',
+    'format_settings' => array(
+      'formatter' => 'open',
+      'instance_settings' => array(
+        'description' => '',
+        'show_label' => 1,
+        'label_element' => 'h3',
+        'effect' => 'none',
+        'speed' => 'fast',
+        'classes' => 'group-moop field-group-div',
+        'required_fields' => 1,
+        'id' => '',
+      ),
+    ),
+  );
+  $field_groups[''] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_other|node|artwork_registration|form';
+  $field_group->group_name = 'group_other';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'artwork_registration';
+  $field_group->mode = 'form';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Other',
+    'weight' => '11',
+    'children' => array(
+      0 => 'field_anything_else',
+      1 => 'field_associated_projects',
+      2 => 'field_applying_for_grant',
+    ),
+    'format_type' => 'div',
+    'format_settings' => array(
+      'formatter' => 'open',
+      'instance_settings' => array(
+        'description' => '',
+        'show_label' => 1,
+        'label_element' => 'h3',
+        'effect' => 'none',
+        'speed' => 'fast',
+        'classes' => 'group-other field-group-div',
+        'required_fields' => 1,
+        'id' => '',
+      ),
+    ),
+  );
+  $field_groups[''] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_pr_sound|node|artwork_registration|form';
+  $field_group->group_name = 'group_pr_sound';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'artwork_registration';
+  $field_group->mode = 'form';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Sound',
+    'weight' => '8',
+    'children' => array(
+      0 => 'field_sound_person',
+      1 => 'field_sound_level',
+      2 => 'field_does_it_have_sound_effects',
+      3 => 'field_sound_description',
+    ),
+    'format_type' => 'div',
+    'format_settings' => array(
+      'formatter' => 'open',
+      'instance_settings' => array(
+        'description' => '',
+        'show_label' => 1,
+        'label_element' => 'h3',
+        'effect' => 'none',
+        'speed' => 'fast',
+        'classes' => 'group-pr-sound field-group-div',
+        'required_fields' => 1,
+        'id' => '',
+      ),
+    ),
+  );
+  $field_groups[''] = $field_group;
+
   // Translatables
   // Included for use with string extractors like potx.
   t('  The Project');
   t('Building, Transport, Installation');
   t('Burn');
   t('Lighting');
+  t('Moop');
+  t('Other');
+  t('Sound');
   t('The Structure');
   t('The Team');
 
