@@ -796,7 +796,7 @@ div.body-content input[type=checkbox]:checked + div.radio-checkbox-dummy {
   background-color: #f26c55;
 }
 div.body-content table {
-  border: 1px solid #888888;
+  border: 1px solid #222222;
   border-radius: 0px;
   -moz-border-radius: 0px;
   -webkit-border-radius: 0px;
@@ -805,13 +805,13 @@ div.body-content table {
 }
 div.body-content table th {
   color: #ffffff;
-  background-color: #bbbbbb;
+  background-color: #191919;
   text-transform: uppercase;
   text-align: center;
   font-family: "Open Sans", sans-serif;
   font-weight: 700;
   padding: 5px 8px 5px;
-  border: 1px solid #888888;
+  border: 1px solid #222222;
   border-radius: 0px;
   -moz-border-radius: 0px;
   -webkit-border-radius: 0px;
@@ -819,12 +819,12 @@ div.body-content table th {
 }
 div.body-content table td {
   color: #cccccc;
-  background-color: #ffffff;
+  background-color: #af282e;
   font-family: "Open Sans", sans-serif;
   line-height: 120%;
   padding: 5px 8px 5px;
   font-size: 1em;
-  border: 1px solid #888888;
+  border: 1px solid #222222;
 }
 /*------------------------LINE-HEIGHT------------------------*/
 div.body-content th,
@@ -2145,10 +2145,10 @@ div.body-content div.image-widget-data {
   float: none;
   clear: both;
 }
-div.body-content table.field-multiple-table,
+/*div.body-content table.field-multiple-table,
 div.body-content input.field-add-more-submit {
-  max-width: 400px;
-}
+	max-width: 400px;
+}*/
 div.body-content table.field-multiple-table,
 div.body-content table.field-multiple-table tr,
 div.body-content table.field-multiple-table td,
@@ -2167,6 +2167,9 @@ div.body-content table.field-multiple-table td.field-multiple-drag {
 div.body-content p.selected-file {
   font-weight: 600;
   margin: 0.5em 0;
+}
+div.body-content p.selected-file span.file-name {
+  color: #f26c55;
 }
 fieldset.date-combo .container-inline-date .date-padding {
   padding-left: 0;
@@ -2206,12 +2209,19 @@ form#user-register-form div#edit-actions {
 div.form-textarea-wrapper div.grippie {
   display: none;
 }
-/*div.body-content input.error,
-div.body-content input[type=radio].error + div.radio-checkbox-dummy,
-div.body-content textarea.error {
-	background-color: #ED989B;
-	border-color: #AB3236;
-}*/
+div.form-item input.remove-button,
+div.form-item input.remove-button:hover {
+  height: 38px;
+}
+div.field-type-file table td a,
+div.field-widget-image-image table td a {
+  color: #ffefb6;
+  text-decoration: none;
+}
+div.field-type-file table td div.image-preview img,
+div.field-widget-image-image table td div.image-preview img {
+  border: 2px solid #555;
+}
 div.banners {
   position: relative;
 }
@@ -2383,3 +2393,13 @@ div.body-content textarea {
     top: 54px;
   }
 }
+/*User profile*/
+div.profile div.field {
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #AF282D;
+}
+div.profile div.field-label {
+  color: #f26c55;
+}
+/*@import (less) "../page-specific/temp";*/
