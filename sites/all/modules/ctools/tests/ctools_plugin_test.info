@@ -13,8 +13,8 @@ files[] = math_expression_stack.test
 hidden = TRUE
 
 ; Information added by Drupal.org packaging script on 2016-08-17
-version = "7.x-1.10"
+version = "7.x-1.10+0-dev"
 core = "7.x"
 project = "ctools"
-datestamp = "1471454104"
+datestamp = "1471454082"
 
