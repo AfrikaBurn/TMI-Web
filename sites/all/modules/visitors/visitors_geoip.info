@@ -1,0 +1,14 @@
+name = Visitors GeoIP
+description = Add country reports to stats
+package = "Visitors"
+core = "7.x"
+dependencies[] = visitors
+files[] = visitors_geoip.module
+files[] = visitors_geoip.requirements.inc
+
+; Information added by Drupal.org packaging script on 2014-04-26
+version = "7.x-1.9"
+core = "7.x"
+project = "visitors"
+datestamp = "1398491030"
+

@@ -1,0 +1,118 @@
+Visitors 7.x-1.9, 2014-04-26
+-----------------------
+- Fixed bug report #2250223: Incorrent date range filter condition: ignored
+  first and last seconds.
+
+Visitors 7.x-1.8, 2014-04-12
+-----------------------
+- Fixed feature request #2239121: Remove the "pChart/examples" folder.
+- Fixed bug report #2239125: Ordinate starts with negative value.
+
+Visitors 7.x-1.7, 2014-04-11
+-----------------------
+- Updated pChart 1.13 => 2.1.4.
+
+Visitors 7.x-1.6, 2014-03-15
+-----------------------
+- Fixed bug report #2218475: Incorrect node visitors report. Displayed visitors
+  for another node.
+
+Visitors 7.x-1.5, 2014-03-07
+-----------------------
+- Fixed bug report #2156003: PDOException in visitors_exit() (line 196) - cause
+  might be HTTP_REFERER.
+
+Visitors 7.x-1.4, 2013-01-12
+-----------------------
+- Fixed bug report #1273280: Displaying visitors block to my dashboard without
+  any value.
+
+Visitors 7.x-1.3, 2012-11-10
+-----------------------
+- Fixed bug report #1837158: PDOException: SQLSTATE[22001]: String data, right
+  truncated: 1406 Data too long for column 'visitors_title' at row 1.
+- Fixed bug report #1831810: Data too long for column 'visitors_path'.
+
+Visitors 7.x-1.2, 2012-08-17
+-----------------------
+- Fixed bug report #1632902: Notice: Undefined index: value in
+  visitors_get_mysql_current_timezone() (line 242
+  sites/all/modules/visitors/visitors.module).
+
+Visitors 7.x-1.1, 2012-04-21
+-----------------------
+- Fixed bug report #1463714: Remove LICENSE.txt from Git repository.
+- Added feature request #1535744: Include past visitors in visitor count.
+
+Visitors 7.x-1.0, 2012-01-01
+Visitors 7.x-1.0-alpha7, 2011-12-17
+-----------------------
+- Fixed bug report #1373028: SQLSTATE[HY000]: General error: 1366 Incorrect
+  string value: '\xF6ln' for column 'visitors_city' at row 1.
+- Fixed bug report #1366992: SQLSTATE[42S02]: Base table or view not found:
+  1146 Table 'xb1278_db4.comment' doesn't exist.
+- Move geoip reports to a separate module.
+
+Visitors 7.x-1.0-alpha6, 2011-12-10
+-----------------------
+- Fixed bug report #1248422: SQLite database. PDOException: SQLSTATE[HY000]:
+  General error: 1 near "SHOW": syntax error: SHOW variables LIKE 'time_zone';.
+
+Visitors 7.x-1.0-alpha5, 2011-11-12
+-----------------------
+- Fixed bug report #1319676: Exclude adminster from statistics not working.
+
+Visitors 7.x-1.0-alpha4, 2011-09-10
+-----------------------
+- Added feature request #1262578: Add requirements checks and print results to
+  the Status report.
+- Change hook_permission implementation.
+
+Visitors 7.x-1.0-alpha3, 2011-09-03
+-----------------------
+- Fixed bug report #1267722: Prohibit opening .txt files via browser.
+
+Visitors 7.x-0.39, 2011-09-03
+-----------------------
+- Fixed bug report #1267722: Prohibit opening .txt files via browser.
+
+Visitors 7.x-0.38, 2011-09-02
+-----------------------
+- Fixed bug report #1262542: Rename all include files to *.inc.
+- Changed link to visitors settings page.
+
+Visitors 7.x-1.0-alpha2, 2011-09-01
+-----------------------
+- Fixed bug report #1248588: SQLSTATE[23000]: Integrity constraint violation:
+  1048 Column 'visitors_continent_code' cannot be null.
+- Fixed bug report #1248418: SQLite database. Module installation errors.
+  Notice: Undefined index: char:normal in
+  DatabaseSchema_sqlite->processField().
+- Fixed bug report #1262542: Rename all include files to *.inc.
+
+Visitors 7.x-1.0-alpha1, 2011-08-12
+-----------------------
+- Fixed feature request #556512: Countries.
+
+Visitors 7.x-0.37, 2011-07-22
+-----------------------
+- Fixed bug report #1221328: Ajax error message when checking for updates.
+
+Visitors 7.x-0.36, 2011-07-16
+-----------------------
+- Fixed task #1218500: Visitors settings path 6 / 7.
+
+Visitors 7.x-0.35, 2011-06-18
+-----------------------
+- Fixed bug report #1192520: Days of month report, incorrect days sorting.
+- Moved node visitors report from visitors.pages.inc to reports/node.php file.
+- Enhance the validation parameters of date filter form.
+- visitors_mysql_date_format_sql refactoring.
+- visitors_pgsql_date_format_sql refactoring.
+- visitors_exit code refactoring.
+- visitors_exit function moved to visitors.exit file.
+
+Visitors 7.x-0.34, 2011-05-28
+-----------------------
+- Feature requests #1010994: D7 Version?
+
