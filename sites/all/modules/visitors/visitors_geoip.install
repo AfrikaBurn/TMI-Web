@@ -1,0 +1,258 @@
+<?php
+
+/* vim: set filetype=php: */
+
+/**
+ * @file
+ * Install/uninstall visitors geoip module.
+ */
+
+/**
+ * Update {visitors} table, add geoip support.
+ */
+function visitors_geoip_schema_alter(&$schema) {
+  $schema['visitors'] = array(
+    'fields' => array(
+      'visitors_continent_code' => array(
+        'type' => 'varchar',
+        'length' => 2,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'visitors_country_code' => array(
+        'type' => 'varchar',
+        'length' => 2,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'visitors_country_code3' => array(
+        'type' => 'varchar',
+        'length' => 3,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'visitors_country_name' => array(
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'visitors_region' => array(
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'visitors_city' => array(
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'visitors_postal_code' => array(
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'visitors_latitude' => array(
+        'type' => 'numeric',
+        'precision' => 13,
+        'scale' => 10,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'visitors_longitude' => array(
+        'type' => 'numeric',
+        'precision' => 13,
+        'scale' => 10,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'visitors_dma_code' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'unsigned' => TRUE,
+        'default' => 0,
+      ),
+      'visitors_area_code' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'unsigned' => TRUE,
+        'default' => 0,
+      )
+    )
+  );
+
+  return $schema;
+}
+
+/**
+ * Implements hook_install().
+ */
+function visitors_geoip_install() {
+  $schema = Database::getConnection()->schema();
+
+  if (!$schema->fieldExists('visitors', 'visitors_continent_code')) {
+    db_add_field(
+      'visitors',
+      'visitors_continent_code',
+      array(
+        'type' => 'varchar',
+        'length' => 2,
+        'not null' => TRUE,
+        'default' => '',
+      )
+    );
+  }
+
+  if (!$schema->fieldExists('visitors', 'visitors_country_code')) {
+    db_add_field(
+      'visitors',
+      'visitors_country_code',
+      array(
+        'type' => 'varchar',
+        'length' => 2,
+        'not null' => TRUE,
+        'default' => '',
+      )
+    );
+  }
+
+  if (!$schema->fieldExists('visitors', 'visitors_country_code3')) {
+    db_add_field(
+      'visitors',
+      'visitors_country_code3',
+      array(
+        'type' => 'varchar',
+        'length' => 3,
+        'not null' => TRUE,
+        'default' => '',
+      )
+    );
+  }
+
+  if (!$schema->fieldExists('visitors', 'visitors_country_name')) {
+    db_add_field(
+      'visitors',
+      'visitors_country_name',
+      array(
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+        'default' => '',
+      )
+    );
+  }
+
+  if (!$schema->fieldExists('visitors', 'visitors_region')) {
+    db_add_field(
+      'visitors',
+      'visitors_region',
+      array(
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+        'default' => '',
+      )
+    );
+  }
+
+  if (!$schema->fieldExists('visitors', 'visitors_city')) {
+    db_add_field(
+      'visitors',
+      'visitors_city',
+      array(
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+        'default' => '',
+      )
+    );
+  }
+
+  if (!$schema->fieldExists('visitors', 'visitors_postal_code')) {
+    db_add_field(
+      'visitors',
+      'visitors_postal_code',
+      array(
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+        'default' => '',
+      )
+    );
+  }
+
+  if (!$schema->fieldExists('visitors', 'visitors_latitude')) {
+    db_add_field(
+      'visitors',
+      'visitors_latitude',
+      array(
+        'type' => 'numeric',
+        'precision' => 13,
+        'scale' => 10,
+        'not null' => TRUE,
+        'default' => 0,
+      )
+    );
+  }
+
+  if (!$schema->fieldExists('visitors', 'visitors_longitude')) {
+    db_add_field(
+      'visitors',
+      'visitors_longitude',
+      array(
+        'type' => 'numeric',
+        'precision' => 13,
+        'scale' => 10,
+        'not null' => TRUE,
+        'default' => 0,
+      )
+    );
+  }
+
+  if (!$schema->fieldExists('visitors', 'visitors_dma_code')) {
+    db_add_field(
+      'visitors',
+      'visitors_dma_code',
+      array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'unsigned' => TRUE,
+        'default' => 0,
+      )
+    );
+  }
+
+  if (!$schema->fieldExists('visitors', 'visitors_area_code')) {
+    db_add_field(
+      'visitors',
+      'visitors_area_code',
+      array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'unsigned' => TRUE,
+        'default' => 0,
+      )
+    );
+  }
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function visitors_geoip_uninstall() {
+  db_drop_field('visitors', 'visitors_continent_code');
+  db_drop_field('visitors', 'visitors_country_code');
+  db_drop_field('visitors', 'visitors_country_code3');
+  db_drop_field('visitors', 'visitors_country_name');
+  db_drop_field('visitors', 'visitors_region');
+  db_drop_field('visitors', 'visitors_city');
+  db_drop_field('visitors', 'visitors_postal_code');
+  db_drop_field('visitors', 'visitors_latitude');
+  db_drop_field('visitors', 'visitors_longitude');
+  db_drop_field('visitors', 'visitors_dma_code');
+  db_drop_field('visitors', 'visitors_area_code');
+}
+

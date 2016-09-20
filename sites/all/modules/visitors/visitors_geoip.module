@@ -1,0 +1,47 @@
+<?php
+
+/**
+ * @file
+ * Visitors geoip module menu configuration.
+ */
+
+require_once dirname(__FILE__) . '/visitors_geoip.requirements.inc';
+
+/**
+ * Menu callback. Prints a listing of active nodes on the site.
+ */
+function visitors_geoip_menu() {
+  $items = array();
+
+  $items['visitors/countries'] = array(
+    'title' => 'Countries',
+    'description' => 'View pages count per country.',
+    'page callback' => 'visitors_countries',
+    'access arguments' => array('access visitors'),
+    'file' => 'visitors.admin.inc',
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  $items['visitors/countries/%'] = array(
+    'title' => 'City',
+    'description' => 'View pages count per city.',
+    'page callback' => 'visitors_cities',
+    'page arguments' => array(2),
+    'access arguments' => array('access visitors'),
+    'file' => 'visitors.admin.inc',
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['visitors/countries/%/%'] = array(
+    'title' => 'Hits',
+    'description' => 'View city hits.',
+    'page callback' => 'visitors_city_hits',
+    'page arguments' => array(2, 3),
+    'access arguments' => array('access visitors'),
+    'file' => 'visitors.admin.inc',
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+

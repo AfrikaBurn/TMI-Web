@@ -1,0 +1,12 @@
+name = Visitors
+description = "This module used for displaying a visitors info."
+package = "Visitors"
+core = "7.x"
+configure = admin/config/system/visitors
+
+; Information added by Drupal.org packaging script on 2014-04-26
+version = "7.x-1.9"
+core = "7.x"
+project = "visitors"
+datestamp = "1398491030"
+
