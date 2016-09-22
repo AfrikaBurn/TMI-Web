@@ -1,0 +1,294 @@
+<?php
+/**
+ * @file
+ */
+
+define('PROFILE_FIELD_SEARCH_CORE', 'user');
+define('PROFILE_FIELD_SEARCH_PROFILE2', 'profile2');
+
+/**
+ * Implements hook_permission().
+ */
+function profile_field_search_permission() {
+  return array(
+    'administer profile field search' => array(
+      'title' => t('Administer profile field search'),
+      'description' => t('Configure settings for the profile field search module.'),
+    ),
+    'use profile field search' => array(
+      'title' => t('Use profile field search'),
+      'description' => t('Search for users via the contents of their profile fields.'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu().
+ */
+function profile_field_search_menu() {
+  $items['admin/config/people/profile-field-search'] = array(
+    'title' => t('Profile Field Search'),
+    'description' => t('Configure settings for the Profile Field Search module.'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('profile_field_search_admin_form'),
+    'access arguments' => array('administer profile field search'),
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'profile_field_search.admin.inc',
+  );
+  $items['admin/people/profile-field-search'] = array(
+    'title' => t('Profile Field Search'),
+    'description' => t('Search for users via content in their profile fields.'),
+    'page callback' => 'profile_field_search_page',
+    'access arguments' => array('use profile field search'),
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'profile_field_search.pages.inc',
+  );
+  return $items;
+}
+
+/**
+ * Helper to fetch field info.
+ */
+function _profile_field_search_fields($reset = FALSE, $entity = FALSE, $bundle = FALSE) {
+  $fields = &drupal_static(__FUNCTION__);
+
+  // Early return if we want the cached version.
+  if (empty($reset) && !empty($fields)) {
+    return $fields;
+  }
+
+  $entity = empty($entity) ? variable_get('profile_field_search_entity', PROFILE_FIELD_SEARCH_CORE) : $entity;
+  $bundle = empty($bundle) ? variable_get('profile_field_search_bundle', PROFILE_FIELD_SEARCH_CORE) : $bundle;
+
+  $fields = field_info_instances($entity, $bundle);
+
+
+  // Only search text fields (for now).
+  foreach ($fields as $field => $info) {
+    if ($info['widget']['module'] != 'text') {
+      unset($fields[$field]);
+    }
+  }
+
+  // Sort 'em.
+  uasort($fields, '_profile_field_search_sort_by_weight');
+
+  return $fields;
+}
+
+/**
+ * Helper to mangle field info.
+ */
+function _profile_field_search_fields_options($fields, $flat = FALSE) {
+  $options = array();
+  foreach ($fields as $name => $field) {
+    $options[$name] = $flat ? check_plain($field['label']) : array(
+      'field' => $name,
+      'label' => check_plain($field['label']),
+      'widget' => $field['widget']['type'],
+    );
+  }
+  return $options;
+}
+
+/**
+ * Helper to sort fields by weight.
+ */
+function _profile_field_search_sort_by_weight($a, $b) {
+  if ($a['widget']['weight'] == $b['widget']['weight']) {
+    return 0;
+  }
+  return ($a['widget']['weight'] < $b['widget']['weight']) ? -1 : 1;
+}
+
+/**
+ * Helper to fetch role info.
+ */
+function _profile_field_search_roles($reset = FALSE) {
+  $roles = &drupal_static(__FUNCTION__);
+
+  if ($reset || empty($roles)) {
+    $roles = user_roles(TRUE);
+    unset($roles[DRUPAL_AUTHENTICATED_RID]);
+  }
+  return $roles;
+}
+
+/**
+ * Build the EntityFieldQuery.
+ */
+function profile_field_search_build_query() {
+  $filter = $_SESSION['profile_field_search_filter'];
+
+  if (empty($filter['string'])) {
+    drupal_set_message(t('Not searching for an empty string'), 'warning');
+    return array();
+  }
+
+  // What we searching for?
+  $items = explode(' ', trim($filter['string']));
+
+  // Get a list of fields that we need to search through.
+  $fields = array_intersect_key(_profile_field_search_fields(), array_filter($filter['fields']));
+
+  // Sort fields to avoid a primary select on an optional field table.
+  uasort($fields, '_profile_field_reorder_search_fields');
+
+  // The entity and bundle we're going to look through.
+  $entity = variable_get('profile_field_search_entity', PROFILE_FIELD_SEARCH_CORE);
+  $bundle = variable_get('profile_field_search_bundle', PROFILE_FIELD_SEARCH_CORE);
+
+  $query = new EntityFieldQuery();
+
+  $query->entityCondition('entity_type', $entity)
+    ->entityCondition('bundle', $bundle);
+
+  foreach ($items as $item) {
+    $item = db_like($item);
+
+    // Always search the name and email.
+    // ... on core profile.
+    if ($entity == PROFILE_FIELD_SEARCH_CORE) {
+      $query->propertyCondition('name', '%%' . $item . '%%', 'LIKE');
+      $query->propertyCondition('mail', '%%' . $item . '%%', 'LIKE');
+    }
+
+    // Also search all selected fields.
+    foreach ($fields as $field => $info) {
+      $query->fieldCondition($field, 'value', '%%' . $item . '%%', 'LIKE');
+    }
+  }
+
+  // Use a rewrite hook to mess the "AND' into an 'OR' query.
+  $query->addTag('PFS');
+
+  $limit = variable_get('profile_field_search_pager_items', 50);
+  $query->range(0, $limit);
+  return $query->execute();
+}
+
+/**
+ * Implements hook_query_TAG_alter().
+ *
+ * Pretty much rewrite the whole query. EntityFieldQuery provides the correct
+ * tables and fields, but lacks the ability for nested conditions or in fact
+ * the ability to add OR conditions or LEFT JOIN tables.
+ */
+function profile_field_search_query_PFS_alter(QueryAlterableInterface $query) {
+  $filter = $_SESSION['profile_field_search_filter'];
+
+  $alias = '';
+  $tables =& $query->getTables();
+
+  foreach ($tables as &$table) {
+    // Grab the first alias.
+    if (empty($alias)) {
+      $alias = $table['alias'];
+    }
+    if (!empty($table['join type'])) {
+      $table['join type'] = 'LEFT OUTER';
+    }
+  }
+
+  // We want to OR the field search.
+  $where =& $query->conditions();
+
+  // Split the conditions up into an OR and AND grouping, as the entity and
+  // bundle conditions always need to be AND but the field need to be OR.
+  $fields = $where;
+  $where = array('#conjunction' => 'AND');
+
+  $or = db_or();
+  foreach($fields as $field) {
+    // Filter out conditions we cannot rewrite, as they lead to a 500 error
+    // if we do try to rewrite them.
+    if (!is_array($field) || empty($field['field']) || (empty($field['value']) && empty($field['operator']))) {
+      continue;
+    }
+    if ($field['operator'] == '=') {
+      $query->condition($field['field'], $field['value'], $field['operator']);
+    }
+    else {
+      $or->condition($field['field'], $field['value'], $field['operator']);
+    }
+  }
+
+  // If the users table is missing, we're looking through a profile2 and in
+  // that case the users table does need to be joined and separately added
+  // in the conditions.
+  //
+  // Also, if there is no first field value for a given user, their username,
+  // email or other fields will not end up getting searched, as there is
+  // nothing to join.
+  //
+  // Yes, that's pretty 'orrible.
+  if (variable_get('profile_field_search_entity', PROFILE_FIELD_SEARCH_CORE) == PROFILE_FIELD_SEARCH_PROFILE2) {
+    // If the first table was `profile', then re-joining it here would break
+    // the query. Just stop and check.
+    if ($alias != 'profile') {
+      $query->innerJoin('profile', 'profile', 'profile.pid = ' . $alias . '.' . 'entity_id');
+    }
+    $query->innerJoin('users', 'users', 'users.uid = profile.uid');
+
+    // What we searching for?
+    $items = explode(' ', trim($filter['string']));
+
+    // Search the name and email.
+    foreach ($items as $item) {
+      $item = db_like($item);
+      $or->condition('users.name', '%%' . $item . '%%', 'LIKE');
+      $or->condition('users.mail', '%%' . $item . '%%', 'LIKE');
+    }
+  }
+
+  // Throw all the ORed fields and things back in the query.
+  $query->condition($or);
+
+  // Check if we need to filter by role.
+  $roles = array_keys(array_filter($filter['roles']));
+
+  // Need to filter by role, so rewrite the existing conditions into a
+  // nested set of OR conditions, then add the rid condition with an AND.
+  if (!empty($roles)) {
+    $query->join('users_roles', 'r', 'users.uid = r.uid');
+    $query->condition('r.rid', $roles, 'IN');
+  }
+}
+
+/**
+ * Ajax callback for the admin form bundle element.
+ */
+function _profile_field_search_bundle_callback($form, $form_state) {
+  return $form['profile_field_search_entity']['profile_field_search_bundle'];
+}
+
+/**
+ * Ajax callback for the admin form fields element.
+ */
+function _profile_field_search_field_callback($form, $form_state) {
+  return $form['profile_field_search_defaults']['profile_field_search_default_fields'];
+}
+
+/**
+ * Helper that re-orders fielsd to be searched.
+ *
+ * The EFQ is constructed so that the first field passed is the one whose table
+ * all others are joined to. If the field is optional and a given entity has no
+ * data for it, it gets dropped from the query at this point even though it may
+ * have data in other fields we're searching too.
+ *
+ * By starting with a required field, we can work around this issue, assuming
+ * there is at least one required field. If not, we should be contructing a
+ * db_select() query manually, which is pretty awful.
+ *
+ * Sort by $element['required'] DESC and $element['widget']['weight'] ASC.
+ */
+function _profile_field_reorder_search_fields($a, $b) {
+  if ($a['required'] == $b['required']) {
+    if ($a['widget']['weight'] == $b['widget']['weight']) {
+      return 0;
+    }
+    return ($a['widget']['weight'] < $b['widget']['weight']) ? -1 : 1;
+  }
+  return ($a['required'] < $b['required']) ? 1 : -1;
+}

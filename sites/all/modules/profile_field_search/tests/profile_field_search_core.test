@@ -1,0 +1,42 @@
+<?php
+/**
+ * @file
+ * Test Core Field Search.
+ */
+
+class ProfileFieldSearchCoreTestCase extends DrupalWebTestCase {
+  protected $privileged_user;
+
+  /**
+   * @todo.
+   */
+  public static function getInfo() {
+    return array(
+      'name' => 'Core User Fields',
+      'description' => 'Test searching for core user entity fields.',
+      'group' => 'Profile Field Search',
+    );
+  }
+
+  /**
+   * @todo.
+   */
+  public function setUp() {
+    // Load the date_api module.
+    parent::setUp('field', 'text', 'profile_field_search');
+
+    // Create and log in our privileged user.
+    $this->privileged_user = $this->drupalCreateUser(
+      array('administer content types', 'administer nodes', 'bypass node access', 'administer users', 'administer profile field search', 'use profile field search')
+    );
+    $this->drupalLogin($this->privileged_user);
+  }
+
+  // Do the actual testing.
+
+  // Create a user text field.
+
+  // Add a few users.
+
+  // Search.
+}

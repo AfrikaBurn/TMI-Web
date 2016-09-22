@@ -1,0 +1,13 @@
+name = "Node buttons edit"
+description = "Allows admins to change the text of the buttons on the node add/edit form"
+core = "7.x"
+dependencies[] = "node"
+
+files[] = "node_buttons_edit.test"
+
+; Information added by Drupal.org packaging script on 2014-08-16
+version = "7.x-1.0"
+core = "7.x"
+project = "node_buttons_edit"
+datestamp = "1408170529"
+

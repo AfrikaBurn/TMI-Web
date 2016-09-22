@@ -1,0 +1,64 @@
+<?php
+/**
+ * @file
+ * Test Field Search.
+ */
+
+class ProfileFieldSearchTestCase extends DrupalWebTestCase {
+  protected $privileged_user;
+
+  /**
+   * @todo.
+   */
+  public static function getInfo() {
+    return array(
+      'name' => 'Configuration',
+      'description' => 'Test module configuration.',
+      'group' => 'Profile Field Search',
+    );
+  }
+
+  /**
+   * @todo.
+   */
+  public function setUp() {
+    // Load the date_api module.
+    parent::setUp('field', 'profile_field_search');
+
+    // Create and log in our privileged user.
+    $this->privileged_user = $this->drupalCreateUser(
+      array('administer content types', 'administer nodes', 'bypass node access', 'administer users', 'administer profile field search', 'use profile field search')
+    );
+    $this->drupalLogin($this->privileged_user);
+  }
+
+  // Hit the profile admin page.
+  function testAdminForm() {
+    $this->drupalGet('admin/config/people/profile-field-search');
+    $this->assertResponse(200, 'The settings form loads correctly.');
+
+    $edit = array();
+    $edit['profile_field_search_entity'] = 'user';
+    $edit['profile_field_search_bundle'] = 'user';
+    $edit['profile_field_search_filter_collapse'] = TRUE;
+    $edit['profile_field_search_pager_items'] = '50';
+    $this->drupalPost('admin/config/people/profile-field-search', $edit, t('Save configuration'));
+    $this->assertText(t('The configuration options have been saved.'), 'Form accepts valid options');
+
+    $edit = array();
+    $edit['profile_field_search_entity'] = 'user';
+    $edit['profile_field_search_bundle'] = 'user';
+    $edit['profile_field_search_filter_collapse'] = TRUE;
+    $edit['profile_field_search_pager_items'] = '500';
+    $this->drupalPost('admin/config/people/profile-field-search', $edit, t('Save configuration'));
+    $this->assertText(t('Setting results per page too high may affect site performance'), 'Form warns if number of pager items is high');
+
+    $edit = array();
+    $edit['profile_field_search_entity'] = 'user';
+    $edit['profile_field_search_bundle'] = 'user';
+    $edit['profile_field_search_filter_collapse'] = TRUE;
+    $edit['profile_field_search_pager_items'] = '-10';
+    $this->drupalPost('admin/config/people/profile-field-search', $edit, t('Save configuration'));
+    $this->assertText(t('Results per page must be a positive integer.'), 'Form refuses to accept a negative number of pager items');
+  }
+}
