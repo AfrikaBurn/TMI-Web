@@ -1,0 +1,14 @@
+<?php
+/**
+ * @file
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function profile_field_search_uninstall() {
+  variable_del('profile_field_search_filter_collapse');
+  variable_del('profile_field_search_default_fields');
+  variable_del('profile_field_search_default_roles');
+  variable_del('profile_field_search_pager_items');
+}

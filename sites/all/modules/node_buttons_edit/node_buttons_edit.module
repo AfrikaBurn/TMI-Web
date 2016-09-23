@@ -1,0 +1,117 @@
+<?php
+/**
+ * @file
+ *   The the node buttons edit module.
+ */
+
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function node_buttons_edit_form_node_type_form_alter(&$form, &$form_state, $form_id) {
+  $node_type = isset($form['#node_type']->type) ? $form['#node_type']->type : '';
+  
+  $form['submission']['buttons'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Submission buttons'),
+  );
+
+  $form['submission']['buttons']['node_buttons_edit_save_new'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Save button text (on adding)'),
+    '#default_value' => variable_get('node_buttons_edit_save_new_' . $node_type, 'Save'),
+  );
+  
+  $form['submission']['buttons']['node_buttons_edit_save_edit'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Save button text (on editing)'),
+    '#default_value' => variable_get('node_buttons_edit_save_edit_' . $node_type, 'Save'),
+  );
+  
+  $form['submission']['buttons']['node_buttons_edit_preview_new'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Preview button text (on adding)'),
+    '#default_value' => variable_get('node_buttons_edit_preview_new_' . $node_type, 'Preview'),
+  );
+  
+  $form['submission']['buttons']['node_buttons_edit_preview_edit'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Preview button text (on editing)'),
+    '#default_value' => variable_get('node_buttons_edit_preview_edit_' . $node_type, 'Preview'),
+  );
+  
+  $form['submission']['buttons']['node_buttons_edit_delete_edit'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Delete button text (on editing)'),
+    '#default_value' => variable_get('node_buttons_edit_delete_edit_' . $node_type, 'Delete'),
+  );
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function node_buttons_edit_form_node_form_alter(&$form, &$form_state, $form_id) {
+  $node_type = $form['#node']->type;
+
+  if (empty($form['#node']->nid)) {
+    $form['actions']['submit']['#value'] = variable_get('node_buttons_edit_save_new_' . $node_type, 'Save');
+    $form['actions']['preview']['#value'] = variable_get('node_buttons_edit_preview_new_' . $node_type, 'Preview');
+  }
+  else {
+    $form['actions']['submit']['#value'] = variable_get('node_buttons_edit_save_edit_' . $node_type, 'Save');
+    $form['actions']['preview']['#value'] = variable_get('node_buttons_edit_preview_edit_' . $node_type, 'Preview');
+    $form['actions']['delete']['#value'] = variable_get('node_buttons_edit_delete_edit_' . $node_type, 'Delete');
+  }
+}
+
+/**
+ * Implements hook_variable_info().
+ */
+function node_buttons_edit_variable_info($options) {
+  $variables['node_buttons_edit_save_new_[node_type]'] = array(
+    'type' => 'multiple',
+    'title' => t('Save button title on new content', array(), $options),
+    'repeat' => array(
+      'type' => 'string',
+      'default' => 'Save',
+    ),
+  );
+
+  $variables['node_buttons_edit_preview_new_[node_type]'] = array(
+    'type' => 'multiple',
+    'title' => t('Preview button title on new content', array(), $options),
+    'repeat' => array(
+      'type' => 'string',
+      'default' => 'Preview',
+    ),
+  );
+
+  $variables['node_buttons_edit_save_edit_[node_type]'] = array(
+    'type' => 'multiple',
+    'title' => t('Save button title on existing content', array(), $options),
+    'repeat' => array(
+      'type' => 'string',
+      'default' => 'Save',
+    ),
+  );
+
+  $variables['node_buttons_edit_preview_edit_[node_type]'] = array(
+    'type' => 'multiple',
+    'title' => t('Preview button title on existing content', array(), $options),
+    'repeat' => array(
+      'type' => 'string',
+      'default' => 'Preview',
+    ),
+  );
+
+  $variables['node_buttons_edit_delete_edit_[node_type]'] = array(
+    'type' => 'multiple',
+    'title' => t('Delete button title on content', array(), $options),
+    'repeat' => array(
+      'type' => 'string',
+      'default' => 'Delete',
+    ),
+  );
+
+  return $variables;
+}

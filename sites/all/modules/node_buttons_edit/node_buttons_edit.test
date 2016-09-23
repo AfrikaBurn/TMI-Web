@@ -1,0 +1,112 @@
+<?php
+
+class nodeButtonsEditTestCase extends DrupalWebTestCase {
+  public static function getInfo() {
+    return array(
+      'name' => t('Node buttons edit functionality'),
+      'group' => 'Node buttons edit',
+      'description' => t('Node buttons edit functionality')
+    );
+  }
+
+  function setUp() {
+    parent::setUp('node_buttons_edit');
+
+    $web_user = $this->drupalCreateUser(array('create page content', 'edit own page content', 'delete own page content', 'administer content types'));
+    $this->drupalLogin($web_user);
+  }
+
+  /**
+   * Test setting our variables in the admin form.
+   */
+  function testEditButtonsAdminForm() {
+    $preview_new_label = $this->randomName();
+    $preview_edit_label = $this->randomName();
+    $save_new_label = $this->randomName();
+    $save_edit_label = $this->randomName();
+    $delete_label = $this->randomName();
+
+    $edit = array();
+    $edit['node_buttons_edit_preview_new'] = $preview_new_label;
+    $edit['node_buttons_edit_preview_edit'] = $preview_edit_label;
+    $edit['node_buttons_edit_save_new'] = $save_new_label;
+    $edit['node_buttons_edit_save_edit'] = $save_edit_label;
+    $edit['node_buttons_edit_delete_edit'] = $delete_label;
+    $this->drupalPost('admin/structure/types/manage/page', $edit, t('Save content type'));
+
+    $this->assertEqual($preview_new_label, variable_get('node_buttons_edit_preview_new_page'));
+    $this->assertEqual($preview_edit_label, variable_get('node_buttons_edit_preview_edit_page'));
+    $this->assertEqual($save_new_label, variable_get('node_buttons_edit_save_new_page'));
+    $this->assertEqual($save_edit_label, variable_get('node_buttons_edit_save_edit_page'));
+    $this->assertEqual($delete_label, variable_get('node_buttons_edit_delete_edit_page'));
+
+  }
+
+  /**
+   * Test that setting our variables have the correct effect.
+   */
+  function testEditButtons() {
+    // Make sure that the preview isn't required.
+    variable_set('node_preview_page', DRUPAL_OPTIONAL);
+
+    // Make sure the labels are the defaults.
+    $this->drupalGet('node/add/page');
+    $this->assertRaw(t('Preview'));
+    $this->assertRaw(t('Save'));
+
+    $langcode = LANGUAGE_NONE;
+    $title_key = "title";
+    $body_key = "body[$langcode][0][value]";
+    // Create node to edit.
+    $edit = array();
+    $edit[$title_key] = $this->randomName(8);
+    $edit[$body_key] = $this->randomName(16);
+    $this->drupalPost('node/add/page', $edit, t('Save'));
+
+    $this->clickLink(t('Edit'));
+    $this->assertRaw(t('Preview'));
+    $this->assertRaw(t('Save'));
+    $this->assertRaw(t('Delete'));
+
+    // Now change all the labels.
+    $preview_new_label = $this->randomName();
+    $preview_edit_label = $this->randomName();
+    $save_new_label = $this->randomName();
+    $save_edit_label = $this->randomName();
+    $delete_label = $this->randomName();
+
+
+    variable_set('node_buttons_edit_preview_new_page', $preview_new_label);
+    variable_set('node_buttons_edit_preview_edit_page', $preview_edit_label);
+    variable_set('node_buttons_edit_save_new_page', $save_new_label);
+    variable_set('node_buttons_edit_save_edit_page', $save_edit_label);
+    variable_set('node_buttons_edit_delete_edit_page', $delete_label);
+
+
+    // Make sure that when adding we get the add labels.
+    $this->drupalGet('node/add/page');
+    $this->assertRaw($preview_new_label);
+    $this->assertRaw($save_new_label);
+    $this->assertNoRaw($preview_edit_label);
+    $this->assertNoRaw($save_edit_label);
+    $this->assertNoRaw($delete_label);
+
+    // Make sure that when editing we get the edit labels.
+    $langcode = LANGUAGE_NONE;
+    $title_key = "title";
+    $body_key = "body[$langcode][0][value]";
+    // Create node to edit.
+    $edit = array();
+    $edit[$title_key] = $this->randomName(8);
+    $edit[$body_key] = $this->randomName(16);
+    $this->drupalPost('node/add/page', $edit, $save_new_label);
+
+    $this->clickLink(t('Edit'));
+    $this->assertNoRaw($preview_new_label);
+    $this->assertNoRaw($save_new_label);
+    $this->assertRaw($preview_edit_label);
+    $this->assertRaw($save_edit_label);
+    $this->assertRaw($delete_label);
+
+  }
+}

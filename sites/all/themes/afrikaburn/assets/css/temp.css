@@ -15,6 +15,10 @@ Your Crew Members and their Roles
   float: left;
   padding-right: 1%;
 }
+#user-register-form .field-name-field-first-name, #user-register-form .field-name-field-last-name {
+  width: 49%;
+  max-width: 49%;
+}
 .field-name-field-crew-members {
   max-width: 100%
 }
@@ -67,7 +71,6 @@ input#edit-field-associated-projects-und-0-actions-remove-button
   width: 83px;
   float: left;
 }
-
 
 
 
@@ -237,6 +240,63 @@ table#field-bb-minors-details-values {
   float: left;
   width: 18%;
   padding-right: 1%;
+}
+
+
+
+
+/* Grant forms, wider than normal */
+.field-name-field-breakdown-of-expenses {
+  width: 940px;
+}
+.field-name-field-breakdown-of-expenses .field-name-field-description, 
+.field-name-field-breakdown-of-expenses .field-name-field-specifications, 
+.field-name-field-breakdown-of-expenses .field-name-field-quantity, 
+.field-name-field-breakdown-of-expenses .field-name-field-cost-estimates, 
+.field-name-field-breakdown-of-expenses .field-name-field-price-total, 
+.field-name-field-breakdown-of-expenses .field-name-field-type-of-expense, 
+.field-name-field-breakdown-of-expenses .form-actions {
+  float: left;
+  max-width: 20%;
+  padding-right: 1%;
+}
+.field-name-field-breakdown-of-expenses .field-name-field-quantity {
+  width: 8%;
+}
+.field-name-field-breakdown-of-expenses .field-name-field-price-total {
+  width: 10%;
+}
+.field-name-field-breakdown-of-expenses .field-name-field-type-of-expense select {
+  max-width: 100%;
+}
+.field-name-field-breakdown-of-expenses .field-name-field-type-of-expense {
+  max-width: 14%;
+}
+.field-name-field-breakdown-of-expenses .field-name-field-cost-estimates select {
+  max-width: 100%;
+}
+.field-name-field-breakdown-of-expenses .form-actions {
+    float: right;
+    width: 16%;
+}
+.field-name-field-breakdown-of-expenses .form-actions input {
+  max-width: 300px !important;
+  width: 132px !important;
+  min-width: 100px !important;
+}
+
+/* dear gods' I'm so sorry */
+
+
+
+
+/* Mutant Vehicle Form */
+.node-mutant_vehicles-form .field-name-field-theme-camp  {
+  width: 27%;
+  float: none;
+}
+.node-mutant_vehicles-form .field-name-field-website {
+  float: none;
 }
 
 
@@ -415,6 +475,13 @@ div.field-name-field-booze-p2.form-wrapper {
     padding: 0;
 }
 
-/*.element-invisible {
+.element-invisible {
     display: none;
-}*/
+}
+
+.user-profile-form .form-radios > div, .group-bb-update .form-radios > div {
+    display: none;
+}
+.user-profile-form .form-radios > div ~ div, .group-bb-update .form-radios > div ~ div {
+    display: block;
+}

@@ -1,0 +1,19 @@
+name = Profile Field Search
+description = Allows you to directly search for users via the profile field data.
+package = Search
+core = 7.x
+dependencies[] = field
+dependencies[] = user
+
+configure = admin/config/people/profile-field-search
+
+files[] = tests/profile_field_search.test
+files[] = tests/profile_field_search_core.test
+files[] = tests/profile_field_search_profile2.test
+
+; Information added by  packaging script on 2013-11-02
+version = "7.x-1.0-alpha1"
+core = "7.x"
+project = "profile_field_search"
+datestamp = "1383353059"
+

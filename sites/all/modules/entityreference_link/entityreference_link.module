@@ -1,0 +1,175 @@
+<?php
+
+/**
+ * Helper to collect config about reference field types from other modules.
+ */
+function entityreference_link_config() {
+  $cache = &drupal_static(__FUNCTION__);
+  if ($cache === NULL) {
+    require_once __DIR__ . '/entityreference_link.modules.inc';
+
+    $cache = module_invoke_all('entityreference_link_config');
+    drupal_alter('entityreference_link_config', $cache);
+  }
+
+  return $cache;
+}
+
+/**
+ * Implements hook_field_widget_form_alter().
+ *
+ * Find reference elements and add stuff to their #suffix / #field_suffix.
+ */
+function entityreference_link_field_widget_form_alter(&$element, &$form_state, $context) {
+  // Widget context.
+  $field = $context['field'];
+  $instance = $context['instance'];
+  $delta = $context['delta'];
+
+  // Config.
+  $types = entityreference_link_config();
+
+  // Config <> widget type match.
+  $enabled = variable_get('entityreference_link_enable_all', 0) || !empty($instance['settings']['entityreference_link']['enabled']);
+  if (isset($types[ $field['type'] ]) && $enabled) {
+    // Config.
+    $config = $context['entityreference_link_config'] = $types[ $field['type'] ];
+    $value_column = $config['value_column'];
+
+    // Widget settings.
+    $is_multiple = $field['cardinality'] != 1;
+    $is_table = isset($element[$value_column], $element['_weight']);
+    $is_autocomplete = !empty($element['#autocomplete_path']) || !empty($element[$value_column]['#autocomplete_path']);
+
+    // Get referenced ids.
+    $ids_callback = @$config['ids_callback'] ?: 'entityreference_ids_callback';
+    $ids = call_user_func($ids_callback, $context, $element);
+    if ($is_table || !$is_multiple) {
+      $ids = (array) @$ids[$delta];
+    }
+
+    // Get the reference target type. This is optional, since blocks don't have types. For loading entities
+    // it's mandatory, but that depends on the links callback.
+    $target_type = @$config['target_type'];
+    $target_type_callback = @$config['target_type_callback'];
+    if ($target_type_callback) {
+      $target_type = call_user_func($target_type_callback, $context, $element);
+    }
+
+    // Result settings. Depends entirely on widget. Can't be configurable,
+    $location = $is_multiple ? '#suffix' : '#field_suffix';
+    $is_multiple &= !$is_table;
+    $prefix = $is_multiple ? (@$element[$value_column]['#title'] ?: @$element['#title']) . ': ' : ' &gt; ';
+
+    // Create links from ids.
+    if ($ids) {
+      $links_callback = @$config['links_callback'] ?: '_entityreference_link_entity_links';
+      $options = array('query' => array('destination' => current_path()), 'element' => $element, 'context' => $context);
+      $links = call_user_func($links_callback, $target_type, $ids, $options, $context, $element);
+
+      // Add the result.
+      if ($links) {
+        // Add class to make .form-item inline. Somehow this is ridiculously convoluted.
+        if ($is_table) {
+          // Method 1: add attr to element itself, select with JS to add class, target with CSS.
+          $element[$value_column]['#attributes']['data-entityreference-link'] = '';
+          _entityreference_link_add_js($element);
+          _entityreference_link_add_css($element);
+        }
+
+        // Add link(s).
+        $addition = '<span class="entityreference-link-links">' . $prefix . implode(', ', $links) . '</span>';
+        if (isset($element[$value_column]['#type'])) {
+          $element = &$element[$value_column];
+        }
+        $element[$location] = !empty($element[$location]) ? $element[$location] . '<br>' . $addition : $addition;
+      }
+    }
+  }
+}
+
+/**
+ * Helper to add CSS to a page, via an element's #attached.
+ */
+function _entityreference_link_add_css(&$element) {
+  static $done = false;
+  if (!$done) {
+    $done = true;
+    $element['#attached']['css'][] = array('data' => ".form-item.entityreference-link-inline { display: inline-block; }", 'type' => 'inline');
+  }
+}
+
+/**
+ * Helper to add JS to a page, via an element's #attached.
+ */
+function _entityreference_link_add_js(&$element) {
+  static $done = false;
+  if (!$done) {
+    $done = true;
+    $element['#attached']['js'][] = array('data' => "jQuery('[data-entityreference-link]').parent().addClass('entityreference-link-inline')", 'type' => 'inline', 'scope' => 'footer');
+  }
+}
+
+/**
+ * Helper to get referenced ids the simple way.
+ */
+function entityreference_ids_callback($context, $element) {
+  $value_column = $context['entityreference_link_config']['value_column'];
+  return array_filter(array_map(function($item) use ($value_column) {
+    $item = (array) $item;
+    return $item[$value_column];
+  }, $context['items']));
+}
+
+/**
+ * Helper to make simple links from entities.
+ */
+function _entityreference_link_entity_links($entity_type, $ids, $options, $context, $element) {
+  $entities = entity_load($entity_type, array_filter($ids));
+  return array_map(function($entity) use ($entity_type, $options) {
+    $uri = entity_uri($entity_type, $entity);
+    return l(entity_label($entity_type, $entity), $uri['path'] . '/edit', $options);
+  }, $entities);
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter() for field_ui_field_edit_form().
+ */
+function entityreference_link_form_field_ui_field_edit_form_alter(&$form, &$form_state) {
+  $instance = $form['#instance'];
+// dpm($instance, 'instance');
+  $field = $form['#field'];
+
+  // Config.
+  $types = entityreference_link_config();
+
+  // Config <> widget type match.
+  if (isset($types[ $field['type'] ])) {
+    // Config.
+    $config = $types[ $field['type'] ];
+
+    $form['instance']['settings']['entityreference_link'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Entity reference link'),
+      '#collapsible' => FALSE,
+      '#collapsed' => FALSE,
+    );
+    $form['instance']['settings']['entityreference_link']['enabled'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Enable link(s) for this field.'),
+      '#default_value' => !empty($instance['settings']['entityreference_link']['enabled']),
+    );
+
+    // Clean up field config before Field UI saves it into the db.
+    array_unshift($form['#submit'], 'entityreference_link_field_ui_field_edit_form_submit');
+  }
+}
+
+/**
+ * Submit handler for field_ui_field_edit_form().
+ */
+function entityreference_link_field_ui_field_edit_form_submit($form, &$form_state) {
+  if (empty($form_state['values']['instance']['settings']['entityreference_link']['enabled'])) {
+    unset($form_state['values']['instance']['settings']['entityreference_link']);
+  }
+}
