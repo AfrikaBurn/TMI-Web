@@ -1,0 +1,175 @@
+<?php
+
+/**
+ * @file
+ * Installation file for user_register_notify module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function user_register_notify_install() {
+  // Set the weight of the module lower so modules like logintobogie don't cause
+  // problems.
+  db_update('system')
+    ->fields(array('weight' => 1002))
+    ->condition('name', 'user_register_notify')
+    ->execute();
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function user_register_notify_uninstall() {
+  variable_del('user_register_notify_type');
+  variable_del('user_register_notify_mail_to');
+  variable_del('user_register_notify_mail_from');
+  variable_del('user_register_notify_mail_replyto');
+  variable_del('user_register_notify_mail_messageid');
+  variable_del('user_register_notify_roles');
+  variable_del('user_register_notify_created_body');
+  variable_del('user_register_notify_created_subject');
+  variable_del('user_register_notify_deleted_body');
+  variable_del('user_register_notify_deleted_subject');
+  variable_del('user_register_notify_updated_body');
+  variable_del('user_register_notify_updated_subject');
+  variable_del('user_register_notify_alert');
+  // Remove custom core template not visible in UI to revert to core default.
+  variable_del('user_mail_register_pending_approval_admin_subject');
+  variable_del('user_mail_register_pending_approval_admin_body');
+}
+
+/**
+ * Replace old placeholders with standard token placeholders.
+ */
+function user_register_notify_update_7000() {
+  $messages = array();
+
+  foreach (array('subject', 'body') as $variable) {
+    $string = variable_get('user_register_notify_' . $variable, '');
+
+    if (!empty($string)) {
+      $replace_pairs = array(
+        '!user_name' => '[user:name]',
+        '!site' => '[site:name]',
+        '!user_mail' => '[user:mail]',
+        '!approved' => '[user:status]',
+        '!user_uid' => '[user:uid]',
+        '!uri_brief' => '[site:url-brief]',
+        '!uri' => '[site:url]',
+        '!user_view' => '[user:url]',
+        '!user_edit' => '[user:edit-url]',
+        '!user_delete' => '[user:cancel-url]',
+        '!date' => '[site:current-date]',
+        '!og' => '[user:user-register-notify-og-groups]',
+        '!profile' => '',
+      );
+      $string = strtr($string, $replace_pairs);
+
+      variable_set('user_register_notify_' . $variable, $string);
+      $messages[] = t('Variable "user_register_notify_@type" has been updated. The old placeholders have been replaced with standard token placeholders.', array('@type' => $variable));
+
+      if (!module_exists('entity') && strpos($string, '[user:status]') !== FALSE) {
+        drupal_set_message(t('At least one e-mail template uses [user:status] token, but it may not available without entity module. Please review your User Registration Notification settings.'), 'warning');
+      }
+    }
+  }
+
+  return implode(' ', $messages);
+}
+
+/**
+ * Split created and updated e-mails.
+ */
+function user_register_notify_update_7001() {
+  $messages = array();
+
+  $string = variable_get('user_register_notify_subject', '');
+  $string = str_replace('!action', 'created', $string);
+  variable_set('user_register_notify_created_subject', $string);
+
+  $string = variable_get('user_register_notify_body', '');
+  $string = str_replace('!action', 'created', $string);
+  variable_set('user_register_notify_created_body', $string);
+
+  $string = variable_get('user_register_notify_subject', '');
+  $string = str_replace('!action', 'updated', $string);
+  variable_set('user_register_notify_updated_subject', $string);
+
+  $string = variable_get('user_register_notify_body', '');
+  $string = str_replace('!action', 'updated', $string);
+  variable_set('user_register_notify_updated_body', $string);
+
+  variable_del('user_register_notify_subject');
+  variable_del('user_register_notify_body');
+
+  $messages[] = t('Split created and updated e-mails.');
+
+  return implode(' ', $messages);
+}
+
+/**
+ * Cleanup invalid e-mail addresses from notification e-mail address field.
+ */
+function user_register_notify_update_7002() {
+  $messages = array();
+
+  // Cleanup the notification e-mail address field.
+  $site_mail = variable_get('site_mail', ini_get('sendmail_from'));
+  $user_register_notify_mails = variable_get('user_register_notify_mailto', '');
+  if ($user_register_notify_mails == $site_mail) {
+    // Remove site_mail from list as we default to this value if empty.
+    $user_register_notify_mails = str_replace($site_mail, '', $user_register_notify_mails);
+  }
+  $user_register_notify_mails = explode(',', $user_register_notify_mails);
+  $user_register_notify_mails = array_map('trim', $user_register_notify_mails);
+  $user_register_notify_mails = array_filter($user_register_notify_mails, 'strlen');
+
+  $emails = array();
+  foreach ($user_register_notify_mails as $email) {
+    if (valid_email_address($email)) {
+      $emails[] = $email;
+    }
+    else {
+      $messages[] = t('Found invalid notification e-mail address "@email" and removed it. Please review your settings!', array('@email' => $email));
+    }
+  }
+  variable_set('user_register_notify_mail_to', implode(',', $emails));
+  variable_del('user_register_notify_mailto');
+
+  $messages[] = t('Cleaned up notification e-mail address field.');
+
+  return implode(' ', $messages);
+}
+
+/**
+ * Upgrade action setting to checkboxes.
+ */
+function user_register_notify_update_7003() {
+  $messages = array();
+
+  $user_register_notify_alert = variable_get('user_register_notify_alert', 'create');
+  if ($user_register_notify_alert == 'update') {
+    variable_set('user_register_notify_alert', array('create' => 'create', 'update' => 'update'));
+    $messages[] = t('Enabled account creation and update notifications.');
+  }
+  else {
+    variable_set('user_register_notify_alert', array('create' => 'create'));
+    $messages[] = t('Enabled new account creation notifications.');
+  }
+
+  return implode(' ', $messages);
+}
+
+/**
+ * Lowercase send by role or custom e-mail address value.
+ */
+function user_register_notify_update_7004() {
+  $messages = array();
+
+  $user_register_notify_type = strtolower(variable_get('user_register_notify_type', 'custom'));
+  variable_set('user_register_notify_type', $user_register_notify_type);
+  $messages[] = t('Fixed send by role or custom e-mail address setting.');
+
+  return implode(' ', $messages);
+}

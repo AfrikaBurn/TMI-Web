@@ -1,0 +1,104 @@
+<?php
+
+/**
+ * @file
+ * Test file for User Registration Notification module.
+ */
+
+/**
+ * Test basic functionality of User Registration Notification module.
+ *
+ * @group User Registration Notification
+ */
+class UserRegisterNotifyBasicTest extends DrupalWebTestCase {
+
+  /**
+   * Modules to enable.
+   *
+   * @var array
+   */
+  public static function getInfo() {
+    return array(
+      'name' => 'User Registration Notification basic tests',
+      'description' => 'Test basic functionality of User Registration Notification module.',
+      'group' => 'User Registration Notification',
+      'dependencies' => array(
+        'token',
+        'entity'
+      ),
+    );
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function setUp() {
+    parent::setUp('user_register_notify', 'token');
+
+    $permissions = array(
+      'access administration pages',
+      'administer modules',
+      'administer site configuration',
+    );
+
+    // User to set up user_register_notify.
+    $this->admin_user = $this->drupalCreateUser($permissions);
+    $this->drupalLogin($this->admin_user);
+  }
+
+  /**
+   * Tests if configuration is possible.
+   */
+  public function testUserRegisterNotifyConfiguration() {
+    // Check if Configure link is available on 'Modules' page.
+    // Requires 'administer modules' permission.
+    $this->drupalGet('admin/modules');
+    $this->assertRaw('admin/config/people/user-register-notify', '[testUserRegisterNotifyConfiguration]: Configure link from Modules page to User Registration Notification Settings page exists.');
+
+    // Check for setting page's presence.
+    $this->drupalGet('admin/config/people/user-register-notify');
+    $this->assertRaw(t('Account notifications'), '[testUserRegisterNotifyConfiguration]: Settings page displayed.');
+
+    // Token tree visible?
+    $this->assertRaw(t('Browse available tokens.'), '[testUserRegisterNotifyConfiguration]: Token tree displayed.');
+  }
+
+  /**
+   * Tests if admin form works properly.
+   */
+  public function testUserRegisterNotifyAdminForm() {
+    // Test e-mail validation.
+    $edit = array();
+    $edit['user_register_notify_type'] = 'custom';
+    $edit['user_register_notify_mail_to'] = 'foo@example.com';
+    $this->drupalPost('admin/config/people/user-register-notify', $edit, t('Save configuration'));
+    $this->assertRaw('foo@example.com', '[testUserRegisterNotifyAdminForm]: Saved one e-mail.');
+
+    // This assert requires entity.module or [user:status] token is not
+    // available and therefore cause a form validation error.
+    $edit['user_register_notify_mail_to'] = 'foo@example.com, bar@example.net';
+    $this->drupalPost('admin/config/people/user-register-notify', $edit, t('Save configuration'));
+    $this->assertRaw('foo@example.com,bar@example.net', '[testUserRegisterNotifyAdminForm]: Spaces removed from e-mail string.');
+
+    $edit['user_register_notify_mail_to'] = 'foo@example.com,bar@example.net,#invalid.org';
+    $this->drupalPost('admin/config/people/user-register-notify', $edit, t('Save configuration'));
+    $this->assertRaw(t('The e-mail address %mail is not valid.', array('%mail' => '#invalid.org')), '[testUserRegisterNotifyAdminForm]: Invalid e-mail address found.');
+
+    $edit['user_register_notify_mail_to'] = 'foo@example.com,bar@example.net';
+    $edit['user_register_notify_mail_from'] = 'foo@example.org';
+    $edit['user_register_notify_mail_replyto'] = 'bar@example.org';
+    $this->drupalPost('admin/config/people/user-register-notify', $edit, t('Save configuration'));
+    $this->assertRaw('foo@example.com,bar@example.net', '[testUserRegisterNotifyAdminForm]: Notification e-mail addresses configured.');
+    $this->assertRaw('foo@example.org', '[testUserRegisterNotifyAdminForm]: From e-mail addresses configured.');
+    $this->assertRaw('bar@example.org', '[testUserRegisterNotifyAdminForm]: Reply-to e-mail addresses configured.');
+
+    $edit['user_register_notify_mail_to'] = 'foo@example.com,bar@example.net';
+    $edit['user_register_notify_mail_from'] = 'foo@example.org,bar@example.net';
+    $edit['user_register_notify_mail_replyto'] = 'foo@example.com,bar@example.org';
+    $this->drupalPost('admin/config/people/user-register-notify', $edit, t('Save configuration'));
+    $this->assertRaw('foo@example.com,bar@example.net', '[testUserRegisterNotifyAdminForm]: Notification e-mail addresses configured.');
+    $this->assertRaw(t('The e-mail address %mail is not valid.', array('%mail' => 'foo@example.org,bar@example.net')), '[testUserRegisterNotifyAdminForm]: From e-mail address validation works.');
+    $this->assertRaw(t('The e-mail address %mail is not valid.', array('%mail' => 'foo@example.com,bar@example.org')), '[testUserRegisterNotifyAdminForm]: Reply-to e-mail address validation works.');
+  }
+
+}

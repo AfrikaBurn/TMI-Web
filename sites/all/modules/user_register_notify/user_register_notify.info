@@ -1,0 +1,14 @@
+name = User Registration Notification
+description = Notifies administrators about new user registrations.
+core = 7.x
+configure = admin/config/people/user-register-notify
+files[] = user_register_notify.test
+test_dependencies[] = token
+test_dependencies[] = entity
+
+; Information added by Drupal.org packaging script on 2016-07-21
+version = "7.x-1.2"
+core = "7.x"
+project = "user_register_notify"
+datestamp = "1469137741"
+

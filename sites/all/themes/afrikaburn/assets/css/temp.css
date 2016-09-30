@@ -479,9 +479,16 @@ div.field-name-field-booze-p2.form-wrapper {
     display: none;
 }
 
-.user-profile-form .form-radios > div, .group-bb-update .form-radios > div {
+.user-profile-form .form-radios > div, .group-bb-update .form-radios > div, .group-questionaire .form-radios > div, .group-user .form-radios > div {
     display: none;
 }
-.user-profile-form .form-radios > div ~ div, .group-bb-update .form-radios > div ~ div {
+.user-profile-form .form-radios > div ~ div, .group-bb-update .form-radios > div ~ div, .group-questionaire .form-radios > div ~ div, .group-user .form-radios > div ~ div { 
     display: block;
+}
+
+.field-name-field-imported-from-wordpress {
+    display: none;
+}
+.field-name-field-updated {
+  display: none;
 }

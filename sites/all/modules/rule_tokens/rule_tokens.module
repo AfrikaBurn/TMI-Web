@@ -1,0 +1,81 @@
+<?php
+/**
+ * @file
+ * Core functions for Rule Tokens module.
+ */
+
+/**
+ * Implements hook_token_info_alter().
+ */
+function rule_tokens_token_info_alter(&$data) {
+  $data['types']['rule_tokens'] = array(
+    'name' => t('Rule Tokens'),
+    'description' => t('Rule powered tokens.')
+  );
+
+  foreach ($data['tokens'] as $type => &$tokens) {
+    foreach ($tokens as &$token) {
+      if (!isset($token['type']) && (!isset($token['dynamic']) || empty($token['dynamic']))) {
+        $token['type'] = 'rule_tokens';
+      }
+    }
+  }
+
+  $data['tokens']['rule_tokens']['rule_tokens'] = array(
+    'name' => t('Rule Tokens'),
+    'description' => t('Control your token via Rules. Append an active rule machine name to the token.'),
+    'dynamic' => TRUE,
+  );
+}
+
+/**
+ * Implements hook_tokens().
+ */
+function rule_tokens_tokens($type, $tokens, array $data = array(), array $options = array()) {
+  $cache = &drupal_static('__FUNCTION__', array());
+  $replacements = array();
+
+  foreach ($tokens as $token => $original) {
+    $parts = explode(':', $token);
+    if (count($parts) > 2 && 'rule_tokens' == $parts[count($parts) - 2] && !in_array($original, $cache)) {
+      $component_name = $parts[count($parts) - 1];
+
+      // Get original token value.
+      $original_token = str_replace(':' . $parts[count($parts) - 2] . ':' . $component_name, '', $original);
+      $value = token_replace($original_token, $data, $options);
+
+      // Ensure that the original token is actually being processed before
+      // continuing.
+      if ($value == $original_token) {
+        continue;
+      }
+      $cache[] = $original;
+
+      // Load component and invoke component.
+      $component = rules_get_cache('comp_' . $component_name);
+      if ($component) {
+        // We need to pass the token without brackets so it can be used in a
+        // condition without rules trying to replace the token.
+        $token = str_replace(array('[', ']'), '', $original_token);
+
+        $entity = NULL;
+        if (isset($data[$type])) {
+          $entity = $data[$type];
+        }
+
+        $return = rules_invoke_component($component_name, $value, $type, $token, $entity);
+        if (!empty($return)) {
+          $value = reset($return);
+        }
+      }
+      else {
+        // Create watchdog message if $component_name does not exist.
+        watchdog('rule_tokens', "There is no rules component with the machine name of '@component_name'", array('@component_name' => $component_name));
+      }
+
+      $replacements[$original] = $value;
+    }
+  }
+
+  return $replacements;
+}

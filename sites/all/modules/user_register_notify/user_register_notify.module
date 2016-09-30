@@ -1,0 +1,209 @@
+<?php
+
+/**
+ * @file
+ * Installation file for the user_register_notify module.
+ */
+
+/**
+ * Implements hook_help().
+ */
+function user_register_notify_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help/user_register_notify':
+      return t('This module provides a way for an administrator to get an email when a user account is created. It assumes that the Drupal mailer is configured.');
+  }
+}
+
+/**
+ * Implements hook_menu().
+ */
+function user_register_notify_menu() {
+  $items['admin/config/people/user-register-notify'] = array(
+    'title' => 'User registration notification',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('user_register_notify_admin_settings_form'),
+    'description' => 'Configure the User Registration Notification module.',
+    'file' => 'user_register_notify.admin.inc',
+    'access arguments' => array('administer site configuration'),
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ */
+function user_register_notify_form_user_admin_settings_alter(&$form, &$form_state, $form_id) {
+  // Add reference link to core user admin settings form.
+  $form['email_pending_approval_admin'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Admin (user awaiting approval)'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    '#description' => t('This e-mail template is hidden from core account settings, but can be configured in <a href="@settings">User registration notification</a> settings.', array('@settings' => url('admin/config/people/user-register-notify'))),
+    '#group' => 'email',
+  );
+}
+
+/**
+ * Implements hook_user_delete().
+ */
+function user_register_notify_user_delete($account) {
+  if (in_array('delete', variable_get('user_register_notify_alert', array('create' => 'create')), TRUE)) {
+    user_register_notify_setup_email($account, 'delete');
+  }
+}
+
+/**
+ * Implements hook_user_insert().
+ */
+function user_register_notify_user_insert(&$edit, $account, $category = NULL) {
+  if (in_array('create', variable_get('user_register_notify_alert', array('create' => 'create')), TRUE)) {
+    user_register_notify_setup_email($account, 'create');
+  }
+}
+
+/**
+ * Implements hook_user_update().
+ */
+function user_register_notify_user_update(&$edit, $account, $category = NULL) {
+  if (in_array('update', variable_get('user_register_notify_alert', array('create' => 'create')), TRUE)) {
+    user_register_notify_setup_email($account, 'update');
+  }
+}
+
+/**
+ * Implements hook_profile2_update().
+ */
+function user_register_notify_profile2_update($profile) {
+  $account = user_load($profile->uid);
+  if (is_object($account) && in_array('update', variable_get('user_register_notify_alert', array('create' => 'create')), TRUE)) {
+    user_register_notify_setup_email($account, 'update');
+  }
+}
+
+/**
+ * Send e-mail notification.
+ */
+function user_register_notify_setup_email(&$account, $action = 'create') {
+  // Notify administrator of new user only if this is not first user.
+  if ($account->uid != 1) {
+    $notify_type = variable_get('user_register_notify_type', 'custom');
+    $params = array(
+      'account' => $account,
+    );
+
+    // Default 'from' e-mail address to drupal_mail().
+    $from = variable_get('site_mail', ini_get('sendmail_from'));
+
+    $emails = array();
+    switch ($notify_type) {
+      case 'custom':
+        $user_register_notify_mail_to = variable_get('user_register_notify_mail_to', $from);
+        if (!empty($from)) {
+          $emails = explode(',', ($user_register_notify_mail_to) ? $user_register_notify_mail_to : $from);
+        }
+        break;
+
+      case 'both':
+        $user_register_notify_mail_to = variable_get('user_register_notify_mail_to', $from);
+        if (!empty($from)) {
+          $emails = explode(',', ($user_register_notify_mail_to) ? $user_register_notify_mail_to : $from);
+        }
+        // There is no 'break' here to include the role e-mails below.
+
+      case 'role':
+        $roles = variable_get('user_register_notify_roles', array());
+        if (!empty($roles)) {
+          $result = db_query("SELECT mail FROM {users} AS u INNER JOIN {users_roles} AS r ON u.uid = r.uid WHERE r.rid IN (:roles) and u.status = :status", array(':roles' => $roles, ':status' => 1));
+          while ($mail = $result->fetchObject()) {
+            $emails[] = $mail->mail;
+          }
+        }
+        break;
+    }
+
+    // Make sure the e-mail addresses from users table are clean.
+    $emails = array_map('trim', $emails);
+    $emails = array_filter($emails, 'strlen');
+    $emails = array_unique($emails);
+    if (empty($emails)) {
+      watchdog('user_register_notify', 'Cannot send user notification without recipient e-mail address.', WATCHDOG_WARNING);
+      return;
+    }
+    $to = implode(', ', $emails);
+
+    // watchdog('user_register_notify', check_plain($to));
+
+    drupal_mail(
+      'user_register_notify',
+      'admin_' . $action,
+      $to,
+      language_default(),
+      $params,
+      $from,
+      TRUE // Automatically send
+    );
+  }
+}
+
+/**
+ * Implements hook_mail().
+ */
+function user_register_notify_mail($key, &$message, $params) {
+  $data['user'] = $params['account'];
+  $langcode = $message['language']->language;
+
+  $subject = '';
+  $body = '';
+
+  switch ($key) {
+    case 'admin_create':
+      $subject = t(variable_get('user_register_notify_created_subject', t('Account details for [user:name] at [site:name]')), array(), array('langcode' => $langcode));
+      $body = t(variable_get('user_register_notify_created_body', t("User [user:name] ([user:url]) has created account.\n\nEdit user: [user:edit-url]\n\nDelete user: [user:cancel-url]\n\nUser status: [user:status]")), array(), array('langcode' => $langcode));
+      break;
+
+    case 'admin_delete':
+      $subject = t(variable_get('user_register_notify_deleted_subject', t('Account details for [user:name] at [site:name]')), array(), array('langcode' => $langcode));
+      $body = t(variable_get('user_register_notify_deleted_body', t("User [user:name] ([user:url]) has deleted account.")), array(), array('langcode' => $langcode));
+      break;
+
+    case 'admin_update':
+      $subject = t(variable_get('user_register_notify_updated_subject', t('Account details for [user:name] at [site:name]')), array(), array('langcode' => $langcode));
+      $body = t(variable_get('user_register_notify_updated_body', t("User [user:name] ([user:url]) has updated account.\n\nEdit user: [user:edit-url]\n\nDelete user: [user:cancel-url]")), array(), array('langcode' => $langcode));
+      break;
+  }
+
+  // We do not sanitize the token replacement, since the output of this
+  // replacement is intended for an e-mail message, not a web browser.
+  $message['subject'] = token_replace($subject, array('user' => $data['user']), array('language' => $message['language'], 'sanitize' => FALSE, 'clear' => TRUE));
+  $message['body'][] = token_replace($body, array('user' => $data['user']), array('language' => $message['language'], 'callback' => 'user_mail_tokens', 'sanitize' => FALSE, 'clear' => TRUE));
+}
+
+/**
+ * Implementation of hook_mail_alter().
+ */
+function user_register_notify_mail_alter(&$message) {
+  $user_register_notify_mail_messageid_default = drupal_map_assoc(array(
+    'user_register_notify_admin_create',
+    'user_register_notify_admin_delete',
+    'user_register_notify_admin_update',
+  ));
+  $user_register_notify_mail_messageid = array_filter(variable_get('user_register_notify_mail_messageid', $user_register_notify_mail_messageid_default));
+
+  // Only replace configured messageid's.
+  if (in_array($message['id'], $user_register_notify_mail_messageid)) {
+    // Custom 'from' e-mail address to drupal_mail().
+    $user_register_notify_mail_from = variable_get('user_register_notify_mail_from', '');
+    if (!empty($user_register_notify_mail_from)) {
+      $message['headers']['From'] = $user_register_notify_mail_from;
+    }
+
+    // Pass 'reply-to' address to hook_mail().
+    $user_register_notify_mail_replyto = variable_get('user_register_notify_mail_replyto', '');
+    if (!empty($user_register_notify_mail_replyto)) {
+      $message['headers']['Reply-to'] = $user_register_notify_mail_replyto;
+    }
+  }
+}
