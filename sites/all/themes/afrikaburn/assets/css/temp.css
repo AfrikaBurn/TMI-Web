@@ -1,0 +1,417 @@
+/* 
+Tried to sort these so not a 100% logical
+
+Also fully admit I need to look more in to you design flow :/ so hopefully this is a help
+*/
+
+@media (min-width: 980px) {
+
+/*
+THE TEAM 
+Your Crew Members and their Roles
+*/
+div.field-name-field-role, div.field-name-field-first-name, div.field-name-field-last-name, div.field-name-field-email-address, div.field-name-field-phone-number {
+  max-width: 24%;
+  float: left;
+  padding-right: 1%;
+}
+div.field-name-field-crew-members {
+  max-width: 100%
+}
+
+table#field-crew-members-values {
+    max-width: 100%;
+}
+
+table#field-crew-members-values {
+    max-width: 100%;
+}
+
+div.field-name-field-crew-members div.field-name-field-role, 
+div.field-name-field-crew-members div.field-name-field-first-name, 
+div.field-name-field-crew-members div.field-name-field-last-name, 
+div.field-name-field-crew-members div.field-name-field-email-address, 
+div.field-name-field-crew-members div.field-name-field-phone-number {
+  max-width: 19%;
+  padding-right: 1%;
+}
+
+
+/*
+the "Remove" buttons - form wide (because I was not that wise)
+
+... was have a problem with class inherited names :/ 
+*/
+
+/* zzz - Can't maintain styles when new items added, as the classes and ID's chnage in a way that makes this impossible.
+#field-crew-members-values .form-actions input, 
+#edit-field-year-and-name-of-prev .form-actions input, 
+input#edit-field-associated-projects-und-0-actions-remove-button
+{
+  width: 100%;
+  min-width: 10px;
+  padding: 0 0px;
+  text-indent: 0px;
+}
+zzz-*/
+
+#field-crew-members-values .form-actions,
+#edit-field-year-and-name-of-prev .form-actions,
+div.field-name-field-associated-projects .form-actions 
+{
+  max-width: 83px;
+  float: left;
+  width: 83px;
+}
+
+div.field-name-field-crew-members .form-actions {
+  width: 83px;
+  float: left;
+}
+/* 
+Year and name of previous projects
+*/
+div.field-name-field-year-and-name-of-prev table {
+  max-width: 100%;
+  width: 100%;
+}
+div.field-name-field-previous-project {
+  float: left;
+  width: 343px;
+  padding: 0 16px;
+}
+div.field-name-field-year-and-event-name {
+  width: 152px;
+  float: left;
+}
+div.field-name-field-year-and-event-name .form-select {
+  width: 100%;
+}
+
+
+
+/*
+THE STRUCTURE - Dimensions
+*/
+
+div.field-name-field-height, div.field-name-field-width, div.field-name-field-depth, div.field-name-field-approx-weight, div.field-name-field-foot-print-area {
+  width: 31%;
+  Float: left;
+  padding: 1%;
+}
+div.field-name-field-approx-weight label {
+  height: 25px;
+}
+
+div.field-name-field-foot-print-area .description {
+  padding-left: 11px;
+  margin-left: 0;
+}
+
+div.field-name-field-dimentions-m2 div.field-type-number-integer input {
+  max-width: 130px;
+}
+
+div.field-name-field-approx-weight {
+  height: 118px;
+}
+
+
+/*
+Integer / number inputs
+Site wide, but see under Moop
+*/
+
+div.field-type-number-integer input {
+  max-width: 100px;
+}
+
+
+
+/*
+
+Is your piece associated with any other projects at AfrikaBurn?
+
+*/
+div.field-name-field-associated-projects table, table#field-year-and-name-of-prev-values, table#field-associated-projects-values {
+  max-width: 100%;
+}
+/* zzz - Doesn't really play well with the website section- makes it look like it's the website for the theme camp.
+div.field-name-field-theme-camp {
+  width: 27%;
+  float: left;
+}
+zzz - */
+div.field-name-field-how-is-it-related- {
+  width: 54%;
+  float: left;
+  padding: 0 16px;
+}
+div.field-name-field-theme-camp label {
+  white-space: normal;
+}
+
+/*
+ Trying to make the lables stand out on the form ... it gets a bit confusing 
+ as we mix paragraphs extra, but I am sure this could be done better.
+ */
+div.form-wrapper .form-item > label {
+	margin: 0;
+	font-weight: 600;
+}
+div.field-type-multifield spandiv.fieldset-legend, div.field-type-multifield label {
+    font-weight: 600;
+}
+div.field-type-multifield legend {
+    padding-left: 0px;
+}
+div.field-type-multifield div.form-wrapper .form-item > label {
+    font-weight: 400;
+}
+
+
+
+/*
+ *Continuing the help text look and feel
+ */
+div.fieldset-description, .description {
+  padding-left: 15px;
+  margin: 10px 0 10px 10px;
+  margin-bottom: 1em;
+  border-left: 3px solid #f26c55;
+  color: #f26c55;
+}
+
+
+
+/*
+ * secion spaces on forms
+ */
+
+.node-form h3 {
+    margin-top: 3em;
+}
+
+
+/*
+ * File selector
+ */
+div.field-widget-image-image table th:nth-child(2), div.field-widget-image-image table td:nth-child(2), div.field-type-file table th:nth-child(2), div.field-type-file table td:nth-child(2){
+  display: none;
+}
+div.field-widget-image-image table th, div.field-type-file table th {
+    background-color: #191919;
+}
+
+
+table#field-bb-minors-details-values {
+    min-width: 100%;
+}
+
+.group-user div.field-name-field-bb-minors-details div.field-name-field-email-address label {
+  display: block;
+  padding-top: 4px;
+}
+
+.group-user div.field-name-field-bb-minors-details div.field-name-field-date-of-birth label {
+  display: none;
+}
+.group-user div.field-name-field-bb-minors-details div.field-name-field-last-name {
+  width: 92px;
+}
+.group-user div.field-name-field-bb-minors-details div.field-name-field-first-name {
+  width: 92px;
+}
+.group-user div.field-name-field-bb-minors-details div.field-name-field-email-address {
+  width: 22%;
+}
+.group-user div.field-name-field-bb-minors-details div.field-name-field-date-of-birth {
+  float: left;
+  width: 24%;
+  padding-right: 1%;
+}
+.group-user div.field-name-field-bb-minors-details div.field-name-field-bb-gardien-yn {
+  float: left;
+  width: 18%;
+  padding-right: 1%;
+}
+
+
+
+
+}
+/* closes 980 width screen */
+
+
+
+/*
+ * Long blocks with mark up in the registration Form
+ */
+div.field-name-field-bb-haul p {
+    margin-bottom: 0;
+}
+div.field-name-field-bb-haul.form-wrapper {
+    padding-bottom: 0;
+}
+div.field-name-field-bb-haul2.form-wrapper {
+    border-top: none;
+    padding: 0;
+}
+
+div.field-name-field-bb-aint-no-party p {
+    margin-bottom: 0;
+}
+div.field-name-field-bb-aint-no-party.form-wrapper {
+    padding-bottom: 0;
+}
+div.field-name-field-bb-jol.form-wrapper {
+    border-top: none;
+    padding: 0;
+}
+
+div.field-name-field-bb-part-of p {
+    margin-bottom: 0;
+}
+div.field-name-field-bb-part-of.form-wrapper {
+    padding-bottom: 0;
+}
+div.field-name-field-bb-part-of1.form-wrapper {
+    border-top: none;
+    padding: 0;
+}
+
+div.field-name-field-bb-leave-no-trace p {
+    margin-bottom: 0;
+}
+div.field-name-field-bb-leave-no-trace.form-wrapper {
+    padding-bottom: 0;
+}
+div.field-name-field-field-bb-leave-no-trace2.form-wrapper {
+    border-top: none;
+    padding: 0;
+}
+
+div.field-name-field-bb-dressed p {
+    margin-bottom: 0;
+}
+div.field-name-field-bb-dressed.form-wrapper {
+    padding-bottom: 0;
+}
+div.field-name-field-bb-dressed1.form-wrapper {
+    border-top: none;
+    padding: 0;
+}
+
+div.field-name-field-bb-drone p {
+    margin-bottom: 0;
+}
+div.field-name-field-bb-drone.form-wrapper {
+    padding-bottom: 0;
+}
+div.field-name-field-bb-drone1.form-wrapper {
+    border-top: none;
+    padding: 0;
+}
+
+div.field-name-field-bb-mutant p {
+    margin-bottom: 0;
+}
+div.field-name-field-bb-mutant.form-wrapper {
+    padding-bottom: 0;
+}
+div.field-name-field-bb-mutant1.form-wrapper {
+    border-top: none;
+    padding: 0;
+}
+
+div.field-name-field-pink-arm-bands p {
+    margin-bottom: 0;
+}
+div.field-name-field-bb-pink.form-wrapper {
+    padding-bottom: 0;
+}
+div.field-name-field-bb-pink.form-wrapper {
+    border-top: none;
+    padding: 0;
+}
+
+div.field-name-field-bb-booze1 p {
+    margin-bottom: 0;
+}
+div.field-name-field-bb-booze1.form-wrapper {
+    padding-bottom: 0;
+}
+div.field-name-field-bb-booze.form-wrapper {
+    border-top: none;
+    padding: 0;
+}
+
+
+
+/*
+ * update burner bio
+ */
+div.group-bb-update .form-wrapper {
+    padding: 20px 0;
+    border-top: 1px solid #961116;
+    width: 100%;
+}
+
+div.field-name-field-moop-revised-burner-bio p {
+    margin-bottom: 0;
+}
+div.field-name-field-moop-revised-burner-bio.form-wrapper {
+    padding-bottom: 0;
+}
+div.field-name-field-moop-revised-burner-bio2.form-wrapper {
+    border-top: none;
+    padding: 0;
+}
+
+div.field-name-field-drone-update p {
+    margin-bottom: 0;
+}
+div.field-name-field-drone-update.form-wrapper {
+    padding-bottom: 0;
+}
+div.field-name-field-drone-update-p2.form-wrapper {
+    border-top: none;
+    padding: 0;
+}
+
+div.field-name-field-mutant-registration-p1 p {
+    margin-bottom: 0;
+}
+div.field-name-field-mutant-registration-p1.form-wrapper {
+    padding-bottom: 0;
+}
+div.field-name-field-mutant-registration-p2.form-wrapper {
+    border-top: none;
+    padding: 0;
+}
+
+div.field-name-field-pink-bangle-p1 p {
+    margin-bottom: 0;
+}
+div.field-name-field-pink-bangle-p1.form-wrapper {
+    padding-bottom: 0;
+}
+div.field-name-field-pink-bangle-p2.form-wrapper {
+    border-top: none;
+    padding: 0;
+}
+
+div.field-name-field-booze-p1 p {
+    margin-bottom: 0;
+}
+div.field-name-field-booze-p1.form-wrapper {
+    padding-bottom: 0;
+}
+div.field-name-field-booze-p2.form-wrapper {
+    border-top: none;
+    padding: 0;
+}
+
+/*.element-invisible {
+    display: none;
+}*/
