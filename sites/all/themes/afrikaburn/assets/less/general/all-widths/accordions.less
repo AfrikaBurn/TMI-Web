@@ -1,0 +1,47 @@
+@accordion-item-vertical-spacing: 15px;
+@accordion-item-background-color: #761928;
+@accordion-item-border-color: #f26c55;
+@accordion-item-header-color: #fff;
+@accordion-item-header-hover-color: @accordion-item-header-color;
+@accordion-item-header-background-color: @accordion-item-background-color;
+@accordion-item-header-hover-background-color: #f26c55;
+
+
+.ui-widget {
+	font-family: inherit;
+	font-size: 1em;
+}
+
+.ui-accordion .ui-widget-content {
+	border-color: @accordion-item-border-color;
+	height: auto !important;
+	background-image: none;
+}
+
+.ui-accordion .ui-accordion-header {
+	margin-top: @accordion-item-vertical-spacing;
+	margin-bottom: 0;
+	background-image: none;
+	background-color: @accordion-item-header-background-color;
+	border-color: @accordion-item-border-color;
+}
+
+.ui-accordion .ui-accordion-header:hover,
+.ui-accordion .ui-accordion-header.ui-state-active  {
+	background-color: @accordion-item-header-hover-background-color;
+}
+
+.ui-accordion .ui-accordion-header a {
+	color: @accordion-item-header-color;
+	
+}
+.ui-accordion .ui-accordion-header a:hover,
+.ui-accordion .ui-accordion-header.ui-state-active a {
+	
+	color: @accordion-item-header-hover-color;
+	text-decoration: none;
+}
+.ui-accordion .ui-widget-content {
+	background-color: @accordion-item-background-color;
+}
+
