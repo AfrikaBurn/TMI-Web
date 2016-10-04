@@ -1,0 +1,56 @@
+<?php
+/**
+ * @file
+ * Handles installation steps for node_page_disable
+ *
+ * @ingroup func_search
+ * @{
+ */
+
+/*
+ * Implements hook_uninstall().
+ */
+function node_page_disable_uninstall() {
+  $vars = db_select('variable', 'v')
+    ->fields('v', array('name'))
+    ->condition('name', 'node_page_disable%', 'LIKE')
+    ->execute()->fetchCol();
+  foreach ($vars as $var) {
+    variable_del($var);
+  }
+}
+
+/**
+ * Implements hook_enable().
+ */
+function node_page_disable_enable() {
+  // Set up the default value based on frontpage
+  $frontpage = variable_get('site_frontpage', 'node');
+  if ($frontpage == 'node') {
+    variable_set('node_page_disable_path_node_keep', TRUE);
+  }
+  else {
+    variable_set('node_page_disable_path_node_keep', FALSE);
+    drupal_set_message(t('The path <a href="@url">/node</a> is no longer active.', array(
+      '@url' => url('node'),
+    )));
+  }
+  variable_set('menu_rebuild_needed', TRUE);
+
+  // Message about module settings
+  drupal_set_message(t('You may adjust settings for Node Page Disable by visiting <a href="@url">@url</a>.', array('@url' => url('admin/config/system/site-information'))));
+}
+
+/**
+ * Implements hook_disable().
+ */
+function node_page_disable_disable() {
+  // Make sure we rebuild the menu so the node page is visible
+  variable_set('node_page_disable_path_node_keep', NODE_PAGE_DISABLE_DEFAULT);
+  drupal_set_message(t('The path <a href="@url">/node</a> has been restored to the default.', array(
+    '@url' => url('node'),
+  )));
+  variable_set('menu_rebuild_needed', TRUE);
+}
+
+/** @} */ //end of group node_page_disable

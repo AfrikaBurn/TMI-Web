@@ -246,7 +246,7 @@ table#field-bb-minors-details-values {
 
 
 /* Grant forms, wider than normal */
-.field-name-field-breakdown-of-expenses {
+.field-name-field-breakdown-of-expenses, .field-name-field-expense-breakdown {
   width: 940px;
 }
 .field-name-field-breakdown-of-expenses .field-name-field-description, 
@@ -300,9 +300,123 @@ table#field-bb-minors-details-values {
 }
 
 
-
+.field-multiple-table {
+  width: 100%;
+}
+.field-name-field-expense-breakdown .field-name-field-description, .field-name-field-expense-breakdown .field-name-field-price-total {
+    width: 39%;
+    float: left;
+    padding-right: 1%;
+}
+.field-name-field-expense-breakdown .form-actions {
+    float: left;
+    max-width: 16%;
+    padding-right: 1%;
+    width: 16%;
+}
 
 }
+
+
+
+
+/* Make forms submits readable */
+/*Artworks*/
+.node-type-artwork-registration .field-label {
+  font-weight: 700;
+  font-size: 1.1em;
+  margin-top: 1.2em;
+}
+
+.node-type-artwork-registration .field-type-email {
+  max-width: 40%;
+}
+.page-node-edit .field-type-email {
+  max-width: 24%;
+}
+
+.page-node-edit .field-name-field-crew-members .field-name-field-email-address {
+  max-width: 16%;
+}
+
+.node-type-artwork-registration .field-name-field-contact-person,
+.node-type-artwork-registration .field-name-field-creative-lead,
+.node-type-artwork-registration .field-name-field-project-manager,
+.node-type-artwork-registration .field-name-field-fundraiser,
+.node-type-artwork-registration .field-name-field-moop-representative,
+.node-type-artwork-registration .field-name-field-fire-person,
+.node-type-artwork-registration .field-name-field-person-lighting {
+  height: 95px;
+}
+
+.node-type-artwork-registration .field-name-field-crew-members {
+  height: 189px;
+}
+.node-type-artwork-registration .field-group-fieldset legend {
+  font-size: 1.33333333em;
+  margin-top: 1.2em;
+}
+
+.page-node-edit .group-moop .field-name-field-moop-representative {
+  height: 250px;
+}
+
+
+
+
+
+/*theme Camps*/
+.node-type-theme-camps .field-label {
+  font-weight: 700;
+  font-size: 1.1em;
+  margin-top: 1.2em;
+}
+
+.node-type-theme-camps .field-type-email {
+  max-width: 40%;
+}
+.page-node-edit .field-type-email {
+  max-width: 24%;
+}
+
+.page-node-edit .field-name-field-crew-members .field-name-field-email-address {
+  max-width: 16%;
+}
+
+.node-type-theme-camps .field-name-field-contact-person,
+.node-type-theme-camps .field-name-field-project-manager,
+.node-type-theme-camps .field-name-field-fundraiser,
+.node-type-theme-camps .field-name-field-moop-representative,
+.node-type-theme-camps .field-name-field-fire-person,
+.node-type-theme-camps .field-name-field-person-lighting {
+  height: 95px;
+}
+
+.node-type-theme-camps .field-name-field-crew-members {
+  height: 189px;
+}
+
+.node-type-theme-camps .field-name-field-creative-lead {
+  height: 191px;
+}
+.node-type-theme-camps .field-group-fieldset legend {
+  font-size: 1.33333333em;
+  margin-top: 1.2em;
+}
+
+.page-node-edit .group-moop .field-name-field-moop-representative {
+  height: 250px;
+}
+
+
+
+
+
+
+
+
+
+
 /* closes 980 width screen */
 
 

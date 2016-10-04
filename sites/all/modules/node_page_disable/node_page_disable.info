@@ -1,0 +1,14 @@
+name = Node Page Disable
+description = Allows easy UI disabling of the path /node when not used.
+package = Other
+version = 7.x-1.0-rc2
+core = 7.x
+
+files[] = node_page_disable.test
+
+; Information added by drupal.org packaging script on 2013-04-05
+version = "7.x-1.0-rc2"
+core = "7.x"
+project = "node_page_disable"
+datestamp = "1365204912"
+

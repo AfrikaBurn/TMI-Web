@@ -1,0 +1,48 @@
+<?php
+/**
+ * @file
+ * This is the install file.
+ */
+
+/**
+ * Implements hook_enable().
+ */
+function swiftmailer_enable() {
+  mailsystem_set(array(mailsystem_default_id() => 'SWIFTMailSystem'));
+}
+
+/**
+ * Implements hook_disable().
+ */
+function swiftmailer_disable() {
+  mailsystem_clear(array(mailsystem_default_id() => 'SWIFTMailSystem'));
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function swiftmailer_uninstall() {
+  variable_del('swiftmailer_path');
+  variable_del('swiftmailer_format');
+  variable_del('swiftmailer_respect_format');
+  variable_del('swiftmailer_convert_mode');
+  variable_del('swiftmailer_convert_library');
+  variable_del('swiftmailer_character_set');
+  variable_del('swiftmailer_transport');
+  variable_del('swiftmailer_smtp_host');
+  variable_del('swiftmailer_smtp_port');
+  variable_del('swiftmailer_smtp_encryption');
+  variable_del('swiftmailer_smtp_username');
+  variable_del('swiftmailer_smtp_password');
+  variable_del('swiftmailer_sendmail_path');
+  variable_del('swiftmailer_sendmail_mode');
+}
+
+/**
+ * Implements hook_update_N().
+ *
+ * Rebuild the menu to care care of changes.
+ */
+function swiftmailer_update_7000() {
+  menu_rebuild();
+}

@@ -182,7 +182,9 @@ function auto_nodetitle_form_node_type_form_alter(&$form, &$form_state) {
   if (module_exists('token')) {
     $form['auto_nodetitle']['token_help'] = array(
       '#theme' => 'token_tree',
-      '#token_types' => array('node'),
+      //'#token_types' => array('node'),
+      '#theme' => 'token_tree_link',
+      '#token_types' => array('node'), 
     );
   }
 
