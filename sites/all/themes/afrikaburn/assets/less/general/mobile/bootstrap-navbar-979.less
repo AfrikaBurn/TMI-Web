@@ -1,4 +1,12 @@
 @media (max-width: 979px) {
+.collapse {
+    position: relative;
+    -webkit-transition: height .35s ease;
+    -moz-transition: height .35s ease;
+    -o-transition: height .35s ease;
+    transition: height .35s ease;
+}
+
 div.navbar-outer {
 	background-color: @mobile-header-bar-background-color;	
 }
@@ -80,15 +88,14 @@ div.navbar-outer {
 DEFAULT MENU MOBILE STYLES LEVEL 1 
 ---------------------------------------------*/
 
-.navbar .navbar-inner .nav-collapse > ul.menu,
-.navbar .navbar-inner .nav-collapse .moduletable > ul.menu {
+.navbar .navbar-inner .nav-collapse > ul.menu {
 	margin: 0;
 	border-top: 0;
 	border-right: 0;
 	border-left: 0;
 	border-bottom: @979-main-nav-item-border-top-bottom-width @979-main-nav-item-top-bottom-border-style @979-main-nav-item-top-bottom-border-color;
 }
-.navbar .navbar-inner .nav-collapse ul.menu > li {
+.navbar .navbar-inner .nav-collapse aside > ul.menu > li {
 	border-top-color: @979-main-nav-item-top-bottom-border-color;
 	border-top-width: @979-main-nav-item-border-top-bottom-width;
 	border-top-style: @979-main-nav-item-top-bottom-border-style;
@@ -97,8 +104,8 @@ DEFAULT MENU MOBILE STYLES LEVEL 1
 	border-left: 0;
 }
 
-.navbar .navbar-inner .nav-collapse ul.menu > li > a,
-.navbar .navbar-inner .nav-collapse ul.menu > li > span.separator {
+.navbar .navbar-inner .nav-collapse aside > ul.menu > li > a,
+.navbar .navbar-inner .nav-collapse aside > ul.menu > li > span.separator {
 	/*Leave font weight and font family here to override bootstrap*/
 	font-family: @979-main-nav-font-family;
 	font-weight: @979-main-nav-font-weight;
@@ -118,42 +125,39 @@ DEFAULT MENU MOBILE STYLES LEVEL 1
 	padding-bottom: 0;
 }
 
-.navbar .navbar-inner .nav-collapse ul.menu > li > a:hover,
-.navbar .navbar-inner .nav-collapse ul.menu > li > span.separator:hover  {
+.navbar .navbar-inner .nav-collapse aside > ul.menu > li > a:hover,
+.navbar .navbar-inner .nav-collapse aside > ul.menu > li > span.separator:hover  {
 	color: @979-main-nav-level-1-hover-color;
 	text-transform: @979-main-nav-text-transform;
 	background-color: @979-main-nav-level-1-hover-background-color;
 }
 
-.navbar .navbar-inner .nav-collapse ul.menu > li.active > a,
-.navbar .navbar-inner .nav-collapse ul.menu > li.active > span.separator {
+.navbar .navbar-inner .nav-collapse aside > ul.menu > li.active > a,
+.navbar .navbar-inner .nav-collapse aside > ul.menu > li.active > span.separator {
 	color:  @979-main-nav-level-1-item-active-color;
 	background-color:  @979-main-nav-level-1-item-background-color;
 	background-image: none;
 	border-width: 0;
 }
-.navbar .navbar-inner .nav-collapse ul.menu > li.active > a:hover, 
-.navbar .navbar-inner .nav-collapse ul.menu > li.active > a:focus,
-.navbar .navbar-inner .nav-collapse ul.menu > li.active > span.separator:hover {
+.navbar .navbar-inner .nav-collapse aside > ul.menu > li.active > a:hover, 
+.navbar .navbar-inner .nav-collapse aside > ul.menu > li.active > a:focus,
+.navbar .navbar-inner .nav-collapse aside > ul.menu > li.active > span.separator:hover {
 	color:  @979-main-nav-level-1-item-active-color;
 	background-color:  @979-main-nav-level-1-item-background-color;
 	cursor: default;
 }
 
-.navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li.active.current > a {
+.navbar .navbar-inner .nav-collapse aside > ul.menu li ul.menu li.active.current > a {
 	background-image: @active-nav-item-background-image;
 	background-repeat: no-repeat; 
 	background-position: @979-main-nav-item-active-background-position;
 	background-size: @active-nav-item-background-size;
 }
 
-
-
-
 /*---------------------------------------------
 DEFAULT MENU MOBILE STYLES LEVEL 2
 ---------------------------------------------*/
-.navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child {
+.navbar .navbar-inner .nav-collapse ul.menu li ul.menu {
 	position: static;
 	top: auto;
 	left: auto;
@@ -177,7 +181,7 @@ DEFAULT MENU MOBILE STYLES LEVEL 2
 	background-clip: padding-box;
 }
 
-.navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li {
+.navbar .navbar-inner .nav-collapse ul.menu li ul.menu li {
 	border-top-width: @979-main-nav-item-border-top-bottom-width;
 	border-top-style: @979-main-nav-item-top-bottom-border-style;
 	border-top-color: @979-main-nav-item-top-bottom-border-color;
@@ -185,8 +189,8 @@ DEFAULT MENU MOBILE STYLES LEVEL 2
 	position: relative;
 }
 
-.navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li a,
-.navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li span.separator {
+.navbar .navbar-inner .nav-collapse ul.menu li ul.menu li a,
+.navbar .navbar-inner .nav-collapse ul.menu li ul.menu li span.separator {
 	font-family: @979-main-nav-font-family;
 	height: @979-main-nav-item-height - @979-main-nav-item-padding-top;
 	color: @979-main-nav-level-2-item-color;
@@ -200,28 +204,26 @@ DEFAULT MENU MOBILE STYLES LEVEL 2
 	text-align: left;
 }
 
-
-
-.navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li > a:hover, 
-.navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li > a:focus,
-.navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li > span.separator:hover, 
-.navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child:hover > a {
+.navbar .navbar-inner .nav-collapse ul.menu li ul.menu li > a:hover, 
+.navbar .navbar-inner .nav-collapse ul.menu li ul.menu li > a:focus,
+.navbar .navbar-inner .nav-collapse ul.menu li ul.menu li > span.separator:hover, 
+.navbar .navbar-inner .nav-collapse ul.menu li ul.menu:hover > a {
 	
 	color: @979-main-nav-level-2-hover-color;
 	background-color: @979-main-nav-level-2-hover-background-color;
 	
 }
 
-.navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li.active > a,
-.navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li.active > span.separator {
+.navbar .navbar-inner .nav-collapse ul.menu li ul.menu li.active > a,
+.navbar .navbar-inner .nav-collapse ul.menu li ul.menu li.active > span.separator {
 	color: @979-main-nav-level-2-item-active-color;
 	background-color: @979-main-nav-level-2-item-active-background-color;
 	
 }
 
-.navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li.active > a:hover,
-.navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li.active > a:focus,
-.navbar .navbar-inner .nav-collapse ul.menu li ul.menu-child li.active > span.separator:hover {
+.navbar .navbar-inner .nav-collapse ul.menu li ul.menu li.active > a:hover,
+.navbar .navbar-inner .nav-collapse ul.menu li ul.menu li.active > a:focus,
+.navbar .navbar-inner .nav-collapse ul.menu li ul.menu li.active > span.separator:hover {
 	color: @979-main-nav-level-2-item-active-color;
 	background-color: @979-main-nav-level-2-item-active-background-color;
 	
@@ -237,10 +239,6 @@ DEFAULT MENU MOBILE STYLES LEVEL 2
 	right: 0;	
 	width: 40px;
 	height: 36px;
-}
-
-span.trash {
-	color: @add-bootstrap-menu-button-in-template-less;	
 }
 
 }

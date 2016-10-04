@@ -1,4 +1,4 @@
-/*---BOOTSTRAP OVERRIDES---*/
+/*---Fonts---*/
 @font-face {
     font-family: 'FuturaBook';
     src: url('../fonts/futura_book_bt-webfont.eot');
@@ -11,11 +11,11 @@
 
 }
 
+/*---Change default user agent behaviour---*/
 a:active,
 a:focus {
     outline: none;
 }
-
 
 select:focus {
 	outline:inherit;
@@ -29,35 +29,11 @@ select:focus {
 	transition:inherit
 }
 
-.table-bordered,
-.table-bordered thead:first-child tr:first-child > th:first-child,
-.table-bordered tbody:first-child tr:first-child > td:first-child,
-.table-bordered tbody:first-child tr:first-child > th:first-child,
-.table-bordered thead:first-child tr:first-child > th:last-child,
-.table-bordered tbody:first-child tr:first-child > td:last-child,
-.table-bordered tbody:first-child tr:first-child > th:last-child,
-.table-bordered thead:last-child tr:last-child > th:first-child,
-.table-bordered tbody:last-child tr:last-child > td:first-child,
-.table-bordered tbody:last-child tr:last-child > th:first-child,
-.table-bordered tfoot:last-child tr:last-child > td:first-child,
-.table-bordered tfoot:last-child tr:last-child > th:first-child,
-.table-bordered thead:last-child tr:last-child > th:last-child,
-.table-bordered tbody:last-child tr:last-child > td:last-child,
-.table-bordered tbody:last-child tr:last-child > th:last-child,
-.table-bordered tfoot:last-child tr:last-child > td:last-child,
-.table-bordered tfoot:last-child tr:last-child > th:last-child {
-  -webkit-border-radius: 0px;
-  border-radius: 0px;
-  -moz-border-radius: 0px;
+fieldset {
+	border-width: 0;
+	margin: 0;
+	padding: 0;
 }
-
-
-input:focus:invalid:focus, textarea:focus:invalid:focus, select:focus:invalid:focus {
-		box-shadow: none;
-}
-
-
-
 
 form {
 	 margin-bottom: inherit;
@@ -121,7 +97,8 @@ a:visited {
 
 a:hover {
 	color: @body-content-link-hover-color;	
-	text-decoration: @body-content-link-hover-text-decoration;	
+	text-decoration: @body-content-link-hover-text-decoration;
+	cursor: pointer;	
 }
 
 a:active {
@@ -184,36 +161,6 @@ div.body-content p {
 	margin-bottom: @body-content-paragraph-space-after;
 }	
 
-/*button,
-div.body-content button,
-input.button,
-div.body-content input.button,
-.btn,
-div.body-content .btn,
-.btn-primary,
-div.body-content .btn-primary,
-a.btn,
-div.body-content a.btn {
-	width: @general-button-width;
-	max-width: @general-button-max-width;
-	background: @general-button-background-color @general-button-background-image @general-button-background-repeat @general-button-background-position;
-	*background-color: @general-button-background-color;
-	background-size: @general-button-background-size;
-	height: @general-button-height;
-	border: @general-button-border-width @general-button-border-style @general-button-border-color;
-	border-radius: @general-button-border-radius;
-	-moz-border-radius: @general-button-border-radius;
-	-webkit-border-radius: @general-button-border-radius;
-	box-shadow: none;
-	color: transparent;
-	font-size: 0;
-	cursor: pointer;
-	float: left;
-	display: block;
-	padding: 0;
-	box-sizing: border-box;	
-}*/
-
 button,
 .button,
 input.button,
@@ -223,9 +170,9 @@ div.body-content input.button,
 div.input-file-wrapper,
 input[type=submit],
 div.body-content input[type=submit] {
-	/*width: @general-button-width;*/
+	max-width: @general-button-max-width;
 	min-width: @general-button-min-width;
-	background-color: @general-button-background-color; /*@general-button-background-image no-repeat @general-button-background-position;*/
+	background-color: @general-button-background-color;
 	*background-color: @general-button-background-color;
 	height: @general-button-height;
 	border-width: 0;
@@ -242,9 +189,9 @@ div.body-content input[type=submit] {
 	font-family: @general-button-font-family;
 	font-weight: @general-button-font-weight;
 	cursor: pointer;
-	float: left;
+	/*float: left;
 	width: auto;
-	clear: both;
+	clear: both;*/
 	display: block;
 	padding: 0;
 	box-sizing: border-box;	
@@ -265,9 +212,7 @@ div.body-content a.btn:hover,
 div.input-file-wrapper:hover,
 input[type=submit]:hover,
 div.body-content input[type=submit]:hover  {
-	
-	background: @general-button-hover-background-color @general-button-background-image @general-button-background-repeat @general-button-background-position;
-	background-size: @general-button-background-size;
+	background: @general-button-hover-background-color;
 	height: @general-button-height;
 	color: @general-button-hover-color;
 	cursor: pointer;
@@ -301,8 +246,7 @@ div.body-content select {
 	background-color: #f5f5f5;
     background-image: linear-gradient(to bottom, #ffffff, #e6e6e6);
 	font-family: Arial, Helvetica, sans-serif;
-	clear: both;
-	float: left;
+	display: block;
 	margin-top: 10px;
 }
 
@@ -351,12 +295,16 @@ div.body-content .uneditable-input  {
 	margin-bottom: @general-input-margin-bottom;
 	width: @general-input-width;
 	padding: @general-input-top-bottom-padding @general-input-side-padding;
-	float: @general-input-float;
-	text-indent: 8px;
 	box-sizing: border-box;
 	background-color: @general-input-background-color;
 	color: @general-input-color;
 	border: @general-input-border-width @general-input-border-style @general-input-border-color;
+}
+
+textarea,
+div.body-content textarea {
+	padding-top: 8px;
+	padding-bottom: 8px;
 }
 
 input:hover,
@@ -436,9 +384,9 @@ div.body-content label {
 	/*body-content-form-label*/
 	font-style: @body-content-text-font-style;
 	color: @body-content-form-label-color;
-	float: @body-content-form-label-float;
+	/*float: @body-content-form-label-float;*/
 	font-weight: @body-content-form-label-font-weight;
-	line-height: 100%;
+	line-height: 150%;
 	font-family: @main-font-family;
 	text-align: left;	
 }
@@ -485,15 +433,15 @@ input[type=checkbox] + div.radio-checkbox-dummy {
 	border-radius: @general-input-border-radius;
 	-moz-border-radius: @general-input-border-radius;
 	-webkit-border-radius: @general-input-border-radius;
-	background: @radio-button-checkbox-background-color url("../images/buttons.png") no-repeat center top;
+	background: @radio-button-checkbox-background-color @radio-buttons-checkbox-background-image no-repeat center -10000000px;
 	border: @general-input-border-width @general-input-border-style @general-input-border-color;
-	background-size: 300px
+	background-size: @icons-sprite-background-size;
 }
 
 input[type=radio]:hover + div.radio-checkbox-dummy,
 input[type=checkbox]:hover + div.radio-checkbox-dummy {
 	border-color: @general-input-hover-border-color;
-
+	background-color: @radio-button-checkbox-hover-background-color;
 }
 
 input[type=radio]:checked + div.radio-checkbox-dummy,
@@ -715,14 +663,15 @@ div.body-content hr {
 
 .star,
 .asterisk,
-div.body-content .asterisk {
+div.body-content .asterisk,
+span.form-required,
+div.body-content span.form-required {
 	/*asterisk*/
 	color: @general-asterisk-color;	
 	font-size: @general-asterisk-font-size;
 	font-weight: @general-asterisk-font-weight;
 	line-height: @general-asterisk-font-size;
 	font-family: Arial, Helvetica, sans-serif;
-	
 }
 
 
@@ -809,51 +758,10 @@ a.back-to-top-button span:hover {
 	cursor: pointer;
 }
 
-.moduletable.terms-of-use-bar {
-	background-color: transparent;
-	background-image: url("../images/overlays/black-overlay-80.png");
-	width: 100%;
-	float: left;
-	height: 30px;
-	border-top: 1px solid #222;
-	position: fixed;
-	bottom: 0;
-	z-index: 999999999;	
-}
-
-
-.moduletable.terms-of-use-bar p {
-	font-size: 1.3em;
-	margin-top: 0.5em;
-	margin-bottom: 0.5em;
-	text-align: center;	
-	line-height: 140%;
-	color: #fff;
-	font-family: Arial, Helvetica, sans-serif;
-}
-
-.moduletable.terms-of-use-bar p a {
-	text-decoration: underline;
-	color: #fff;
-}
-div.body-content .label.label-success,
-div.body-content .label.label-warning,
-div.body-content .label.label-important,
-div.body-content .label.label-info,
-div.body-content .label.label-inverse
-  {
-	color: #fff;
-	padding: 8px;	
-}
-
-a.void:hover {
-	cursor: default;	
-}
-
 .body-content p img {
 	margin-bottom: 0;
 }
-
+/*
 div.body-content span.wf_caption {
 	position: relative;	
 	overflow: hidden;
@@ -883,7 +791,7 @@ div.body-content span.wf_caption a,
 div.body-content span.wf_caption a:hover {
 	color: #fff;
 	text-decoration: underline;	
-}
+}*/
 
 div.body-content iframe {
 	border-width: 0;	
@@ -963,4 +871,12 @@ div.input-file-wrapper input:hover {
 	cursor: pointer;
 }
 
-
+span.icon {
+	width: 24px;
+	height: 20px;
+	display: block;
+	background-image:  url("../images/afrikaburn-icons.png");
+	background-repeat: no-repeat;
+	background-position: left -40px top -50px;
+	background-size: @icons-sprite-background-size;
+}

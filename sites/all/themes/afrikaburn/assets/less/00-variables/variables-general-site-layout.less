@@ -28,7 +28,7 @@ CONTENT AREA LAYOUT.LESS
 @599-main-content-box-outer-padding-bottom: @599-page-gutter-left-right;
 @599-body-content-padding-top: 20px;
 @599-body-content-padding-bottom: 20px;
-@599-body-content-padding-left-right: 10px;
+@599-body-content-padding-left-right: 20px;
 @599-main-content-box-border-width: 0px;
 
 /*-------------------------------------------------------*/
@@ -37,7 +37,7 @@ CONTENT AREA LAYOUT.LESS
 @322-main-content-box-outer-padding-bottom: @322-page-gutter-left-right;
 @322-body-content-padding-top: 20px;
 @322-body-content-padding-bottom: 20px;
-@322-body-content-padding-left-right: 10px;
+@322-body-content-padding-left-right: 20px;
 @322-main-content-box-border-width: 0px;
 
 /*-------------------------------------------------------*/
@@ -47,13 +47,16 @@ CONTENT AREA LAYOUT.LESS
 ALL-PAGES-GENERAL-LAYOUT.LESS
 ---------------------------------*/
 
-@body-background-color: #af282d;
-@body-background-image: url("../images/body_bg.svg");
+@body-background-color: #2E1519;
+@body-background-image: none;
 @body-background-repeat: no-repeat;
 @body-background-position: center top;
 @body-padding-bottom: 0px;
 
-@wrapper-background-color: #fff;
+@wrapper-background-color: #af282d;
+@wrapper-background-image: url("../images/body_bg.svg");
+@wrapper-background-repeat: no-repeat;
+@wrapper-background-position: center top;
 
 @header-ribbon-top-background-color: transparent;
 @header-ribbon-top-background-image: none;
@@ -117,18 +120,14 @@ FOOTER STRIP STYLES {CORRESPOND TO "02-general-site-layout.less"}
 ------------------------------------------------------------------------*/
 
 @footer-strip-padding-top-bottom: 15px;
-@footer-strip-background-color: transparent;
+@footer-strip-background-color: #111;
 @footer-strip-background-image: none;
 @footer-strip-background-repeat: repeat;
 @footer-strip-background-position: center top;
 
-
-
-
 /*------------------------------
 USER POPOUTS CONTAINER STYLES 
 ------------------------------*/
-
 
 @user-popouts-container-background-color: transparent;
 @user-popouts-container-background-image: none;
@@ -137,21 +136,21 @@ USER POPOUTS CONTAINER STYLES
 
 
 @main-block-box-width: 100%;
-@main-block-box-max-width: 640px;
+@main-block-box-max-width: 610px;
 @main-block-box-float: left;
 @main-block-centred-box-max-width: 700px;
 
 @sidebar-box-width: 100%;
-@sidebar-box-max-width: 320px;
+@sidebar-box-max-width: 310px;
 @sidebar-box-float: right;
-@sidebar-box-background-color: #fff;
+@sidebar-box-background-color: #0D0D0D;
 @sidebar-box-background-image: none;
 @sidebar-box-background-repeat: repeat;
 @sidebar-box-background-position: center top;
-@sidebar-box-border-color: #ddd;
+@sidebar-box-border-color: #0D0D0D;
 @sidebar-box-border-style: solid;
 @sidebar-box-border-width: 1px;
-@sidebar-box-padding-left: 10px;
+@sidebar-box-padding-left: 15px;
 @sidebar-box-padding-right: 10px;
 @sidebar-box-padding-top: 10px;
 @sidebar-box-padding-bottom: 10px;

@@ -1,0 +1,97 @@
+.box-arrow {
+	padding: 15px;
+	background-color: #fff;
+	border: 1px solid #ccc;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+
+.box-arrow:before,
+.box-arrow:after  {
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
+
+.box-arrow:after {
+	border-color: transparent;
+	border-width: 12px;
+}
+.box-arrow:before {
+	border-color: transparent;
+	border-width: 13px;
+}
+
+/*--------------------------Up----------------------------*/
+
+.box-arrow.up:before,
+.box-arrow.up:after  {
+	bottom: 100%;
+	left: 20px;
+}
+
+.box-arrow.up:after {
+	border-bottom-color: #fff;
+}
+.box-arrow.up:before {
+	border-bottom-color: inherit;
+	margin-left: -1px;
+}
+
+/*-------------------------Down---------------------------*/
+
+.box-arrow.down:before,
+.box-arrow.down:after  {
+	top: 100%;
+	left: 20px;
+}
+
+.box-arrow.down:after {
+	border-top-color: #fff;
+}
+
+.box-arrow.down:before {
+	border-top-color: inherit;
+	margin-left: -1px;
+}
+
+/*-------------------------Left---------------------------*/
+
+.box-arrow.left:before,
+.box-arrow.left:after  {
+	right: 100%;
+	top: 20px;
+}
+
+.box-arrow.left:after {
+	border-right-color: #fff;
+}
+
+.box-arrow.left:before {
+	border-right-color: inherit;
+	margin-top: -1px;
+}
+
+/*-------------------------Right--------------------------*/
+
+.box-arrow.right:before,
+.box-arrow.right:after  {
+	left: 100%;
+	top: 20px;
+}
+
+.box-arrow.right:after {
+	border-left-color: #fff;
+}
+
+.box-arrow.right:before {
+	border-left-color: inherit;
+	margin-top: -1px;
+}
+
+
+

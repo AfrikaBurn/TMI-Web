@@ -1,123 +1,3 @@
-.form-item {
-	margin: 0 0 10px 0;
-}
-
-div.group-questionaire .form-wrapper {
-	
-	padding: 20px 0;
-	border-top: 1px solid #af282d;
-	width: 100%;
-}
-
-div.form-wrapper .form-item.form-type-radio {
-	margin: 20px 0 0 0;
-}
-
-div.form-wrapper .form-item.form-type-radio label {
-	font-weight: 400;
-	color: #bbb;
-}
-
-div.form-wrapper .form-item > label {
-	margin: 0;
-	font-weight: 400;
-
-}
-
-.form-item .description {
-	line-height: 120%;
-	margin-bottom: 1em;
-}
-.form-radios + .description {
-	margin-top: 10px;
-}
-
-.form-item,
-div.form-wrapper,
-div.form-managed-file,
-div.input-file-wrapper,
-div.form-textarea-wrapper,
-.form-wrapper div.description,
-div.field-group-div,
-.form-item.form-type-radio,
-.form-item.form-type-radios > label,
-.form-item.form-type-radios > .form-radios {
-	clear: both;
-	float: left;
-}
-
-div.form-managed-file {
-	margin-top: 10px;
-}
-
-/*div.field-type-multifield {
-	background-color: #fff;
-	padding: 20px;
-	border-radius: 20px;
-	border-width: 0;
-}*/
-
-div.body-content table.field-multiple-table,
-div.body-content table.field-multiple-table tr,
-div.body-content table.field-multiple-table td {
-	border-width: 0;
-	padding: 0;
-}
-
-div.body-content table.field-multiple-table td.field-multiple-drag {
-	display: none;
-}
-
-div.body-content p.selected-file {
-	font-weight: 600;
-	margin: 0.5em 0;
-}
-
-fieldset.date-combo .container-inline-date .date-padding {
-	padding-left: 0;
-}
-
-div.body-content table.field-multiple-table {
-	margin-bottom: 0;
-}
-
-div.body-content table.field-multiple-table td,
-div.body-content table.field-multiple-table tr {
-	background-color: transparent;
-}
-
-div.body-content table.field-multiple-table th {
-	text-transform: inherit;
-	font-weight: inherit;
-	font-size: inherit;
-	border-width: 0;
-	background-color: transparent;
-}
-
-div.body-content table.field-multiple-table th label {
-	margin-bottom: 1em;
-}
-
-a.tabledrag-toggle-weight {
-	display: none;
-}
-
-div#edit-field-previous-envolvement-und-0-actions {
-	margin-bottom: 0;
-}
-form#user-register-form div#edit-actions,
-form#user-register-form input#edit-submit {
-	width: 100%;
-}
-
-form#user-register-form div#edit-actions {
-	margin-top: 0;
-}
-
-div.form-textarea-wrapper div.grippie {
-	display: none;
-}
-
 div.banners {
 	position: relative;
 }
@@ -129,9 +9,13 @@ div.banners div.slide {
 	opacity: 0;
 }
 
+div.banners img {
+	display: block;
+}
+
 div.banners div.slide.first {
 	opacity: 1;
-	}
+}
 
 div.slide.previous {
 	z-index: 1;
@@ -144,7 +28,7 @@ div.slide.current {
 div.logo-container {
 	position: absolute;
 	top: 0px;
-	left: 0;
+	left: 7px;
 	z-index: 3;
 }
 
@@ -153,7 +37,7 @@ div#top-bar {
 	border-bottom: 4px solid #c7122d;
 	background-color: #330b13;
 }
-
+div#mobile-menu-bar div.container-2,
 div#menu-bar div.container-2,
 div#header div.container-2,
 div#top-bar div.container-2 {
@@ -169,25 +53,162 @@ div#header {
 	height: auto;
 }
 
+div#wrapper {
+	background-size: 100%;
+}
+
 #main-content-strip div.container-2 {
 	background: #450b14 url("../images/content_bg.jpg") no-repeat center top;
-	/*background: #eee;*/
 }
+
+
+div.body-content input[type=radio]:hover + div.radio-checkbox-dummy, 
+div.body-content input[type=checkbox]:hover + div.radio-checkbox-dummy,
+div.body-content input[type=radio]:checked + div.radio-checkbox-dummy, 
+div.body-content input[type=checkbox]:checked + div.radio-checkbox-dummy {
+	border-color: #AF282E;
+}
+
+div.user-menu,
+div.user-menu ul,
+div.user-menu ul li {
+	margin: 0;
+	padding: 0;
+}
+
+div.user-menu,
+div.user-menu ul {
+	float: right;
+	list-style: none;
+}
+
+div.user-menu ul li {
+	float: left;
+}
+
+div.user-menu a {
+	float: right;
+	display: block;
+	font-family: FuturaBook, Arial;
+	color: @body-content-link-color;
+	font-size: 1.4em;
+	padding: 14px 10px 9px;
+	text-transform: uppercase;
+	text-decoration: none;
+}
+
+div.user-menu a.active,
+div.user-menu a:hover {
+	background-color: @body-content-link-color;
+	color: #330B13;
+	cursor: pointer;
+	text-decoration: none;
+}
+
 @media (max-width: 979px) {
-	div#top-bar {
-		height: 50px;
-		
+	div.user-menu a {
+		padding-top: 18px;
+		padding-bottom: 15px;
+	}
+}
+
+@media (max-width: 479px) {
+	div.user-menu a {
+		padding-top: 19px;
+		padding-bottom: 16px;
+	}
+}
+
+input,
+textarea,
+div.body-content input,
+div.body-content textarea {
+	background-image: url("../images/paper-bg.png");
+	background-repeat: repeat;
+}
+
+@media (min-width: 980px) {
+	#main-content-strip {
+		margin-bottom: 36px;
 	}
 
+	.navbar .navbar-inner .nav-collapse aside > ul.menu > li {
+		padding-top: 4px;
+		padding-bottom: 4px;
+		margin-right: 15px;
+		margin-left: 15px;
+		list-style-image: url("../images/sep1.png");
+	}
+	.navbar .navbar-inner .nav-collapse aside > ul.menu > li:first-child {
+		list-style-image: none;
+	}
+
+	.navbar .navbar-inner .nav-collapse aside > ul.menu > li > a {
+		-webkit-border-radius: 8px;
+		-moz-border-radius: 8px;
+		border-radius: 8px;
+	}
+	.navbar .navbar-inner .nav-collapse ul.menu ul.menu {
+		padding: 10px 20px 0;
+		background-color: @pc-main-nav-level-2-item-background-color;
+		-webkit-border-bottom-right-radius: 15px;
+		-webkit-border-bottom-left-radius: 15px;
+		-moz-border-radius-bottomright: 15px;
+		-moz-border-radius-bottomleft: 15px;
+		border-bottom-right-radius: 15px;
+		border-bottom-left-radius: 15px;
+		overflow: hidden;
+	}
+	.navbar .navbar-inner .nav-collapse ul.menu ul.menu li {
+		border-top: 1px solid #961116;
+	}
+}
+
+@media (max-width: 979px) {
+	div.logo-container {
+		width: 39%;
+		left: inherit;
+		right: 10px;
+	}
+
+	div#top-bar {
+		height: 50px;
+	}
 
 	.navbar a.btn.btn-navbar {
 		margin-top: -54px;
 	}
 
-	div.logo-container {
-		left: inherit;
-		right: 0;
-		width: 32%;
-		height: auto;
+	div.user-menu {
+		float: left;
+		margin-left: 62px;
 	}
+
+	div.social-media-links {
+		float: left;
+		margin-top: 5px;
+	}
+
+	div.sidebar-outer,
+	section#footer {
+		display: none;
+	}
+}
+
+@media (max-width: 510px) {
+	div.logo-container {
+		top: 54px;
+	}
+}
+
+/*User profile*/
+
+div.profile div.field {
+	margin-bottom: 10px;
+	padding-bottom: 10px;
+	border-bottom: 1px solid #AF282D;
+}
+
+div.profile div.field-label {
+	color: #f26c55;
 }

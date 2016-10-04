@@ -4,7 +4,7 @@ ALL PAGES BITS.LESS
 @main-font-family:  "Open Sans", sans-serif;
 @body-color: #000;
 
-@page-header-color: #fff;
+@page-header-color: #f26c55;
 @page-header-font-size: 2.8em;
 @page-header-text-transform: uppercase;
 @page-header-text-align: center;
@@ -23,7 +23,7 @@ ALL PAGES BITS.LESS
 DEFAULT BODY CONTENT TEXT STYLES {CORRESPONDS TO "02-bits-and-pieces.less"}
 -------------------------------------------------------------------------*/
 
-@body-content-header-color: #f26c55;
+@body-content-header-color: #fff;
 @body-content-header-background-color: transparent;
 @body-content-header-text-transform: uppercase;
 @body-content-header-text-align: left;
@@ -71,7 +71,7 @@ DEFAULT BODY CONTENT TEXT STYLES {CORRESPONDS TO "02-bits-and-pieces.less"}
 DEFAULT INTERFACE ELEMENT STYLES 
 ------------------------------*/
 
-@general-asterisk-color: #08733A;
+@general-asterisk-color: #f26c55;
 @general-asterisk-font-size: 25px;
 @general-asterisk-font-weight: 400;
 
@@ -82,7 +82,6 @@ DEFAULT INTERFACE ELEMENT STYLES
 @general-input-border-width: 2px;
 @general-input-border-style: solid;
 @general-input-height: 34px;
-@general-input-padding: 0;
 @general-input-font-family: @main-font-family; 
 @general-input-font-style: normal;
 @general-input-text-transform: none;
@@ -92,7 +91,7 @@ DEFAULT INTERFACE ELEMENT STYLES
 @general-input-margin-top: 5px;
 @general-input-margin-bottom: 5px;
 @general-input-width: 100%;
-@general-input-side-padding: 0px;
+@general-input-side-padding: 15px;
 @general-input-top-bottom-padding: 2px;
 @general-input-border-radius: 5px;
 @general-input-float: left;
@@ -105,19 +104,20 @@ DEFAULT INTERFACE ELEMENT STYLES
 @general-input-focus-border-color: #888;
 
 @body-content-input-color: #333;
-@body-content-input-border-color: #af282d;
+@body-content-input-border-color: #aaa;
 @body-content-input-background-color: #fff;
 
-@body-content-input-hover-border-color: #d93f27;
-@body-content-input-focus-border-color: #d93f27;
+@body-content-input-hover-border-color: #f26c55;
+@body-content-input-focus-border-color: #f26c55;
+@body-content-input-focus-background-color: #F5E6E4;
 
-@body-content-input-focus-background-color: #e6cccf;
-
-@radio-button-checkbox-margin-top: -3px;
+@radio-button-checkbox-margin-top: 1px;
 @radio-button-checkbox-background-color: #fff;
-@radio-checkbox-selected-background-color: #962738;
+@radio-button-checkbox-hover-background-color: #f26c55;
+@radio-checkbox-selected-background-color: #f26c55;
 @radio-button-checkbox-width-height: 20px;
-@radio-checkbox-selected-background-position: center bottom -217px;
+@radio-checkbox-selected-background-position: center -152px;
+@radio-buttons-checkbox-background-image: url("../images/afrikaburn-icons.png");
 
 @general-button-background-color: #000;
 @general-button-hover-background-color: #191919;
@@ -129,10 +129,8 @@ DEFAULT INTERFACE ELEMENT STYLES
 @general-button-font-family: FuturaBook, Arial;
 @general-button-font-weight: 400;
 @general-button-side-padding: 20px;
-@general-button-background-image: url(../images/buttons.png);
-@general-button-background-size: 300px;
 @general-button-height: 45px;
-@general-button-width: 100%;
+@general-button-max-width: 400px;
 @general-button-min-width: 200px;
 @general-button-border-width: 2px;
 
@@ -145,49 +143,30 @@ DEFAULT INTERFACE ELEMENT STYLES
 @general-button-background-repeat: repeat;
 @general-button-margin: 5px;
 
-@button-login-background-position: center -10px;
-@button-login-hover-background-position: @button-login-background-position;
-@button-logout-background-position: center -60px;
-@button-logout-hover-background-position: @button-logout-background-position;
-@button-send-background-position: center -110px;
-@button-send-hover-background-position: @button-send-background-position;
-@button-reset-background-position: center -160px;
-@button-reset-hover-background-position: @button-reset-background-position;
-@button-submit-background-position: center -210px;
-@button-submit-hover-background-position: @button-submit-background-position;
-@button-subscribe-background-position: center -260px;
-@button-subscribe-hover-background-position: @button-subscribe-background-position;
-@button-cancel-background-position: center -310px;
-@button-cancel-hover-background-position: @button-cancel-background-position;
-@button-attach-background-position: center -360px;
-@button-attach-hover-background-position: @button-attach-background-position;
-@button-search-background-position: left 48% bottom -58px;
-@button-search-hover-background-position: @button-search-background-position;
-
 /*----------------------------------------------------------------
 FOOTER STRIP TEXT STYLES {CORRESPOND TO "02-bits-and-pieces.less"}
 ----------------------------------------------------------------*/
 
-@footer-info-color: #fff;
-@footer-info-font-style: normal;
-@footer-info-font-size: 1.2em;
-@footer-info-font-weight: normal;
-@footer-info-font-family: @main-font-family;
-@footer-info-text-transform: none;
-@footer-info-link-color: #fff;
-@footer-info-link-text-decoration: none;
-@footer-info-link-hover-color: #000;
-@footer-info-link-hover-text-decoration: none;
+@copyright-info-color: #fff;
+@copyright-info-font-style: normal;
+@copyright-info-font-size: 1.2em;
+@copyright-info-font-weight: normal;
+@copyright-info-font-family: @main-font-family;
+@copyright-info-text-transform: none;
+@copyright-info-link-color: #fff;
+@copyright-info-link-text-decoration: none;
+@copyright-info-link-hover-color: #000;
+@copyright-info-link-hover-text-decoration: none;
 
 /*----------------------------------------------------------------
 TABLE STYLES
 ----------------------------------------------------------------*/
 
 @table-border-style: solid;
-@table-border-color: #888;
+@table-border-color: #222;
 
 @table-header-cell-color: #fff;
-@table-header-cell-background-color: #bbb;
+@table-header-cell-background-color: #191919;
 @table-header-cell-background-image: none;
 @table-header-cell-text-transform: uppercase;
 @table-header-cell-text-align: center;
@@ -200,7 +179,7 @@ TABLE STYLES
 @table-cell-padding-bottom: 5px;
 @table-cell-padding-left-right: 8px;
 @table-cell-text-line-height: 120%;
-@table-cell-background-color: #fff;
+@table-cell-background-color: #AF282E;
 @table-cell-background-image: none;
 @table-cell-color: @body-content-text-color;
 @table-cell-font-family: @main-font-family;
@@ -228,8 +207,6 @@ TABLE STYLES
 @interface-text-font-size: 1.2em; 
 @interface-text-font-family: Arial, Helvetica, sans-serif;
 
-
-
 @blockquote-background-color: transparent;
 @blockquote-font-style: italic;
 @blockquote-font-weight: 600;
@@ -237,23 +214,23 @@ TABLE STYLES
 @blockquote-font-size: 1.7em;
 
 @back-to-top-button-background-color: #000;
-@back-to-top-button-height: 36px;
-@back-to-top-button-width: 36px;
+@back-to-top-button-height: 30px;
+@back-to-top-button-width: 30px;
 @back-to-top-button-padding: 3px;
 @back-to-top-button-opacity: 0.5;
 @back-to-top-button-bottom-position: 20px;
 @back-to-top-button-right-position: 20px;
-@back-to-top-button-background-image: @general-button-background-image;
-@back-to-top-button-background-position: center bottom -5px;
-@back-to-top-button-background-size: @general-button-background-size;
-@back-to-top-button-border-radius: 42px;
+@back-to-top-button-background-image: url("../images/afrikaburn-icons.png");
+@back-to-top-button-background-position: right 4px top -42px;
+@back-to-top-button-background-size: @icons-sprite-background-size;
+@back-to-top-button-border-radius: 5px;
 @back-to-top-button-border-width: 2px;
 @back-to-top-button-border-style: solid;
 @back-to-top-button-border-color: #fff;
 
 /*---Social media links---*/
 
-@sm-links-background-color: #555;
+@sm-links-background-color: transparent;
 @sm-links-background-size: 40px;
 @sm-link-border-radius: 40px;
 @sm-link-width: 40px;
@@ -261,23 +238,23 @@ TABLE STYLES
 
 @twitter-link-background-color: @sm-links-background-color;
 @twitter-link-background-position: center top;		
-@twitter-link-hover-background-color: #58CCFF;
-@twitter-link-hover-background-position: @twitter-link-background-position;
+@twitter-link-hover-background-color: transparent;
+@twitter-link-hover-background-position: center -120px;
 
 @facebook-link-background-color: @sm-links-background-color; 
 @facebook-link-background-position: center -40px;
-@facebook-link-hover-background-color: #3B5998; 
-@facebook-link-hover-background-position: @facebook-link-background-position;	
+@facebook-link-hover-background-color: transparent; 
+@facebook-link-hover-background-position: center -160px;	
 
 @instagram-link-background-color: @sm-links-background-color; 
 @instagram-link-background-position: center -80px;
-@instagram-link-hover-background-color: #9A7658; 
-@instagram-link-hover-background-position: @instagram-link-background-position;
+@instagram-link-hover-background-color: transparent; 
+@instagram-link-hover-background-position: center -200px;
 
 @pinterest-link-background-color: @sm-links-background-color; 
 @pinterest-link-background-position: center -120px;
-@pinterest-link-hover-background-color: #CB2027; 
+@pinterest-link-hover-background-color: transparent; 
 @pinterest-link-hover-background-position: @pinterest-link-background-position;
 @login-block-remember-me-text-color: #999;
 
-@add-bootstrap-menu-button-in-template-less: yes;
+@icons-sprite-background-size: 200px;

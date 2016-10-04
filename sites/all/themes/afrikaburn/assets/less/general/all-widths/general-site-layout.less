@@ -31,8 +31,8 @@ NAVBAR- CAUSES PROBLEMS WITH MOBILE TRANSITION IN WEBKIT BROWSERS.
 	padding: 0;
 }
 
-div.wrapper {
-	background-color: @wrapper-background-color;
+div#wrapper {
+	background: @wrapper-background-color @wrapper-background-image @wrapper-background-repeat @wrapper-background-position;
 }	
 
 .container-2  {
@@ -167,20 +167,87 @@ div.sidebar-outer > div.sidebar {
 	border: @sidebar-box-border-width @sidebar-box-border-style @sidebar-box-border-color;
 }
 
+div.sidebar-outer > div.sidebar  {
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+}
+
+div.sidebar-outer > div.sidebar h2 {
+	color: #f26c55;
+	font-size: 1.8em/@body-content-text-font-size;
+}
+
+div.sidebar-outer > div.sidebar aside > ul > li {
+	list-style: none;
+	padding: 5px 0 7px;
+	margin: 5px 0;
+	border-bottom: 1px solid #961116;
+}
+
+div.sidebar-outer > div.sidebar aside > ul > li li {
+	list-style: none;
+	padding: 0 0 0 5px;
+	margin: 0 0 0 5px;
+	font-size: 0.8em;
+	color: #f26c55;
+}
 
 /*-----------------------------------------------------------------------
 FOOTER STRIP STYLES {CORRESPOND TO "01-variables-general-site-layout"}
 ------------------------------------------------------------------------*/
 
-div#footer-strip {
+#footer {
 	background: @footer-strip-background-color @footer-strip-background-image @footer-strip-background-repeat @footer-strip-background-position;
 	
+}
+#footer h2 {
+	padding-bottom: 15px;
+}
+#footer div.body-content {
+	padding-bottom: 0;
 }
 
 
 
+#footer div.body-content h2 {
+	font-size: 1.6em/@body-content-text-font-size;
+	line-height: 100%;
+	padding-bottom: 0.6em;
+}
 
-div.copyright-outer div.copyright-inner ul {
+#footer ul {
+	list-style-image: url("../images/sep1.png");
+	border-top: 1px solid #961116;
+}
+
+#footer ul li {
+	border-bottom: 1px solid #961116;
+}
+
+#footer ul li a {
+	color: #f26c55;
+	text-decoration: none;
+	padding: 9px 0;
+	display: block;
+}
+
+#footer ul li a:hover {
+	color: #fff;
+}
+
+/*#copyright div.copyright-inner {
+	padding-left: 45px;
+	background: transparent url("../images/power_by.jpg") no-repeat left top;
+	
+}*/
+
+#copyright {
+	padding: 15px 0;
+	background: #2E1519;
+}
+
+#copyright div.copyright-inner ul {
 	font-size: 1em;	
 	margin-left: 0;
 	margin-bottom: 0;
@@ -188,26 +255,28 @@ div.copyright-outer div.copyright-inner ul {
 	
 }
 
-div.copyright-outer div.copyright-inner ul li {
+#copyright div.copyright-inner ul li,
+#copyright div.copyright-inner p  {
 	list-style: none;	
 	text-align: center;
-	color: @footer-info-color;
-	font-style: @footer-info-font-style;
-	font-weight: @footer-info-font-weight;
-	font-family: @footer-info-font-family;
-	text-transform: @footer-info-text-transform;
-	font-size: @footer-info-font-size;
+	color: @copyright-info-color;
+	font-style: @copyright-info-font-style;
+	font-weight: @copyright-info-font-weight;
+	font-family: @copyright-info-font-family;
+	text-transform: @copyright-info-text-transform;
+	font-size: @copyright-info-font-size;
+	margin: 0;
 	
 }
 
-div.copyright-outer div.copyright-inner ul li a {
-	color: @footer-info-link-color;
-	text-decoration: @footer-info-link-text-decoration;
+#copyright div.copyright-inner a {
+	color: @copyright-info-link-color;
+	text-decoration: @copyright-info-link-text-decoration;
 }
 
-div.copyright-outer div.copyright-inner ul li a:hover {
-	color: @footer-info-link-hover-color;
-	text-decoration: @footer-info-link-hover-text-decoration;
+#copyright div.copyright-inner a:hover {
+	color: @copyright-info-link-hover-color;
+	text-decoration: @copyright-info-link-hover-text-decoration;
 }
 
 div.user-links-loader {
@@ -296,26 +365,6 @@ div.block-outer {
 .one-column div.catItemViewOuter {
 	width: 100%;
 	float: left;
-}
-
-/*---------------SEARCH BOX STATIC----------------*/
-
-div.moduletable.smart-search {
-	display: block;	
-	
-}
-
-
-div.moduletable.smart-search div.finder.smart-search button {
-	/*site-button*/
-	background-position: @button-search-background-position;
-	float: left;	
-}
-
-div.moduletable.smart-search div.finder.smart-search button:hover {
-	/*site-button-hover*/
-	background-position: @button-search-hover-background-position;
-	float: left;		
 }
 
 body.contentpane {
