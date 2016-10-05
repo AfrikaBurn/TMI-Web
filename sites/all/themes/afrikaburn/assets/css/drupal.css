@@ -1,8 +1,4 @@
 /* TABS */
-.tabs ul.primary { background: url("../images/tabs-border.png") repeat-x scroll left bottom transparent; border: medium none; margin: 0; overflow: hidden; padding: 0 3px; margin-bottom: 20px; }
-.tabs ul.primary li { display: block; float: left; margin: 0 5px 0 0; vertical-align: bottom; }
-.tabs ul.primary li.active a { background-color: #FFFFFF; border-bottom: 1px solid #FFFFFF; }
-.tabs ul.primary li a { background-color: #EDEDED; border-top-left-radius: 6px; border-top-right-radius: 6px; color: #000000; display: block; float: left; font-size: 0.929em; height: 1.8em; line-height: 1.9; margin: 0; padding: 0 10px 3px; text-shadow: 0 1px 0 #FFFFFF; }
 
 /* MENU */
 ul.menu li { margin: 0 0 0 30px; }
