@@ -1,0 +1,158 @@
+<?php
+// $Id: user_picture_block.module,v 1.11 2011/02/23 10:48:05 boran Exp $
+
+
+/**
+ * Helper functions
+ */
+
+/**
+ * Lookup the Users's title (=level) directly from the DB
+ * as the user_title* functions user_titles_get_user_title() and
+ * user_titles_get_user_title_info() dont work correctly for me..
+ * Only needed if user_title module is enabled.
+ */
+function user_picture_block_getusertitle($uid) {
+  //user_titles_get_user_image()
+  $result = array();
+  $q = 'select title FROM {user_titles} left join {user_titles_users} on user_titles.tid=user_titles_users.tid where uid = :uid';
+  //watchdog('user_picture_block', $q . $uid);
+  $query = db_query($q, array(':uid'=>$uid));
+  foreach ($query as $row) {
+    $result[] = $row->title;     // really only care about the first row
+  }
+  if (isset($result[0]['title']) ) {
+    return ($result[0]['title']);
+  }
+}
+
+
+/**
+ * Implementation of hook_init().
+ */
+function user_picture_block_init() {
+  //$_moduleName_='user_picture_block';
+  //drupal_add_css(drupal_get_path('module', $_moduleName_) . '/' . $_moduleName_  . '.css');
+  drupal_add_css(drupal_get_path('module', 'user_picture_block') . '/user_picture_block.css');
+}
+
+
+/**
+ * Implements hook_block_info().
+ */
+function user_picture_block_block_info() {
+  $_moduleName_='user_picture_block';
+  $blocks = array();
+  $blocks['user-picture-block']['info'] =  t(ucfirst($_moduleName_));
+  $blocks['user-picture-block']['cache'] = DRUPAL_NO_CACHE;   // maybe CACHE_PER_USER ?
+  return $blocks;
+}
+
+
+/**
+ * Implements hook_block_view().
+ */
+function user_picture_block_block_view($delta) {
+  global $user, $base_path, $base_url, $language;
+  $_moduleName_='user_picture_block';
+  $block = array();
+
+  $img_prefix=$base_url . "/" . variable_get('file_public_path', conf_path() . '/files');
+
+  // create block content for normal viewing
+  $block['content'] = "<div class=$_moduleName_>";
+
+  if ($user->uid < 1) { // not logged in, point to login
+    $block['content'] .= t('!user_link or !register_link', array('!user_link' => l(t('Login'), 'user'), '!register_link' => l(t('Register'), 'user/register')));
+    return $block;
+  }
+
+  $variables['account'] = $user;
+  $variables['user_picture'] = '';
+  template_preprocess_user_picture($variables);
+  //$block['content'] .= "<div class=picture>";
+  $block['content'] .= $variables['user_picture'];
+  //$block['content'] .= "</div>";
+
+/*
+  $user_fields = user_load($user->uid);
+  //dpm($user_fields);
+  // Show picture if there is one
+  if (strlen($user_fields->picture->filesize) > 0) {
+    //$block['content'] .= render($user_fields->picture);
+
+
+    //$picture = $user_fields->picture->uri;
+    $picture = $user_fields->picture->filename;    // just the filename
+    // Actually this path is wrong. Also depends on picture path in admin/config/people/accounts
+    // @todo: There must be a better way. Should also select a thumbnail rendering.
+    $picture = $img_prefix . "/pictures/$picture";
+    $block['content'] .= "<div class=picture>";
+    $block['content'] .= "<a title='" . t('View account details') . "' href=" . $base_url ."/user><img src=$picture></a>";
+    $block['content'] .= "</div>";
+  }
+  else {
+    // TBD #855618: if there is no picture, add a default one (to encourage users to put one)
+    //$picture="$base_path/default-picture.png";
+    // Then display it.. Hmm. Would need a paramter to store the default picture, and maybe
+    // an option to enable the feature. Maybe its just easiest to insert a default during registration?
+    watchdog('user_picture_block', 'no profile picture');
+  }
+*/
+  // Want to add a title, either in the subject part, or in the block..
+    // Hmmm, maybe this should go though t()
+    $block['subject']=variable_get('user_picture_block_title', '');
+
+  // Show Username? Trim long usernames
+   $userlen=variable_get('user_picture_userlen', 10);
+   $userdisp=$user->name;
+   if (strlen($user->name) > $userlen) {
+     $userdisp=substr($user->name, 0, $userlen) . '..';
+   }
+   if (variable_get('user_picture_block_showuser','1')=='1') {
+     $block['content'] .="<h3>" . $userdisp . "</h3>";
+   }
+
+
+  // Show user points/title/badges if any
+  if (module_exists('user_titles')) {
+    $__title = user_picture_block_getusertitle($user->uid);
+    if (strlen($__title) > 0) {
+      $block['content'] .= "<div class=userlevel>Level " . $__title . "</div>";
+    }
+  }
+
+  if (module_exists('userpoints')) {
+    $points = userpoints_get_current_points($user->uid, 'all');
+    //dsm($points);
+    if ($points > 0) {
+      $block['content'] .= "<div class=userpoints>$points Points</div>";
+    }
+  }
+  if (module_exists('user_badges')) {
+    //$block['content'].= "Awards: ";
+    $block['content'] .= "<div class=userbadges>";
+
+    $badges=user_badges_for_user(array('uid'=>$user->uid));
+    $block['content'] .= $badges;
+/*
+    $badges = user_badges_get_badges($user->uid);
+    foreach ($badges as $badge) {
+      //$block['content'] .= "<a href=/$language->language/$badge->href><img src=/$badge->image title=$badge->name></a> ";
+      $block['content'] .= "<a href=/$language->language/$badge->href><img src=$img_prefix/badges/$badge->image title=$badge->name></a> ";
+    }
+*/
+    $block['content'] .= "</div>";
+    //dsm($badges);
+  }
+
+
+  // Provide a logout link, if option is set
+  if (variable_get('user_picture_logout', 0) === 1 ) {
+    $block['content'] .= "<div id=logout>" . l(t('Logout'), 'logout') . "</div>" ;
+  }
+
+  $block['content'] .= "</div>"; // class=$_moduleName_
+  return $block;
+}
+

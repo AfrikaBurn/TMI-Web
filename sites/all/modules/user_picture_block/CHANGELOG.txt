@@ -1,0 +1,27 @@
+---- CHANGELOG ---
+
+2011.10.17: 
+  First usable version for D7 with points, title and badges
+
+2011.09.13: 
+  Start migration to D7: just show the user picture for now, do not try to include points/titles/badges
+
+1.1 beta
+  Add user_picture_block.css, more divs. Move Username from title to right of image.
+  Run though the coder module.
+  Add some customisations as setting variables: user_picture_block_title
+    user_picture_block_defaultpicture, user_picture_block_logout
+
+Beta3/1.0:
+. Picture is a link to the account page
+. Add user_titles support
+. Add Login or Register for Anonymous users
+
+Beta2:
+. add base_path. 
+. add welcome title, optionally logout link
+. user points and badges if these modules are active
+. add a changelog :-)
+
+Beta1: first version
+

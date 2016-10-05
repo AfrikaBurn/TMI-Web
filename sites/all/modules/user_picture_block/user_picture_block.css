@@ -1,0 +1,49 @@
+/*
+ * user_picture_block.css : Default CSS for this module
+  float: left;
+ */
+
+/* Block with enough space for a reduced picture. 
+   Margin-top '10 since no heading 
+   increase height to say 90, if there are User Badges
+ */
+.user_picture_block {
+  height: 90px;
+  margin-top: 0px;
+}
+*+html .user_picture_block {  /* IE7 */
+  margin-top: 10px;
+}
+* html .user_picture_block {  /* IE6 */
+  margin-top: 10px;
+}
+.user_picture_block h3 { 
+  margin-top: 0.7em;
+  margin-bottom: 0.2em;
+}
+*+html .user_picture_block h3 { /* IE7 */
+  margin-top: 0.2em;
+}
+
+
+.user_picture_block .picture {
+  float: left;
+}
+.user_picture_block .picture img {
+  margin-right: 8px;
+  width:  60px;
+  height: 60px;
+  margin-bottom: 5px;
+}
+*+html .user_picture_block .picture img { /* IE7 */
+  margin-bottom: 5px;
+}
+.user_picture_block .userlevel {
+}
+.user_picture_block .userpoints {
+}
+.user_picture_block .userbadges {
+  /*clear: left;*/
+  margin-top: 5px;
+}
+

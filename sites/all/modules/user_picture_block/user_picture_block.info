@@ -1,0 +1,16 @@
+; $Id: user_picture_block.info,v 1.4 2011/02/08 06:44:13 boran Exp $
+; Originally: Sean Boran 17.7.10
+
+name = User picture block
+description = A block with the current user's picture and points details.
+configure = admin/structure/block
+package = "User interface"
+version = "7.x-1.x-dev"
+core = "7.x"
+
+; Information added by drupal.org packaging script on 2012-04-26
+version = "7.x-1.0-beta3"
+core = "7.x"
+project = "user_picture_block"
+datestamp = "1335429685"
+
