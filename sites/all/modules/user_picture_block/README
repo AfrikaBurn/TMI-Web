@@ -1,0 +1,21 @@
+$Id: README,v 1.3 2011/02/01 12:04:13 boran Exp $
+
+User picture block
+http://drupal.org/project/user_picture_block
+
+A tiny module to create just one block with the logged on user's picture, if he/she has one.
+
+After installation, go to Site building > Blocks and enable the block. 
+Set the title if you want one. 
+It probably makes sense to only enable for authenticated users, and perhaps only on specific pages.
+
+To tweak the layout/sytle, copy override the user_picture_block.css elements in your theme's css.
+
+Several variables can be added to settings.php to customise behaviour:
+  Variable                    default
+  user_picture_block_title    ''
+  user_picture_userlen        10      trim username
+  user_picture_block_showuser 1       0 to hide username
+  user_picture_logout         0       show block for anony users
+
+ 
