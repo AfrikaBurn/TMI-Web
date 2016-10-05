@@ -13,6 +13,8 @@ scripts[] = assets/js/mobile-drop-down-menu.js
 scripts[] = assets/js/theme.js
 
 ; Regions
+regions[user-greeting] = User Greeting
+regions[create-tickets] = Create Tickets
 regions[featured] = Featured
 regions[user-menu] = User menu
 regions[main-menu] = Main menu
