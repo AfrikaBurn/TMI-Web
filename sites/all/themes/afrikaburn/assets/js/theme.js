@@ -52,7 +52,7 @@ $(document).ready(function() {
   	$("a.back-to-top-button").attr("href","javascript: void(0)");
   	$("input:file").change(function() {
 		var selectedFile = jQuery(this).val().split('\\').pop();;
-	  	$(this).parent().siblings('p.selected-file').html("Selected file: " + selectedFile);
+	  	$(this).parent().siblings('p.selected-file').html("Selected file: <span class='file-name'>" + selectedFile + "</span>");
 	  	$(this).parent().addClass('file-selected');
 	});
 	$("a.back-to-top-button").click(function(event) {
@@ -79,14 +79,15 @@ $(document).ready(function() {
 	});
 
 	$("div.messages").prepend("<span class='icon'></span>");
+
+
+	$(".ui-accordion .ui-accordion-header.ui-state-default").on('click', function(){
+		console.log($(this));
+		var scrollBarPosition = $(this).offset().top - 15;
+        $('html,body').animate({scrollTop: scrollBarPosition}, 300);
+    }); 
 });
 
-// // $(document).ajaxComplete(function() {
-// // 	alert('ajax');
-// // });
 
-// $( document ).ajaxComplete(function() {
-//   alert('test');
-// });
 
 

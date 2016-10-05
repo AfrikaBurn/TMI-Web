@@ -1,0 +1,76 @@
+<?php
+/**
+ * @file
+ * Tests for node_page_disable.module.
+ */
+
+/**
+ * Functional Tests for the node_page_disable.
+ */
+class NodePageDisableFunctionalTest extends DrupalWebTestCase {
+
+  public static function getInfo() {
+    return array(
+      'name' => 'Functional Tests',
+      'description' => 'Test the node_page_disable module.',
+      'group' => 'Node Page Disable',
+    );
+  }
+
+  /**
+   * Test respect of variable node_page_disable_path_node_keep
+   */
+  public function testRetained() {
+    $_control_group = 'Module Settings';
+
+    module_enable(array('node_page_disable'));
+    variable_set('node_page_disable_path_node_keep', FALSE);
+    menu_rebuild();
+    $html = $this->drupalGet('node');
+    $this->assertRaw('No front page content has been created yet.', 'Assert /node is available when node_page_disable_path_node_keep is TRUE', $_control_group);
+
+    variable_set('node_page_disable_path_node_keep', FALSE);
+    menu_rebuild();
+    $html = $this->drupalGet('node');
+    $this->assertRaw('No front page content has been created yet.', 'Assert /node is available when node_page_disable_path_node_keep is FALSE but site_frontpage is still set to node', $_control_group);
+
+    variable_set('site_frontpage', 'welcome');
+    variable_set('node_page_disable_path_node_keep', FALSE);
+    menu_rebuild();
+    $html = $this->drupalGet('node');
+    $this->assertRaw('Page not found', 'Assert /node is disabled when node_page_disable_path_node_keep is FALSE', $_control_group);
+  }
+
+  /**
+   * Test the enabling and disabling of the module
+   */
+  public function testEnableDisable() {
+    $_control_group = 'Enable/Disable';
+
+    // site_frontpage: /welcome
+    variable_set('site_frontpage', 'welcome');
+    $html = $this->drupalGet('node');
+    $this->assertRaw('No front page content has been created yet.', 'Assert /node is available before module is enabled when front page is /welcome.', $_control_group);
+
+    module_enable(array('node_page_disable'));
+    $html = $this->drupalGet('node');
+    $this->assertRaw('Page not found', 'Assert /node is disabled when module is enabled and front page is /welcome', $_control_group);
+
+    module_disable(array('node_page_disable'));
+    $html = $this->drupalGet('node');
+    $this->assertRaw('No front page content has been created yet.', 'Assert /node is available after node_page_disable is disabled and front page is /welcome.', $_control_group);
+
+    // site_frontpage: /node
+    variable_set('site_frontpage', 'node');
+    $html = $this->drupalGet('node');
+    $this->assertRaw('No front page content has been created yet.', 'Assert /node is available before module is enabled when front page is /node.', $_control_group);
+
+    module_enable(array('node_page_disable'));
+    $html = $this->drupalGet('node');
+    $this->assertRaw('No front page content has been created yet.', 'Assert /node is available after module is enabled when front page is /node.', $_control_group);
+
+    module_disable(array('node_page_disable'));
+    $html = $this->drupalGet('node');
+    $this->assertRaw('No front page content has been created yet.', 'Assert /node is available after node_page_disable is disabled and front page is /node.', $_control_group);
+  }
+}

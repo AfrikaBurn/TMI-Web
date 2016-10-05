@@ -7,17 +7,17 @@ body {
 	font-size:11px;
 	font-weight:normal;
 	color:#2f2f2f;
-	background:#af282d url(http://dev.afrikaburn.com/body_bg.svg) no-repeat  center top;
+	background:#af282d url(http://new.afrikaburn.com/sites/all/themes/afrikaburn/assets/images/body_bg.svg) no-repeat  center top;
   	background-size: 100%;
 }
 
 @font-face {
     font-family: 'FuturaBook';
-    src: url('http://drupal7.afrikaburn.com/sites/all/themes/ab-temp/font/futura_book_bt-webfont.eot');
-    src: url('http://drupal7.afrikaburn.com/sites/all/themes/ab-temp/font/futura_book_bt-webfont.eot?#iefix') format('embedded-opentype'),
-         url('http://drupal7.afrikaburn.com/sites/all/themes/ab-temp/font/futura_book_bt-webfont.woff') format('woff'),
-         url('http://drupal7.afrikaburn.com/sites/all/themes/ab-temp/font/futura_book_bt-webfont.ttf') format('truetype'),
-         url('http://drupal7.afrikaburn.com/sites/all/themes/ab-temp/font/futura_book_bt-webfont.svg#FuturaBook') format('svg');
+    src: url('http://new.afrikaburn.com/sites/all/themes/ab-temp/font/futura_book_bt-webfont.eot');
+    src: url('http://new.afrikaburn.com/sites/all/themes/ab-temp/font/futura_book_bt-webfont.eot?#iefix') format('embedded-opentype'),
+         url('http://new.afrikaburn.com/sites/all/themes/ab-temp/font/futura_book_bt-webfont.woff') format('woff'),
+         url('http://new.afrikaburn.com/sites/all/themes/ab-temp/font/futura_book_bt-webfont.ttf') format('truetype'),
+         url('http://new.afrikaburn.com/sites/all/themes/ab-temp/font/futura_book_bt-webfont.svg#FuturaBook') format('svg');
     font-weight: normal;
     font-style: normal;
 
@@ -29,7 +29,7 @@ a {
 
 }
 a:hover {
-  text-decoration: underline;
+  text-decoration: underline; 
 }
 hr {
   margin: 0;
@@ -210,7 +210,7 @@ pre {
   overflow: hidden;
   padding: 20px 20px 0 20px; /* LTR */
   position: relative;
-  background:  #af282d url("http://drupal7.afrikaburn.com/sites/all/themes/ab-temp/images/home-header.jpg") no-repeat right top;
+  background:  #af282d url("http://new.afrikaburn.com/sites/all/themes/afrikaburn/assets/images/body_bg.svg") no-repeat right top;
   background-size: cover;
 }
 #branding div.breadcrumb {

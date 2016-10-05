@@ -1,0 +1,108 @@
+<?php
+/**
+ * @file
+ * The main module file
+ *
+ * @ingroup node_page_disable Node Page Disable
+ * @{
+ */
+
+/**
+ * @var NODE_PAGE_DISABLE_DEFAULT
+ */
+define('NODE_PAGE_DISABLE_DEFAULT', TRUE);
+
+/**
+ * Implements hook_menu_alter().
+ */
+function node_page_disable_menu_alter(&$items) {
+  global $_node_page_disable_restore_path_node_;
+  if (empty($_node_page_disable_restore_path_node_)
+      && isset($items['node'])
+      && !($keep = variable_get('node_page_disable_path_node_keep', NODE_PAGE_DISABLE_DEFAULT))) {
+    $frontpage = variable_get('site_frontpage', '');
+    if (!empty($frontpage) && $frontpage != 'node') {
+      unset($items['node']);
+    }
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function node_page_disable_form_system_site_information_settings_alter(&$form, $form_state) {
+  if (!array_key_exists('front_page', $form)) {
+    return;
+  }
+  $default = variable_get('node_page_disable_path_node_keep', NODE_PAGE_DISABLE_DEFAULT);
+  $front = variable_get('site_frontpage', FALSE);
+  $form['#node_page_disable']['node_page_disable_path_node_keep'] = $default;
+  $form['front_page']['node_page_disable_path_node_keep'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Retain <a href="@url">/node</a> as an active url?', array(
+      '@url' => url('node'),
+    )),
+    '#default_value' => $default,
+    '#states' => array(
+      'invisible' => array(
+        ':input[name=site_frontpage]' => array(
+          'value' => 'node',
+        ),
+      ),
+    ),
+  );
+  $form['#submit'][] = 'node_page_disable_form_system_site_information_settings_submit';
+  array_unshift($form['#validate'], 'node_page_disable_form_system_site_information_settings_validate1');
+  $form['#validate'][] = 'node_page_disable_form_system_site_information_settings_validate2';
+}
+
+/**
+ * Restore the /node path in the menu regardless of settings
+ *
+ * @see node_page_disable_form_system_site_information_settings_validate1()
+ */
+function _node_page_disable_restore_path_node() {
+  $errors = form_get_errors();
+  global $_node_page_disable_restore_path_node_;
+  $_node_page_disable_restore_path_node_ = TRUE;
+  variable_set('menu_rebuild_needed', TRUE);
+}
+
+/**
+ * Form validation handler.
+ *
+ * @see system_site_information_settings_validate()
+ * @see _node_page_disable_restore_path_node()
+ */
+function node_page_disable_form_system_site_information_settings_validate1($form, &$form_state) {
+  // Make sure that system_site_information_settings_validate is not confused by
+  // the fact that we hid 'node';
+  $frontpage = $form_state['values']['site_frontpage'];
+  if (($frontpage = '' || $frontpage = 'node')
+      && !variable_get('node_page_disable_path_node_keep', NODE_PAGE_DISABLE_DEFAULT)) {
+    _node_page_disable_restore_path_node();
+  }
+}
+
+/**
+ * Form validation handler.
+ */
+function node_page_disable_form_system_site_information_settings_validate2($form, &$form_state) {
+  // We have to keep it when the frontpage is set to 'node'!
+  if ($form_state['values']['site_frontpage'] == 'node') {
+    form_set_value($form['front_page']['node_page_disable_path_node_keep'], TRUE, $form_state);
+    variable_set('menu_rebuild_needed', TRUE);
+  }
+}
+
+/**
+ * Form submission handler
+ */
+function node_page_disable_form_system_site_information_settings_submit($form, &$form_state) {
+  // Rebuild the menu if state has changed
+  if ($form['#node_page_disable']['node_page_disable_path_node_keep'] != $form_state['values']['node_page_disable_path_node_keep']) {
+    variable_set('menu_rebuild_needed', TRUE);
+  }
+}
+
+/** @} */ //end of group: node_page_disable
