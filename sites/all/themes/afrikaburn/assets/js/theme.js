@@ -80,11 +80,14 @@ $(document).ready(function() {
 
 	$("div.messages").prepend("<span class='icon'></span>");
 
-
+	$(".ui-accordion .ui-accordion-header.ui-state-active").addClass("open");
 	$(".ui-accordion .ui-accordion-header.ui-state-default").on('click', function(){
-		console.log($(this));
-		var scrollBarPosition = $(this).offset().top - 15;
-        $('html,body').animate({scrollTop: scrollBarPosition}, 300);
+		if (!$(this).hasClass("open")) {
+			var scrollBarPosition = $(this).offset().top - 15;
+        	$('html,body').animate({scrollTop: scrollBarPosition}, 300);
+		}
+		$(this).toggleClass("open");
+		
     }); 
 });
 
