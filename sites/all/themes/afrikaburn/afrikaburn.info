@@ -3,7 +3,6 @@ description = A custom theme for Africa Burn
 core = 7.x
 
 ; CSS
-stylesheets[all][] = assets/css/drupal.css
 stylesheets[all][] = assets/css/theme.css
 stylesheets[all][] = assets/css/temp.css
 
