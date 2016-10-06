@@ -201,14 +201,37 @@ div.body-content textarea {
 	}
 }
 
-/*User profile*/
-
-div.profile div.field {
+/*---Add formatting to user profile page and all form results pages---*/
+body.page-user div.field,
+body.node-type-theme-camps div.field,
+body.node-type-mutant-vehicles div.field,
+body.node-type-artwork-registration div.field,
+body.node-type-performance-registration div.field,
+body.node-type-creative-grant-application div.field,
+body.node-type-mutant-vehicles-grant div.field  {
 	margin-bottom: 10px;
 	padding-bottom: 10px;
 	border-bottom: 1px solid #AF282D;
 }
 
-div.profile div.field-label {
+body.page-user div.field.field-type-multifield,
+body.node-type-theme-camps div.field.field-type-multifield,
+body.node-type-mutant-vehicles div.field.field-type-multifield,
+body.node-type-artwork-registration div.field.field-type-multifield,
+body.node-type-performance-registration div.field.field-type-multifield,
+body.node-type-creative-grant-application div.field.field-type-multifield,
+body.node-type-mutant-vehicles-grant div.field.field-type-multifield  {
+	margin-bottom: 0px;
+	padding-bottom: 0px;
+	border-bottom-width: 0px;
+}
+
+body.page-user div.field-label,
+body.node-type-theme-camps div.field-label,
+body.node-type-mutat-vehicles div.field-label,
+body.node-type-artwork-registration div.field-label,
+body.node-type-performance-registration div.field-label,
+body.node-type-creative-grant-application div.field-label,
+body.node-type-mutant-vehicles-grant div.field-label {
 	color: #f26c55;
 }
