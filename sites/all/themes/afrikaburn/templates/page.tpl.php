@@ -114,7 +114,9 @@
                 </div>
                 <div class='user-menu'>
                    <?php print render($page['user-menu']); ?>
-                   <?php print render($page['user-greeting']); ?>
+                </div>
+                <div class='user-greeting'>
+                    <?php print render($page['user-greeting']); ?>
                 </div>
                 <div class='social-media-links'>
                    <div class='sm-link twitter'>

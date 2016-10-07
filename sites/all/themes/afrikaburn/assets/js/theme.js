@@ -80,6 +80,7 @@ $(document).ready(function() {
 
 	$("div.messages").prepend("<span class='icon'></span>");
 
+	//Add scroll top behaviour when accordion item is opened. Must add class 'open' in addition to the classes added by jQuery ui, because of the order in which the code is run.
 	$(".ui-accordion .ui-accordion-header.ui-state-active").addClass("open");
 	$(".ui-accordion .ui-accordion-header.ui-state-default").on('click', function(){
 		if (!$(this).hasClass("open")) {
