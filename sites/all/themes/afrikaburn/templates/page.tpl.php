@@ -65,6 +65,7 @@
  * @see template_preprocess_page()
  * @see template_process()
  */
+    global $user;
     function afrikaburn_css_alter(&$css) {
         // Remove defaults.css file.
         //unset($css['misc/ui/jquery.ui.core.css']);
@@ -117,6 +118,13 @@
                 </div>
                 <div class='user-greeting'>
                     <?php print render($page['user-greeting']); ?>
+                    <?php if($user->uid > 0): ?>
+                        <div class="user-menu-icon">
+                            <span class="user-icon-bar"></span>
+                            <span class="user-icon-bar"></span>
+                            <span class="user-icon-bar"></span>
+                        </div>
+                    <?php endif; ?>
                 </div>
                 <div class='social-media-links hide-below-979px'>
                    <div class='sm-link twitter'>

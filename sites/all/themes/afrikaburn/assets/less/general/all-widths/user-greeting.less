@@ -42,12 +42,29 @@ div.user-greeting div.user-menu-icon span.user-icon-bar {
 	margin-bottom: 3px;
 }
 
+div.user-greeting div.user-menu-icon:hover {
+	cursor: pointer;
+}
+
+div.user-greeting div.user-menu-icon:hover span.user-icon-bar,
+div.user-greeting div.user-menu-icon.active span.user-icon-bar {
+	background-color: #f26c55;
+}
+
 @media(min-width: 980px) {
 	div.user-greeting {
 		margin-left: 10px;
 		margin-right: 5px;
 	}
 }
+
+@media(max-width: 979px) {
+	div.user-greeting {
+		margin-top: 5px;
+		margin-right: 10px;
+	}
+}
+
 
 
 

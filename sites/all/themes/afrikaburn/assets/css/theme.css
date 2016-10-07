@@ -1243,10 +1243,23 @@ div.user-greeting div.user-menu-icon span.user-icon-bar {
   background-color: #fff;
   margin-bottom: 3px;
 }
+div.user-greeting div.user-menu-icon:hover {
+  cursor: pointer;
+}
+div.user-greeting div.user-menu-icon:hover span.user-icon-bar,
+div.user-greeting div.user-menu-icon.active span.user-icon-bar {
+  background-color: #f26c55;
+}
 @media (min-width: 980px) {
   div.user-greeting {
     margin-left: 10px;
     margin-right: 5px;
+  }
+}
+@media (max-width: 979px) {
+  div.user-greeting {
+    margin-top: 5px;
+    margin-right: 10px;
   }
 }
 .navbar .nav {
@@ -2844,7 +2857,7 @@ div.user-menu a {
   display: block;
   color: #f26c55;
   font-size: 1.4em;
-  padding: 14px 10px 19px;
+  padding: 14px 10px 12px;
   text-decoration: none;
   line-height: 100%;
 }
@@ -2854,6 +2867,66 @@ div.user-menu a:hover {
   color: #330B13;
   cursor: pointer;
   text-decoration: none;
+}
+body.logged-in div.user-menu {
+  display: none;
+  position: absolute;
+  top: 44px;
+  right: 0;
+  background: #f26c55;
+  padding: 10px 20px;
+  z-index: 99999;
+  border: 1px solid #ccc;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  min-width: 120px;
+}
+body.logged-in div.user-menu.show {
+  display: block;
+}
+body.logged-in div.user-menu:before,
+body.logged-in div.user-menu:after {
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+  bottom: 100%;
+  right: 7px;
+}
+body.logged-in div.user-menu:after {
+  border-color: transparent;
+  border-width: 8px;
+  border-bottom-color: #f26c55;
+}
+body.logged-in div.user-menu:before {
+  border-color: transparent;
+  border-width: 9px;
+  border-bottom-color: inherit;
+  margin-right: -1px;
+}
+body.logged-in div.user-menu ul {
+  float: left;
+}
+body.logged-in div.user-menu ul li {
+  float: none;
+}
+body.logged-in div.user-menu ul li a {
+  color: #fff;
+  font-weight: 600;
+  float: left;
+  padding: 10px 0 10px 26px;
+  background-image: url("../images/afrikaburn-icons.png");
+  background-repeat: no-repeat;
+  background-size: 200px;
+}
+body.logged-in div.user-menu ul li a.user {
+  background-position: left -191px;
+}
+body.logged-in div.user-menu ul li a.logout {
+  background-position: left -242px;
 }
 @media (max-width: 979px) {
   div.user-menu a {

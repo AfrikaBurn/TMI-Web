@@ -63,18 +63,25 @@ $(document).ready(function() {
 	  setInterval("rotateImages()", 5000);
 	});
 	
-	$("a.login-box-toggler").attr("href","javascript: void(0)").click(function(e) {
-		$(".login-box").toggleClass("show-login");
+	$(".user-menu-icon").click(function(e) {
+		$(".user-menu").toggleClass("show");
 		$(this).toggleClass("active");
 		e.stopPropagation();
 	});
 
+	$(".user-menu ul li a").each(function(e) {
+		var href = $(this).attr('href').split('/');
+		var slug = href[href.length-1];
+	    $(this).addClass(slug);
+	})
+	
+
 	$(document).click(function(e) {
-	    $(".login-box").removeClass("show-login");
+	    $(".user-menu").removeClass("show");
 	    $(this).removeClass("active");
 	});
 
-	$(".login-box").click(function(e) {
+	$(".user-menu").click(function(e) {
 	    e.stopPropagation();
 	});
 
