@@ -113,6 +113,7 @@
                           <img src="<?php print base_path() . path_to_theme(); ?>/assets/images/date-badge-2017.png" />
                       </a>
                 </div>
+                <?php print render($page['create-tickets']); ?>
                 <div class='user-menu'>
                    <?php print render($page['user-menu']); ?>
                 </div>

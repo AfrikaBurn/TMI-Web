@@ -113,6 +113,7 @@
                       </a>
                   </div>
             </div>
+            <?php print render($page['create-tickets']); ?>
             <div class='user-menu'>
                <?php print render($page['user-menu']); ?>
             </div>
