@@ -65,6 +65,7 @@
  * @see template_preprocess_page()
  * @see template_process()
  */
+    global $user;
     function afrikaburn_css_alter(&$css) {
         // Remove defaults.css file.
         //unset($css['misc/ui/jquery.ui.core.css']);
@@ -112,11 +113,21 @@
                           <img src="<?php print base_path() . path_to_theme(); ?>/assets/images/date-badge-2017.png" />
                       </a>
                 </div>
+                <?php print render($page['create-tickets']); ?>
                 <div class='user-menu'>
                    <?php print render($page['user-menu']); ?>
-                   <?php print render($page['user-greeting']); ?>
                 </div>
-                <div class='social-media-links'>
+                <div class='user-greeting'>
+                    <?php print render($page['user-greeting']); ?>
+                    <?php if($user->uid > 0): ?>
+                        <div class="user-menu-icon">
+                            <span class="user-icon-bar"></span>
+                            <span class="user-icon-bar"></span>
+                            <span class="user-icon-bar"></span>
+                        </div>
+                    <?php endif; ?>
+                </div>
+                <div class='social-media-links hide-below-979px'>
                    <div class='sm-link twitter'>
                        <a href='https://www.twitter.com/afrikaburn' title='Afrikaburn on Twitter' target='_blank'></a>
                    </div>
@@ -211,6 +222,24 @@
             </div>
         </div>
     </div>
+
+    <div class="container-3 show-below-979px" id="social-media-links-bar">
+        <div class="container-2">
+            <div class="container-1">
+                <div class='social-media-links'>
+                   <div class='sm-link twitter'>
+                       <a href='https://www.twitter.com/afrikaburn' title='Afrikaburn on Twitter' target='_blank'></a>
+                   </div>
+                   <div class='sm-link facebook'>
+                       <a href='https://www.facebook.com/afrikaburn' title='Afrikaburn on Facebook' target='_blank'></a>
+                   </div>
+                </div>
+            </div>
+            <div class='clr'></div>
+        </div>
+    </div>
+
+
     <section id="main-content-strip" class="container-3">
         <div class='container-2'>
             <div class='container-1'>
