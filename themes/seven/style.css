@@ -5,11 +5,7 @@
 body {
   color: #000;
   background: #fff;
-  font: normal 13px/1.538em "Lucida Grande", "Lucida Sans Unicode", sans-serif;
-  background-image: url("http://new.afrikaburn.com/sites/all/themes/afrikaburn/assets/images/body_bg.svg");
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: 100%;
+  font: normal 81.3%/1.538em "Lucida Grande", "Lucida Sans Unicode", sans-serif;
 }
 a {
   color: #0074BD;
@@ -991,25 +987,4 @@ div.add-or-remove-shortcuts {
   -moz-border-radius: 8px;
   -webkit-border-radius: 8px;
   border-radius: 8px;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-.conditional-fields-overview td {
-  max-width: 250px;
-}
-.conditional-fields-overview select {
-  max-width: 100%;
-}
-.conditional-fields-overview td:nth-child(1) {
-    border: 1px solid black;
 }
