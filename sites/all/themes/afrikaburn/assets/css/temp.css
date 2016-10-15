@@ -3,10 +3,10 @@
 
 }
 
-.user-profile-form .form-radios > div, .group-bb-update .form-radios > div, .group-questionaire .form-radios > div, .group-user .form-radios > div {
+.user-profile-form .form-radios > div, .group-bb-update .form-radios > div, .group-questionaire .form-radios > div, .group-user .form-radios > div, .field-name-field-booze-short .form-radios > div, .edit-field-year-round-yn .form-radios > div {
     display: none;
 }
-.user-profile-form .form-radios > div ~ div, .group-bb-update .form-radios > div ~ div, .group-questionaire .form-radios > div ~ div, .group-user .form-radios > div ~ div { 
+.user-profile-form .form-radios > div ~ div, .group-bb-update .form-radios > div ~ div, .group-questionaire .form-radios > div ~ div, .group-user .form-radios > div ~ div, .field-name-field-booze-short .form-radios > div ~ div, .edit-field-year-round-yn .form-radios > div ~ div { 
     display: block;
 }
 
