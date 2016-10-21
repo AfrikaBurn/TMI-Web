@@ -1,0 +1,19 @@
+name = Feed Import Base
+description = Feed Import core functions
+package = Feeds
+core = 7.x
+
+files[] = inc/feed_import_abstract.inc
+files[] = inc/feed_import_filter.inc
+files[] = inc/feed_import_readers.inc
+files[] = inc/feed_import_merge.inc
+files[] = inc/feed_import.inc
+
+configure = admin/config/services/feed_import/settings
+
+; Information added by Drupal.org packaging script on 2015-01-07
+version = "7.x-3.4"
+core = "7.x"
+project = "feed_import"
+datestamp = "1420623185"
+

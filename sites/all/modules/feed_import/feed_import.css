@@ -1,0 +1,33 @@
+/**
+ * Enabled feed style
+ */
+
+tr.enabled-feed td a{
+  color: #000;
+}
+
+tr.enabled-feed:hover{
+  background-color: #33ff66;
+}
+
+tr.enabled-feed:hover td,
+tr.enabled-feed:hover td a{
+  color: #000;
+}
+
+/**
+ * Disabled feed style
+ */
+
+tr.disabled-feed td a{
+  color: gray;
+}
+
+tr.disabled-feed:hover{
+  background-color: #cc0033;
+}
+
+tr.disabled-feed:hover td,
+tr.disabled-feed:hover td a{
+  color: #ffffff;
+}
