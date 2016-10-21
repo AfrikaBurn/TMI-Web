@@ -1,0 +1,18 @@
+<?php
+
+
+function quicket_menu() {
+  $items = array();
+  
+  $items['quicket/update_user'] = array(
+    'title' => t('quicket update user'),
+    'description' => t('quicket update user'),
+    'page callback' => 'quicket_update_user',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+    'file' => 'quicket_update_user.inc',
+  );
+  
+  return $items;
+}
+
