@@ -1,0 +1,4 @@
+name = Quicket
+description = AfrikaBurn Intergration with Quicket
+package = Quicket
+core = 7.x
