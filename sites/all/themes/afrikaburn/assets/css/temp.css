@@ -19,3 +19,26 @@
 .field-name-field-quicket-code {
   display: none;
 }
+
+.button-general {
+  max-width: 400px;
+  min-width: 200px;
+  background-color: #000;
+  height: 45px;
+  border-width: 0;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  box-shadow: none;
+  text-align: center;
+  color: #fff;
+  font-size: 14px;
+  line-height: 14px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-family: FuturaBook,Arial;
+  font-weight: 400;
+  display: block;
+  box-sizing: border-box;
+  padding: 16px 20px;
+}
