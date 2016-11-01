@@ -19,3 +19,23 @@
 .field-name-field-quicket-code {
   display: none;
 }
+
+
+/*-- Radio Styling --*/
+input[type="radio"] + div.radio-checkbox-dummy, input[type="checkbox"] + div.radio-checkbox-dummy
+{
+background: #fff url("/sites/all/themes/afrikaburn/assets/images/afrikaburn-icons-new.png") no-repeat scroll center -1e+7px / 200px auto;
+border-radius: 10px;
+-moz-border-radius: 10px;
+-webkit-border-radius: 10px;
+}
+
+/*-- Username new line --*/
+div#edit-account {
+	clear: both;}
+
+
+/*-- Form labels --*/
+.page-theme-camps-form-1-registered .field-label, .page-performance-registered .field-label, .page-mutant-vehicle-registered .field-label, .page-mutant-vehicle-grants .field-label, .page-creative-grants-registered .field-label,  .page-artwork-registered .field-label, {
+	display: none;}
+
