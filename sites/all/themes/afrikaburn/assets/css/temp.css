@@ -20,6 +20,7 @@
   display: none;
 }
 
+<<<<<<< HEAD
 
 /*-- Radio Styling --*/
 input[type="radio"] + div.radio-checkbox-dummy, input[type="checkbox"] + div.radio-checkbox-dummy
@@ -39,3 +40,27 @@ div#edit-account {
 .page-theme-camps-form-1-registered .field-label, .page-performance-registered .field-label, .page-mutant-vehicle-registered .field-label, .page-mutant-vehicle-grants .field-label, .page-creative-grants-registered .field-label,  .page-artwork-registered .field-label, {
 	display: none;}
 
+=======
+.button-general {
+  max-width: 400px;
+  min-width: 200px;
+  background-color: #000;
+  height: 45px;
+  border-width: 0;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  box-shadow: none;
+  text-align: center;
+  color: #fff;
+  font-size: 14px;
+  line-height: 14px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-family: FuturaBook,Arial;
+  font-weight: 400;
+  display: block;
+  box-sizing: border-box;
+  padding: 16px 20px;
+}
+>>>>>>> a17959e935cd1baf43d76266e98a43ac74f5d313
