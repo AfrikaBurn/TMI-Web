@@ -19,7 +19,7 @@
 .field-name-field-quicket-code {
   display: none;
 }
-.field-name-field-quicket-id {
+.field-name-field-quicket-id, .field-name-field-bb-no-teens-tickets, .field-name-field-bb-no-kids-tickets {
   display: none;
 }
 
