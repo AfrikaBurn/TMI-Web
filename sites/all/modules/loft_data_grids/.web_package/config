@@ -1,0 +1,9 @@
+template = drupal
+master = "8.x-1.x 7.x-2.x 7.x-1.x 6.x-2.x"
+develop = "8.x-1.x 7.x-2.x 7.x-1.x 6.x-2.x"
+remote = origin
+create_tags = patch
+push_tags = ask
+push_master = ask
+push_develop = auto
+patch_prefix = -rc

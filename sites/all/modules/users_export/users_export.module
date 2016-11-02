@@ -1,0 +1,84 @@
+<?php
+/**
+ * @file
+ * Base module file for users_export
+ *
+ * @defgroup users_export Users Export
+ * @{
+ */
+define('USERS_EXPORT_DEFAULT_DATE_FORMAT', 'Y-m-d H:i:s');
+
+/**
+ * Implements hook_menu().
+ */
+function users_export_menu() {
+  $items = array();
+  $items['admin/people/export'] = array(
+    'title'            => 'Export',
+    'description'      => 'Export users in various formats.',
+    'page callback'    => 'drupal_get_form',
+    'page arguments'   => array('users_export_form'),
+    'file'             => 'includes/users_export.admin.inc',
+    'access arguments' => array('administer users'),
+    'type'             => MENU_LOCAL_TASK,
+  );
+
+  return $items;
+}
+
+/**
+ * Implement hook_views_api().
+ */
+function users_export_views_api($module, $api) {
+  if ($module == 'views' && $api == 'views_default') {
+    return array('version' => 2);
+  }
+}
+
+/**
+ * Implements hook_permission().
+ */
+function users_export_permission() {
+  $perms = array();
+  if (module_exists('loft_data_grids')) {
+    foreach (loft_data_grids_export_info() as $info) {
+      $perms['users_export:export as ' . $info['id']] = array(
+        'title'       => t('Export as @name', array('@name' => $info['name'])),
+        'description' => check_plain($info['description']),
+      );
+    }
+  }
+
+  return $perms;
+}
+
+/**
+ * Implements hook_theme
+ */
+function users_export_theme($existing, $type, $theme, $path) {
+  return array(
+    'users_export_flatfile' => array(
+      'variables' => array(
+        'header' => NULL,
+        'rows'   => NULL,
+        'type'   => NULL,
+        'html'   => FALSE,
+        'prefix' => '',
+        'suffix' => '',
+      ),
+      'file'      => 'includes/users_export.admin.inc',
+    ),
+  );
+}
+
+/**
+ * Implements hook_users_export_row_alter().
+ */
+function users_export_users_export_row_alter(&$row, $uid, $context) {
+  $settings = $context['settings'];
+
+  // We'll assume we don't want this column unless the status is mixed.
+  if ($settings['users_export_user_status'] <= 1) {
+    unset($row['status']);
+  }
+}

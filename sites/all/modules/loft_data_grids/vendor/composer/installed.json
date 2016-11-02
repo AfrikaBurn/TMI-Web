@@ -1,0 +1,162 @@
+[
+    {
+        "name": "phpoffice/phpexcel",
+        "version": "1.8.1",
+        "version_normalized": "1.8.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/PHPOffice/PHPExcel.git",
+            "reference": "372c7cbb695a6f6f1e62649381aeaa37e7e70b32"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/PHPOffice/PHPExcel/zipball/372c7cbb695a6f6f1e62649381aeaa37e7e70b32",
+            "reference": "372c7cbb695a6f6f1e62649381aeaa37e7e70b32",
+            "shasum": ""
+        },
+        "require": {
+            "ext-xml": "*",
+            "ext-xmlwriter": "*",
+            "php": ">=5.2.0"
+        },
+        "time": "2015-05-01 07:00:55",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "PHPExcel": "Classes/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "LGPL"
+        ],
+        "authors": [
+            {
+                "name": "Maarten Balliauw",
+                "homepage": "http://blog.maartenballiauw.be"
+            },
+            {
+                "name": "Mark Baker"
+            },
+            {
+                "name": "Franck Lefevre",
+                "homepage": "http://blog.rootslabs.net"
+            },
+            {
+                "name": "Erik Tilt"
+            }
+        ],
+        "description": "PHPExcel - OpenXML - Read, Create and Write Spreadsheet documents in PHP - Spreadsheet engine",
+        "homepage": "http://phpexcel.codeplex.com",
+        "keywords": [
+            "OpenXML",
+            "excel",
+            "php",
+            "spreadsheet",
+            "xls",
+            "xlsx"
+        ]
+    },
+    {
+        "name": "aklump/loft_data_grids",
+        "version": "0.4.17",
+        "version_normalized": "0.4.17.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/aklump/loft_data_grids.git",
+            "reference": "aa2e7636ee8b650513f70c91a0ebf43c7f362cb7"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/aklump/loft_data_grids/zipball/aa2e7636ee8b650513f70c91a0ebf43c7f362cb7",
+            "reference": "aa2e7636ee8b650513f70c91a0ebf43c7f362cb7",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0",
+            "phpoffice/phpexcel": "1.8.*",
+            "symfony/yaml": "2.3.*"
+        },
+        "time": "2016-03-31 22:15:18",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Aaron Klump",
+                "email": "sourcecode@intheloftstudios.com",
+                "homepage": "http://www.intheloftstudios.com",
+                "role": "Developer"
+            }
+        ],
+        "description": "PHP Classes to allow data placement in a grid structure and exporting in various data formats.",
+        "homepage": "http://github.com/aklump/loft_data_grids",
+        "keywords": [
+            "csv",
+            "excel",
+            "export",
+            "spreadsheet"
+        ]
+    },
+    {
+        "name": "symfony/yaml",
+        "version": "v2.3.42",
+        "version_normalized": "2.3.42.0",
+        "target-dir": "Symfony/Component/Yaml",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/yaml.git",
+            "reference": "2cb5f366f9e0df014fc93de46cc416ba0a3055f8"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/symfony/yaml/zipball/2cb5f366f9e0df014fc93de46cc416ba0a3055f8",
+            "reference": "2cb5f366f9e0df014fc93de46cc416ba0a3055f8",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.3"
+        },
+        "time": "2016-05-30 08:10:17",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.3-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Symfony\\Component\\Yaml\\": ""
+            },
+            "exclude-from-classmap": [
+                "/Tests/"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "https://symfony.com/contributors"
+            }
+        ],
+        "description": "Symfony Yaml Component",
+        "homepage": "https://symfony.com"
+    }
+]

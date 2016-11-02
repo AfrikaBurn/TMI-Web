@@ -1,0 +1,8 @@
+{
+  "require": {
+    "aklump/loft_data_grids": ">=0.4.5"
+  },
+  "autoload":{
+    "files": ["includes/DrupalTableExporter.php"]
+  }
+}

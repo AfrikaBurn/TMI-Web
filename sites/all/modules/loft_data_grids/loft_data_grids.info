@@ -1,0 +1,14 @@
+name = "Loft Data Grids"
+description = "Integrates Loft Data Grids with Drupal"
+version = "7.x-2.2"
+author = "Aaron Klump <sourcecode@intheloftstudios.com>"
+package = "Other"
+core = "7.x"
+homepage = "http://www.intheloftstudios.com/packages/php/drupal_loft_data_grids"
+php = "5.3"
+; Information added by Drupal.org packaging script on 2016-07-08
+version = "7.x-2.2"
+core = "7.x"
+project = "loft_data_grids"
+datestamp = "1468015147"
+

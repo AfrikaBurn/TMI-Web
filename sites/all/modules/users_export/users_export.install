@@ -1,0 +1,117 @@
+<?php
+/**
+ * @file
+ * Handles installation steps for users_export
+ *
+ * @ingroup func_search
+ * @{
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function users_export_uninstall() {
+  $vars = db_select('variable', 'v')
+    ->fields('v', array('name'))
+    ->condition('name', 'users_export%', 'LIKE')
+    ->execute()->fetchCol();
+  foreach ($vars as $var) {
+    variable_del($var);
+  }
+
+  $tables = array('block', 'block_role');
+  foreach ($tables as $table) {
+    if (db_table_exists($table)) {
+      db_delete($table)
+        ->condition('module', 'users_export')
+        ->execute();
+    }
+  }
+}
+
+/**
+ * Implements hook_enable().
+ */
+function users_export_enable() {
+  drupal_set_message(t('You may export users by visiting <a href="@url">@url</a>.', array('@url' => url('admin/people/export'))));
+}
+
+/**
+ * Update from 7.x-1.1 to 7.x-2.0
+ */
+function users_export_update_7001(&$sandbox) {
+  $output = array();
+  try {
+    variable_del('users_export_type');
+    if (!module_exists('loft_data_grids')) {
+      $output[] = 'You must immediately install the Loft Data Grids module; refer to the README for instructions.' . "\n";
+    }
+  } catch (Exception $e) {
+    throw new DrupalUpdateException('FAILED: Update from 7.x-1.0 to 7.x-2.0');
+  }
+
+  return implode("<br />", $output);
+}
+
+/**
+ * Manual step(s) required, PLEASE READ NEXT PAGE...
+ */
+function users_export_update_7002(&$sandbox) {
+  $output = array();
+
+  if (!function_exists('loft_data_grids_info')) {
+    $output[] = st('You must install the latest 2.x version of <a href="!url">Loft Data Grids</a> immediately; update instructions are found within the module\'s README file.', array(
+        '!url' => url('http://www.intheloftstudios.com/packages/php/drupal_loft_data_grids'),
+      )
+    );
+  }
+
+  $output[] = st('Export format options are now controlled by Loft Data Grids; please <a href="!url">manually migrate your permissions</a> from <em>Users Export</em> to <em>Loft Data Grids</em> now.', array('!url' => url('admin/people/permissions')));
+
+  return implode("<br />", $output);
+}
+
+/**
+ * Implements hook_requirements().
+ *
+ * Checks installation requirements and do status reporting.
+ * http://api.drupal.org/api/function/hook_requirements
+ *
+ * @param phase 'install' or 'runtime':
+ *
+ * @return A keyed array of requirements
+ */
+function users_export_requirements($phase) {
+  $reqs = array();
+  if ($phase == 'runtime') {
+    $modules = array();
+    if (!module_exists('loft_data_grids')) {
+      $modules[] = 'loft_data_grids';
+    }
+    if ($modules) {
+      $reqs['users_export'] = array(
+        'title'       => st('Users Export Dependencies'),
+        'description' => st('The following module(s) need to be enabled: %modules', array(
+          '%modules' => implode(', ', $modules),
+        )),
+        'severity'    => REQUIREMENT_ERROR,
+        'value'       => st('Missing'),
+      );
+    }
+
+    if (!function_exists('loft_data_grids_info')) {
+      $reqs['users_export'] = array(
+        'title'       => st('Users Export'),
+        'description' => st('Please upgrade <a href="!url">Loft Data Grids</a> to the 2.x branch immediately!', array(
+          '!url' => url('http://www.intheloftstudios.com/packages/php/drupal_loft_data_grids'),
+        )),
+        'severity'    => REQUIREMENT_ERROR,
+        'value'       => st('Outdated dependency'),
+      );
+    }
+  }
+
+  return $reqs;
+}
+
+/** @} */ //end of group users_export

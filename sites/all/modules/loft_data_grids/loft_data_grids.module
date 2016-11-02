@@ -1,0 +1,258 @@
+<?php
+/**
+ * @file
+ * Base module file for loft_data_grids
+ *
+ * @defgroup loft_data_grids Loft Data Grids
+ * @{
+ */
+use AKlump\LoftDataGrids\ExportDataInterface;
+
+/**
+ * Implements hook_boot().
+ */
+function loft_data_grids_boot() {
+  require_once dirname(__FILE__) . '/vendor/autoload.php';
+}
+
+/**
+ * Implements hook_permission().
+ */
+function loft_data_grids_permission() {
+  $perms = array();
+  foreach (loft_data_grids_export_info() as $data) {
+    $perms['loft_data_grids:' . $data['id']] = array(
+      'title'       => t('Visible in UI: @id', array('@id' => $data['name'])),
+      'description' => check_plain($data['description']),
+    );
+  }
+
+  return $perms;
+}
+
+/**
+ * Return info about the export formats available
+ *
+ * @param type $string
+ *   description
+ *
+ * @return array
+ *   - path
+ *   - loaded
+ *   - name
+ *   - description
+ *   - version
+ *   - author
+ *   - installed
+ */
+function loft_data_grids_info() {
+  $info = &drupal_static(__FUNCTION__, array());
+  if (empty($info)) {
+    $info = array(
+      'path'   => drupal_get_path('module', 'loft_data_grids') . '/vendor/aklump/loft_data_grids',
+      'loaded' => class_exists(loft_data_grids_ns('Exporter')),
+    );
+
+    $info_file = $info['path'] . '/loft_data_grids.info';
+    if (($info['installed'] = file_exists($info_file))
+      && ($parsed = parse_ini_file($info_file))
+    ) {
+      $info += $parsed;
+    }
+
+    $info += array(
+      'name'      => pathinfo(__FILE__, PATHINFO_FILENAME),
+      'version'   => '',
+      'installed' => FALSE,
+    );
+  }
+
+  return $info;
+}
+
+/**
+ * Return an array of Exporter classnames dynamically loaded and cached
+ *
+ * @return array
+ */
+function _loft_data_grids_get_exporter_names() {
+  $exporters = &drupal_static(__FUNCTION__, array());
+  if (empty($exporters)) {
+    if ($cache = cache_get('loft_data_grids:exporters', 'cache')) {
+      $exporters = empty($cache->data) ? NULL : $cache->data;
+    }
+    else {
+      // Set the default values
+      $exporters = array();
+      $cache = (object) array('data' => array());
+    }
+    if (empty($exporters)) {
+      $info = loft_data_grids_info();
+
+      // This is a protection against fatal errors when we include the $path.
+      // This could happen on an upgrade from 1.x to 2.x
+      if ($info['loaded']) {
+        $possible = file_scan_directory($info['path'] . '/src', '/\.php$/');
+        foreach ($possible as $path => $data) {
+          $class = loft_data_grids_ns($data->name);
+          if (!class_exists($class) && !interface_exists($class)) {
+            include_once $path;
+          }
+          if (in_array(loft_data_grids_ns('ExporterInterface'), class_implements($class))) {
+            $class = new \ReflectionClass($class);
+            if (!$class->isAbstract()) {
+              $exporters[] = $data->name;
+            }
+          }
+        }
+
+        // Formatters added by our module.
+        $exporters[] = 'DrupalTableExporter';
+
+        cache_set('loft_data_grids:exporters', $exporters, 'cache', CACHE_PERMANENT);
+      }
+    }
+  }
+
+  return $exporters;
+}
+
+/**
+ * Return an array of exporters info
+ *
+ * @param  bool $check_access (Optional, defaults to FALSE) Should the current
+ *                            users permission be applied against all exporters?
+ *
+ * @return array
+ *   Keyed by classname (not fully qualified with ns use loft_data_grids_ns())
+ */
+function loft_data_grids_export_info($check_access = FALSE) {
+  $info = &drupal_static(__FUNCTION__, array());
+  if (empty($info) && ($data = loft_data_grids_export_data())) {
+    $classnames = _loft_data_grids_get_exporter_names();
+    foreach ($classnames as $classname) {
+      $object = loft_data_grids_exporter($data, $classname);
+      $info[$classname] = array(
+          'id' => $classname,
+        ) + $object->getInfo();
+    }
+    drupal_alter('loft_data_grids_export_info', $info);
+  }
+
+  if ($check_access) {
+    foreach ($info as $key => $data) {
+      if (!user_access('loft_data_grids:' . $data['id'])) {
+        unset($info[$key]);
+      }
+    }
+  }
+
+  return $info;
+}
+
+/**
+ * Return an array suitable for form options keyed by classname
+ *
+ * @param  boolean $check_access         Check permissions
+ * @param  boolean $include_descriptions Include the description in the label
+ * @param  boolean $use_shortname        Use shortname over name for label
+ *
+ * @return array                         Keys are classnames, values are human
+ *   options.
+ */
+function loft_data_grids_exporter_options($check_access = TRUE, $include_descriptions = TRUE, $use_shortname = TRUE) {
+  $options = &drupal_static(__FUNCTION__, array());
+  if (empty($options)) {
+    foreach (loft_data_grids_export_info($check_access) as $data) {
+
+      // Do not include html it will break for select lists
+      $label = '';
+      $label .= $use_shortname && isset($data['shortname']) ? $data['shortname'] : $data['name'];
+      $label .= ' (' . $data['extension'] . ')';
+      if ($include_descriptions) {
+        $label .= ' ' . $data['description'];
+      }
+      $options[$data['id']] = $label;
+    }
+  }
+
+  return $options;
+}
+
+
+/**
+ * Create a fully-qualified ns from classnmae
+ *
+ * @param  string $classname
+ *
+ * @return  string
+ */
+function loft_data_grids_ns($classname) {
+  $classname = trim($classname, '\\');
+  $ns = 'AKlump\LoftDataGrids\\';
+  if (strpos($classname, $ns) !== 0) {
+    $classname = $ns . $classname;
+  }
+
+  return $classname;
+}
+
+/**
+ * Instantiate a new ExportData object
+ *
+ * @param mixed $page_id
+ *   (Optional) Defaults to 0.
+ *
+ * @return bool|mixed
+ */
+function loft_data_grids_export_data($page_id = 0, $classname = 'ExportData') {
+  $classname = loft_data_grids_ns($classname);
+  if (class_exists($classname)) {
+    return new $classname($page_id);
+  }
+
+  return FALSE;
+}
+
+/**
+ * Instantiate a new ExportData object
+ *
+ * This wrapper should be used for compatability issues with multiple library
+ * locations such as PHPExcel
+ *
+ * @param ExportDataInterface $data
+ * @param string              $classname
+ *   The name of any of the various Exporter classes
+ * @param string              $filename
+ *   (Optional) Defaults to ''.
+ *
+ * @return mixed
+ */
+function loft_data_grids_exporter(ExportDataInterface $data, $classname, $filename = '') {
+  $classname = loft_data_grids_ns($classname);
+  $object = FALSE;
+  try {
+    $object = new $classname($data, $filename);
+  } catch (Exception $e) {
+    watchdog_exception('loft_data_grids', $e);
+  }
+
+  return $object;
+}
+
+/**
+ * Instantiate a new Formatter object.
+ *
+ * @param mixed  $text
+ * @param string $classname Name of the formatter
+ *
+ * @return mixed|false
+ */
+function loft_data_grids_formatter($text, $classname) {
+  $classname = loft_data_grids_ns($classname);
+  if (class_exists($classname)) {
+    return new $classname($page_id);
+  }
+
+  return FALSE;
+}

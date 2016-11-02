@@ -1,0 +1,43 @@
+<?php
+/**
+ * @file
+ * Handles installation steps for loft_data_grids
+ *
+ * @ingroup func_search
+ * @{
+ */
+
+/**
+ * Implements hook_requirements().
+ *
+ * Checks installation requirements and do status reporting.
+ * http://api.drupal.org/api/function/hook_requirements
+ *
+ * @param phase 'install' or 'runtime':
+ *
+ * @return A keyed array of requirements
+ */
+function loft_data_grids_requirements($phase) {
+  $reqs = array();
+  $t = get_t();
+  if ($phase == 'runtime') {
+    $info = loft_data_grids_info();
+    $reqs['loft_data_grids'] = array(
+      'title'    => $info['name'],
+      'value'    => isset($info['homepage']) ? l($info['version'], $info['homepage']) : $info['version'],
+      'severity' => REQUIREMENT_OK,
+    );
+    if (empty($info['installed'])) {
+      $reqs['loft_data_grids']['value'] = isset($info['homepage']) ? l('Not found!', $info['homepage']) : 'Not found!';
+      $reqs['loft_data_grids']['description'] = $t('The Loft Data Grids dependencies are missing; see README for installation instructions.');
+      $reqs['loft_data_grids']['severity'] = REQUIREMENT_ERROR;
+    }
+    elseif (empty($info['loaded'])) {
+      $reqs['loft_data_grids']['value'] = isset($info['homepage']) ? l('Not loaded!', $info['homepage']) : 'Not loaded!';
+      $reqs['loft_data_grids']['description'] = $t('The Loft Data Grids dependencies were found but not loaded; see README for installation instructions.');
+      $reqs['loft_data_grids']['severity'] = REQUIREMENT_ERROR;
+    }
+  }
+
+  return $reqs;
+}
