@@ -22,6 +22,15 @@ function quicket_menu() {
     'file' => 'quicket_update_user.inc',
   );
   
+  $items['quicket/quicket_qc_agree'] = array(
+    'title' => t('quicket loop to check user has a ticket code'),
+    'description' => t('quicket update user'),
+    'page callback' => 'quicket_qc_agree',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+    'file' => 'quicket_update_user.inc',
+  );
+  
   return $items;
 }
 
