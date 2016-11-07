@@ -67,3 +67,29 @@ div#edit-account {
   padding: 16px 20px;
 }
 >>>>>>> a17959e935cd1baf43d76266e98a43ac74f5d313
+
+
+
+
+
+
+
+@media print{
+  .page-wrangle-artworks-art-grant-ananymous-review img {
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    max-height: 11cm;
+  }
+  .views-row li {
+    width: 100%;
+    text-align: center;
+  }
+  ul{
+    list-style:none;
+  }
+    
+}
+
+
+
