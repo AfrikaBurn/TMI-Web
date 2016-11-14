@@ -1,0 +1,16 @@
+name = Views Contact Form
+description = Views Contact Form
+core = 7.x
+dependencies[] = views
+files[] = views_contact_form.module
+files[] = views_contact_form.form.inc
+files[] = views/views_contact_form.views.inc
+files[] = views/views_contact_form_style.inc
+files[] = views/views_contact_form_handler.inc
+
+; Information added by Drupal.org packaging script on 2016-04-18
+version = "7.x-1.6"
+core = "7.x"
+project = "views_contact_form"
+datestamp = "1460979541"
+

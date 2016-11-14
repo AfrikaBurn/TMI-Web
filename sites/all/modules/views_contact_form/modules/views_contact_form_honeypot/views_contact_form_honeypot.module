@@ -1,0 +1,8 @@
+<?php
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ */
+function views_contact_form_honeypot_form_views_contact_form_contact_form_alter(&$form, &$form_state, $form_id) {
+  honeypot_add_form_protection($form, $form_state, array('honeypot', 'time_restriction'));
+}

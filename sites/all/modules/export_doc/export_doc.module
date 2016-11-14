@@ -1,0 +1,113 @@
+<?php
+
+/**
+ * @file
+ * The main file of export_doc.
+ */
+
+define('EXPORT_DOC_PER', 1);
+define('EXPORT_DOC_ALL', 2);
+
+/**
+ * Implements hook_theme().
+ */
+function export_doc_theme($existing, $type, $theme, $path) {
+  return array(
+    'export_doc' => array(
+      'template' => 'templates/export-doc',
+    ),
+  );
+}
+
+/**
+ * Implements hook_theme_registry_alter().
+ */
+function export_doc_theme_registry_alter(&$theme_registry) {
+  if (isset($theme_registry['print_node'])) {
+    $theme_registry['print_node']['template'] = drupal_get_path('module', 'export_doc') . "/templates/print_node";
+  }
+}
+
+/**
+ * Implements hook_action_info().
+ */
+function export_doc_action_info() {
+  return array(
+    'export_doc_export_action' => array(
+      'type' => 'node',
+      'label' => t('Export node to Word'),
+      'configurable' => TRUE,
+      'aggregate' => TRUE,
+    ),
+  );
+}
+
+/**
+ * Implementation of action_function_form().
+ */
+function export_doc_export_action_form($context) {
+  $export_dir = file_build_uri(variable_get('export_doc_dir', 'export_doc'));
+  file_prepare_directory($export_dir, FILE_CREATE_DIRECTORY);
+
+  $form['export_type'] = array(
+    '#title' => t('Select export type'),
+    '#type' => 'select',
+    '#options' => array(EXPORT_DOC_PER => t('Export file per node'), EXPORT_DOC_ALL => t('Aggregrate to single file')),
+    '#description' => t('All the export file will save to files/export_doc, and will replace exists export files.'),
+  );
+  return $form;
+}
+
+
+/**
+ * Implementation of action_function_submit().
+ */
+function export_doc_export_action_submit($form, $form_state) {
+  return array(
+    'export_type' => $form_state['values']['export_type'],
+  );
+}
+
+/**
+ * Implementation of action_function().
+ */
+function export_doc_export_action(&$nodes, $context) {
+  module_load_include('inc', 'print', 'print.pages');
+  $export_type = $context['export_type'];
+  $export_dir = file_build_uri(variable_get('export_doc_dir', 'export_doc'));
+  $export_separator = variable_get('export_doc_separator', "<p></p><span><br clear=all style='page-break-before:always'></span><p></p>");
+  $doc = '';
+
+  foreach ($nodes as $node) {
+    $content = export_doc_content($node);
+    switch ($export_type) {
+      case EXPORT_DOC_PER:
+        $doc = theme('export_doc', array('content' => $content));
+        $filename = "node-" . $node->nid . ".doc";
+        file_save_data($doc, $export_dir . '/' . $filename, FILE_EXISTS_REPLACE);
+        drupal_set_message(t('Exported node can !download here.', array('!download' => l(t('download'), file_create_url($export_dir) . "/" . $filename))));
+        break;
+
+      case EXPORT_DOC_ALL:
+        $doc .= $content . $export_separator;
+        break;
+    }
+  }
+
+  if ($export_type == EXPORT_DOC_ALL) {
+    $filename = 'export-' . date('Ymd-Hi') . '.doc';
+    $doc = theme('export_doc', array('content' => $doc));
+    file_save_data($doc, $export_dir . '/' . $filename, FILE_EXISTS_REPLACE);
+    drupal_set_message(t('Exported node can !download here.', array('!download' => l(t('download'), file_create_url($export_dir) . "/" . $filename))));
+  }
+}
+
+/**
+ * Process node content.
+ */
+function export_doc_content(&$node) {
+  // Borrow print, then we can adjust display field in content type.
+  $print = print_controller($node->nid, NULL, NULL, PRINT_HTML_FORMAT);
+  $content = $print->content;
+  return $content;
+}

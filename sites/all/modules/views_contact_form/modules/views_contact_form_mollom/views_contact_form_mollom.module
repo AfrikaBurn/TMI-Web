@@ -1,0 +1,34 @@
+<?php
+
+/**
+ * Implements hook_mollom_form_list().
+ */
+function views_contact_form_mollom_mollom_form_list() {
+  return array(
+    'views_contact_form_contact_form' => array(
+      'title' => t('Views Contact Form'),
+    )
+  );
+}
+
+/**
+ * Implements hook_mollom_form_info().
+ */
+function views_contact_form_mollom_mollom_form_info($form_id) {
+  switch ($form_id) {
+    case 'views_contact_form_contact_form':
+      return array(
+        'mode' => MOLLOM_MODE_ANALYSIS,
+        'bypass access' => array('administer contact forms'),
+        'elements' => array(
+          'subject' => t('Subject'),
+          'message' => t('Message'),
+        ),
+        'mapping' => array(
+          'post_title' => 'subject',
+          'author_name' => 'name',
+          'author_mail' => 'mail',
+        ),
+      );
+  }
+}

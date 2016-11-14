@@ -1,0 +1,81 @@
+<?php
+
+module_load_include('inc', 'views_contact_form', 'views_contact_form.form');
+
+/**
+ * Implements hook_views_api().
+ */
+function views_contact_form_views_api() {
+  return array(
+    'api' => 3,
+    'path' => drupal_get_path('module', 'views_contact_form') .'/views',
+  );
+}
+
+/**
+ * Implements hook_mail().
+ */
+function views_contact_form_mail($key, &$message, $params) {
+  $language = $message['language'];
+  $variables = array(
+    '!site-name' => variable_get('site_name', 'Drupal'),
+    '!subject' => $params['subject'],
+    '!form-url' => url($_GET['q'], array('absolute' => TRUE, 'language' => $language)),
+    '!sender-name' => format_username($params['sender']),
+    '!sender-mail' => $params['sender']->mail,
+  );
+
+  if (empty($params['subject'])) {
+    $subject = t('A message from !sender-name (!sender-mail)', $variables, array('langcode' => $language->language));
+  } else {
+    $subject = $params['subject'];
+  }
+
+  switch ($key) {
+    case 'views_contact_form_page_mail':
+    case 'views_contact_form_page_copy':
+      $message['subject'] .= $subject;
+      $message['body'][] = t("Page: !form-url ", $variables, array('langcode' => $language->language));
+      $message['body'][] = t("Sender name: !sender-name", $variables, array('langcode' => $language->language));
+      $message['body'][] = t("Sender mail: !sender-mail", $variables, array('langcode' => $language->language));
+      $message['body'][] = t('Message:');
+      $message['body'][] = $params['message'];
+      break;
+  }
+}
+
+/**
+ * Implements hook_field_formatter_info().
+ *
+ */
+function views_contact_form_field_formatter_info() {
+  $formats = array(
+    'contact_form' => array(
+      'label' => t('Contact form'),
+      'description' => t('Display the default Drupal\'s contact form.'),
+      'field types' => array('email'),
+    ),
+  );
+  return $formats;
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function views_contact_form_field_formatter_view($object_type, $object, $field, $instance, $langcode, $items, $display) {
+  $element = array();
+  switch ($display['type']) {
+    case 'contact_form':
+      $data['emails'] = array();
+      foreach ($items as $email) {
+        if (valid_email_address($email['email'])) {
+          $data['emails'][] = $email['email'];
+        }
+      }
+      if (!empty($data['emails'])) {
+        $element[0] = drupal_get_form('views_contact_form_contact_form', $data);
+      }
+      break;
+  }
+  return $element;
+}

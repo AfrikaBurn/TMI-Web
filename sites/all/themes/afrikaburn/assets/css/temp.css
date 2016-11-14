@@ -1,7 +1,83 @@
 @media (min-width: 980px) {
 
-
 }
+/* Art Grant Review */
+
+.page-wrangle-artworks-art-grant-ananymous-review div label {
+  font-weight: 700;
+}
+
+.page-wrangle-artworks-art-grant-ananymous-review .views-field-field-breakdown-of-expenses li {
+  width: 100%;
+  overflow: auto;
+  border: 1px solid #555;
+}
+
+.page-wrangle-artworks-art-grant-ananymous-review .views-field-field-breakdown-of-expenses li div {
+  float: left;
+  width: 14%;
+  border: 1px solid #555;
+  border-width: 0px 1px;;
+}
+.page-wrangle-artworks-art-grant-ananymous-review .views-field-field-breakdown-of-expenses li .field-name-field-price-total {
+  float: right;
+}
+
+.page-wrangle-artworks-art-grant-ananymous-review .views-field-field-breakdown-of-expenses li div div {
+  width: 100%;
+  border: 0px;
+}
+
+
+.page-wrangle-artworks-art-grant-ananymous-review .views-row li {
+  width: 100%;
+  text-align: center;
+}
+.page-wrangle-artworks-art-grant-ananymous-review ul {
+  list-style: none;
+}
+
+.views-field-field-application-amount {
+  page-break-after: always;
+}
+
+
+.page-art-grant-ananymous-review-images.views-field-title {
+  page-break-before: always;
+}
+
+.page-wrangle-artworks-art-grant-ananymous-review .views-field-title,
+.page-art-grant-ananymous-review-images  .views-field-title {
+  width: 100%;
+  text-align: center;
+}
+.page-wrangle-artworks-art-grant-ananymous-review div.body-content h1,
+.page-art-grant-ananymous-review-images h1 {
+  text-align: center;
+}
+
+.page-wrangle-artworks-art-grant-ananymous-review img,
+.page-art-grant-ananymous-review-images img {
+  max-height: 100mm !important;
+  width: auto !important;
+}
+.views-field-field-please-submit-concept-imag li {
+    width: 100%;
+    text-align: center;
+}
+
+.page-wrangle-artworks-art-grant-ananymous-review div.body-content ol li {
+  margin-left: 0;
+  padding-left: 0;
+  font-size: 0.8em;
+  list-style-type: none;
+}
+
+
+
+
+
+
 
 .user-profile-form .form-radios > div, .group-bb-update .form-radios > div, .group-questionaire .form-radios > div, .group-user .form-radios > div, .field-name-field-booze-short .form-radios > div, .edit-field-year-round-yn .form-radios > div {
   display: none;
@@ -73,23 +149,35 @@ div#edit-account {
 
 
 
-
-@media print{
-  .page-wrangle-artworks-art-grant-ananymous-review img {
-    max-width: 100%;
-    width: auto;
-    height: auto;
-    max-height: 11cm;
-  }
-  .views-row li {
+@media print {
+  
+  
+  
+  div.field-content div.item-list ul li {
     width: 100%;
     text-align: center;
   }
-  ul{
-    list-style:none;
+
+  .page-wrangle-artworks-art-grant-ananymous-review ul {
+    list-style: none;
   }
-    
+  
+  
+}
+
+.page-email-node-field-new-members-email .form-item-mail {
+  display: none;
 }
 
 
 
+
+.page-community .views-row > div {
+  padding-bottom: 13px;
+}
+.page-community .views-row .views-field-title {
+  padding-bottom: 0px;
+}
+.page-community-stage label {
+    font-weight: 700 !important;
+}
