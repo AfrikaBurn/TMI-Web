@@ -179,5 +179,26 @@ div#edit-account {
   padding-bottom: 0px;
 }
 .page-community-stage label {
-    font-weight: 700 !important;
+  font-weight: 700 !important;
+}
+
+
+
+
+.page-test .field-name-field-first-name, .page-test .field-name-field-last-name, .page-test .field-name-field-phone-number {
+  display: none;
+}
+.page-test .contact-form .form-type-checkbox {
+  display: none;
+}
+.page-test .field-name-field-email-address {
+  display: none;
+}
+.views-label-field-creative-lead {
+  background: #cdf;
+  cursor: pointer;
+  display: block;
+}
+.views-label-field-creative-lead:focus ~ .field-name-field-email-address {
+  display: block;
 }

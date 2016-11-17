@@ -1,0 +1,4 @@
+name = afrikaburn
+description = General afrikaburn functions
+package = Afrikaburn
+core = 7.x
