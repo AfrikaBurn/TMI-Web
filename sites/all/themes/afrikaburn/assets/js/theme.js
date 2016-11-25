@@ -97,8 +97,30 @@ $(document).ready(function() {
 		$(this).toggleClass("open");
 		
     }); 
+
+    // var heading = $('.page-theme-camps-form-1-registered .views-row h1.field-content').text();
+    // console.log(heading);
+    // $('.page-theme-camps-form-1-registered .views-field-field-creative-lead label.views-label-field-creative-lead').text($(this).parent().parent()));
+
+	$('.page-community-stage .views-field-field-creative-lead > .field-content').addClass('hidden');
+    $('.page-community-stage .views-field-field-creative-lead label.views-label-field-creative-lead').click(function(e) {
+		var self = $(this).next();
+		if (self.hasClass('hidden')) {
+			self.slideDown( "slow", function() {
+			 	self.toggleClass('hidden');
+			});
+		} else {
+			self.slideUp( "slow", function() {
+				 self.toggleClass('hidden');
+			});
+		}
+		
+	});
 });
 
+
+
+//Toggle visibility of the contact forms on the 
 
 
 

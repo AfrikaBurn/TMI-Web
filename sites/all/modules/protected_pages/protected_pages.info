@@ -1,0 +1,12 @@
+name = Protected Pages
+description = Allow you to protect pages by secure password.
+core = 7.x
+package = Access
+configure = admin/config/system/protected_pages/settings
+
+; Information added by Drupal.org packaging script on 2014-10-09
+version = "7.x-2.4"
+core = "7.x"
+project = "protected_pages"
+datestamp = "1412861131"
+

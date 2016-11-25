@@ -1,0 +1,228 @@
+<?php
+
+/**
+ * @file
+ * This module allows you to protect any page of your website by secure 
+ * password. You can enter urls of pages to protect and set password per page.
+ * Admin (uid = 1) or user with bypass protection permission can view page.
+ */
+
+/**
+ * Implements hook_permission(). 
+ */
+function protected_pages_permission() {
+  return array(
+    'bypass pages password protection' => array(
+      'title' => t('bypass pages password protection'),
+      'description' => t('Bypass password protection of protected pages'),
+    ),
+    'access protected page password screen' => array(
+      'title' => t('access protected page password screen'),
+      'description' => t('Access protected page password screen.'),
+    ),
+    'administer protected pages configuration' => array(
+      'title' => t('access protected pages configuration screen'),
+      'description' => t('Access protected pages configuration screen.'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu().  
+ */
+function protected_pages_menu() {
+  $items = array();
+
+  $items['admin/config/system/protected_pages'] = array(
+    'title' => 'Protected Pages',
+    'description' => 'Configure protected pages setting.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('protected_pages_configure'),
+    'access arguments' => array('administer protected pages configuration'),
+    'file' => 'protected_pages.admin.inc',
+  );
+  $items['admin/config/system/protected_pages/list'] = array(
+    'title' => 'Protected Pages',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+  );
+  $items['admin/config/system/protected_pages/settings'] = array(
+    'title' => 'Settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('protected_pages_settings'),
+    'access arguments' => array('administer protected pages configuration'),
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'protected_pages.admin.inc',
+  );
+
+  $items['admin/config/system/protected_pages/%/edit'] = array(
+    'title' => 'Edit Protected Pages',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('protected_pages_edit', 4),
+    'access arguments' => array('administer protected pages configuration'),
+    'file' => 'protected_pages.admin.inc',
+  );
+
+  $items['admin/config/system/protected_pages/%/delete'] = array(
+    'title' => 'Delete Protected Pages',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('protected_pages_delete_confirm', 4),
+    'access arguments' => array('administer protected pages configuration'),
+    'type' => MENU_CALLBACK,
+    'file' => 'protected_pages.admin.inc',
+  );
+
+  $items['admin/config/system/protected_pages/%/send_email'] = array(
+    'title' => 'Send protected pages details to user by email',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('protected_pages_send_email', 4),
+    'access arguments' => array('administer protected pages configuration'),
+    'file' => 'protected_pages.admin.inc',
+  );
+
+  $items['protected-page'] = array(
+    'title' => 'Protected page - Enter Password',
+    'title callback' => 'protected_pages_get_title',
+    'description' => 'Here you can enter the password for protected pages',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('protected_pages_enter_password'),
+    'access callback' => 'protected_pages_access_callback',
+    'type' => MENU_CALLBACK,
+    'file' => 'protected_pages.inc',
+  );
+  return $items;
+}
+
+/**
+ * Callback function to determine who can enter a password.
+ */
+function protected_pages_access_callback() {
+  global $user;
+
+  if ($user->uid == 1) {
+    return TRUE;
+  }
+  if (!user_access('access protected page password screen')) {
+    return FALSE;
+  }
+
+  if (empty($_GET['protected_page']) || !is_numeric($_GET['protected_page'])) {
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
+/**
+ * Implements hook_init(). 
+ */
+function protected_pages_init() {
+  if (user_access('bypass pages password protection')) {
+    return;
+  }
+
+  $current_path = drupal_strtolower(drupal_get_path_alias($_GET['q']));
+  $normal_path = drupal_get_normal_path($current_path);
+
+  $pid = protected_pages_is_page_locked($current_path, $normal_path);
+  if ($pid) {
+    $query = drupal_get_destination();
+    if (!empty($_SERVER['HTTP_REFERER'])) {
+      $query['back'] = urlencode($current_path);
+    }
+    $query['protected_page'] = $pid;
+    drupal_goto('protected-page', array('query' => $query));
+  }
+  else {
+    $page_node = menu_get_object();
+    if (isset($page_node->nid) && is_numeric($page_node->nid)) {
+      $path_to_node = 'node/' . $page_node->nid;
+      $current_path = drupal_strtolower(drupal_get_path_alias($path_to_node));
+      $normal_path = drupal_get_normal_path($current_path);
+      $pid = protected_pages_is_page_locked($current_path, $normal_path);
+      if ($pid) {
+        $query = drupal_get_destination();
+        if (!empty($_SERVER['HTTP_REFERER'])) {
+          $query['back'] = urlencode($current_path);
+        }
+        $query['protected_page'] = $pid;
+        drupal_goto('protected-page', array('query' => $query));
+      }
+    }
+  }
+}
+
+/**
+ * Helper function to check whether the path is protected or not.
+ */
+function protected_pages_is_page_locked($current_path, $normal_path) {
+
+  $pid = db_select('protected_pages')
+      ->fields('protected_pages', array('pid'))
+      ->condition(db_or()->condition('path', $current_path)->condition('path', $normal_path))
+      ->range(0, 1)
+      ->execute()
+      ->fetchField();
+
+  if (isset($_SESSION['_protected_page']['passwords'][$pid]['expire_time'])) {
+    if (time() >= $_SESSION['_protected_page']['passwords'][$pid]['expire_time']) {
+      unset($_SESSION['_protected_page']['passwords'][$pid]['request_time']);
+      unset($_SESSION['_protected_page']['passwords'][$pid]['expire_time']);
+    }
+  }
+  if (isset($_SESSION['_protected_page']['passwords'][$pid]['request_time'])) {
+    return FALSE;
+  }
+  return $pid;
+}
+
+/**
+ * Title Callback for enter password page.
+ */
+function protected_pages_get_title() {
+  return check_plain(variable_get('protected_pages_title', t('Protected Page -- Enter password')));
+}
+
+/**
+ * The default email subject. 
+ */
+function protected_pages_email_subject() {
+  return t("Please visit this new page");
+}
+
+/**
+ * The default email body. 
+ */
+function protected_pages_email_body() {
+  return t("Dear friend,
+
+I just created a new page on my website and wanted to invite you to
+visit. The page is protected by password. Please find the details below:-
+
+Page Url = [protected-page-url]
+Page Password = password here
+
+Thank you.
+[site-name]"
+  );
+}
+
+/**
+ * Implements hook_mail(). 
+ */
+function protected_pages_mail($key, &$message, $params) {
+  switch ($key) {
+    case 'protected_pages_details_mail':
+      $tokens = array('[protected-page-url]', '[site-name]');
+      $replcements = array(
+        $params['protected_page_url'], check_plain(variable_get('site_name', '')),
+      );
+
+      $body = str_replace($tokens, $replcements, $params['body']);
+
+      $subject = $params['subject'];
+      $message['subject'] = $subject;
+      $message['body'][] = $body;
+
+      break;
+  }
+}

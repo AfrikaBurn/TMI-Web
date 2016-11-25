@@ -1,0 +1,65 @@
+<?php
+
+/**
+ * @file
+ * Protected Pages install file.
+ */
+
+/**
+ * Implements hook_schema(). 
+ */
+function protected_pages_schema() {
+  $schema['protected_pages'] = array(
+    'fields' => array(
+      'pid' => array(
+        'description' => 'The primary key always unique.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'password' => array(
+        'type' => 'varchar',
+        'description' => 'The password of the protected page.',
+        'length' => '128',
+        'not null' => TRUE,
+      ),
+      'path' => array(
+        'type' => 'varchar',
+        'description' => 'The path of the protected page.',
+        'length' => '255',
+        'not null' => TRUE,
+      ),
+    ),
+    'indexes' => array(
+      'path' => array('path'),
+    ),
+    'primary key' => array('pid'),
+  );
+  return $schema;
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function protected_pages_uninstall() {
+  variable_del('protected_pages_user_global_password');
+  variable_del('protected_pages_session_expire_time');
+  variable_del('protected_pages_email_subject');
+  variable_del('protected_pages_email_body');
+  variable_del('protected_pages_title');
+  variable_del('protected_pages_description');
+  variable_del('protected_pages_password_label');
+  variable_del('protected_pages_submit_button_text');
+  variable_del('protected_pages_global_password');
+  variable_del('protected_pages_global_password_field');
+  variable_del('protected_pages_incorrect_password_msg');
+}
+
+/**
+ * Implements hook_enable().
+ */
+function protected_pages_enable() {
+  drupal_set_message(t('The Protected Pages module has been successfully enabled.
+    Visit the <a href="@permissions">permissions</a>, and set the permissions.',
+    array('@permissions' => url('admin/people/permissions', array('fragment' => 'module-protected_pages')))));
+}
