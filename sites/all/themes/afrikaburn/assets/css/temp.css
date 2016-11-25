@@ -1,5 +1,27 @@
 @media (min-width: 980px) {
 
+  .page-wrangle-theme-camps-pre-registrations table, .page-wrangle-mutant-vehicles table {
+    width: 940px;
+  }
+  .page-wrangle-theme-camps-pre-registrations .views-field.views-field-field-comment-editable {
+    min-width: 40%;
+  }
+  
+  .page-wrangle-mutant-vehicles .views-field-field-contact-person div {
+    width: 100%;
+    max-width: 100%;
+  } 
+  .page-wrangle-mutant-vehicles .views-field-field-contact-person .field-label {
+    width: 31%;
+    float: left;
+  } 
+  .page-wrangle-mutant-vehicles .views-field-field-contact-person .field-items {
+    width: 69%;
+    float: left;
+  }
+  .page-wrangle-mutant-vehicles .views-field-field-please-submit-concept-imag {
+    width: 100px;
+  }
 }
 /* Art Grant Review */
 
