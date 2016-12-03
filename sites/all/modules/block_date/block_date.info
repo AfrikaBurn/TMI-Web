@@ -6,9 +6,9 @@ package = Date/Time
 dependencies[] = block
 dependencies[] = date
 
-; Information added by Drupal.org packaging script on 2015-12-21
-version = "7.x-1.3"
+; Information added by Drupal.org packaging script on 2016-11-22
+version = "7.x-1.4"
 core = "7.x"
 project = "block_date"
-datestamp = "1450676647"
+datestamp = "1479817110"
 

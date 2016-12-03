@@ -1,0 +1,37 @@
+<?php
+
+/**
+ * @file
+ * Installation functions for module node_limit_type.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function node_limit_type_schema() {
+  $schema['node_limit_type'] = array(
+    'description' => 'The table for applying node limits to a content type',
+    'fields' => array(
+      'lid' => array(
+        'description' => 'The {node_limit}.lid',
+        'type' => 'int',
+        'not null' => TRUE
+      ),
+      'type' => array(
+        'description' => 'The {node}.type to which this limit applies',
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => ''
+      )
+    ),
+    //the limit-type combination is unique
+    /**
+     * this means that in the future, we may allow a limit to be applied to more
+     * than one type.  right now, though, its one-type-per-limit
+     */
+    'primary key' => array('lid', 'type')
+  );
+
+  return $schema;
+}

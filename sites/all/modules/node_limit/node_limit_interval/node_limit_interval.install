@@ -1,0 +1,57 @@
+<?php
+
+/**
+ * @file
+ * Installation functions for module node_limit_interval.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function node_limit_interval_schema() {
+  $schema['node_limit_interval'] = array(
+    'description' => 'The table for applying node limits to a time interval',
+    'fields' => array(
+      'lid' => array(
+        'description' => 'The {node_limit}.lid',
+        'type' => 'int',
+        'not null' => TRUE
+      ),
+      'ninterval' => array(
+        'description' => 'The interval for this limit',
+        'type' => 'int',
+        'not null' => TRUE
+      ),
+      'unit' => array(
+        'description' => 'The unit for the interval',
+        'type' => 'int',
+        'not null' => TRUE
+      )
+    ),
+    'primary key' => array('lid')
+  );
+
+  return $schema;
+}
+
+/**
+ * Renaming interval field to avoid mysql restricted name usage
+ */
+function node_limit_interval_update_7001() {
+  // Cannot use db_change_field() because of the restricted name
+  $ret = db_query("ALTER TABLE {node_limit_interval} CHANGE `interval` `interval_value` INT(11) NOT NULL DEFAULT '0' COMMENT 'The interval for this limit'");
+  return !empty($ret);
+}
+
+/**
+ * Renaming interval field to avoid mysql restricted name usage
+ */
+function node_limit_interval_update_7002() {
+  $ret = db_change_field('node_limit_interval', 'interval_value', 'ninterval', 
+    array(
+      'description' => 'The interval for this limit',
+      'type' => 'int',
+      'not null' => TRUE
+    ));
+  return !empty($ret);
+}

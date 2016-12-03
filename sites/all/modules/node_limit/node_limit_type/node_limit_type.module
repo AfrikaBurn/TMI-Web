@@ -1,0 +1,124 @@
+<?php
+
+/**
+ * @file
+ * Module to restrict the number of nodes by content type.
+ */
+
+/**
+ * Implements hook_node_type_delete().
+ *
+ * Delete all rules related to the node type being deleted.
+ */
+function node_limit_type_node_type_delete($info) {
+  $limits = db_select('node_limit_type', 'src')
+    ->fields('src', array('lid'))
+    ->condition('type', $info->type)
+    ->execute();
+  $lids = array();
+  foreach ($limits as $limit) {
+    $lids[] = $limit->lid;
+  }
+  node_limit_delete($lids);
+}
+
+/**
+ * Implements hook_node_limit_applies_in_context().
+ */
+function node_limit_type_node_limit_applies_in_context($lid, $node, $user) {
+  $limit = node_limit_type_node_limit_load($lid);
+  $applies = NODE_LIMIT_LIMIT_DOES_APPLY;
+  if (empty($limit)) {
+    $applies = NODE_LIMIT_LIMIT_NEUTRAL;
+  }
+  elseif ($limit['node_limit_type'] != $node->type) {
+    $applies = NODE_LIMIT_LIMIT_DOESNT_APPLY;
+  }
+  return array('node_limit_type' => $applies);
+}
+
+/**
+ * Implements hook_node_limit_sql().
+ */
+function node_limit_type_node_limit_sql($lid, SelectQuery $select) {
+  $limit = node_limit_type_node_limit_load($lid);
+  if (empty($limit)) return;
+  
+  $select->condition('type', $limit['node_limit_type']);
+}
+
+/**
+ * Implements hook_node_limit_element().
+ */
+function node_limit_type_node_limit_element($lid = 0) {
+  $limit = node_limit_type_node_limit_load($lid);
+  $types = _node_limit_type_content_types();
+  $type = !empty($limit['node_limit_type']) ? $limit['node_limit_type'] : '';
+  return array(
+    'node_limit_type' => array(
+      '#type' => 'select',
+      '#title' => t('Content Type'),
+      '#options' => $types,
+      '#default_value' => $type
+    )
+  );
+}
+
+/**
+ * Implements hook_node_limit_element_validate().
+ *
+ * No validation is necessary for node types.
+ */
+function node_limit_type_node_limit_element_validate($element) {
+  return TRUE;
+}
+
+/**
+ * Implements hook_node_limit_save().
+ */
+function node_limit_type_node_limit_save($lid, $applies, $element) {
+  if ($applies) {
+    db_insert('node_limit_type')
+      ->fields(array(
+        'lid' => $lid,
+        'type' => $element,
+      ))
+      ->execute();
+  }
+}
+
+/**
+ * Implements hook_node_limit_delete().
+ */
+function node_limit_type_node_limit_delete($lids) {
+  db_delete('node_limit_type')
+    ->condition('lid', $lids, 'IN')
+    ->execute();
+}
+
+/**
+ * Implements hook_node_limit_load().
+ */
+function node_limit_type_node_limit_load($lid) {
+  $select = db_select('node_limit_type', 'nlt')
+    ->fields('nlt')
+    ->condition('lid', $lid);
+
+  $info = $select->execute()->fetchAssoc();
+  if (empty($info['lid'])) {
+    return array();
+  }
+  return array('node_limit_type' => $info['type']);
+}
+
+/**
+ * Returns an array of available content types.
+ */
+function _node_limit_type_content_types() {
+  $types = array();
+  $content_types = node_type_get_types();
+  foreach ($content_types as $type) {
+    $types[$type->type] = $type->name;
+  }
+  return $types;
+}

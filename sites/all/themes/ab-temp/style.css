@@ -1267,3 +1267,7 @@ body {
 .form-actions {
     width: 100%;
 }
+
+.conditional-fields-overview .form-select {
+    max-width: 300px;
+}

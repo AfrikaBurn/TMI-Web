@@ -1,0 +1,14 @@
+name = Node Limit User
+description = Allows admins to apply a Node Limit to an individual user
+package = Node Limit
+dependencies[] = node_limit
+core = 7.x
+
+files[] = node_limit_user.install
+files[] = node_limit_user.module
+; Information added by drupal.org packaging script on 2012-02-14
+version = "7.x-1.0-alpha5"
+core = "7.x"
+project = "node_limit"
+datestamp = "1329218743"
+
