@@ -1,0 +1,86 @@
+<?php
+
+/**
+ * @file
+ * Installation functions for module node_limit.
+ */
+
+if (!defined("NODE_LIMIT_NO_LIMIT")) define("NODE_LIMIT_NO_LIMIT", -1);
+
+/**
+ * Implements hook_schema().
+ */
+function node_limit_schema() {
+  $schema['node_limit'] = array(
+    'description' => 'The base Node Limit table',
+    'fields' => array(
+      'lid' => array(
+        'description' => 'The limit id',
+        'type' => 'int',
+        'not null' => TRUE
+      ),
+      'type' => array(
+        'description' => 'The {node}.type to which this limit applies',
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => ''
+      ),
+      'nlimit' => array(
+        'description' => 'The node limit for this limit',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => NODE_LIMIT_NO_LIMIT
+      ),
+      'title' => array(
+        'description' => 'The display name for this limit',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => ''
+      ),
+      'weight' => array(
+        'description' => 'The weight of this limit',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0
+      ),
+    ),
+    'primary key' => array('lid')
+  );
+  return $schema;
+}
+
+/**
+ * Implements hook_update_N().
+ * Renaming limit field to avoid mysql restricted name usage.
+ */
+function node_limit_update_7001() {
+  // Cannot use db_change_field() because of the restricted name
+  $ret = db_query("ALTER TABLE {node_limit} CHANGE `limit` `limit_count` INT(11) NOT NULL DEFAULT '-1' COMMENT 'The node limit for this limit'");
+  return !empty($ret);
+}
+
+/**
+ * Implements hook_update_N().
+ * Renaming limit_count field to keep names consistency.
+ */
+function node_limit_update_7002() {
+  $ret = db_change_field('node_limit', 'limit_count', 'nlimit', 
+    array(
+      'description' => 'The node limit for this limit',
+      'type' => 'int',
+      'not null' => TRUE,
+      'default' => NODE_LIMIT_NO_LIMIT
+    ));
+  return !empty($ret);
+}
+
+/**
+ * Implements hook_disable().
+ */
+function node_limit_disable() {
+  db_delete('variable')
+    ->condition('name', 'node_limit_%', 'LIKE')
+    ->execute();
+}

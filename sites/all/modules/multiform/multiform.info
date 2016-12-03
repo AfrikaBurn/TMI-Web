@@ -1,0 +1,13 @@
+
+name = Multiple forms
+description = Allows displaying and submitting multiple forms in one form
+files[] = multiform.module
+files[] = tests/multiform.test
+core = 7.x
+
+; Information added by Drupal.org packaging script on 2016-11-16
+version = "7.x-1.3"
+core = "7.x"
+project = "multiform"
+datestamp = "1479276241"
+

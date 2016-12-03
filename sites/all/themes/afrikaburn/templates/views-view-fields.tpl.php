@@ -29,7 +29,6 @@
 
 
 
-
 <?php foreach ($fields as $id => $field): ?>
   <?php if (!empty($field->separator)): ?>
     <?php print $field->separator; ?>
@@ -47,4 +46,5 @@
       ?>
       <<?php print $field->element_type; ?> class="field-content"><?php print $field->content; ?></<?php print $field->element_type; ?>>
   </<?php print $field->inline_html;?>>
+  
 <?php endforeach; ?>
