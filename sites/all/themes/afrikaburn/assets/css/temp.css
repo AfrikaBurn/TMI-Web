@@ -1,0 +1,187 @@
+@media (min-width: 980px) {
+
+}
+/* Art Grant Review */
+
+.page-wrangle-artworks-art-grant-ananymous-review div label {
+  font-weight: 700;
+}
+
+.page-wrangle-artworks-art-grant-ananymous-review .views-field-field-breakdown-of-expenses li {
+  width: 100%;
+  overflow: auto;
+  border: 1px solid #555;
+}
+
+.page-wrangle-artworks-art-grant-ananymous-review .views-field-field-breakdown-of-expenses li div {
+  float: left;
+  width: 14%;
+  border: 1px solid #555;
+  border-width: 0px 1px;;
+}
+.page-wrangle-artworks-art-grant-ananymous-review .views-field-field-breakdown-of-expenses li .field-name-field-price-total {
+  float: right;
+}
+
+.page-wrangle-artworks-art-grant-ananymous-review .views-field-field-breakdown-of-expenses li div div {
+  width: 100%;
+  border: 0px;
+}
+
+
+.page-wrangle-artworks-art-grant-ananymous-review .views-row li {
+  width: 100%;
+  text-align: center;
+}
+.page-wrangle-artworks-art-grant-ananymous-review ul {
+  list-style: none;
+}
+
+.views-field-field-application-amount {
+  page-break-after: always;
+}
+
+
+.page-art-grant-ananymous-review-images.views-field-title {
+  page-break-before: always;
+}
+
+.page-wrangle-artworks-art-grant-ananymous-review .views-field-title,
+.page-art-grant-ananymous-review-images  .views-field-title {
+  width: 100%;
+  text-align: center;
+}
+.page-wrangle-artworks-art-grant-ananymous-review div.body-content h1,
+.page-art-grant-ananymous-review-images h1 {
+  text-align: center;
+}
+
+.page-wrangle-artworks-art-grant-ananymous-review img,
+.page-art-grant-ananymous-review-images img {
+  max-height: 100mm !important;
+  width: auto !important;
+}
+.views-field-field-please-submit-concept-imag li {
+    width: 100%;
+    text-align: center;
+}
+
+.page-wrangle-artworks-art-grant-ananymous-review div.body-content ol li {
+  margin-left: 0;
+  padding-left: 0;
+  font-size: 0.8em;
+  list-style-type: none;
+}
+
+
+
+
+
+
+
+.user-profile-form .form-radios > div, .group-bb-update .form-radios > div, .group-questionaire .form-radios > div, .group-user .form-radios > div, .field-name-field-booze-short .form-radios > div, .edit-field-year-round-yn .form-radios > div {
+  display: none;
+}
+.user-profile-form .form-radios > div ~ div, .group-bb-update .form-radios > div ~ div, .group-questionaire .form-radios > div ~ div, .group-user .form-radios > div ~ div, .field-name-field-booze-short .form-radios > div ~ div, .edit-field-year-round-yn .form-radios > div ~ div { 
+  display: block;
+}
+
+.field-name-field-imported-from-wordpress {
+    display: none;
+}
+.field-name-field-updated {
+  display: none;
+}
+.field-name-field-quicket-code {
+  display: none;
+}
+.field-name-field-quicket-id, .field-name-field-bb-no-teens-tickets, .field-name-field-bb-no-kids-tickets {
+  display: none;
+}
+
+<<<<<<< HEAD
+
+/*-- Radio Styling --*/
+input[type="radio"] + div.radio-checkbox-dummy, input[type="checkbox"] + div.radio-checkbox-dummy
+{
+background: #fff url("/sites/all/themes/afrikaburn/assets/images/afrikaburn-icons-new.png") no-repeat scroll center -1e+7px / 200px auto;
+border-radius: 10px;
+-moz-border-radius: 10px;
+-webkit-border-radius: 10px;
+}
+
+/*-- Username new line --*/
+div#edit-account {
+	clear: both;}
+
+
+/*-- Form labels --*/
+.page-theme-camps-form-1-registered .field-label, .page-performance-registered .field-label, .page-mutant-vehicle-registered .field-label, .page-mutant-vehicle-grants .field-label, .page-creative-grants-registered .field-label,  .page-artwork-registered .field-label, {
+	display: none;}
+
+=======
+.button-general {
+  max-width: 400px;
+  min-width: 200px;
+  background-color: #000;
+  height: 45px;
+  border-width: 0;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  box-shadow: none;
+  text-align: center;
+  color: #fff;
+  font-size: 14px;
+  line-height: 14px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-family: FuturaBook,Arial;
+  font-weight: 400;
+  display: block;
+  box-sizing: border-box;
+  padding: 16px 20px;
+}
+>>>>>>> a17959e935cd1baf43d76266e98a43ac74f5d313
+
+
+
+
+
+
+@media print {
+  
+  
+  
+  div.field-content div.item-list ul li {
+    width: 100%;
+    text-align: center;
+  }
+
+  .page-wrangle-artworks-art-grant-ananymous-review ul {
+    list-style: none;
+  }
+  
+  
+}
+
+.page-email-node-field-new-members-email .form-item-mail {
+  display: none;
+}
+
+
+
+
+
+
+
+.page-test .field-name-field-first-name, .page-test .field-name-field-last-name, .page-test .field-name-field-phone-number {
+  display: none;
+}
+.page-test .contact-form .form-type-checkbox {
+  display: none;
+}
+.page-test .field-name-field-email-address {
+  display: none;
+}
+

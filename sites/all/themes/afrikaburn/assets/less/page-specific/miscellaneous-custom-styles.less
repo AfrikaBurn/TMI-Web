@@ -1,3 +1,9 @@
+@ab-peach: #f26c55;
+@ab-peach-lighter: #ff8a76;
+@ab-peach-darker: #c65541;
+
+@ab-maroon: #961116;
+
 div.banners {
 	position: relative;
 }
@@ -128,7 +134,7 @@ div.body-content textarea {
 		overflow: hidden;
 	}
 	.navbar .navbar-inner .nav-collapse ul.menu ul.menu li {
-		border-top: 1px solid #961116;
+		border-top: 1px solid @ab-maroon;
 	}
 }
 
@@ -201,5 +207,48 @@ body.node-type-artwork-registration div.field-label,
 body.node-type-performance-registration div.field-label,
 body.node-type-creative-grant-application div.field-label,
 body.node-type-mutant-vehicles-grant div.field-label {
-	color: #f26c55;
+	color: @ab-peach;
+}
+
+/*---Community pages (List theme camps, performances, stages) and allow visitors to contact---*/
+
+.page-community .views-row,
+.page-community-stage .views-row {
+	border-bottom: 1px solid @ab-maroon;
+}
+.page-community .views-row > div,
+.page-community-stage .views-row > div{
+  padding-bottom: 13px;
+}
+.page-community .views-row .views-field-title,
+.page-community-stage .views-row .views-field-title {
+  padding-bottom: 0px;
+}
+
+.page-community .views-row label,
+.page-community-stage .views-row label {
+	color: @ab-peach;
+	margin-bottom: 15px;
+	font-weight: 700;
+}
+
+.page-community .views-row .form-item label,
+.page-community-stage .views-row .form-item label {
+	color: @body-content-text-color;
+}
+
+.page-community-stage label.views-label-field-creative-lead,
+.page-community label.views-label-field-new-members-email  {
+	background-color: @ab-peach;
+	color: #fff;
+	border-radius: @general-button-border-radius;
+	padding: 10px 15px;
+	margin: 15px 0;
+	display: block;
+	cursor: pointer;
+}
+
+.page-community-stage label.views-label-field-creative-lead:hover,
+.page-community label.views-label-field-new-members-email:hover {
+	background-color: @ab-peach-lighter;
 }

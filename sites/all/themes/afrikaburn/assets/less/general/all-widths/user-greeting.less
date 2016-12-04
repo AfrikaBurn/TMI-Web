@@ -1,9 +1,19 @@
+/*---User name and profile picture---*/
+body.not-logged-in div.user-greeting {
+	display: none;
+}
+
 div.user-greeting {
 	float: right;
 }
 
+aside.block-user-picture-block {
+	float: left;
+}
+
 div.user-greeting div.user_picture_block {
 	float: left;
+	height: auto;
 }
 
 div.user-greeting div.user_picture_block a {
@@ -14,8 +24,16 @@ div.user-greeting div.user_picture_block a {
 	-webkit-border-radius: 3px;
 	float: left;
 	overflow: hidden;
-	border: 1px solid #000;
+	
+	
+}
+
+div.user-greeting div.user_picture_block img {
 	margin-top: 4px;
+	max-width: 30px;
+	max-height: 30px;
+	border: 1px solid #000;
+	float: left;
 }
 
 div.user-greeting div.user_picture_block h3 {
@@ -27,6 +45,7 @@ div.user-greeting div.user_picture_block h3 {
 	padding: 14px 8px;
 	line-height: 100%;
 	color: #fff;
+	margin: 0;
 }
 
 div.user-greeting div.user-menu-icon {
@@ -48,7 +67,7 @@ div.user-greeting div.user-menu-icon:hover {
 
 div.user-greeting div.user-menu-icon:hover span.user-icon-bar,
 div.user-greeting div.user-menu-icon.active span.user-icon-bar {
-	background-color: #f26c55;
+	background-color: @ab-peach;
 }
 
 @media(min-width: 980px) {
@@ -65,7 +84,7 @@ div.user-greeting div.user-menu-icon.active span.user-icon-bar {
 	}
 }
 
-
+/*---User links for anonymous users, and drop down box with user links for logged in users---*/
 
 div.user-menu,
 div.user-menu ul,
@@ -107,7 +126,7 @@ body.logged-in div.user-menu {
 	position: absolute;
 	top: 44px;
 	right: 0;
-	background: #f26c55;
+	background: @ab-peach;
 	padding: 10px 20px;
 	z-index: 99999;
 	border: 1px solid #ccc;
@@ -115,6 +134,7 @@ body.logged-in div.user-menu {
 	-moz-border-radius: 5px;
 	border-radius: 5px;
 	min-width: 120px;
+	box-shadow: 3px 3px 6px rgba(0,0,0,0.5);
 }
 
 body.logged-in div.user-menu.show {
@@ -137,7 +157,7 @@ body.logged-in div.user-menu:after  {
 body.logged-in div.user-menu:after {
 	border-color: transparent;
 	border-width: 8px;
-	border-bottom-color: #f26c55;
+	border-bottom-color: @ab-peach;
 }
 body.logged-in div.user-menu:before {
 	border-color: transparent;
@@ -164,6 +184,10 @@ body.logged-in div.user-menu ul li a {
 	background-size: 200px;
 }
 
+body.logged-in div.user-menu ul li a:hover {
+	color: #330B13;
+}
+
 body.logged-in div.user-menu ul li a.user {
 	background-position: left -191px;
 }
@@ -173,6 +197,10 @@ body.logged-in div.user-menu ul li a.logout {
 }
 
 @media (max-width: 979px) {
+	body.logged-in div.user-menu {
+		right: 5px;
+		top: 54px;
+	}
 	div.user-menu a {
 		padding-top: 18px;
 		padding-bottom: 15px;

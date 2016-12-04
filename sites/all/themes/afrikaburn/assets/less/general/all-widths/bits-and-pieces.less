@@ -17,6 +17,10 @@ a:focus {
     outline: none;
 }
 
+.hidden {
+	display: none;
+}
+
 select:focus {
 	outline:inherit;
 }
@@ -174,32 +178,7 @@ div.body-content input.button,
 div.input-file-wrapper,
 input[type=submit],
 div.body-content input[type=submit] {
-	max-width: @general-button-max-width;
-	min-width: @general-button-min-width;
-	background-color: @general-button-background-color;
-	*background-color: @general-button-background-color;
-	height: @general-button-height;
-	border-width: 0;
-	border-radius: @general-button-border-radius;
-	-moz-border-radius: @general-button-border-radius;
-	-webkit-border-radius: @general-button-border-radius;
-	box-shadow: none;
-	text-align: center;
-	color: @general-button-color;
-	font-size: @general-button-font-size;
-	line-height: @general-button-font-size;
-	letter-spacing: @general-button-letter-spacing;
-	text-transform: @general-button-text-transform;
-	font-family: @general-button-font-family;
-	font-weight: @general-button-font-weight;
-	cursor: pointer;
-	/*float: left;
-	width: auto;
-	clear: both;*/
-	display: block;
-	padding: 0;
-	box-sizing: border-box;	
-	padding: 0 @general-button-side-padding;
+	.button-styles;
 }
 .btn:hover,
 a.btn:hover,

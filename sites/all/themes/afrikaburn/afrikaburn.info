@@ -5,6 +5,7 @@ core = 7.x
 ; CSS
 stylesheets[all][] = assets/css/theme.css
 stylesheets[all][] = assets/css/temp.css
+stylesheets[print][] = css/print.css
 
 ; JS
 scripts[] = assets/js/jquery-3.1.0.min.js

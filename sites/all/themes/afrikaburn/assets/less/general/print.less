@@ -1,0 +1,77 @@
+@media print {
+	#top-bar,
+	#header,
+	#social-media-links-bar,
+	#menu-bar,
+	#mobile-menu-bar,
+	.sidebar-outer,
+	#footer,
+	#copyright,
+	.contextual-links-wrapper {
+		display:none !important;
+	}
+
+	body,
+	div#wrapper,
+	#main-content-strip,
+	.container-3,
+	.container-2,
+	.container-1,
+	.body-content td,
+	.body-content th {
+		background: #fff !important;
+	}
+
+	div.body-content {
+		font-size: 1.2em !important;
+		color: #111;
+	}
+	div.body-content table th,
+	div.body-content table td,
+	div.body-content ul li, div.body-content ol li, {
+		font-family: @main-font-family !important;
+		font-size: 1em;
+		color: #111 !important;
+	}
+
+	h1,
+	h2,
+	h3,
+	h4,
+	div.body-content h1,
+	div.body-content h2,
+	div.body-content h3,
+	div.body-content h4,  {
+		font-weight: 600;
+		font-family: @main-font-family !important;
+		text-transform: none !important;
+		text-align: left;
+	}
+
+	div.body-content h1 {
+	    font-size: 3em;
+	}
+
+	div.body-content a {
+		text-decoration: none;
+		font-weight: 600;
+		color: #ff5e0e !important;
+	}
+
+	div.field-content div.item-list ul li {
+		padding-left: 0;
+		margin-left: 0;
+		list-style-type: none;
+	}
+
+	div.views-row,
+	div.views-row .field,
+	div.views-row .field-content {
+		margin-bottom: 15px;
+	}
+
+	div.field-label {
+		font-weight: 600;
+		color: #008575;
+	}
+}
