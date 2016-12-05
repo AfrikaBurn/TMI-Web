@@ -45,6 +45,21 @@ function rotateImages() {
       });
 }
 
+function toggleContactForm(clickedElement) {
+	var contactForm = clickedElement.next();
+	if (contactForm.hasClass('hidden')) {
+		contactForm.slideDown( "slow", function() {
+		 	contactForm.toggleClass('hidden');
+		 	var scrollBarPosition = clickedElement.offset().top - 15;
+        	$('html,body').animate({scrollTop: scrollBarPosition}, 300);
+		});
+	} else {
+		contactForm.slideUp( "slow", function() {
+			 contactForm.toggleClass('hidden');
+		});
+	}
+}
+
 
 $(document).ready(function() {
   	radioCheckBoxWrapper();
@@ -102,20 +117,17 @@ $(document).ready(function() {
     // console.log(heading);
     // $('.page-theme-camps-form-1-registered .views-field-field-creative-lead label.views-label-field-creative-lead').text($(this).parent().parent()));
 
-	$('.page-community-stage .views-field-field-creative-lead > .field-content').addClass('hidden');
-    $('.page-community-stage .views-field-field-creative-lead label.views-label-field-creative-lead').click(function(e) {
-		var self = $(this).next();
-		if (self.hasClass('hidden')) {
-			self.slideDown( "slow", function() {
-			 	self.toggleClass('hidden');
-			});
-		} else {
-			self.slideUp( "slow", function() {
-				 self.toggleClass('hidden');
-			});
-		}
-		
-	});
+	
+
+	$('.page-community .views-field-field-creative-lead > .field-content,' +
+		'.page-community .views-field-field-new-members-email > .field-content').addClass('hidden');
+
+    $('.page-community .views-field-field-creative-lead label.views-label-field-creative-lead,' +
+    	'.page-community .views-field-field-new-members-email label.views-label-field-new-members-email').click(function(e) {
+    		var clickedElement = $(this);
+    		toggleContactForm(clickedElement);
+    });
+    	
 });
 
 

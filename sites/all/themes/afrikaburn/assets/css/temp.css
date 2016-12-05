@@ -1,48 +1,5 @@
 @media (min-width: 980px) {
 
-  .page-wrangle-theme-camps-pre-registrations table, .page-wrangle-mutant-vehicles table {
-    width: 940px;
-  }
-  .page-wrangle-theme-camps-pre-registrations .views-field.views-field-field-comment-editable {
-    min-width: 40%;
-  }
-  
-  .page-wrangle-mutant-vehicles .views-field-field-contact-person div {
-    width: 100%;
-    max-width: 100%;
-  } 
-  .page-wrangle-mutant-vehicles .views-field-field-contact-person .field-label {
-    width: 31%;
-    float: left;
-  } 
-  .page-wrangle-mutant-vehicles .views-field-field-contact-person .field-items {
-    width: 69%;
-    float: left;
-  }
-  .page-wrangle-mutant-vehicles .views-field-field-please-submit-concept-imag {
-    width: 100px;
-  }
-}
-/* Subsidised Tickets */
-
-.node-type-subsidised-ticket #comments {
-  display: none;
-}
-.node-type-subsidised-ticket .field-label {
-  font-weight: 700;
-  padding-top: 20px;
-}
-.page-node-add-subsidised-ticket #edit-field-proof-of-income {
-  display: none;
-}
-.page-wrangle-tickets-subsidised .views-table {
-    width: 940px;
-}
-.page-wrangle-tickets-subsidised .form-select {
-    max-width: 80px;
-}
-.page-wrangle-tickets-subsidised .views-row-edit-static {
-    display: none;
 }
 /* Art Grant Review */
 
@@ -215,16 +172,6 @@ div#edit-account {
 
 
 
-.page-community .views-row > div {
-  padding-bottom: 13px;
-}
-.page-community .views-row .views-field-title {
-  padding-bottom: 0px;
-}
-.page-community-stage label {
-  font-weight: 700 !important;
-}
-
 
 
 
@@ -237,11 +184,4 @@ div#edit-account {
 .page-test .field-name-field-email-address {
   display: none;
 }
-.views-label-field-creative-lead {
-  background: #cdf;
-  cursor: pointer;
-  display: block;
-}
-.views-label-field-creative-lead:focus ~ .field-name-field-email-address {
-  display: block;
-}
+
