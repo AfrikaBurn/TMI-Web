@@ -159,7 +159,7 @@ function media_wysiwyg_token_to_markup($match, $wysiwyg = FALSE, $langcode = NUL
     }
 
     $attributes = is_array($tag_info['attributes']) ? $tag_info['attributes'] : array();
-    $attribute_whitelist = variable_get('media_wysiwyg_wysiwyg_allowed_attributes', _media_wysiwyg_wysiwyg_allowed_attributes_default());
+    $attribute_whitelist = media_wysiwyg_allowed_attributes();
     $settings['attributes'] = array_intersect_key($attributes, array_flip($attribute_whitelist));
     $settings['fields'] = $fields;
 
@@ -206,7 +206,7 @@ function media_wysiwyg_token_to_markup($match, $wysiwyg = FALSE, $langcode = NUL
   // the rest of this function, so that if the file is themed as a link, the
   // desired text will be used (see, for example, theme_file_link()).
   // @todo: Try to find a less hacky way to do this.
-  if (isset($tag_info['link_text'])) {
+  if (isset($tag_info['link_text']) && variable_get('media_wysiwyg_use_link_text_for_filename', 1)) {
     // The link text will have characters such as "&" encoded for HTML, but the
     // filename itself needs the raw value when it is used to build the link,
     // in order to avoid double encoding.
@@ -236,7 +236,7 @@ function media_wysiwyg_token_to_markup($match, $wysiwyg = FALSE, $langcode = NUL
       'view_mode' => $tag_info['view_mode'],
       'link_text' => $tag_info['link_text'],
     );
-    drupal_add_js(array('mediaDataMap' => array($file->fid => $data)), 'setting');
+    drupal_add_js(array('mediaDataMap' => array($file->fid => $data), 'mediaDoLinkText' => (boolean)(variable_get('media_wysiwyg_use_link_text_for_filename', 1))), 'setting');
     $element['#attributes']['data-fid'] = $file->fid;
     $element['#attributes']['data-media-element'] = '1';
     $element['#attributes']['class'][] = 'media-element';
@@ -295,6 +295,15 @@ function media_wysiwyg_token_to_markup($match, $wysiwyg = FALSE, $langcode = NUL
 function media_wysiwyg_filter_field_parser($tag_info) {
   $fields = array();
   if (isset($tag_info['fields'])) {
+    // Field names that end in [format] are associated with long-text fields that may have HTML Entities.
+    // Those values will need to be URLDecoded as well as HTMLDecoded.
+    $url_encoded_fields = array();
+    foreach($tag_info['fields'] as $field_name => $field_value) {
+      if (preg_match('/\[format\]$/', $field_name) > 0){
+        $url_encoded_fields[] = preg_replace('/\[format\]$/', '[value]', $field_name);
+      }
+    }
+
     foreach($tag_info['fields'] as $field_name => $field_value) {
       if (strpos($field_name, 'field_') === 0) {
         $parsed_field = explode('[', str_replace(']', '', $field_name));
@@ -329,8 +338,14 @@ function media_wysiwyg_filter_field_parser($tag_info) {
         }
 
         // The value should be set at the deepest level.
-        // Fields that use rich-text markup will be urlencoded.
-        $ref = decode_entities($field_value);
+        if (in_array($field_name, $url_encoded_fields)){
+          // Fields that use rich-text markup will be urlencoded.
+          $ref = urldecode(decode_entities($field_value));
+        }
+        else {
+          // Only entities need to be decoded.
+          $ref = decode_entities($field_value);
+        }
       }
     }
   }

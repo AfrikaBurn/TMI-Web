@@ -174,40 +174,31 @@
     replacePlaceholderWithToken: function(content) {
       Drupal.media.filter.ensure_tagmap();
 
-      // Replace all media placeholders with their JSON macro representations.
-      //
-      // There are issues with using jQuery to parse the WYSIWYG content (see
-      // http://drupal.org/node/1280758), and parsing HTML with regular
-      // expressions is a terrible idea (see http://stackoverflow.com/a/1732454/854985)
-      //
-      // WYSIWYG editors act wacky with complex placeholder markup anyway, so an
-      // image is the most reliable and most usable anyway: images can be moved by
-      // dragging and dropping, and can be resized using interactive handles.
-      //
-      // Media requests a WYSIWYG place holder rendering of the file by passing
-      // the wysiwyg => 1 flag in the settings array when calling
-      // media_get_file_without_label().
-      //
-      // Finds the media-element class.
-      var classRegex = 'class=[\'"][^\'"]*?media-element';
-      // Image tag with the media-element class.
-      var regex = '<img[^>]+' + classRegex + '[^>]*?>';
-      // Or a span with the media-element class (used for documents).
-      // \S\s catches any character, including a linebreak; JavaScript does not
-      // have a dotall flag.
-      regex += '|<span[^>]+' + classRegex + '[^>]*?>[\\S\\s]+?</span>';
-      var matches = content.match(RegExp(regex, 'gi'));
-      if (matches) {
-        for (i = 0; i < matches.length; i++) {
-          var markup = matches[i];
-          var macro = Drupal.media.filter.create_macro($(markup));
-          // If we have a truthy response, store the macro and perform the
-          // replacement.
-          if (macro) {
-            Drupal.settings.tagmap[macro] = markup;
-            content = content.replace(markup, macro);
+      // Locate and process all the media placeholders in the WYSIWYG content.
+      var contentElements = $('<div/>').html(content);  // TODO: once baseline jQuery is 1.8+, switch to using $.parseHTML(content)
+      var mediaElements = contentElements.find('.media-element');
+      if (mediaElements) {
+        $(mediaElements).each(function (i) {
+          // Attempt to derive a JSON macro representation of the media placeholder.
+          // Note: Drupal 7 ships with JQuery 1.4.4, which allows $(this).attr('outerHTML') to retrieve the eement's HTML,
+          // but many sites use JQuery update to increate this to 1.6+, which insists on $(this).prop('outerHTML). 
+          // Until the minimum jQuery is >= 1.6, we need to do this the old-school way. 
+          // See http://stackoverflow.com/questions/2419749/get-selected-elements-outer-html
+          var markup = $(this).get(0).outerHTML;
+          if (markup === undefined) {
+            // Browser does not support outerHTML DOM property.  Use the more expensive clone method instead.
+            markup = $(this).clone().wrap('<div>').parent().html();
           }
-        }
+          var macro = Drupal.media.filter.create_macro($(markup));
+          if (macro) {
+            // Replace the placeholder with the macro in the parsed content.
+            // (Can't just replace the string section, because the outerHTML may be subtly different,
+            // depending on the browser. Parsing tends to convert <img/> to <img>, for instance.)
+            Drupal.settings.tagmap[macro] = markup;
+            $(this).replaceWith(macro);
+          }
+        });
+        content = $(contentElements).html();
       }
 
       return content;
@@ -345,7 +336,7 @@
           });
 
           // Extract the link text, if there is any.
-          file_info.link_text = element.find('a').html();
+          file_info.link_text = (Drupal.settings.mediaDoLinkText) ? element.find('a').html() : false;
 
           // When a file is embedded, its fields can be overridden. To allow for
           // the edge case where the same file is embedded multiple times with
@@ -430,13 +421,20 @@
      * Generates a unique "delta" for each embedding of a particular file.
      */
     fileEmbedDelta: function(fid, element) {
+      // Ensure we have an object to track our deltas.
+      Drupal.settings.mediaDeltas = Drupal.settings.mediaDeltas || {};
+
       // Check to see if the element already has one.
       if (element && element.data('delta')) {
-        return element.data('delta');
+        var existingDelta = element.data('delta');
+        // If so, make sure that it is being tracked in mediaDeltas.
+        if (!Drupal.settings.mediaDeltas[fid]) {
+          Drupal.settings.mediaDeltas[fid] = existingDelta;
+        }
+        return existingDelta;
       }
       // Otherwise, generate a new one. Arbitrarily start with 1.
       var delta = 1;
-      Drupal.settings.mediaDeltas = Drupal.settings.mediaDeltas || {};
       if (Drupal.settings.mediaDeltas[fid]) {
         delta = Drupal.settings.mediaDeltas[fid] + 1;
       }

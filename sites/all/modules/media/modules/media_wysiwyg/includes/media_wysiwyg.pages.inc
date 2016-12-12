@@ -139,7 +139,7 @@ function media_wysiwyg_format_form_view_mode(&$form, $form_state, $file)  {
 
   $form['preview'] = array();
   $form['preview']['#prefix'] = '<div class="media-item"><div class="media-thumbnail">';
-  $form['preview']['#suffix'] = '</div><div class="label-wrapper"><label class="media-filename">' . $file->filename . '</label></div></div>';
+  $form['preview']['#suffix'] = '</div><div class="label-wrapper"><label class="media-filename">' . check_plain($file->filename) . '</label></div></div>';
   $form['preview']['thumbnail'] = file_view_file($file, $view_mode);
   $form['preview']['thumbnail']['#prefix'] = '<div id="media-preview">';
   $form['preview']['thumbnail']['#suffix'] = '</div>';

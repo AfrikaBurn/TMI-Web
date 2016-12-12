@@ -30,6 +30,31 @@ Drupal.behaviors.mediaFormatForm = {
   }
 };
 
+Drupal.media.formatForm.getEditorContent = function(fieldKey) {
+  // This is the default implementation of an overridable function: 
+  // Each javascript rich-text editor module should provide an override implementation 
+  // of this function which fetches content from the appropriate editor-specific variable.
+  
+  // This current implementation explicitly handles the editors from the
+  // WYSIWYG and Media CKEditor modules: it should be modified to remove that
+  // as soon as each module has been confirmed to provide their own implementation.
+
+  if (Drupal.wysiwyg && Drupal.wysiwyg.instances[fieldKey]) {
+    // Retrieve the content from the editor provided by the WYSIWYG Module.
+    // Remove this case once the WYSIWYG module provides an override for this function.
+    return Drupal.wysiwyg.instances[fieldKey].getContent();
+  }
+  else if (typeof CKEDITOR !== 'undefined' && CKEDITOR.instances[fieldKey]) {
+    // Retrieve the content from the editor provided by the Media CKEditor Module.
+    // Remove this case once the Media CKEditor module provides an override for this function.
+    return CKEDITOR.instances[fieldKey].getData();
+  }
+  else {
+    // Default case => no known WYSIWYG editor.
+    return null;
+  }
+}
+
 Drupal.media.formatForm.getOptions = function () {
   // Get all the values
   var ret = {};
@@ -51,18 +76,29 @@ Drupal.media.formatForm.getOptions = function () {
 
     ret[field.name] = field.value;
 
-    // When a field uses a WYSIWYG format, the value needs to be extracted.
+    // When a field uses a WYSIWYG format, the value needs to be extracted and encoded.
     if (field.name.match(/\[format\]/i)) {
       field.name = field.name.replace(/\[format\]/i, '[value]');
-      field.key  = 'edit-' + field.name.replace(/[_\[]/g, '-').replace(/[\]]/g, '');
+      field.key = 'edit-' + field.name.replace(/[_\[]/g, '-').replace(/[\]]/g, '');
 
-      if (Drupal.wysiwyg && Drupal.wysiwyg.instances[field.key]) {
-        // Retrieve the content from the WYSIWYG instance.
-        ret[field.name] = Drupal.wysiwyg.instances[field.key].getContent();
-
-        // Encode the content to play nicely within JSON.
-        ret[field.name] = encodeURIComponent(ret[field.name]);
+      // Attempt to retrieve content for this field from any associated javascript rich-text editor.
+      var editorContent = Drupal.media.formatForm.getEditorContent(field.key);
+      if (editorContent) {
+        // Replace the already-cached value with the value from the editor.
+        ret[field.name] = editorContent;
       }
+      else {
+        // An editor was not used for this field - either because none was configured for the selected format,
+        // or possibly because the user chose to revert to the plain-text editor (CKEditor allows that).
+        // Replace the already-cached value with the raw value from the long-text field value.
+        // (Replacment is needed because this function may be invoked multiple times on the same field,
+        // and so the cached value may already have been encoded - we don't want to double-encode it!)
+        ret[field.name] = $('#' + field.key).val();
+      }
+
+      // Encode the formatted value to play nicely within JSON.
+      // (It could contain HTML and other quoted entities, no matter what sort of editor was used)
+      ret[field.name] = encodeURIComponent(ret[field.name]);
     }
   });
 
