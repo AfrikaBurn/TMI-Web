@@ -1,5 +1,11 @@
 @media (min-width: 980px) {
 
+/* DMV Registration form */
+.page-wrangle-mutant-vehicles-registrations .views-table.cols-5 {
+  width: 940px;
+}
+
+
 }
 /* Art Grant Review */
 
@@ -185,3 +191,13 @@ div#edit-account {
   display: none;
 }
 
+
+/* DELETE!!! */
+.views-field.views-field-field-performer-type-editable, .views-field.views-field-field-performer-types-editable{
+    max-width: 40%;
+    width: 40%;
+    vertical-align: text-bottom;
+}
+.page-fix-performer-types .views-table.cols-3 {
+    max-width: 940px;
+}
