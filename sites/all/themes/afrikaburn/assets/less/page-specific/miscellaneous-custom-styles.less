@@ -143,6 +143,7 @@ div.body-content textarea {
 		width: 39%;
 		left: inherit;
 		right: 10px;
+		top: 54px;
 	}
 
 	div#top-bar {
@@ -153,29 +154,14 @@ div.body-content textarea {
 		margin-top: -54px;
 	}
 
-	/*div.user-menu {
-		float: left;
-		margin-left: 62px;
-	}*/
-
-	/*div.social-media-links {
-		float: left;
-		margin-top: 5px;
-	}*/
-
 	div.sidebar-outer,
 	section#footer {
 		display: none;
 	}
 }
 
-@media (max-width: 979px) {
-	div.logo-container {
-		top: 54px;
-	}
-}
-
 /*---Add formatting to user profile page and all form results pages---*/
+
 body.page-user div.field,
 body.node-type-theme-camps div.field,
 body.node-type-mutant-vehicles div.field,
@@ -212,32 +198,31 @@ body.node-type-mutant-vehicles-grant div.field-label {
 
 /*---Community pages (List theme camps, performances, stages) and allow visitors to contact---*/
 
-.page-community .views-row,
-.page-community-stage .views-row {
+.page-community .views-row {
 	border-bottom: 1px solid @ab-maroon;
 }
-.page-community .views-row > div,
-.page-community-stage .views-row > div{
+.page-community .views-row > div {
   padding-bottom: 13px;
 }
-.page-community .views-row .views-field-title,
-.page-community-stage .views-row .views-field-title {
+.page-community .views-row .views-field-titlee {
   padding-bottom: 0px;
 }
 
-.page-community .views-row label,
-.page-community-stage .views-row label {
+.page-community .views-row label {
 	color: @ab-peach;
 	margin-bottom: 15px;
 	font-weight: 700;
 }
 
-.page-community .views-row .form-item label,
-.page-community-stage .views-row .form-item label {
+.page-community .views-row .form-item label {
 	color: @body-content-text-color;
 }
 
-.page-community-stage label.views-label-field-creative-lead,
+.page-community .form-item-copy {
+   display: none;
+}
+
+.page-community label.views-label-field-creative-lead,
 .page-community label.views-label-field-new-members-email  {
 	background-color: @ab-peach;
 	color: #fff;
@@ -248,7 +233,7 @@ body.node-type-mutant-vehicles-grant div.field-label {
 	cursor: pointer;
 }
 
-.page-community-stage label.views-label-field-creative-lead:hover,
+.page-community label.views-label-field-creative-lead:hover,
 .page-community label.views-label-field-new-members-email:hover {
 	background-color: @ab-peach-lighter;
 }
