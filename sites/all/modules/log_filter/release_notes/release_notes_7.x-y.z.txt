@@ -1,0 +1,14 @@
+Log Filter 7.x-y.z
+
+
+New features
+------------
+* X
+
+Bug fixes
+---------
+* Y
+
+Install/update notes
+--------------------
+* Z

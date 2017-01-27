@@ -1,0 +1,16 @@
+<?php
+
+/**
+ * @file
+ * Uninstall functions for the Better descriptions module.
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function better_field_descriptions_uninstall() {
+
+  // Delete variables.
+  variable_del('better_field_descriptions');
+  variable_del('better_field_descriptions_settings');
+}
