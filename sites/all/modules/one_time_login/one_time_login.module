@@ -1,0 +1,59 @@
+<?php
+
+/**
+ * @file
+ * Generate a CSV of one-time login links.
+ */
+
+/**
+ * Implements hook_user_operations().
+ */
+function one_time_login_user_operations() {
+  $operations = array(
+    'one_time_login_send_password_reset' => array(
+      'label' => t('Send password recovery e-mail to the selected users'),
+      'callback' => 'one_time_login_send',
+      'callback arguments' => array('password_reset'),
+    ),
+  );
+  return $operations;
+}
+
+/**
+ * Sends one-time login links.
+ */
+function one_time_login_send($accounts, $op) {
+  $accounts = user_load_multiple($accounts);
+  foreach ($accounts as $account) {
+    _user_mail_notify($op, $account);
+  }
+}
+
+/**
+ * Implements hook_action_info().
+ */
+function one_time_login_action_info() {
+  return array(
+    'one_time_login_send_password_reset' => array(
+      'type' => 'user',
+      'label' => t('Send password recovery e-mail to user'),
+      'configurable' => FALSE,
+      'triggers' => array('any'),
+    ),
+  );
+}
+
+/**
+ * Sends password recovery e-mail to a user.
+ */
+function one_time_login_send_password_reset($entity, $context = array()) {
+  _user_mail_notify('password_reset', $entity);
+  watchdog('one_time_login', 'Sent password recovery e-mail to user %name.', array('%name' => $entity->name));
+}
+
+/**
+ * Implements hook_views_api().
+ */
+function one_time_login_views_api() {
+  return array('api' => 3);
+}
