@@ -1,0 +1,181 @@
+<?php
+/**
+ * @file
+ *  Drupal Log Filter module
+ */
+
+/**
+ * Implements hook_permission().
+ *
+ * Define permission types (Drupal API function).
+ *
+ * @return array
+ */
+function log_filter_permission() {
+  return array(
+    'log_filter administer' => array(
+      'title' => t('Administer log filtering'),
+      'restrict access' => TRUE,
+    ),
+    'log_filter edit filters' => array(
+      'title' => t('Create/edit/delete saveable log filters'),
+    ),
+    'log_filter remove logs' => array(
+      'title' => t('Remove logs'),
+      'restrict access' => TRUE,
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu().
+ *
+ * Declares configuration page.
+ *
+ * @return array
+ */
+function log_filter_menu() {
+  $items = array(
+    //  Settings page.
+    'admin/config/system/log_filter' => array(
+      'title' => 'Log Filter',
+      'description' => 'Configure Log Filtering',
+      'page callback' => 'drupal_get_form', // hook to implement
+      'page arguments' => array('_log_filter_admin_form'), // name of implementing function
+      'access arguments' => array('log_filter administer'), // permission required
+      'file' => 'admin/log_filter.admin.inc',
+      'type' => MENU_NORMAL_ITEM,
+      'theme callback' => 'log_filter_use_admin_theme',
+    ),
+    //  AJAX callback.
+    'log_filter/ajax/%' => array( // % ~ action
+      'page callback' => 'log_filter_ajax_callback',
+      'page arguments' => array(2), // start at that bucket index
+      'access callback' => TRUE,
+      'access arguments' => array('access site reports'), // Permission required.
+      'type' => MENU_CALLBACK,
+    ),
+  );
+
+  //  NB: Accessing a saved filter is done via an extra url argument after admin/reports/dblog/log_filter; see LogFilter::FILTER_NAME_ARG.
+  //  And accessing a log event is done by adding /NUMBER to the end of url (saved filter or not).
+
+  // Take over the url of dblog's default viewer.
+  $i = 0;
+  // Overwrite dblog's default viewer.
+  $items['admin/reports/dblog'] = array(
+    'title' => 'Recent log messages',
+    'description' => 'View logged events using filters',
+    'page callback' => 'drupal_get_form', // Hook to implement.
+    'page arguments' => array('log_filter_form'), // Name of implementing function.
+    'access arguments' => array('access site reports'), // Permission required.
+    'type' => MENU_NORMAL_ITEM,
+    'theme callback' => 'log_filter_use_admin_theme', // Do always administrative theme, if set so.
+    'weight' => -1,
+  );
+  $items['admin/reports/dblog/log_filter'] = array(
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'title' => 'Recent log messages',
+    'weight' => ++$i,
+  );
+  $items['admin/reports/dblog/log_filter_settings'] = array(
+    'title' => 'Log filter settings',
+    'description' => 'Configure Log Filtering',
+    'page callback' => 'drupal_get_form', // hook to implement
+    'page arguments' => array('_log_filter_admin_form'), // name of implementing function
+    'access arguments' => array('log_filter administer'), // permission required
+    'file' => 'admin/log_filter.admin.inc',
+    'type' => MENU_LOCAL_TASK,
+    'theme callback' => 'log_filter_use_admin_theme', // Do always administrative theme, if set so.
+    'weight' => ++$i,
+  );
+  // Add dblog's default viewer as a tab.
+  if (module_exists('dblog')) {
+    $items['admin/reports/dblog/dblog_view'] = array(
+      'title' => 'Standard dblog view',
+      'description' => 'View events that have recently been logged.',
+      'page callback' => 'dblog_overview',
+      'access arguments' => array('access site reports'),
+      'type' => MENU_LOCAL_TASK,
+      'file path' => drupal_get_path('module', 'dblog'),
+      'file' => 'dblog.admin.inc',
+      'theme callback' => 'log_filter_use_admin_theme', // Do always administrative theme, if set so.
+      'weight' => ++$i,
+    );
+  }
+
+  return $items;
+}
+
+/**
+ * Forces administrative on log view pages, unless this feature has been turned off on this module's settings page.
+ *
+ * @return string
+ */
+function log_filter_use_admin_theme() {
+  return variable_get('log_filter_admintheme', TRUE) ? variable_get('admin_theme') : (
+    !empty($GLOBALS['user']->theme) ? $GLOBALS['user']->theme : variable_get('theme_default', 'seven')
+  );
+}
+
+/**
+ * Removes clear log form from standard dblog log view page.
+ *
+ * @param array &$form
+ * @param array &$form_state
+ * @return void
+ */
+function log_filter_form_dblog_clear_log_form_alter(&$form, &$form_state) {
+  $form['dblog_clear'] = array();
+}
+
+/**
+ * Defines log viewer form and GUI.
+ *
+ * Function name not underscore prefixed to prevent html form id starting with hyphen (unhealthy naming).
+ *
+ * @param array $form
+ * @param array &$form_state
+ * @return array
+ */
+function log_filter_form($form, &$form_state) {
+  module_load_include('inc', 'log_filter', 'LogFilter');
+  return LogFilter::viewerForm($form, $form_state);
+}
+
+/**
+ * Called when log viewer form submits.
+ *
+ * @param array $form
+ * @param array &$form_state
+ * @return void
+ */
+function _log_filter_form_submit($form, &$form_state) {
+  module_load_include('inc', 'log_filter', 'LogFilter');
+  LogFilter::viewerFormSubmit($form, $form_state);
+}
+
+/**
+ * @param array $form
+ * @param array &$form_state
+ * @return void
+ */
+function log_filter_admin_form_submit($form, &$form_state) {
+  module_load_include('inc', 'log_filter', 'log_filter.admin');
+  _log_filter_admin_form_submit($form, $form_state);
+}
+
+/**
+ * Access permission: 'access site reports'.
+ *
+ * @see LogFilter::ajaxCallback()
+ * @param string $action
+ * @param string $arg
+ *  Default: empty.
+ * @return void
+ *  Sends 403 header if the expected POST vars arent set or their sanitized values evaluates to empty.
+ */
+function log_filter_ajax_callback($action, $arg = '') {
+  module_load_include('inc', 'log_filter', 'LogFilter');
+  LogFilter::ajaxCallback($action, $arg);
+}

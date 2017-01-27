@@ -1,0 +1,196 @@
+judy 7.x-2.x, 2014-04-27
+------------------------
+* Fixed that dialog title couldn't be set as HTML when using later version of jQuery UI (~ jquery_update module support).
+* Fixed that dialog z-index isn't 1000 when using later version of jQuery UI (~ jquery_update module support); which rendered dialog below admin_menu.
+* Fixed that jQuery >=1.9 has no browser property (~ jquery_update module support).
+
+judy 7.x-2.x, 2013-07-21
+------------------------
+* Implemented ajaxcomplete event.
+
+judy 7.x-2.1, 2013-07-04
+--------------------------------------------------
+* Released.
+
+judy 7.x-2.x, 2013-07-04
+------------------------
+* Moved to correctly named development branch.
+
+judy 7.x-2.0.x, 2013-07-04
+--------------------------
+* Added .version property.
+
+judy 7.x-2.0.x, 2013-06-29
+--------------------------
+* Cleanup.
+
+judy 7.x-2.0.x, 2013-06-27
+--------------------------
+* Now adds .keystrokes attribute on keydown/keyup event.
+
+judy 7.x-2.0.x, 2013-06-22
+--------------------------
+* Prevent double disable.
+
+judy 7.x-2.0.x, 2013-05-25
+--------------------------
+* Fixed premature check for jQuery UI dialog support.
+* Implemented contentClass option for Judy.dialog.
+
+judy 7.x-2.0.x, 2013-04-21
+--------------------------
+* Created methods scrollTrap() and scrollTo().
+
+judy 7.x-2.0.x, 2013-03-26
+--------------------------
+* Created multi-element support for enable/disable().
+
+judy 7.x-2.0.x, 2013-03-03
+--------------------------
+* Fixed missing radios support in enable/disable().
+* Made innerWidth/innerHeight/outerWidth/outerHeight() use selector parameter instead of element, and trimmed their algos.
+
+judy 7.x-2.0.x, 2013-03-02
+--------------------------
+* Removed isObject(); use isContainer(o, true) instead.
+* Removed method useragentIE()/useragentIe(); use constant browserIE instead.
+* Removed objectLength(), use Judy.objectKeys(o).length instead.
+* Removed errorHandler(); use inspect.errorHandler() instead.
+* Removed log(); use inspect.console() instead.
+* Removed inspect(); use inspect() directly instead.
+* Removed fieldGet(); use jQuery("[name='" + name + "']").get(0) instead.
+* Made dialog() support all jQuery UI dialog options, events and methods.
+* Fixed dialog()'s autoOpen behaviour.
+* Created overlay().
+* Added stripTags(), setUrlParam(), disable() and enable().
+* Settings page help, and hook_uninstall() implementation.
+
+judy 7.x-2.0.x, 2013-03-01
+--------------------------
+* Removed objectEmpty(); use objectKeys().length instead.
+* Removed checkboxValue(), checklistValue(), radioValue(), selectValue(), textValue(), textareaValue(); use fieldValue() instead.
+* Removed argsToArray(); use toArray() instead (is now IE<9 safe).
+* Methods log(), inspect() and fieldGet() are now deprecated.
+* Created numberToFormat() and numberFromFormat().
+* objectLength() is now deprecated; use objectKeys().length instead.
+
+judy 7.x-2.0.x, 2013-02-28
+--------------------------
+* Eliminated own event model; now uses jQuery events for everything, including key events.
+* Removed eventAdd(), eventRemove().
+* errorHandler() is now deprecated, use inspect.errorHandler() instead.
+* Removed parameter jQueryEvents from method eventList(); all events are now jQuery events.
+* Changed parameter signature for isField(); now only supports element not selector.
+* Removed fieldFocus().
+
+
+judy 7.x-1.3.x, 2013-02-10
+--------------------------
+* Removed initial Inspect dependency; this library should find Inspect (if exists) even if this library gets included before Inspect.
+
+judy 7.x-1.3.x, 2013-02-09
+--------------------------
+* Made judy a library includable via drupal_add_library(), and added admin page.
+
+judy 7.x-1.3.x, 2013-02-02
+--------------------------
+* Fixed midnight bug in .dateFromFormat(), now sets seconds and milliseconds to zero; because 00:00:00 is 'today', whereas 24:00:00 is 'tomorrow', thus a date must start at zero.
+
+judy 7.x-1.3.x, 2013-01-19
+--------------------------
+* Fixed bug in .dialog() - established no element id when falsy selector arg.
+* Fixed bug in .dialog() - failed to get element when called later using #id selector.
+* .dialog() now always returns the id of the dialog box, except for calls using one of the methods.
+
+judy 7.x-1.3.x, 2013-01-05
+--------------------------
+* Fixed bad bug in .selectValue() - setting selectedIndex is seriously unhealthy, may effectively ruin the select.
+
+judy 7.x-1.3.x, 2012-11-18
+--------------------------
+* Added preventDefault parameter to .onKey().
+* Removed keystrokes ctr|meta+alt limitation.
+* Created method .keydown(); full support for data etc.
+
+judy 7.x-1.3.x, 2012-11-10
+--------------------------
+* Added method argsToArray; function arguments are error-prone.
+* Fixed uses of Inspect.
+* Implemented key event adder, that uses jQuery instead of custom event implementation.
+
+judy 7.x-1.3.x, 2012-09-02
+--------------------------
+* eventList() now supports regular and weird structure of jQuery data.
+
+judy 7.x-1.3.x, 2012-07-29
+--------------------------
+* judy data object for events et al now has random name judy_[a-z\d]{20}.
+* Created jQuery.ui.dialog wrapper/factory method.
+
+judy 7.x-1.3.x, 2012-07-26
+--------------------------
+* Return value of selectValue() is now empty string even for multiple select, when none selected or only _none is selected.
+* Added context parameter to isField().
+* Max parameter added to ancestor().
+* checklistValue() done.
+* selectValue() refactored, too messy.
+* Tighter toLeading().
+
+judy 7.x-1.3.x, 2012-07-25
+--------------------------
+* eventRemove() now removes actual element listeners (minor detail ;-).
+* Made containerCopy use Array.concat() when array and shallow copy.
+* Far better isContainer() and isObject(); now checks for all built-in object types, like typeOf().
+* Tuned date formatter.
+* Backend: hook implementation that includes Javascript now implements hook_preprocess_html (instead of hook_init).
+
+judy 7.x-1.3.x, 2012-07-24
+--------------------------
+* Made field methods support element as first argument (not only name), and made the treatment of the type argument more restrictive.
+* Added textValue() and textareaValue().
+* Safer and shorter toArray().
+* Fixed jsdoc comments, for jsdoc parser.
+* objectGet(): better check for bad key arg.
+* Added isNumber().
+* Implemented eventRemove().
+
+judy 7.x-1.3.x, 2012-07-23
+--------------------------
+* Now using Drupal git repository.
+* Moved javascript file inclusion to hook_preprocess() implementation.
+* Code formatting.
+* Started on making field methods accept element, not only name.
+
+judy 7.x-1.2, 2012-03-16
+------------------------
+* Getting value using .selectValue() now returns "" for "_none".
+
+judy 7.x-1.2, 2012-01-19
+------------------------
+* New method toArray
+
+judy 7.x-1.2, 2012-01-12
+------------------------
+* dateFromFormat: check for impossible date, plus more flexible format support.
+* New method isLeapYear
+
+judy 7.x-1.2, 2012-01-11
+------------------------
+* Added toUpperCaseFirst method.
+
+judy 7.x-1.1, 2012-01-11
+------------------------
+* Added isInt method.
+
+judy 7.x-1.0, 2012-01-10
+------------------------
+* Dedicated .innerWidth/Height support for window/document/body.
+* .outerWidth/Height methods.
+
+judy 7.x-1.0, 2012-01-02
+------------------------
+* Construcion and adding of event handler moved to separate function to prevent iteration errors when adding more in one go.
+
+judy 7.x-1.x, 2011-12-26
+------------------------
+* Started

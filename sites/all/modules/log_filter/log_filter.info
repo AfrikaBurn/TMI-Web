@@ -1,0 +1,17 @@
+name = "Log Filter"
+description = "Log Filter provides means of filtering, displaying and deleting dblog/watchdog logs."
+package = Administration
+;Utility
+
+core = 7.x
+php = 5.3
+
+dependencies[] = judy
+
+configure = admin/config/system/log_filter
+; Information added by Drupal.org packaging script on 2014-11-09
+version = "7.x-1.4"
+core = "7.x"
+project = "log_filter"
+datestamp = "1415558584"
+

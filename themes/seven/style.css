@@ -988,3 +988,34 @@ div.add-or-remove-shortcuts {
   -webkit-border-radius: 8px;
   border-radius: 8px;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Alastair added here */
+
+/* Manage Dependencies 
+ * Keep the width from exceeding a pc screen */ 
+table.conditional-fields-overview.sticky-enabled.tableheader-processed.sticky-table td {
+    max-width: 250px;
+}
+table.conditional-fields-overview.sticky-enabled.tableheader-processed.sticky-table select {
+    max-width: 100%;
+}

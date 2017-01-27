@@ -1,0 +1,13 @@
+name = "Judy"
+description = "Judy Javascript Utilities provides features to supplement jQuery."
+package = Javascript Utilities
+
+core = 7.x
+project = judy
+
+; Information added by Drupal.org packaging script on 2014-04-27
+version = "7.x-2.2"
+core = "7.x"
+project = "judy"
+datestamp = "1398616428"
+
