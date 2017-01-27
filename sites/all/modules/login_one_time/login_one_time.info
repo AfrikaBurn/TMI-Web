@@ -1,0 +1,12 @@
+name = Login one time
+description = "Provides functionality for permitted users to send a one-time login link to other users."
+core = 7.x
+package = Authentication
+configure = admin/config/people/login_one_time
+
+; Information added by Drupal.org packaging script on 2016-03-23
+version = "7.x-2.10"
+core = "7.x"
+project = "login_one_time"
+datestamp = "1458701252"
+
