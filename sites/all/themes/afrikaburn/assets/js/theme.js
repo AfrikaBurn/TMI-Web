@@ -147,7 +147,6 @@ $(document).ready(function() {
     	'body.page-node-add-mutant-vehicles fieldset#edit-field-creative-lead-und-0 input').focus(function(e) {
     	console.log($(this).attr('name'));
     });
-    	
 });
 
 
