@@ -97,3 +97,17 @@ function afrikaburn_my_custom_submit_handler($form, &$form_state){
   //drupal_set_message( "Node with nid " . $node->nid . " saved!\n");
   $form_state['redirect']  = '/';
 }
+
+function function afrikaburn_form_volunteer_registration_form_node_form_alter {
+  global $user;
+  $existing_nid = db_query(
+    "SELECT nid FROM {node} WHERE (type = :type) AND uid = :uid", 
+    array(
+      "type" => "volunteer_registration_form",
+      "uid" => $user->uid
+    )
+   )->fetchField();
+  if ($existing_nid != FALSE) {
+    drupal_goto("node/$existing_nid/edit");
+  }
+}
