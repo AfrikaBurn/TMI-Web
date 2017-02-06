@@ -1,3 +1,9 @@
+/*
+no-sidebars class on body will hide the sidebar, and make the rest of the content full width.
+Need some classnames for links on home page.
+If I make the sidebar region on the homepage, can the newsletter signup be put in there?
+*/
+
 @media (min-width: 980px) {
 
   /* DMV Registration form */
@@ -9,9 +15,13 @@
   }
 
   /* Community tickets */ 
-  .page-node-add-community-tickets-and-outreach .main-block, .page-node-add-community-tickets-and-outreach .block-system {
-    width: 940px;
+  .page-node-add-community-tickets-and-outreach .main-block {
+    max-width: 940px;
   }
+
+  .page-node-add-community-tickets-and-outreach .sidebar-outer {
+    display: none;
+  } 
 
   .page-node-add-community-tickets-and-outreach .field-name-field-proof-of-income-private {
     max-width: 400px;
@@ -262,18 +272,11 @@ div#edit-account {
     list-style: none;
   }
   
-  
 }
 
 .page-email-node-field-new-members-email .form-item-mail {
   display: none;
 }
-
-
-
-
-
-
 
 .page-test .field-name-field-first-name, .page-test .field-name-field-last-name, .page-test .field-name-field-phone-number {
   display: none;

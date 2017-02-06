@@ -1,6 +1,11 @@
 <?php
+<<<<<<< HEAD
 /*
 function afrikaburn_form_alter(&$form, &$form_state, $form_id){
+=======
+
+/*function afrikaburn_form_alter(&$form, &$form_state, $form_id){
+>>>>>>> df260c0ccdfa3629cd01ea452f5bbfbd39e312f1
   
   if( $form_id == 'volunteer_shifts_manage_node_form' ){
     drupal_set_message("New node created: " . $form_id, 'warning');
@@ -96,6 +101,7 @@ function afrikaburn_my_custom_submit_handler($form, &$form_state){
 
   //drupal_set_message( "Node with nid " . $node->nid . " saved!\n");
   $form_state['redirect']  = '/';
+<<<<<<< HEAD
 }*/
 /*
 function afrikaburn_form_volunteer_registration_form_node_form_alter {
@@ -110,5 +116,23 @@ function afrikaburn_form_volunteer_registration_form_node_form_alter {
    )->fetchField();
   if ($existing_nid != FALSE) {
     drupal_goto("node/$existing_nid/edit");
+=======
+} */
+
+function afrikaburn_form_volunteer_registration_form_node_form_alter (&$form, &$form_state, $form_id) {
+  
+  if (!isset($form_state['node']->nid)) {
+    global $user;
+    $existing_nid = db_query(
+      "SELECT nid FROM {node} WHERE (type = :type) AND uid = :uid", 
+      array(
+        "type" => "volunteer_registration_form",
+        "uid" => $user->uid
+      )
+     )->fetchField();
+    if ($existing_nid != FALSE) {
+      drupal_goto("node/$existing_nid/edit");
+    }
+>>>>>>> df260c0ccdfa3629cd01ea452f5bbfbd39e312f1
   }
 }*/
