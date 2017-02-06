@@ -116,7 +116,7 @@ function afrikaburn_form_volunteer_registration_form_node_form_alter {
    )->fetchField();
   if ($existing_nid != FALSE) {
     drupal_goto("node/$existing_nid/edit");
-=======
+======= 
 } */
 
 function afrikaburn_form_volunteer_registration_form_node_form_alter (&$form, &$form_state, $form_id) {
