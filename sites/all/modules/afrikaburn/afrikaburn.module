@@ -1,5 +1,5 @@
 <?php
-
+/*
 function afrikaburn_form_alter(&$form, &$form_state, $form_id){
   
   if( $form_id == 'volunteer_shifts_manage_node_form' ){
@@ -40,7 +40,7 @@ function afrikaburn_my_custom_submit_handler($form, &$form_state){
         
         /*$node->title = $form_state['input']['field_year_and_event_name']['und'].'-'.
                         $form_state['input']['field_vol_department']['und'].'-'.
-                        $form_state['input']['field_vol_shift']['und'];*/
+                        $form_state['input']['field_vol_shift']['und'];*/ /*
         $node->type = "volunteer_shifts_all";
         node_object_prepare($node); // Sets some defaults. Invokes hook_prepare() and hook_node_prepare().
         $node->language = LANGUAGE_NONE; // Or e.g. 'en' if locale is enabled
@@ -96,9 +96,10 @@ function afrikaburn_my_custom_submit_handler($form, &$form_state){
 
   //drupal_set_message( "Node with nid " . $node->nid . " saved!\n");
   $form_state['redirect']  = '/';
-}
-
-function function afrikaburn_form_volunteer_registration_form_node_form_alter {
+}*/
+/*
+function afrikaburn_form_volunteer_registration_form_node_form_alter {
+  dpm('poes');
   global $user;
   $existing_nid = db_query(
     "SELECT nid FROM {node} WHERE (type = :type) AND uid = :uid", 
@@ -110,4 +111,4 @@ function function afrikaburn_form_volunteer_registration_form_node_form_alter {
   if ($existing_nid != FALSE) {
     drupal_goto("node/$existing_nid/edit");
   }
-}
+}*/
