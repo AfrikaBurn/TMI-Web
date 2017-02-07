@@ -1,8 +1,76 @@
+/*
+no-sidebars class on body will hide the sidebar, and make the rest of the content full width.
+Need some classnames for links on home page.
+If I make the sidebar region on the homepage, can the newsletter signup be put in there?
+*/
+
 @media (min-width: 980px) {
 
-}
-/* Art Grant Review */
+  /* DMV Registration form */
+  .page-wrangle-mutant-vehicles-registrations .views-table.cols-5 {
+    width: 940px;
+  }
+  .page-wrangle-mutant-vehicles-registrations .views-field-field-please-submit-concept-imag {
+    min-width: 180px;
+  }
 
+  /* Community tickets */ 
+  .page-node-add-community-tickets-and-outreach .main-block {
+    max-width: 940px;
+  }
+
+  .page-node-add-community-tickets-and-outreach .sidebar-outer {
+    display: none;
+  } 
+
+  .page-node-add-community-tickets-and-outreach .field-name-field-proof-of-income-private {
+    max-width: 400px;
+  }
+  
+  .page-node-add-community-tickets-and-outreach .form-item-title, 
+  .page-node-add-community-tickets-and-outreach .field-name-field-email-address {
+    max-width: 33%;
+    float: left;
+    padding-right: 3px;
+  }
+  .page-node-add-community-tickets-and-outreach .field-name-field-sa-id-or-passport-number {
+    max-width: 33%;
+    padding-right: 3px;
+    float: left;
+  }
+  
+  .page-node-add-community-tickets-and-outreach .field-multiple-table div.field-name-field-first-name, 
+  .page-node-add-community-tickets-and-outreach .field-multiple-table div.field-name-field-last-name,  
+  .page-node-add-community-tickets-and-outreach .field-multiple-table div.field-name-field-phone-number {
+    max-width: 16%;
+  }
+  .page-node-add-community-tickets-and-outreach .field-multiple-table .field-name-field-email-address {
+    max-width: 22%;
+  }
+  .page-node-add-community-tickets-and-outreach .field-multiple-table .field-name-field-email-address {
+    max-width: 26%;
+  }
+  
+  /* Theme Camp pre registration*/ 
+  .page-wrangle-theme-camps-pre-registrations .field-name-field-first-name,
+  .page-wrangle-theme-camps-pre-registrations .field-name-field-last-name,
+  .page-wrangle-theme-camps-pre-registrations .field-name-field-email-address,
+  .page-wrangle-theme-camps-pre-registrations .field-name-field-phone-number {
+    max-width: 180px;
+    width: 180px;
+  }
+  .page-wrangle-theme-camps-pre-registrations .views-field-field-theme-camp-wrangler-editable select {
+    width: 100px;
+  }
+  /* end 980 */ 
+}
+
+/* Community tickets */ 
+.page-node-add-community-tickets-and-outreach .group-indent {
+  padding-left: 35px;
+}
+  
+/* Art Grant Review */ 
 .page-wrangle-artworks-art-grant-ananymous-review div label {
   font-weight: 700;
 }
@@ -74,15 +142,57 @@
 }
 
 
+/*   Theme Camp form 2 signup  */
+#edit-field-artwork-move-und div:first-child,
+.page-node-add-theme-camp-form-2 #edit-field-does-it-have-sound-effects-und div:first-child {
+  display: none;
+}
+#edit-field-artwork-move-und div div:first-child,
+.page-node-add-theme-camp-form-2 #edit-field-does-it-have-sound-effects-und div div:first-child {
+  display: block;
+}
 
 
+/*   Volunteers signup  */
 
+#edit-field-vol-other-event-und div:first-child {
+  display: none;
+}
+#edit-field-vol-other-event-und div div:first-child {
+  display: block;
+}
+
+.tgf-group {
+  width: 100%;
+}
+
+html body.logged-in div.user-menu ul { 
+  float: none;
+}
+
+.no-term-reference-tree-button {
+  display: none;
+}
+.term-reference-tree li {
+    margin: 0.6em;
+}
+.term-reference-tree-button.term-reference-tree-button-processed {
+    margin-right: 0.7em;
+}
+/* General  */
+
+.field-widget-tgf-options-buttons .form-checkboxes,
+.field-type-taxonomy-term-reference .form-checkboxes {
+    margin-top: 14px;
+}
+
+/* */
 
 
 .user-profile-form .form-radios > div, .group-bb-update .form-radios > div, .group-questionaire .form-radios > div, .group-user .form-radios > div, .field-name-field-booze-short .form-radios > div, .edit-field-year-round-yn .form-radios > div {
   display: none;
 }
-.user-profile-form .form-radios > div ~ div, .group-bb-update .form-radios > div ~ div, .group-questionaire .form-radios > div ~ div, .group-user .form-radios > div ~ div, .field-name-field-booze-short .form-radios > div ~ div, .edit-field-year-round-yn .form-radios > div ~ div { 
+.user-profile-form .form-radios > div ~ div, .user-profile-form .form-radios > div ~ div, .group-bb-update .form-radios > div ~ div, .group-questionaire .form-radios > div ~ div, .group-user .form-radios > div ~ div, .field-name-field-booze-short .form-radios > div ~ div, .edit-field-year-round-yn .form-radios > div ~ div { 
   display: block;
 }
 
@@ -162,18 +272,11 @@ div#edit-account {
     list-style: none;
   }
   
-  
 }
 
 .page-email-node-field-new-members-email .form-item-mail {
   display: none;
 }
-
-
-
-
-
-
 
 .page-test .field-name-field-first-name, .page-test .field-name-field-last-name, .page-test .field-name-field-phone-number {
   display: none;
@@ -185,3 +288,13 @@ div#edit-account {
   display: none;
 }
 
+
+/* DELETE!!! */
+.views-field.views-field-field-performer-type-editable, .views-field.views-field-field-performer-types-editable{
+    max-width: 40%;
+    width: 40%;
+    vertical-align: text-bottom;
+}
+.page-fix-performer-types .views-table.cols-3 {
+    max-width: 940px;
+}

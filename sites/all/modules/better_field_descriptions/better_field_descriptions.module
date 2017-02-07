@@ -1,0 +1,173 @@
+<?php
+/**
+ * @file
+ * Module file for the Better field descriptions module.
+ *
+ * The module hooks into forms and adds a better description to fields.
+ */
+
+/**
+ * Implements hook_help().
+ */
+function better_field_descriptions_help($path, $arg) {
+  if ($path == 'admin/help#better_field_descriptions') {
+    return t('Allows users with certain roles to add themeable descriptions to fields in forms. The module consists of two parts. One is configuring which fields in which content types that should be configured to have a better description. The other part is editing the descriptions themselves.');
+  }
+}
+
+/**
+ * Implements hook_menu().
+ */
+function better_field_descriptions_menu() {
+  $items = array();
+  $items['admin/config/content/better_field_descriptions'] = array(
+    'title' => 'Better field descriptions',
+    'description' => 'Administer Better field descriptions.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('better_field_descriptions_admin_settings_form'),
+    'file' => 'better_field_descriptions.admin.inc',
+    'access arguments' => array('administer better field descriptions'),
+  );
+
+  $items['admin/config/content/better_field_descriptions/settings'] = array(
+    'title' => 'Settings',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => 0,
+  );
+
+  $items['admin/config/content/better_field_descriptions/bundles'] = array(
+    'title' => 'Bundles',
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 1,
+    'file' => 'better_field_descriptions.admin.inc',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('better_field_descriptions_fields_form'),
+    'access arguments' => array('add better descriptions to fields'),
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function better_field_descriptions_permission() {
+  return array(
+    'administer better field descriptions' => array(
+      'title' => t('Administer better field descriptions'),
+    ),
+    'add better descriptions to fields' => array(
+      'title' => t('Add a better descriptions to selected fields'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_theme().
+ */
+function better_field_descriptions_theme($existing, $type, $theme, $path) {
+
+  $bfd = variable_get('better_field_descriptions', array());
+
+  // Find the theme template or use default if not configured.
+  if (isset($bfd['template']) == FALSE || empty($bfd['template'])) {
+    $template_file = 'better-field-descriptions-fieldset';
+  }
+  else {
+    $template_file = $bfd['template'];
+  }
+
+  // Find the theme template URI .
+  if ($template_file == 'better-field-descriptions-fieldset') {
+    $template_uri = drupal_get_path('module', 'better_field_descriptions') . '/';
+  }
+  else {
+    $template_uri = $bfd['template_uri'];
+    $template_uri = str_replace('/' . $template_file . '.tpl.php', '', $template_uri);
+  }
+
+  return array(
+    'better_field_descriptions' => array(
+      'variables' => array('label' => NULL, 'description' => NULL),
+      'template' => $template_file,
+      'path' => $template_uri,
+    ),
+  );
+}
+
+/**
+ * Implements hook_form_alter().
+ *
+ * Future improvements: add a theming function for the #suffix content. Users
+ * could then add their own template and select template from the settings page.
+ */
+function better_field_descriptions_form_alter(&$form, &$form_state, $form_id) {
+
+  // Name of bundle from form.
+  $bundle = isset($form['#bundle']) ? $form['#bundle'] : FALSE;
+
+  if ($bundle == TRUE) {
+    // Get better descriptions.
+    $bfd = variable_get('better_field_descriptions', array());
+
+    // Only add descriptions if the bundle field is configured with one.
+    if (isset($bfd[$bundle])) {
+      drupal_add_js('misc/collapse.js');
+
+      // Default label.
+      $default_label = filter_xss($bfd['default_label']);
+
+      // Available positions.
+      $positions = array(0 => '#prefix', 1 => '#suffix', 2 => 'between');
+
+      // Adding description to field if configured.
+      foreach ($bfd[$bundle] as $field => $data) {
+        if (isset($form[$field]) && !empty($data['description'])) {
+
+          // Set position if configured or set default to #suffix.
+          $position = isset($data['position']) ? $positions[$data['position']] : '#suffix';
+
+          // The description as configured.
+          $description = $data['description'];
+
+          switch ($position) {
+
+            case '#suffix':
+            case '#prefix':
+
+              $label = empty($data['label'])
+                ? $default_label
+                : filter_xss($data['label']);
+              break;
+
+            case 'between':
+
+              $label = (empty($data['label']) && !empty($form[$field][LANGUAGE_NONE]['#title']))
+                ? $form[$field][LANGUAGE_NONE]['#title']
+                : $data['label'];
+
+              $form[$field][LANGUAGE_NONE]['#title_display'] = 'invisible';
+              $form[$field][LANGUAGE_NONE][0]['#title_display'] = 'invisible';
+              $position = '#prefix';
+              break;
+          }
+
+          $output = theme('better_field_descriptions', array('label' => $label, 'description' => $description));
+
+          // Adding descriptions to form.
+          // Special case for pseudo fields.
+          if ($field == 'title') {
+            $form[$field]['#prefix'] = '';
+            $form[$field]['#suffix'] = '';
+            $form[$field][$position] = $output;
+          }
+          else {
+            $form[$field][LANGUAGE_NONE]['#prefix'] = '';
+            $form[$field][LANGUAGE_NONE]['#suffix'] = '';
+            $form[$field][LANGUAGE_NONE][$position] = $output;
+          }
+        }
+      }
+    }
+  }
+}

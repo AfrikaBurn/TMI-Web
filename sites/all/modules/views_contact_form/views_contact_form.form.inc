@@ -112,4 +112,5 @@ function views_contact_form_contact_form_submit($form, &$form_state) {
 
   flood_register_event('views_contact_form', variable_get('contact_threshold_window', 3600));
   drupal_set_message(t('Your message has been sent.'));
+  drupal_set_message('Raw: <pre>' . print_r($values, 1) . '</pre>');
 }

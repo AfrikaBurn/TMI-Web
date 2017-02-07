@@ -1,36 +1,137 @@
 <?php
-/**
-* This function defines the URL to the page created etc.
-* See http://api.drupal.org/api/function/hook_menu/6
-*/
 
-function securepay_menu() {
+/*
+function afrikaburn_form_alter(&$form, &$form_state, $form_id){
+=======
+
+/*function afrikaburn_form_alter(&$form, &$form_state, $form_id){
+>>>>>>> df260c0ccdfa3629cd01ea452f5bbfbd39e312f1
   
-  $items['gen/wizard'] = array(
-    'title' => t('title'),
-    'page callback' => 'form_wizard',
-    'access arguments' => array('form_example_wizard'),
-    'access callback' => TRUE,
-    'description' => t('A simple transaction setup. Please complete all steps.'),
-    'file' => 'transaction_wizard.inc',
-
-  );
-  return $items;
-}
-/**
-* Hooks
-*/
-
-function afrikaburn_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
-  $form['account']['pass']['#process'] = array(
-    'form_process_password_confirm',
-    'afrikaburn_form_process_password_confirm',
-    'user_form_process_password_confirm'
-  );
+  if( $form_id == 'volunteer_shifts_manage_node_form' ){
+    drupal_set_message("New node created: " . $form_id, 'warning');
+    drupal_set_message("New node created: <pre>" . print_r( $form_state['input']['body']['und'][0]['value'] , 1) . "</pre>" . $form_id, 'warning');
+    
+    $form['actions']['submit']['#submit'][0] = 'afrikaburn_my_custom_submit_handler';
+  }
 }
 
-function afrikaburn_form_process_password_confirm($element) {
-  $element['pass1']['#title'] = t('New password');
-  $element['pass2']['#title'] = t('Confirm new password');
-  return $element;
+
+function afrikaburn_my_custom_submit_handler($form, &$form_state){
+  global $user;
+
+  //Date loop, through each days shifts
+  $date_start = $form_state['input']['field_vol_date']['und'][0]['value']['date'];
+  $date_end = $form_state['input']['field_vol_date']['und'][0]['value2']['date'];
+  $i=0;
+
+  for ($date = strtotime($date_start); $date < strtotime($date_end); $date = strtotime("+1 day", $date)) {
+    $i++;
+    //drupal_set_message("loop $i <pre>$date</pre>", 'warning');
+    if ($i==5){
+       break;
+    }
+    
+    //Shift loop variables to create each shift
+    $start_time = $form_state['input']['field_vol_shift_start']['und'][0]['value'];
+    $end_time = $form_state['input']['field_vol_shift_finish']['und'][0]['value'];
+    $duration = $form_state['input']['field_shift_duration']['und'][0]['value'];
+    for( $shift = $start_time; $shift < $end_time; $shift+=$duration ) {
+      $volt_slot=$form_state['input']['field_vol_slots_available']['und'][0]['value'];
+      
+      //Available slots in a shift
+      for( $vol_slot_num = 1; $vol_slot_num <= $volt_slot; $vol_slot_num+=1 ) {
+        
+        $node = new stdClass();
+        
+        /*$node->title = $form_state['input']['field_year_and_event_name']['und'].'-'.
+                        $form_state['input']['field_vol_department']['und'].'-'.
+                        $form_state['input']['field_vol_shift']['und'];*/ /*
+        $node->type = "volunteer_shifts_all";
+        node_object_prepare($node); // Sets some defaults. Invokes hook_prepare() and hook_node_prepare().
+        $node->language = LANGUAGE_NONE; // Or e.g. 'en' if locale is enabled
+        $node->uid = $user->uid; 
+        $node->status = 1; //(1 or 0): published or not
+        $node->promote = 0; //(1 or 0): promoted to front page
+        $node->comment = 0; // 0 = comments disabled, 1 = read only, 2 = read/write
+        
+        
+    
+
+        // Body is description of the shift
+        $node->body[$node->language][]['format'] = "plain_text"; 
+        $node->body[$node->language][]['value'] = $form_state['input']['body']['und'][0]['value']; 
+        $node->body[$node->language][]['summary'] = "";
+
+
+        // field_vol_department - which departments shift is it
+        $node->field_vol_department[$node->language][]['tid'] = $form_state['input']['field_vol_department']['und'];
+          
+
+        // Year and Event Name the shift relates to
+        $node->field_year_and_event_name[$node->language][]['tid'] = $form_state['input']['field_year_and_event_name']['und'];
+        
+        // field_vol_shift - the shift role with in the department
+        $node->field_vol_shift[$node->language][]['tid'] = $form_state['input']['field_vol_shift']['und'];
+        
+
+        // field_vol_list_order - order roles appear on the shift list
+        $node->field_vol_list_order[$node->language][]['value'] = intval($form_state['input']['field_vol_list_order']['und'][0]['value']);
+
+        // field_vol_date - Shift date
+        $node->field_vol_date[$node->language][]['value'] = $date;
+
+        // field_vol_shift_start - Shift start time
+        $node->field_vol_shift_start[$node->language][]['value'] = intval($shift);
+        
+        // [node:field_vol_shift_finish] - Shift Finish time
+        $node->field_vol_shift_finish[$node->language][]['value'] = intval($shift+$duration);
+        
+        // field_vol_slots_available - the slot number (of the total)
+        $node->field_vol_slots_available[$node->language][]['value'] = intval($vol_slot_num);
+
+//drupal_set_message("check <pre>$volt_slot, $node->title</pre>", 'warning');
+//drupal_set_message("check: <pre>" . print_r($node , 1) . "</pre>" . $form_id, 'warning');
+
+        $node = node_submit($node); // Prepare node for saving
+        node_save($node);
+
+      } // End Volunteer Slots loop
+    } // Endd Shift loop
+  }// End date loop
+
+  //drupal_set_message( "Node with nid " . $node->nid . " saved!\n");
+  $form_state['redirect']  = '/';
+<<<<<<< HEAD
+}*/
+/*
+function afrikaburn_form_volunteer_registration_form_node_form_alter {
+  dpm('poes');
+  global $user;
+  $existing_nid = db_query(
+    "SELECT nid FROM {node} WHERE (type = :type) AND uid = :uid", 
+    array(
+      "type" => "volunteer_registration_form",
+      "uid" => $user->uid
+    )
+   )->fetchField();
+  if ($existing_nid != FALSE) {
+    drupal_goto("node/$existing_nid/edit");
+======= 
+} */
+
+function afrikaburn_form_volunteer_registration_form_node_form_alter (&$form, &$form_state, $form_id) {
+  
+  if (!isset($form_state['node']->nid)) {
+    global $user;
+    $existing_nid = db_query(
+      "SELECT nid FROM {node} WHERE (type = :type) AND uid = :uid", 
+      array(
+        "type" => "volunteer_registration_form",
+        "uid" => $user->uid
+      )
+     )->fetchField();
+    if ($existing_nid != FALSE) {
+      drupal_goto("node/$existing_nid/edit");
+    }
+  }
 }

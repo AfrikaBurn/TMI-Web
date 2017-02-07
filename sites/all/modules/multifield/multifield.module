@@ -4,6 +4,17 @@ require_once dirname(__FILE__) . '/multifield.field.inc';
 require_once dirname(__FILE__) . '/multifield.features.inc';
 
 /**
+ * Implements hook_hook_info_alter().
+ */
+function multifield_hook_info_alter(&$info) {
+  // @todo Remove when https://www.drupal.org/node/2309543 is fixed.
+  $info += array_fill_keys(array(
+    'field_views_data',
+    'field_views_data_alter',
+  ), array('group' => 'views'));
+}
+
+/**
  * Implements hook_permission().
  */
 function multifield_permission() {
@@ -101,12 +112,14 @@ function multifield_entity_info() {
     'label' => t('Multifield'),
     'controller class' => 'MultifieldEntityController',
     'base table' => 'multifield',
+    'revision table' => 'multifield',
     'fieldable' => TRUE,
     // Mark this as a configuration entity type to prevent other modules from
     // assuming they can do stuff with this entity type.
     'configuration' => TRUE,
     'bundle keys' => array(
       'bundle' => 'machine_name',
+      'revision' => 'revision_id',
     ),
     'entity keys' => array(
       'id' => 'id',
@@ -598,20 +611,6 @@ function multifield_form_field_ui_field_delete_form_alter(&$form, &$form_state) 
       $form['description']['#markup'] = '<div class="messages error">' . t('This field cannot be deleted since this multifield has instances.') . '</div>';
       unset($form['actions']['submit']);
     }
-  }
-}
-
-/**
- * Implements hook_views_data_alter().
- */
-function multifield_views_data_alter(array &$data) {
-  // Remove any references to the fake multifield table.
-  unset($data['multifield']);
-  unset($data['entity_multifield']);
-  unset($data['views_entity_multifield']);
-  foreach ($data as &$table) {
-    unset($table['table']['join']['multifield']);
-    unset($table['table']['default_relationship']['multifield']);
   }
 }
 

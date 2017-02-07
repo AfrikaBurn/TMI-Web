@@ -1,0 +1,200 @@
+<?php
+/**
+ * @file
+ *  Drupal Log Filter module (un)installation
+ */
+
+
+/**
+ * Implements hook_install().
+ *
+ * @return void
+ */
+function log_filter_install() {
+  // Invoke our hook_menu() later than dblog's ditto.
+  db_update('system')
+    ->fields(array('weight' => 10))
+    ->condition('type', 'module')
+    ->condition('name', 'log_filter')
+    ->execute();
+
+  // Insert some default filters.
+  $uid = $GLOBALS['user']->uid;
+  $filters = array(
+    array('name' => 'errors_day', 'creator' => $uid, 'description' => '', 'require_admin' => 1, 'severity' => '0,1,2,3', 'type' => '', 'time_range' => 30, 'time_from' => 0, 'time_to' => 0, 'role' => -1, 'uid' => -1, 'hostname' => '', 'location' => '', 'referer' => '', 'order_by' => '', 'editor' => $uid, 'created' => 1, 'changed' => 1),
+    array('name' => 'errors_month', 'creator' => $uid, 'description' => '', 'require_admin' => 1, 'severity' => '0,1,2,3', 'type' => '', 'time_range' => 750, 'time_from' => 0, 'time_to' => 0, 'role' => -1, 'uid' => -1, 'hostname' => '', 'location' => '', 'referer' => '', 'order_by' => '', 'editor' => $uid, 'created' => 1, 'changed' => 1),
+    array('name' => 'errors_week', 'creator' => $uid, 'description' => '', 'require_admin' => 1, 'severity' => '0,1,2,3', 'type' => '', 'time_range' => 175, 'time_from' => 0, 'time_to' => 0, 'role' => -1, 'uid' => -1, 'hostname' => '', 'location' => '', 'referer' => '', 'order_by' => '', 'editor' => $uid, 'created' => 1, 'changed' => 1),
+    array('name' => 'latest_day', 'creator' => $uid, 'description' => '', 'require_admin' => 0, 'severity' => '', 'type' => '', 'time_range' => 30, 'time_from' => 0, 'time_to' => 0, 'role' => -1, 'uid' => -1, 'hostname' => '', 'location' => '', 'referer' => '', 'order_by' => '', 'editor' => $uid, 'created' => 1, 'changed' => 1),
+    array('name' => 'latest_month', 'creator' => $uid, 'description' => '', 'require_admin' => 0, 'severity' => '', 'type' => '', 'time_range' => 750, 'time_from' => 0, 'time_to' => 0, 'role' => -1, 'uid' => -1, 'hostname' => '', 'location' => '', 'referer' => '', 'order_by' => '', 'editor' => $uid, 'created' => 1, 'changed' => 1),
+    array('name' => 'latest_week', 'creator' => $uid, 'description' => '', 'require_admin' => 0, 'severity' => '', 'type' => '', 'time_range' => 175, 'time_from' => 0, 'time_to' => 0, 'role' => -1, 'uid' => -1, 'hostname' => '', 'location' => '', 'referer' => '', 'order_by' => '', 'editor' => $uid, 'created' => 1, 'changed' => 1),
+    array('name' => 'severity_debug', 'creator' => $uid, 'description' => 'Debug severity', 'require_admin' => 1, 'severity' => 7, 'type' => '', 'time_range' => 0, 'time_from' => 0, 'time_to' => 0, 'role' => -1, 'uid' => -1, 'hostname' => '', 'location' => '', 'referer' => '', 'order_by' => '', 'editor' => $uid, 'created' => 1, 'changed' => 1),
+    array('name' => 'severity_error', 'creator' => $uid, 'description' => 'All error severities', 'require_admin' => 1, 'severity' => '0,1,2,3', 'type' => '', 'time_range' => 0, 'time_from' => 0, 'time_to' => 0, 'role' => -1, 'uid' => -1, 'hostname' => '', 'location' => '', 'referer' => '', 'order_by' => '', 'editor' => $uid, 'created' => 1, 'changed' => 1),
+    array('name' => 'severity_warning_notice_info', 'creator' => $uid, 'description' => 'All non-error severities but debug', 'require_admin' => 1, 'severity' => '4,5,6', 'type' => '', 'time_range' => 0, 'time_from' => 0, 'time_to' => 0, 'role' => -1, 'uid' => -1, 'hostname' => '', 'location' => '', 'referer' => '', 'order_by' => '', 'editor' => $uid, 'created' => 1, 'changed' => 1)
+  );
+  try {
+    $le = count($filters);
+    for ($i = 0; $i < $le; ++$i) {
+      db_insert('log_filter')
+        ->fields($filters[$i])
+        ->execute();
+    }
+  }
+  catch (Exception $xc) {
+    watchdog(
+      'log_filter',
+      'Failed to insert default filters during installation of module Log Filter.',
+      NULL,
+      WATCHDOG_ERROR
+    );
+  }
+}
+
+/**
+ * Implements hook_schema().
+ *
+ * @return array
+ */
+function log_filter_schema() {
+  return array(
+    'log_filter' => array(
+      'description' => 'Log filters.',
+      'fields' => array(
+        'id' => array(
+          'type' => 'serial',
+          'not null' => TRUE,
+        ),
+        'name' => array(
+          'type' => 'varchar',
+          'length' => 32,
+          'not null' => TRUE,
+        ),
+        'creator' => array(
+          'type' => 'int',
+          'not null' => TRUE,
+          'description' => 'The user.uid that created the filter.',
+        ),
+        'description' => array(
+          'type' => 'varchar',
+          'length' => 255,
+          'not null' => TRUE,
+          'default' => '',
+        ),
+        'require_admin' => array(
+          'type' => 'int',
+          'size' => 'tiny',
+          'not null' => TRUE,
+          'default' => 0,
+          'description' => 'Require the \'Administer log filtering\' role.',
+        ),
+        'severity' => array(
+          'type' => 'varchar',
+          'length' => 255,
+          'not null' => TRUE,
+          'default' => '',
+          'description' => 'Comma-separated list.',
+        ),
+        'type' => array(
+          'type' => 'text',
+          'not null' => TRUE,
+          //  Text fields don't support default value; at least not MySQL.
+          'description' => 'Comma-separated list. Empty default because it\'s a text field (not char/varchar).',
+        ),
+        'time_range' => array(
+          'type' => 'int',
+          'not null' => TRUE,
+          'default' => 0,
+        ),
+        'time_from' => array(
+          'type' => 'int',
+          'not null' => TRUE,
+          'default' => 0,
+        ),
+        'time_to' => array(
+          'type' => 'int',
+          'not null' => TRUE,
+          'default' => 0,
+        ),
+        'role' => array(
+          'type' => 'int',
+          'not null' => TRUE,
+          'default' => -1,
+        ),
+        'uid' => array(
+          'type' => 'int',
+          'not null' => TRUE,
+          'default' => -1,
+        ),
+        'hostname' => array(
+          'type' => 'varchar',
+          'length' => 255,
+          'not null' => TRUE,
+          'default' => '',
+        ),
+        'location' => array(
+          'type' => 'varchar',
+          'length' => 255,
+          'not null' => TRUE,
+          'default' => '',
+        ),
+        'referer' => array(
+          'type' => 'varchar',
+          'length' => 255,
+          'not null' => TRUE,
+          'default' => '',
+          'description' => 'Url, \'none\' or empty.',
+        ),
+        'order_by' => array(
+          'type' => 'varchar',
+          'length' => 255,
+          'not null' => TRUE,
+          'default' => 'time:DESC',
+          'description' => 'Comma-separated list, like: \'time:DESC,severity:ASC\'.',
+        ),
+        'editor' => array(
+          'type' => 'int',
+          'not null' => TRUE,
+          'description' => 'The user.uid that most recently changed (or created) the filter.',
+        ),
+        'created' => array(
+          'type' => 'int',
+          'not null' => TRUE,
+          'description' => 'The Unix timestamp when the filter was created.',
+        ),
+        'changed' => array(
+          'type' => 'int',
+          'not null' => TRUE,
+          'description' => 'The Unix timestamp when the filter was most recently saved.',
+        ),
+      ),
+      'primary key' => array('id'),
+      'unique keys' => array(
+          'name' => array('name'),
+      ),
+    ),
+  );
+}
+
+/**
+ * Deletes configuration variables.
+ *
+ * Implements hook_uninstall().
+ */
+function log_filter_uninstall() {
+  variable_del('log_filter_admintheme');
+  variable_del('log_filter_cssdefault');
+  variable_del('log_filter_trnslt');
+  variable_del('log_filter_pgrng');
+  variable_del('log_filter_showdeletions');
+}
+
+/**
+ * Increase log_filter's module weight to 10; the module's hook_menu() must be invoked _after_ dblog's ditto.
+ */
+function log_filter_update_7001() {
+  // Invoke our hook_menu() later than dblog's ditto.
+  db_update('system')
+    ->fields(array('weight' => 10))
+    ->condition('type', 'module')
+    ->condition('name', 'log_filter')
+    ->execute();
+}

@@ -1,0 +1,12 @@
+
+body.page-admin-config-system-log_filter * {
+
+}
+  body.page-admin-config-system-log-filter input#edit-log-filter-trnct {
+    text-align: right;
+  }
+    body.page-admin-config-system-log-filter div.form-item-log-filter-hidedblog label,
+    body.page-admin-config-system-log-filter div.form-item-log-filter-hidedblog .form-item label.option {
+      font-weight: bold;
+      font-size: 1em;
+    }

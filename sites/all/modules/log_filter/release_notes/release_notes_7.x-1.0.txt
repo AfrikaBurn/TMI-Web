@@ -1,0 +1,9 @@
+Log Filter 7.x-1.0
+
+
+First release.
+
+
+Install/update notes
+--------------------
+* Clear cache.

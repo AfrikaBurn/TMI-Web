@@ -1,0 +1,16 @@
+Better field descriptions 7.x-1.x-dev, 2014-07-22
+-------------------------------------------------
+Fixed: missing collapse.js
+Fixed: titles was missing from configuration
+
+Better field descriptions 7.x-1.x-dev, 2014-07-14
+-------------------------------------------------
+Fixing issues reported by pareview.
+
+Better field descriptions 7.x-1.x-dev, 2014-07-10
+-------------------------------------------------
+Added option to place description between the title and the field input.
+
+Better field descriptions 7.x-1.x-dev, 2014-07-10
+-------------------------------------------------
+Initial release of better_field_descriptions module.

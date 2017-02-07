@@ -1,0 +1,55 @@
+<?php
+/**
+ * @file
+ *  Drupal Judy module
+ */
+
+
+/**
+ * Implements hook_help().
+ *
+ * @param string $path
+ * @param string $arg
+ * @return string
+ */
+function judy_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#judy':
+      return '<h3>Use</h3>'
+        . '<p>' . t('Include in form generating functions') . ':<br/>drupal_add_library(\'judy\', \'judy\');</p>'
+        . '<h3>Documentation</h3>'
+        . '<p>'
+        . l(
+          t('Full jsDoc documentation of the library'),
+          'http://www.simple-complex.net/docs/drupal/modules/judy/js/symbols/Judy.html'
+        )
+        . '</p>';
+  }
+}
+
+/**
+ * Makes the modules' Javascript library available for inclusion.
+ *
+ * Implements hook_library().
+ *
+ * @code
+ * drupal_add_library('judy', 'judy');
+ * @endcode
+ * @return array
+ */
+function judy_library() {
+  $path = drupal_get_path('module', 'judy');
+  return array(
+    'judy' => array(
+      'title' => 'Judy Javascript Utilities',
+      'website' => 'http://drupal.org/project/judy',
+      'version' => 2.1,
+      'js' => array(
+        $path . '/judy' . '.min' . '.js' => array(),
+      ),
+      'css' => array(
+        $path . '/judy' . '.min' . '.css' => array(),
+      ),
+    )
+  );
+}

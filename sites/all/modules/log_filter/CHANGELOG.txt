@@ -1,0 +1,211 @@
+log_filter 7.x-1.x, 2014-11-08
+------------------------------
+* Release 7.x-1.4.
+
+log_filter 7.x-1.x, 2014-11-07
+------------------------------
+* Don't display entries of type 'log_filter delete logs' unless, unless user actually want to see log deletions.
+* Fixed that 'log_filter delete logs' actually _were_ deletable, due to wrong removal of that filter deleting.
+
+log_filter 7.x-1.x, 2014-10-31
+------------------------------
+* Release 7.x-1.3.
+
+log_filter 7.x-1.x, 2014-07-14
+------------------------------
+* Use Drupal's JS API to attach behaviours.
+
+log_filter 7.x-1.2, 2014-04-27
+--------------------------------------------------
+* Released.
+
+log_filter 7.x-1.x, 2014-04-27
+------------------------------
+* Added styling of jQuery UI dialog close button, for later versions of jQuery UI (jquery_update module support).
+* Removed meaningless url = url JS expression.
+* Fixed that jQuery >=1.9 has no browser property (~ jquery_update module support).
+
+log_filter 7.x-1.x, 2014-04-24
+------------------------------
+* Fixed that sites using jQuery >v1.4.4 continually get 'form outdated' in the log viewer, due to AJAX http status 403 errors (issue 2073905).
+
+log_filter 7.x-1.x, 2013-09-01
+------------------------------
+* Increase log_filter's module weight to 10; the module's hook_menu() must be invoked _after_ dblog's ditto.
+* Do only add dblog's viewer as menu tab if that module is enabled.
+
+log_filter 7.x-1.1, 2013-07-21
+--------------------------------------------------
+* Released.
+
+log_filter 7.x-1.x, 2013-07-21
+------------------------------
+* Now uses Judy.ajaxcomplete instead of own custom ditto.
+* Fixed username autocomplete result ordering.
+
+log_filter 7.x-1.x, 2013-07-20
+------------------------------
+* Removed small viewport (<1136 px wide) css support.
+* Removed AJAX callback form_token check, because provides little additional security, and is no good for GET requests.
+* Implemented searching by user name.
+
+log_filter 7.x-1.0, 2013-07-04
+--------------------------------------------------
+* Released.
+
+log_filter 7.x-1.x, 2013-07-04
+------------------------------
+* Frontend now checks that the Judy library exists and has version 2.0+.
+
+log_filter 7.x-1.x, 2013-06-29
+------------------------------
+* Prevent deletion of events that log log deletion.
+* Fixed defaults of settings variables.
+* Moved filter delete button to prevent mix-up with delete logs button.
+* Added overlay when user goes from one filter to another.
+* Increased max allowed value of time_range to 9999 (from 1000).
+* Removed menu option; Log Filter now always takes over dblog's menu item, and adds dblog's view as a tab instead.
+* Install now inserts some default filters.
+
+log_filter 7.x-1.x, 2013-06-28
+------------------------------
+* Don't show filter by event message when validation fails.
+
+log_filter 7.x-1.x, 2013-06-27
+------------------------------
+* Time date is allowed to be the same for From as well as To, regardless of the time values.
+* Implemented set filter condition by event column feature.
+
+log_filter 7.x-1.x, 2013-06-25
+------------------------------
+* Added support for Inspect output folding/formatting.
+
+log_filter 7.x-1.x, 2013-06-24
+------------------------------
+* Made sure, for backend db queries, that there's a max when there's an offset.
+* Fixed deletion of zero events.
+* Fixed pager display for when current offset is out of range of total matched events.
+* Frontend translation error.
+* Made text in log list table selectable (preventing dialog pop after dragging mouse).
+* Made log deletion feed back messages fade.
+
+log_filter 7.x-1.x, 2013-06-23
+------------------------------
+* Log deletion offset and max now reflects equivalent of current log list.
+
+log_filter 7.x-1.x, 2013-06-22
+------------------------------
+* Implemented proxy type condition field, to prevent 'Illegal choice' errors for checklist due to dynamic options range.
+* Paging done.
+
+log_filter 7.x-1.x, 2013-06-20
+------------------------------
+* Use admin theme on log view pages (unless that setting is turned off).
+* Renamed module css default variable.
+* Now removes clear log form from standard dblog log view page.
+* Filter name from url now requires non-digit as first character, and at least 2 chars length.
+* Now allows for overwriting existing filter; implemented using non-AJAX request.
+* Fixed bug in type_some handler; failed to notice change in criteria if unchecking an option.
+* The update list buttons are no longer being disabled (no need for that anymore because the list is always AJAXed using current criteria).
+* Implemented single event view.
+
+log_filter 7.x-1.x, 2013-05-25
+------------------------------
+* Implemented log details view.
+
+log_filter 7.x-1.x, 2013-05-12
+------------------------------
+* Implemented log deletion.
+
+log_filter 7.x-1.x, 2013-05-01
+------------------------------
+* Get log list.
+
+log_filter 7.x-1.x, 2013-04-02
+------------------------------
+* Changing a criterion of a stored filter now triggers edit mode, not adhoc mode.
+
+log_filter 7.x-1.x, 2013-04-01
+------------------------------
+* _listFilters().
+
+log_filter 7.x-1.x, 2013-03-28
+------------------------------
+* Saving filters works.
+* Implemented standards compliant url GET parameter (filter name) regime.
+
+log_filter 7.x-1.x, 2013-03-28
+------------------------------
+* Working on saving (creating/updating) filter.
+
+log_filter 7.x-1.x, 2013-03-26
+------------------------------
+* Now uses singular development branch.
+* Implemented use of Judy.
+
+log_filter 7.x-1.0.x, 2013-03-26
+--------------------------------
+* Removed Inspect module dependency.
+
+log_filter 7.x-1.0.x, 2013-02-09
+--------------------------------
+* Frontend now strips tags off text fields.
+
+log_filter 7.x-1.0.x, 2013-02-05
+--------------------------------
+* Finished message box; .showAll() working, and fully documented.
+
+log_filter 7.x-1.0.x, 2013-02-03
+--------------------------------
+* Frontend now uses inspect.errorHandler().
+* Implemented message box.
+
+log_filter 7.x-1.0.x, 2013-02-02
+--------------------------------
+* Filter styling done.
+* Implemented time fields.
+
+log_filter 7.x-1.0.x, 2013-01-28
+--------------------------------
+* em-styling to get rid of nauseously complex javascript resizing.
+
+log_filter 7.x-1.0.x, 2013-01-27
+--------------------------------
+* Filter selector is no longer read-only during create/edit; user is allowed to change filter even in these modes (previous behaviour was too restrictive, instead let the user makes his mistakes and learn).
+* Changing filter to default no longer fires a page refresh.
+* Implemented 2 update list buttons.
+* Lots of visual tweaking.
+
+log_filter 7.x-1.0.x, 2013-01-27
+--------------------------------
+* Delete logs: don't prompt user for confirmation again if there's a limit, if already prompted for confirmation whilst there was no limit.
+* Create filter: names 'default' and 'adhoc' are illegal.
+* Worked on setting filter name as url parameter.
+
+log_filter 7.x-1.0.x, 2013-01-13
+--------------------------------
+* Added role condition.
+* Put validation on more condition fields.
+* Create filter done.
+* Apparantly fixed frontend mode bugs.
+* Added delete max. field.
+* Log deletion only allowed upon fresh log list update; the log list must reflect the filter.
+* Made the first steps toward log deletion - establishing current criteria and setting up confirm()s.
+
+log_filter 7.x-1.0.x, 2013-01-06
+--------------------------------
+* Removed create mode from viewer form, because that mode is handled solely via AJAX.
+* Frontend almost ready, except mode and name get wrong when alternating between create, edit, cancel etc.
+
+log_filter 7.x-1.0.x, 2013-01-05
+--------------------------------
+* Declared menu items now optionally hide default dblog viewer/remover page.
+* Frontend modes seem fully resolved.
+
+log_filter 7.x-1.0.x, 2013-01-04
+--------------------------------
+* Fronted now use elements directly for DOM and event modifications, instead of css selectors (the selectors only used initially for getting the elements).
+
+log_filter 7.x-1.0.x, 2012-12-16
+---------------------------
+* Project started.
