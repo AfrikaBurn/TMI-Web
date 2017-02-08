@@ -1,0 +1,170 @@
+<?php
+
+/**
+ * @file
+ * Tests for the Field tokens module.
+ */
+
+/**
+ * Class FieldTokensTestCase
+ */
+class FieldTokensTestCase extends ImageFieldTestCase {
+  var $content_type = NULL;
+  var $field_name = NULL;
+
+  /**
+   * @inheritdoc
+   */
+  function setUp() {
+    // Setup required modules.
+    DrupalWebTestCase::setUp('field_tokens', 'image');
+
+    // Create a content type.
+    $bundle             = $this->drupalCreateContentType();
+    $this->content_type = $bundle->name;
+
+    // Create an Image field.
+    $this->field_name = strtolower($this->randomName());
+    $this->createImageField($this->field_name, $this->content_type);
+
+    // Create Admin user.
+    $this->admin_user = $this->drupalCreateUser(array(
+      'administer content types',
+      "create {$this->content_type} content",
+    ));
+
+    // Login with Admin user.
+    $this->drupalLogin($this->admin_user);
+  }
+}
+
+/**
+ * Class FieldTokensGeneralTestCase
+ */
+class FieldTokensGeneralTestCase extends FieldTokensTestCase {
+  /**
+   * @inheritdoc
+   */
+  public static function getInfo() {
+    return array(
+      'name'        => 'General functionality',
+      'description' => 'Tests general functionality.',
+      'group'       => 'Field tokens',
+    );
+  }
+
+  /**
+   * Test that hidden fields alongside a Field tokens rendered field do not
+   * cause errors to be thrown.
+   *
+   * @see #2543548
+   */
+  function testHiddenFields() {
+    // Create a second image field.
+    $field_name = strtolower($this->randomName());
+    $this->createImageField($field_name, $this->content_type);
+
+    // Set second image field to hidden.
+    $edit = array(
+      "fields[{$field_name}][type]" => 'hidden',
+    );
+    $this->drupalPost("admin/structure/types/manage/{$this->content_type}/display", $edit, t('Save'));
+
+    // Create node with two images attached.
+    $test_image = current($this->drupalGetTestFiles('image'));
+    $edit       = array(
+      'title' => $this->randomName(),
+    );
+
+    $edit['files[' . $this->field_name . '_' . LANGUAGE_NONE . '_0]'] = drupal_realpath($test_image->uri);
+    $edit['files[' . $field_name . '_' . LANGUAGE_NONE . '_0]']       = drupal_realpath($test_image->uri);
+    $this->drupalPost('node/add/' . $this->content_type, $edit, t('Save'));
+
+    // Retrieve ID of the newly created node from the current URL.
+    $matches = array();
+    preg_match('/node\/([0-9]+)/', $this->getUrl(), $matches);
+    $nid = $matches[1];
+
+    // Execute token_replace() with a Field token.
+    $node  = node_load($nid);
+    $token = "[node:{$this->field_name}-formatted:0:image]";
+    token_replace($token, array('node' => $node));
+  }
+}
+
+/**
+ * Class FieldTokensFormattedTestCase
+ */
+class FieldTokensFormattedTestCase extends FieldTokensTestCase {
+  /**
+   * @inheritdoc
+   */
+  public static function getInfo() {
+    return array(
+      'name'        => 'Formatted field tokens',
+      'description' => 'Tests the Formatted field tokens.',
+      'group'       => 'Field tokens',
+    );
+  }
+
+  /**
+   * Test that Formatted tokens render correctly.
+   */
+  function testFormattedTokens() {
+    // Create a new node with an image attached.
+    $test_image = current($this->drupalGetTestFiles('image'));
+    $nid        = $this->uploadNodeImage($test_image, $this->field_name, $this->content_type);
+    $node       = node_load($nid, NULL, TRUE);
+    $display    = array(
+      'type'     => 'image',
+      'settings' => array(
+        'image_style' => '',
+        'image_link'  => '',
+      ),
+      'module'   => 'image',
+    );
+    $element    = field_view_field('node', $node, $this->field_name, $display);
+    $output     = render($element['0']);
+
+    // Image field with Image formatter.
+    $token = "[node:{$this->field_name}-formatted:0:image]";
+    $value = token_replace($token, array('node' => $node));
+
+    // Check the token is rendered correctly.
+    $this->assertEqual($value, $output, $token . ' matches rendered Image formatter for provided Image field.');
+  }
+}
+
+/**
+ * Class FieldTokensPropertyTestCase
+ */
+class FieldTokensPropertyTestCase extends FieldTokensTestCase {
+  /**
+   * @inheritdoc
+   */
+  public static function getInfo() {
+    return array(
+      'name'        => 'Field property tokens',
+      'description' => 'Tests the Field property tokens.',
+      'group'       => 'Field tokens',
+    );
+  }
+
+  /**
+   * Test that Field property tokens render correctly.
+   */
+  function testPropertyTokens() {
+    // Create a new node with an image attached.
+    $test_image = current($this->drupalGetTestFiles('image'));
+    $nid        = $this->uploadNodeImage($test_image, $this->field_name, $this->content_type);
+    $node       = node_load($nid, NULL, TRUE);
+    $items      = field_get_items('node', $node, $this->field_name);
+
+    // Image field URI property token.
+    $token = "[node:{$this->field_name}-property:0:uri]";
+    $value = token_replace($token, array('node' => $node));
+
+    // Check the token is rendered correctly.
+    $this->assertEqual($value, $items[0]['uri'], $token . ' matches provided Image field URI property.');
+  }
+}

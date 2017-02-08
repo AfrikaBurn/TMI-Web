@@ -1,0 +1,17 @@
+name = Field tokens
+description = Adds formatted field and field property tokens.
+core = 7.x
+dependencies[] = token
+
+
+
+; Files - Simpletest
+
+files[] = tests/field_tokens.test
+
+; Information added by Drupal.org packaging script on 2015-08-05
+version = "7.x-1.4"
+core = "7.x"
+project = "field_tokens"
+datestamp = "1438769940"
+
