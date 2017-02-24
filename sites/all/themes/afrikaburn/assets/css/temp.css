@@ -174,10 +174,38 @@ html body.logged-in div.user-menu ul {
   display: none;
 }
 .term-reference-tree li {
-    margin: 0.6em;
+  margin: 0.6em;
 }
 .term-reference-tree-button.term-reference-tree-button-processed {
-    margin-right: 0.7em;
+  margin-right: 0.7em;
+}
+
+
+/*   Volunteers Signup  Admin*/
+.page-wrangle-volunteer .views-field-field-vol-comments, .page-wrangle-volunteer .views-field.views-field-field-vol-other-skills, .page-wrangle-volunteer .views-field-field-vol-yr-other, .page-wrangle-volunteer .views-field-field-vol-concerns {
+  min-width: 300px;
+}
+.page-wrangle-volunteer .views-field-field-comment-editable {
+  min-width: 400px;
+}
+#editableviews-entity-form-volunteer-signup td {
+  vertical-align: top;
+}
+#editableviews-entity-form-volunteer-signup tr {
+    vertical-align: bottom;
+}
+.page-wrangle-volunteer .views-exposed-widget {
+    float: left;
+    width: 19%;
+}
+.page-wrangle-volunteer select, .page-wrangle-volunteer input  {
+    max-width: 95%;
+}
+.page-wrangle-volunteer #edit-field-wrangler-uid {
+    height: 81px;
+}
+.page-wrangle-volunteer .views-exposed-widgets {
+    width: 920px;
 }
 /* General  */
 
@@ -186,6 +214,9 @@ html body.logged-in div.user-menu ul {
     margin-top: 14px;
 }
 
+.page-user-edit .form-item-nodeaccess-password {
+  display: none;
+}
 /* */
 
 
@@ -209,7 +240,6 @@ html body.logged-in div.user-menu ul {
   display: none;
 }
 
-<<<<<<< HEAD
 
 /*-- Radio Styling --*/
 input[type="radio"] + div.radio-checkbox-dummy, input[type="checkbox"] + div.radio-checkbox-dummy
@@ -229,7 +259,6 @@ div#edit-account {
 .page-theme-camps-form-1-registered .field-label, .page-performance-registered .field-label, .page-mutant-vehicle-registered .field-label, .page-mutant-vehicle-grants .field-label, .page-creative-grants-registered .field-label,  .page-artwork-registered .field-label, {
 	display: none;}
 
-=======
 .button-general {
   max-width: 400px;
   min-width: 200px;
@@ -252,7 +281,6 @@ div#edit-account {
   box-sizing: border-box;
   padding: 16px 20px;
 }
->>>>>>> a17959e935cd1baf43d76266e98a43ac74f5d313
 
 
 

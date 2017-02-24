@@ -1,0 +1,34 @@
+<?php
+
+/**
+ * @file
+ * Contains rules module functions.
+ */
+
+/**
+ * Implements hook_rules_action_info().
+ */
+function flush_facebook_cache_rules_rules_action_info() {
+  $items = array();
+
+  $items['flush_facebook_cache_rules'] = array(
+    'label' => t('Custom Rule Action'),
+    'parameter' => array(
+      'node' => array(
+        'type' => 'node',
+        'label' => t('Node to effect'),
+      ),
+    ),
+    'configurable' => FALSE,
+    'group' => t('Flush Facebook Cache'),
+  );
+
+  return $items;
+}
+
+/**
+ * Rules action callback.
+ */
+function flush_facebook_cache_rules($node) {
+  flush_facebook_cache_node_action($node);
+}

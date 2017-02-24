@@ -1,0 +1,90 @@
+<?php
+
+/**
+ * @file
+ * Contains module functions.
+ */
+
+/**
+ * Implements hook_help().
+ */
+function flush_facebook_cache_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#flush_facebook_cache':
+      $output = '<h3>' . t('Use case') . '</h3>';
+      $output .= '<p>' . t('Have you ever tried to share content from your site and realised there is no image being pulled through as one has been added after publication? Or perhaps the headline has changed and the Facebook preview shows an earlier version.') . '</p>';
+      $output .= '<h3>' . t('This module') . '</h3>';
+      $output .= '<p>' . t('Instructs Facebook to scrape a new copy of the node.<br>You can simply click on the "Clear facebook cache" in the local menu tasks or use views bulk operations of mass executions.') . '</p>';
+      $output .= '<h3>' . t('Rules integration') . '</h3>';
+      $output .= '<p>' . t("Includes a sub module that allows for rules integration so we a node is updated it will automatically flush Facebook's cache") . '</p>';
+      return $output;
+  }
+}
+
+/**
+ * Implements hook_menu().
+ */
+function flush_facebook_cache_menu() {
+  $items['node/%node/flush_facebook_cache'] = array(
+    'title' => 'Clear facebook cache',
+    'page callback' => 'flush_facebook_cache_node_action',
+    'page arguments' => array(1),
+    'access arguments' => array('administer nodes'),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 100,
+  );
+
+  return $items;
+}
+
+/**
+ * Clear facebook cache node callback.
+ */
+function flush_facebook_cache_node_action($node) {
+  $response = flush_facebook_cache_do($node);
+
+  if ($response->code != 200) {
+    drupal_set_message('Error clearing facebook cache, please check your logs.', 'warning');
+  }
+  else {
+    drupal_set_message('Facebook cache cleared');
+  }
+
+  drupal_goto('node/' . $node->nid);
+}
+
+/**
+ * Implements hook_action_info().
+ */
+function flush_facebook_cache_action_info() {
+  return array(
+    'flush_facebook_cache_do' => array(
+      'type' => 'node',
+      'label' => t("Flush facebook's cache"),
+      'configurable' => FALSE,
+    ),
+  );
+}
+
+/**
+ * VBO callback to flush facebook's cache.
+ */
+function flush_facebook_cache_do($node) {
+  global $base_url;
+
+  $url = drupal_get_path_alias('node/' . $node->nid);
+
+  $page_url = $base_url . '/' . $url;
+
+  $fb_url = 'https://graph.facebook.com/?id=' . $page_url . '&scrape=true';
+
+  $response = drupal_http_request($fb_url, array('method' => 'POST'));
+
+  watchdog(
+    'Facebook cache',
+    'Flush FB Node: @nid <pre>@data<pre>',
+    array('@nid' => $node->nid, '@data' => print_r($response, TRUE))
+  );
+
+  return $response;
+}
