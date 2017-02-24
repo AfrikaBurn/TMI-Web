@@ -125,7 +125,7 @@ class SWIFTMailSystem implements MailSystemInterface {
       $m = Swift_Message::newInstance();
 
       // Not all Drupal headers should be added to the e-mail message.
-      // Some headers must be supressed in order for Swift Mailer to
+      // Some headers must be suppressed in order for Swift Mailer to
       // do its work properly.
       $suppressable_headers = swiftmailer_get_supressable_headers();
 
@@ -141,7 +141,7 @@ class SWIFTMailSystem implements MailSystemInterface {
         foreach ($message['headers'] as $header_key => $header_value) {
 
           // Check wether the current header key is empty or represents
-          // a header that should be supressed. If yes, then skip header.
+          // a header that should be suppressed. If yes, then skip header.
           if (empty($header_key) || in_array($header_key, $suppressable_headers)) {
             continue;
           }
@@ -190,6 +190,18 @@ class SWIFTMailSystem implements MailSystemInterface {
       swiftmailer_remove_header($m, 'To');
       swiftmailer_remove_header($m, 'Subject');
 
+      if ($message['from'] == variable_get('site_mail', '')) {
+        $sender_name = variable_get('swiftmailer_sender_name', '');
+        if (empty($sender_name)) {
+          $sender_name = variable_get('site_name', 'Drupal');
+        }
+        $sender_email = variable_get('swiftmailer_sender_email', '');
+        if (empty($sender_email)) {
+          $sender_email = variable_get('site_mail', '');
+        }
+        $message['from'] = '"' . $sender_name . '" <' . $sender_email . '>';
+      }
+
       // Parse 'from' and 'to' mailboxes.
       $from = swiftmailer_parse_mailboxes($message['from']);
       $to = swiftmailer_parse_mailboxes($message['to']);
@@ -218,7 +230,7 @@ class SWIFTMailSystem implements MailSystemInterface {
       if (empty($message['params']['files']) || !is_array($message['params']['files'])) {
         $message['params']['files'] = array();
       }
-
+      
       // Let other modules get the chance to add attachable files.
       $files = module_invoke_all('swiftmailer_attach', $message['key']);
       if (!empty($files) && is_array($files)) {
@@ -228,6 +240,11 @@ class SWIFTMailSystem implements MailSystemInterface {
       // Attach files.
       if (!empty($message['params']['files']) && is_array($message['params']['files'])) {
         $this->attach($m, $message['params']['files']);
+      }
+      
+      // Attach files (provide compatibility with mimemail)
+      if (!empty($message['params']['attachments']) && is_array($message['params']['attachments'])) {
+        $this->attachAsMimeMail($m, $message['params']['attachments']);
       }
 
       // Embed images.
@@ -301,6 +318,7 @@ class SWIFTMailSystem implements MailSystemInterface {
         }
       }
       drupal_alter('swiftmailer', $mailer, $m);
+      swiftmailer_filter_message($m);
       // Send the message.
       return $mailer->send($m);
 
@@ -359,6 +377,48 @@ class SWIFTMailSystem implements MailSystemInterface {
 
   }
 
+  /**
+   * Process MimeMail attachments.
+   *
+   * @param Swift_Message $m
+   *   The message which attachments are to be added to.
+   * @param array $attachments.
+   *   The attachments which are to be added message.
+   */
+  private function attachAsMimeMail(Swift_Message $m, array $attachments) {
+
+    // Iterate through each array element.
+    foreach ($attachments as $a) {
+
+      if (is_array($a)) {
+        
+        // Validate that we've got either 'filepath' or 'filecontent.
+        if (empty($a['filepath']) && empty($a['filecontent'])) {
+          continue;
+        }
+        
+        // Validate required fields.
+        if (empty($a['filename']) || empty($a['filemime'])) {
+          continue;
+        }
+
+        // Attach file (either using a static file or provided content).
+        if (!empty($a['filepath'])) {
+          $file = new stdClass();
+          $file->uri = $a['filepath'];
+          $file->filename = $a['filename'];
+          $file->filemime = $a['filemime'];
+          $this->attach($m, array($file));
+        }
+        else {
+          $m->attach(Swift_Attachment::newInstance($a['filecontent'], $a['filename'], $a['filemime']));  
+        }
+        
+      }
+    }
+
+  }
+  
   /**
    * Process inline images..
    *

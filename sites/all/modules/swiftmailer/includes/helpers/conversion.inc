@@ -223,7 +223,7 @@ function swiftmailer_is_mailbox_header($key, $value) {
  *   The header value.
  */
 function swiftmailer_add_mailbox_header(Swift_Message $message, $key, $value) {
-  
+
   // Remove any already existing header identified by the provided key.
   swiftmailer_remove_header($message, $key);
 
@@ -357,17 +357,17 @@ function swiftmailer_parse_mailboxes($value) {
   //$mailboxes_raw = preg_split('/(,|;)/', $value);
   $mailboxes_raw = array();
   preg_match_all("/((?:^|\s){0,}(?:(?:\".*?\"){0,1}.*?)(?:$|,|;))/", $value, $mailboxes_raw);
-  
+
   // Define an array which will keep track of mailboxes.
   $mailboxes = array();
-  
+
   // Iterate through each of the raw mailboxes and process them.
   foreach ($mailboxes_raw[0] as $mailbox_raw) {
-      
+
     if (empty($mailbox_raw)) {
       continue;
     }
-        
+
     // Remove leading and trailing whitespace.
     $mailbox_raw = trim($mailbox_raw);
 
@@ -375,14 +375,47 @@ function swiftmailer_parse_mailboxes($value) {
       $mailbox_components = explode('<', $mailbox_raw);
       $mailbox_name = trim(preg_replace("/\"/", "", $mailbox_components[0]));
       $mailbox_address = preg_replace('/>.*/', '', $mailbox_components[1]);
-      $mailboxes[$mailbox_address] = $mailbox_name;
+      if (valid_email_address($mailbox_address)) {
+        $mailboxes[$mailbox_address] = $mailbox_name;
+      }
     }
     else {
-      $mailboxes[] = preg_replace("/(,|;)/", "", $mailbox_raw);
+      $mailbox_address = preg_replace("/(,|;)/", "", $mailbox_raw);
+      if (valid_email_address($mailbox_address)) {
+        $mailboxes[] = $mailbox_address;
+      }
     }
-    
   }
-  
-  return $mailboxes;
 
+  return $mailboxes;
+}
+
+/**
+ * Filters out unwanted elements from a message.
+ *
+ * @param Swift_Message $message
+ *   The message which unwanted elements is to be filtered out from.
+ */
+function swiftmailer_filter_message(Swift_Message $message) {
+  $headers = $message->getHeaders();
+
+  $senders = $headers->get('From')->getAddresses();
+  if (!empty($senders)) {
+    for ($i = 0; $i < count($senders); $i++) {
+      if (!valid_email_address($senders[$i])) {
+        $headers->remove('From', $i);
+        watchdog('swiftmailer', 'The invalid "From" e-mail address "!mail" was skipped.', array('!mail' => $senders[$i]), WATCHDOG_WARNING);
+      }
+    }
+  }
+
+  $recipients = $headers->get('To')->getAddresses();
+  if (!empty($recipients)) {
+    for ($i = 0; $i < count($recipients); $i++) {
+      if (!valid_email_address($recipients[$i])) {
+        $headers->remove('To', $i);
+        watchdog('swiftmailer', 'The invalid "To" e-mail address "!mail" was skipped.', array('!mail' => $recipients[$i]), WATCHDOG_WARNING);
+      }
+    }
+  }
 }

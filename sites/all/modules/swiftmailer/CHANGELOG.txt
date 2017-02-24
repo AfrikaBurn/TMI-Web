@@ -9,7 +9,7 @@
 - The format() function in SWIFTMailSystem.inc assumed that the provided 
   $message variable always would be an array. The function now checks that
   $message is not empty and that it is an array before doing any work on it.
-- Replaced occurences of '\r\n' with variable_get('mail_line_endings',
+- Replaced occurrences of '\r\n' with variable_get('mail_line_endings',
   MAIL_LINE_ENDINGS)
 - Renamed $supressable_headers to $suppressable_headers in SwiftMailSystem.inc.
 - Corrected the spelling mistake 'attachments needs to' to 'attachments need to'

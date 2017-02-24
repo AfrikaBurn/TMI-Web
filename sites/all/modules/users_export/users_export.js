@@ -3,13 +3,14 @@
  * The main javascript file for the users_export module
  */
 (function ($, Drupal) {
-  Drupal.usersExport = {};
-  Drupal.behaviors.usersExport = {};
-  Drupal.behaviors.usersExport.attach = function (context, settings) {
-    $('#edit-users-export-type').change(function () {
-      var id        = $(this).val(),
-          extension = Drupal.settings.usersExport[id].extension;
-      $('#edit-users-export-filename+.field-suffix').html(extension);
-    })
-  }
+  Drupal.behaviors.usersExport = {
+    attach: function (context, settings) {
+      // Alter the extension suffix on the filename form input on the admin export form.
+      $('#edit-users-export-type', context).change(function () {
+        var id        = $(this).val(),
+            extension = settings.usersExport[id].extension;
+        $('#edit-users-export-filename+.field-suffix').html(extension);
+      });
+    }
+  };
 })(jQuery, Drupal);
