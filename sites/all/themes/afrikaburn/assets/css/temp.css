@@ -65,6 +65,29 @@ If I make the sidebar region on the homepage, can the newsletter signup be put i
   /* end 980 */ 
 }
 
+/* Logged in home page */ 
+.page-home .panel-flexible h2 {
+  color: #f26c55;
+  font-family: 'FuturaBook';
+  color: #f26c55;
+  font-weight: normal;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #511719;
+  text-transform: uppercase;
+}
+.page-home .panel-flexible p,
+.page-home .panel-flexible .field-content {
+  color: #ffefb6;
+  line-height: normal;
+}
+.page-home #my-projects,
+.page-home #volunteer-now {
+  background-color: #0d0d0d;
+} 
+body.logged-in.page-home div.panel-pane{
+  background-color: #340b12;
+}
+
 /* Community tickets */ 
 .page-node-add-community-tickets-and-outreach .group-indent {
   padding-left: 35px;
@@ -209,7 +232,7 @@ html body.logged-in div.user-menu ul {
   display: none;
 }
 
-<<<<<<< HEAD
+
 
 /*-- Radio Styling --*/
 input[type="radio"] + div.radio-checkbox-dummy, input[type="checkbox"] + div.radio-checkbox-dummy
@@ -252,7 +275,7 @@ div#edit-account {
   box-sizing: border-box;
   padding: 16px 20px;
 }
->>>>>>> a17959e935cd1baf43d76266e98a43ac74f5d313
+
 
 
 

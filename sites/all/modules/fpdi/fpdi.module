@@ -1,0 +1,69 @@
+<?php
+
+/**
+ * Implements hook_requirements()
+ */
+function fpdi_requirements($phase) {
+  $requirements = array();
+  if ($phase == 'runtime') {
+    $t = get_t();
+    if ($path = libraries_get_path('fpdi')) {
+      if (file_exists($path . '/fpdi.php') && file_exists($path . '/fpdf_tpl.php')) {
+        $requirements['fpdi'] = array(
+          'title' => $t('FPDI'),
+          'value' => $t('fpdi.php and fpdf_tpl.php found under !path', array('!path' => $path)),
+          'severity' => REQUIREMENT_OK,
+        );
+        return $requirements;
+      }
+      else if (!file_exists($path . '/fpdi.php')) {
+        $requirements['fpdi'] = array(
+          'title' => $t('FPDI'),
+          'value' => $t('fpdi.php not found under !path. View README.txt for further instructions.', array('!path' => $path)),
+          'severity' => REQUIREMENT_ERROR,
+        );
+        return $requirements;
+      }
+      else {
+        $requirements['fpdi'] = array(
+          'title' => $t('FPDI'),
+          'value' => $t('fpdf_tpl.php not found under !path. View README.txt for further instructions.', array('!path' => $path)),
+          'severity' => REQUIREMENT_ERROR,
+        );
+        return $requirements;
+      }
+    }
+    $requirements['fpdi'] = array(
+      'title' => $t('FPDI'),
+      'value' => $t('FPDI library was not found. !download the library and place in under sites/all/libraries/fpdi, so that the library can be found at sites/all/libraries/fpdi/fpdi.php.', array('!download' => l(t('Download'), 'http://www.fpdi.org/'))),
+      'severity' => REQUIREMENT_ERROR,
+    );
+  }
+  return $requirements;
+}
+
+/**
+ * Implements hook_libraries_info().
+ */
+function fpdi_libraries_info() {
+  $libraries = array();
+  $libraries['fpdi'] = array(
+    'name' => 'FPDI',
+    'vendor url' => 'http://www.setasign.com/products/fpdi/about/',
+    'download url' => 'http://www.setasign.com/products/fpdi/downloads/',
+    'files' => array(
+      'php' => array(
+        'fpdi.php',
+        'fpdf_tpl.php',
+      ),
+    ),
+    'dependencies' => array('fpdf'),
+    'version arguments' => array(
+      'file' => 'fpdi.php',
+      'pattern' => '/((\d+)\.(\d+)\.(\d+))/',
+      'lines' => 6,
+    ),
+  );
+
+  return $libraries;
+}

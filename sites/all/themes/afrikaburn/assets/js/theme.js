@@ -149,6 +149,9 @@ $(document).ready(function() {
     });
 
     $('input.form-text.form-autocomplete').wrap("<div class='autocomplete-wrapper'></div>");
+    //$(".field-group-div").not(":has(.field)").remove();
+
+    $('body.page-user-login form#user-login').after("<a href='/user/password?'>Forgot Password</a>");
 });
 
 

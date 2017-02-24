@@ -1,0 +1,11 @@
+name = FPDF PHP library
+description = This module provides support for the FPDF PHP library
+core = 7.x
+dependencies[] = libraries
+
+; Information added by Drupal.org packaging script on 2014-03-05
+version = "7.x-1.0"
+core = "7.x"
+project = "fpdf"
+datestamp = "1394032134"
+
