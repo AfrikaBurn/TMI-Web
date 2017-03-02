@@ -128,26 +128,30 @@ $(document).ready(function() {
     		toggleContactForm(clickedElement);
     });
 
-    $('div.field-type-multifield.field-name-field-creative-lead').after("<button id='copy-contact-person'>*Use above details</button>");
+    //$('div.field-type-multifield.field-name-field-creative-lead').after("<div class='description'>we encourage you to have a team, but under stand some small vehicles may not need the support.</div><button id='copy-contact-person'>*Use above details</button>");
 
-    $('button#copy-contact-person').on('click', function(e) {
-    	e.preventDefault();
-    	var firstName = $('body.page-node-add-mutant-vehicles fieldset#edit-field-contact-person-und-0 div.field-name-field-first-name input').val();
-    	var lastName = $('body.page-node-add-mutant-vehicles fieldset#edit-field-contact-person-und-0 div.field-name-field-last-name input').val();
-    	var emailAddress = $('body.page-node-add-mutant-vehicles fieldset#edit-field-contact-person-und-0 div.field-name-field-email-address input').val();
-    	var phoneNumber = $('body.page-node-add-mutant-vehicles fieldset#edit-field-contact-person-und-0 div.field-name-field-phone-number input').val();
-    	console.log(firstName);
-    	$('body.page-node-add-mutant-vehicles fieldset#edit-field-creative-lead-und-0 div.field-name-field-first-name input').val(firstName);
-    	$('body.page-node-add-mutant-vehicles fieldset#edit-field-creative-lead-und-0 div.field-name-field-last-name input').val(lastName);
-    	$('body.page-node-add-mutant-vehicles fieldset#edit-field-creative-lead-und-0 div.field-name-field-email-address input').val(emailAddress);
-    	$('body.page-node-add-mutant-vehicles fieldset#edit-field-creative-lead-und-0 div.field-name-field-phone-number input').val(phoneNumber);
+    $('input#edit-field-solo-project-und').change(function() {
+    	if (this.checked) {
+    		var firstName = $('body.page-node-add-mutant-vehicles fieldset#edit-field-contact-person-und-0 div.field-name-field-first-name input').val();
+    		var lastName = $('body.page-node-add-mutant-vehicles fieldset#edit-field-contact-person-und-0 div.field-name-field-last-name input').val();
+    		var emailAddress = $('body.page-node-add-mutant-vehicles fieldset#edit-field-contact-person-und-0 div.field-name-field-email-address input').val();
+    		var phoneNumber = $('body.page-node-add-mutant-vehicles fieldset#edit-field-contact-person-und-0 div.field-name-field-phone-number input').val();
+    		$('body.page-node-add-mutant-vehicles fieldset#edit-field-creative-lead-und-0 div.field-name-field-first-name input').val(firstName);
+    		$('body.page-node-add-mutant-vehicles fieldset#edit-field-creative-lead-und-0 div.field-name-field-last-name input').val(lastName);
+    		$('body.page-node-add-mutant-vehicles fieldset#edit-field-creative-lead-und-0 div.field-name-field-email-address input').val(emailAddress);
+    		$('body.page-node-add-mutant-vehicles fieldset#edit-field-creative-lead-und-0 div.field-name-field-phone-number input').val(phoneNumber);
+    	}
     });
 
     $('body.page-node-add-mutant-vehicles fieldset#edit-field-contact-person-und-0 input,' +
     	'body.page-node-add-mutant-vehicles fieldset#edit-field-creative-lead-und-0 input').focus(function(e) {
     	console.log($(this).attr('name'));
     });
-    	
+
+    $('input.form-text.form-autocomplete').wrap("<div class='autocomplete-wrapper'></div>");
+    //$(".field-group-div").not(":has(.field)").remove();
+
+    $('body.page-user-login form#user-login').after("<a href='/user/password?'>Forgot Password</a>");
 });
 
 

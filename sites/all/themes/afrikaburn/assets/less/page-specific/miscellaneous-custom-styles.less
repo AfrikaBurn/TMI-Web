@@ -1,7 +1,6 @@
 @ab-peach: #f26c55;
 @ab-peach-lighter: #ff8a76;
 @ab-peach-darker: #c65541;
-
 @ab-maroon: #961116;
 
 div.banners {
@@ -83,15 +82,12 @@ div#social-media-links-bar div.social-media-links {
 	background: #450b14 url("../images/content_bg.jpg") no-repeat center top;
 }
 
-
 div.body-content input[type=radio]:hover + div.radio-checkbox-dummy, 
 div.body-content input[type=checkbox]:hover + div.radio-checkbox-dummy,
 div.body-content input[type=radio]:checked + div.radio-checkbox-dummy, 
 div.body-content input[type=checkbox]:checked + div.radio-checkbox-dummy {
 	border-color: #AF282E;
 }
-
-
 
 input,
 textarea,
@@ -101,63 +97,23 @@ div.body-content textarea {
 	background-repeat: repeat;
 }
 
-@media (min-width: 980px) {
-	#main-content-strip {
-		margin-bottom: 36px;
-	}
+/*---Home page---*/
 
-	.navbar .navbar-inner .nav-collapse aside > ul.menu > li {
-		padding-top: 4px;
-		padding-bottom: 4px;
-		margin-right: 15px;
-		margin-left: 15px;
-		list-style-image: url("../images/sep1.png");
-	}
-	.navbar .navbar-inner .nav-collapse aside > ul.menu > li:first-child {
-		list-style-image: none;
-	}
-
-	.navbar .navbar-inner .nav-collapse aside > ul.menu > li > a {
-		-webkit-border-radius: 8px;
-		-moz-border-radius: 8px;
-		border-radius: 8px;
-	}
-	.navbar .navbar-inner .nav-collapse ul.menu ul.menu {
-		padding: 10px 20px 0;
-		background-color: @pc-main-nav-level-2-item-background-color;
-		-webkit-border-bottom-right-radius: 15px;
-		-webkit-border-bottom-left-radius: 15px;
-		-moz-border-radius-bottomright: 15px;
-		-moz-border-radius-bottomleft: 15px;
-		border-bottom-right-radius: 15px;
-		border-bottom-left-radius: 15px;
-		overflow: hidden;
-	}
-	.navbar .navbar-inner .nav-collapse ul.menu ul.menu li {
-		border-top: 1px solid @ab-maroon;
-	}
+body.logged-in.page-home div.panel-pane {
+	.coloured-content-box;
+	margin-bottom: 20px;
 }
 
-@media (max-width: 979px) {
-	div.logo-container {
-		width: 39%;
-		left: inherit;
-		right: 10px;
-		top: 54px;
-	}
+body.page-home a.home-burner-bio-options {
+	.button-styles;
+	line-height: @general-button-height;
+	text-decoration: none;
+	float: left;
+	margin-right: 30px;
+}
 
-	div#top-bar {
-		height: 50px;
-	}
-
-	.navbar a.btn.btn-navbar {
-		margin-top: -54px;
-	}
-
-	div.sidebar-outer,
-	section#footer {
-		display: none;
-	}
+body.page-home a.home-burner-bio-options:hover {
+	.button-hover-styles;
 }
 
 /*---Add formatting to user profile page and all form results pages---*/
@@ -236,4 +192,67 @@ body.node-type-mutant-vehicles-grant div.field-label {
 .page-community label.views-label-field-creative-lead:hover,
 .page-community label.views-label-field-new-members-email:hover {
 	background-color: @ab-peach-lighter;
+}
+
+.page-node-add-community-tickets-and-outreach .field-name-field-proof-of-income-private {
+	clear: both;
+}
+
+@media (min-width: 980px) {
+	#main-content-strip {
+		margin-bottom: 36px;
+	}
+
+	.navbar .navbar-inner .nav-collapse aside > ul.menu > li {
+		padding-top: 4px;
+		padding-bottom: 4px;
+		margin-right: 15px;
+		margin-left: 15px;
+		list-style-image: url("../images/sep1.png");
+	}
+	.navbar .navbar-inner .nav-collapse aside > ul.menu > li:first-child {
+		list-style-image: none;
+	}
+
+	.navbar .navbar-inner .nav-collapse aside > ul.menu > li > a {
+		-webkit-border-radius: 8px;
+		-moz-border-radius: 8px;
+		border-radius: 8px;
+	}
+	.navbar .navbar-inner .nav-collapse ul.menu ul.menu {
+		padding: 10px 20px 0;
+		background-color: @pc-main-nav-level-2-item-background-color;
+		-webkit-border-bottom-right-radius: 15px;
+		-webkit-border-bottom-left-radius: 15px;
+		-moz-border-radius-bottomright: 15px;
+		-moz-border-radius-bottomleft: 15px;
+		border-bottom-right-radius: 15px;
+		border-bottom-left-radius: 15px;
+		overflow: hidden;
+	}
+	.navbar .navbar-inner .nav-collapse ul.menu ul.menu li {
+		border-top: 1px solid @ab-maroon;
+	}
+}
+
+@media (max-width: 979px) {
+	div.logo-container {
+		width: 39%;
+		left: inherit;
+		right: 10px;
+		top: 54px;
+	}
+
+	div#top-bar {
+		height: 50px;
+	}
+
+	.navbar a.btn.btn-navbar {
+		margin-top: -54px;
+	}
+
+	div.sidebar-outer,
+	section#footer {
+		display: none;
+	}
 }

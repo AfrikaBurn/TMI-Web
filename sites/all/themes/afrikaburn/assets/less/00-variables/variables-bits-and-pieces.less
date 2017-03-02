@@ -258,3 +258,17 @@ TABLE STYLES
 @login-block-remember-me-text-color: #999;
 
 @icons-sprite-background-size: 200px;
+
+/*---Mixins---*/
+
+.border-radius(@radiusSize: 3px) {
+	border-radius: @radiusSize;
+	-moz-border-radius: @radiusSize;
+	-webkit-border-radius: @radiusSize;
+}
+
+.coloured-content-box {
+	padding: 20px;
+	.border-radius(@radiusSize: 5px);
+	background-color: #9c2f40;
+}

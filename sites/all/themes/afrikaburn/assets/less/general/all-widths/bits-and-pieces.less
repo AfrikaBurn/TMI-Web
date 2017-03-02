@@ -195,17 +195,7 @@ div.body-content a.btn:hover,
 div.input-file-wrapper:hover,
 input[type=submit]:hover,
 div.body-content input[type=submit]:hover  {
-	background: @general-button-hover-background-color;
-	height: @general-button-height;
-	color: @general-button-hover-color;
-	cursor: pointer;
-	display: block;
-	border-radius: @general-button-border-radius;
-	-moz-border-radius: @general-button-border-radius;
-	-webkit-border-radius: @general-button-border-radius;
-	transition: inherit !important;	
-	box-shadow: inherit !important;
-	
+	.button-hover-styles;
 }
 
 div.body-content select {
@@ -862,4 +852,35 @@ span.icon {
 	background-repeat: no-repeat;
 	background-position: left -40px top -50px;
 	background-size: @icons-sprite-background-size;
+}
+
+div.autocomplete-wrapper {
+	position: relative;
+}
+
+div#autocomplete {
+	z-index: 100;
+	background: #fff url("../images/paper-bg.png");
+	max-width: @main-block-box-width;
+	top: @general-input-height+(2*@general-input-border-width) !important;
+	position: absolute;
+}
+
+div#autocomplete ul {
+	list-style: none;
+	margin: 0;
+}
+
+div#autocomplete ul li {
+	margin-left: 0;
+	padding: 4px 15px;
+	border: 1px solid #ccc;
+	border-top-width: 0;
+	color: #f26c55;
+}
+
+div#autocomplete ul li:hover {
+	cursor: pointer;
+	background: #f26c55;
+	color: #111;
 }
