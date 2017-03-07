@@ -9,7 +9,11 @@
 * [API Reference](https://github.com/d3/d3/blob/master/API.md)
 * [Release Notes](https://github.com/d3/d3/releases)
 * [Gallery](https://github.com/d3/d3/wiki/Gallery)
+<<<<<<< HEAD
 * [Examples](https://bl.ocks.org/mbostock)
+=======
+* [Examples](http://bl.ocks.org/mbostock)
+>>>>>>> 500bb53a4edec63d9997471515f9520fce6cdc96
 * [Wiki](https://github.com/d3/d3/wiki)
 
 ## Installing
@@ -32,7 +36,11 @@ You can also use the standalone D3 microlibraries. For example, [d3-selection](h
 <script src="https://d3js.org/d3-selection.v1.js"></script>
 ```
 
+<<<<<<< HEAD
 D3 is written using [ES2015 modules](http://www.2ality.com/2014/09/es6-modules-final.html). Create a [custom bundle using Rollup](https://bl.ocks.org/mbostock/bb09af4c39c79cffcde4), Webpack, or your preferred bundler. To import D3 into an ES2015 application, either import specific symbols from specific D3 modules:
+=======
+D3 is written using [ES2015 modules](http://www.2ality.com/2014/09/es6-modules-final.html). Create a [custom bundle using Rollup](http://bl.ocks.org/mbostock/bb09af4c39c79cffcde4), Webpack, or your preferred bundler. To import D3 into an ES2015 application, either import specific symbols from specific D3 modules:
+>>>>>>> 500bb53a4edec63d9997471515f9520fce6cdc96
 
 ```js
 import {scaleLinear} from "d3-scale";

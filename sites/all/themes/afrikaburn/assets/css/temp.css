@@ -370,6 +370,9 @@ html body.logged-in div.user-menu ul {
 }
 
 
+=======
+>>>>>>> 32fbf6e087e0bc3709b5e8ae311f29b6fb2aaf6c
+
 /*-- Radio Styling --*/
 input[type="radio"] + div.radio-checkbox-dummy, input[type="checkbox"] + div.radio-checkbox-dummy
 {
@@ -410,6 +413,13 @@ div#edit-account {
   box-sizing: border-box;
   padding: 16px 20px;
 }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+
+=======
+>>>>>>> 32fbf6e087e0bc3709b5e8ae311f29b6fb2aaf6c
+>>>>>>> 500bb53a4edec63d9997471515f9520fce6cdc96
 
 
 
