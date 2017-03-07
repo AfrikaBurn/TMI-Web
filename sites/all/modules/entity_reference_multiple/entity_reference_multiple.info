@@ -1,0 +1,13 @@
+name = Entity Reference Multiple
+description = Provides a field that can reference other entities.
+core = 7.x
+package = Fields
+dependencies[] = entity
+configure = admin/config/system/entity-reference-multiple
+
+; Information added by Drupal.org packaging script on 2015-06-06
+version = "7.x-2.0-alpha4"
+core = "7.x"
+project = "entity_reference_multiple"
+datestamp = "1433627206"
+

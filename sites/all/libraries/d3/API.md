@@ -39,7 +39,11 @@ D3 uses [semantic versioning](http://semver.org/). The current version is expose
 
 Array manipulation, ordering, searching, summarizing, etc.
 
+<<<<<<< HEAD
+### [Statistics](https://github.com/d3/d3-array/blob/master/README.md#statistics)
+=======
 #### [Statistics](https://github.com/d3/d3-array/blob/master/README.md#statistics)
+>>>>>>> 500bb53a4edec63d9997471515f9520fce6cdc96
 
 Methods for computing basic summary statistics.
 
@@ -53,7 +57,11 @@ Methods for computing basic summary statistics.
 * [d3.variance](https://github.com/d3/d3-array/blob/master/README.md#variance) - compute the variance of an array of numbers.
 * [d3.deviation](https://github.com/d3/d3-array/blob/master/README.md#deviation) - compute the standard deviation of an array of numbers.
 
+<<<<<<< HEAD
+### [Search](https://github.com/d3/d3-array/blob/master/README.md#search)
+=======
 #### [Search](https://github.com/d3/d3-array/blob/master/README.md#search)
+>>>>>>> 500bb53a4edec63d9997471515f9520fce6cdc96
 
 Methods for searching arrays for a specific element.
 
@@ -67,7 +75,11 @@ Methods for searching arrays for a specific element.
 * [d3.ascending](https://github.com/d3/d3-array/blob/master/README.md#ascending) - compute the natural order of two values.
 * [d3.descending](https://github.com/d3/d3-array/blob/master/README.md#descending) - compute the natural order of two values.
 
+<<<<<<< HEAD
+### [Transformations](https://github.com/d3/d3-array/blob/master/README.md#transformations)
+=======
 #### [Transformations](https://github.com/d3/d3-array/blob/master/README.md#transformations)
+>>>>>>> 500bb53a4edec63d9997471515f9520fce6cdc96
 
 Methods for transforming arrays and for generating new arrays.
 
@@ -81,7 +93,11 @@ Methods for transforming arrays and for generating new arrays.
 * [d3.transpose](https://github.com/d3/d3-array/blob/master/README.md#transpose) - transpose an array of arrays.
 * [d3.zip](https://github.com/d3/d3-array/blob/master/README.md#zip) - transpose a variable number of arrays.
 
+<<<<<<< HEAD
+### [Histograms](https://github.com/d3/d3-array/blob/master/README.md#histograms)
+=======
 #### [Histograms](https://github.com/d3/d3-array/blob/master/README.md#histograms)
+>>>>>>> 500bb53a4edec63d9997471515f9520fce6cdc96
 
 Bin discrete samples into continuous, non-overlapping intervals.
 
@@ -149,7 +165,11 @@ Select a one- or two-dimensional region using the mouse or touch.
 
 Handy data structures for elements keyed by string.
 
+<<<<<<< HEAD
+### [Objects](https://github.com/d3/d3-collection/blob/master/README.md#objects)
+=======
 #### [Objects](https://github.com/d3/d3-collection/blob/master/README.md#objects)
+>>>>>>> 500bb53a4edec63d9997471515f9520fce6cdc96
 
 Methods for converting associative arrays (objects) to arrays.
 
@@ -157,7 +177,11 @@ Methods for converting associative arrays (objects) to arrays.
 * [d3.values](https://github.com/d3/d3-collection/blob/master/README.md#values) - list the values of an associated array.
 * [d3.entries](https://github.com/d3/d3-collection/blob/master/README.md#entries) - list the key-value entries of an associative array.
 
+<<<<<<< HEAD
+### [Maps](https://github.com/d3/d3-collection/blob/master/README.md#maps)
+=======
 #### [Maps](https://github.com/d3/d3-collection/blob/master/README.md#maps)
+>>>>>>> 500bb53a4edec63d9997471515f9520fce6cdc96
 
 Like ES6 Map, but with string keys and a few other differences.
 
@@ -174,7 +198,11 @@ Like ES6 Map, but with string keys and a few other differences.
 * [*map*.empty](https://github.com/d3/d3-collection/blob/master/README.md#map_empty) - returns false if the map has at least one entry.
 * [*map*.size](https://github.com/d3/d3-collection/blob/master/README.md#map_size) - compute the number of entries.
 
+<<<<<<< HEAD
+### [Sets](https://github.com/d3/d3-collection/blob/master/README.md#sets)
+=======
 #### [Sets](https://github.com/d3/d3-collection/blob/master/README.md#sets)
+>>>>>>> 500bb53a4edec63d9997471515f9520fce6cdc96
 
 Like ES6 Set, but with string keys and a few other differences.
 
@@ -188,7 +216,11 @@ Like ES6 Set, but with string keys and a few other differences.
 * [*set*.empty](https://github.com/d3/d3-collection/blob/master/README.md#set_empty) - returns true if the set has at least one value.
 * [*set*.size](https://github.com/d3/d3-collection/blob/master/README.md#set_size) - compute the number of values.
 
+<<<<<<< HEAD
+### [Nests](https://github.com/d3/d3-collection/blob/master/README.md#nests)
+=======
 #### [Nests](https://github.com/d3/d3-collection/blob/master/README.md#nests)
+>>>>>>> 500bb53a4edec63d9997471515f9520fce6cdc96
 
 Group data into arbitrary hierarchies.
 
@@ -465,7 +497,11 @@ Geographic projections, shapes and math.
 * [*stream*.polygonEnd](https://github.com/d3/d3-geo/blob/master/README.md#stream_polygonEnd) -
 * [*stream*.sphere](https://github.com/d3/d3-geo/blob/master/README.md#stream_sphere) -
 
+<<<<<<< HEAD
+### [Transforms](https://github.com/d3/d3-geo/blob/master/README.md#transforms)
+=======
 #### [Transforms](https://github.com/d3/d3-geo/blob/master/README.md#transforms)
+>>>>>>> 500bb53a4edec63d9997471515f9520fce6cdc96
 
 * [d3.geoIdentity](https://github.com/d3/d3-geo/blob/master/README.md#geoIdentity) - scale, translate or clip planar geometry.
 * [d3.geoTransform](https://github.com/d3/d3-geo/blob/master/README.md#geoTransform) - define a custom geometry transform.

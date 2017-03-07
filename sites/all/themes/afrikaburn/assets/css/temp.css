@@ -92,7 +92,72 @@ body.logged-in.page-home div.panel-pane{
 .page-node-add-community-tickets-and-outreach .group-indent {
   padding-left: 35px;
 }
-  
+
+/* Art Registrations */
+.page-wrangle-artworks-registrations .views-field-title strong {
+  font-size: 1.5em !important;
+  ine-height: 2em;
+}
+form div.field-name-field-first-name,
+form div.field-name-field-last-name,
+form div.field-name-field-email-address,
+form div.field-name-field-phone-number {
+  width: 100%;
+  max-width: 100%;
+}
+form div.field-name-field-first-name > div,
+form div.field-name-field-last-name > div,
+form div.field-name-field-email-address > div,
+form div.field-name-field-phone-number > div {
+  float: left;
+}
+.page-wrangle-artworks-registrations .field-name-field-phone-number {
+  margin-bottom: 16px
+}
+.page-wrangle-artworks-registrations .views-field-field-please-submit-concept-imag img {
+  width: 220px;
+  max-width: 220px;
+  max-height: 220px;
+  width: auto;
+  height: auto;
+}
+.page-wrangle-artworks-registrations .views-field-field-art-review-editable {
+  width: 100px;
+  max-width: 100px;
+}
+.page-wrangle-artworks-registrations .views-field-field-art-review-editable select {
+  max-width: 100%;
+}
+.page-wrangle-artworks-registrations .field-name-field-project-comments textarea {
+  width: 400px;
+  height: 200px;
+}
+.page-wrangle-artworks-registrations .views-widget-filter-field_art_review_tid,
+.page-wrangle-artworks-registrations .views-widget-filter-field_burning_yn_value {
+  max-width: 125px;
+  float: left;
+  padding-right: 5px;
+}
+.page-wrangle-artworks-registrations .views-widget-filter-field_art_review_tid select {
+  max-width: 100%;
+}
+.page-wrangle-artworks-registrations .views-widget-filter-field_burning_yn_value select {
+  height: 49px;
+  max-width: 100%;
+}
+.page-wrangle-artworks-registrations .views-widget-filter-field_burning_yn_value {
+  height: 130px;
+}
+
+.page-wrangle-artworks-registrations .views-field.views-field-field-describe-your-project {
+  width: 500px;
+  max-width: 500px;
+  min-width: 500px;
+}
+.page-wrangle-artworks-registrations .views-field.views-field-title {
+  min-width: 350px;
+}
+
 /* Art Grant Review */ 
 .page-wrangle-artworks-art-grant-ananymous-review div label {
   font-weight: 700;
@@ -164,6 +229,47 @@ body.logged-in.page-home div.panel-pane{
   list-style-type: none;
 }
 
+
+/* Early Access */
+.page-node-add-artwork-registration .field-name-field-early-access,
+.page-node-add-artwork-registration .field-name-field-early-access-justification,
+.page-node-add-artwork-registration .field-name-field-ea-total-allocated,
+.page-node-add-artwork-registration .field-name-field-ea-requested,
+.page-node-add-artwork-registration .field-name-field-ea-ticket-code,
+.page-node-add-artwork-registration .field-name-field-bb-found,
+.page-node-add-theme-camps .field-name-field-early-access,
+.page-node-add-theme-camps .field-name-field-early-access-justification,
+.page-node-add-theme-camps .field-name-field-ea-ticket-code,
+.page-node-add-theme-camps .field-name-field-bb-found,
+.page-node-add-theme-camps .field-name-field-ea-total-allocated,
+.page-node-add-theme-camps .field-name-field-ea-requested,
+.page-node-add-performance-registration .field-name-field-early-access,
+.page-node-add-performance-registration .field-name-field-early-access-justification,
+.page-node-add-performance-registration .field-name-field-ea-ticket-code,
+.page-node-add-performance-registration .field-name-field-bb-found,
+.page-node-add-performance-registration .field-name-field-ea-total-allocated,
+.page-node-add-performance-registration .field-name-field-ea-requested,
+.page-node-add-mutant-vehicles .field-name-field-early-access,
+.page-node-add-mutant-vehicles .field-name-field-early-access-justification,
+.page-node-add-mutant-vehicles .field-name-field-ea-ticket-code,
+.page-node-add-mutant-vehicles .field-name-field-bb-found,
+.page-node-add-mutant-vehicles .field-name-field-ea-total-allocated,
+.page-node-add-mutant-vehicles .field-name-field-ea-requested,
+.page-projects-early-access .views-row-edit-static {
+  display: none;
+}
+.page-node-add-artwork-registration .field-name-field-role,
+.page-node-add-theme-camps .field-name-field-role,
+.page-node-add-performance-registration .field-name-field-role,
+.page-node-add-mutant-vehicles .field-name-field-role,
+.page-projects-early-access .field-name-field-role {
+  max-width: 100%;
+}
+.page-projects-early-access legend {
+  font-size: 1.3em;
+  font-weight: 700;
+  line-height: 2em;
+}
 
 /*   Theme Camp form 2 signup  */
 #edit-field-artwork-move-und div:first-child,
@@ -263,7 +369,6 @@ html body.logged-in div.user-menu ul {
   display: none;
 }
 
-<<<<<<< HEAD
 
 =======
 >>>>>>> 32fbf6e087e0bc3709b5e8ae311f29b6fb2aaf6c
@@ -309,9 +414,12 @@ div#edit-account {
   padding: 16px 20px;
 }
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
 
 =======
 >>>>>>> 32fbf6e087e0bc3709b5e8ae311f29b6fb2aaf6c
+>>>>>>> 500bb53a4edec63d9997471515f9520fce6cdc96
 
 
 

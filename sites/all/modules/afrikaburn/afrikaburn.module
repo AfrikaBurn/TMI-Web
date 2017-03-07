@@ -1,5 +1,25 @@
 <?php
 
+<<<<<<< HEAD
+function afrikaburn_form_volunteer_registration_form_node_form_alter (&$form, &$form_state, $form_id) {
+  
+  if (!isset($form_state['node']->nid)) {
+    global $user;
+    $existing_nid = db_query(
+      "SELECT nid FROM {node} WHERE (type = :type) AND uid = :uid", 
+      array(
+        "type" => "volunteer_registration_form",
+        "uid" => $user->uid
+      )
+     )->fetchField();
+    if ($existing_nid != FALSE) {
+      drupal_goto("node/$existing_nid/edit");
+    }
+  }
+}
+
+function afrikaburn_form_sanctuary_services_application_node_form_alter (&$form, &$form_state, $form_id) {
+=======
 /*
 function afrikaburn_form_alter(&$form, &$form_state, $form_id){
 =======
@@ -120,13 +140,18 @@ function afrikaburn_form_volunteer_registration_form_node_form_alter {
 } */
 
 function afrikaburn_form_volunteer_registration_form_node_form_alter (&$form, &$form_state, $form_id) {
+>>>>>>> 500bb53a4edec63d9997471515f9520fce6cdc96
   
   if (!isset($form_state['node']->nid)) {
     global $user;
     $existing_nid = db_query(
       "SELECT nid FROM {node} WHERE (type = :type) AND uid = :uid", 
       array(
+<<<<<<< HEAD
+        "type" => "sanctuary_services_application",
+=======
         "type" => "volunteer_registration_form",
+>>>>>>> 500bb53a4edec63d9997471515f9520fce6cdc96
         "uid" => $user->uid
       )
      )->fetchField();

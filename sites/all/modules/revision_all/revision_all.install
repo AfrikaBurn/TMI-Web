@@ -1,0 +1,45 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the revision all module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function revision_all_install() {
+  $revision_all_defaults = array();
+
+  $revision_all_defaults['revision_all_types']  = FALSE;
+  $revision_all_defaults['enable_future'] = FALSE;
+  $revision_all_defaults['prevent_type_override'] = FALSE;
+  $revision_all_defaults['prevent_node_override'] = FALSE;
+
+  variable_set('revision_all', $revision_all_defaults);
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function revision_all_uninstall() {
+  variable_del('revision_all');
+}
+
+/**
+ * Converts the revision all variable settings to the new format. NOTE: the old
+ * prevent override setting has been split in to two different settings now.
+ * If you had prevent override set to TRUE previously the new node override
+ * will be TRUE, but the type override will be FALSE by default.
+ */
+function revision_all_update_7001() {
+  $new_config = array();
+  $old_config = variable_get('revision_all', array());
+
+  $new_config['revision_all_types'] = isset($old_config['revision-all']) ? $old_config['revision-all'] : TRUE;
+  $new_config['enable_future'] = isset($old_config['enable-future']) ? $old_config['enable-future'] : TRUE;
+  $new_config['prevent_type_override'] = FALSE;
+  $new_config['prevent_node_override'] = isset($old_config['prevent-override']) ? $old_config['prevent-override'] : TRUE;
+
+  variable_set('revision_all', $new_config);
+}
