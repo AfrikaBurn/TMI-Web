@@ -1,3 +1,9 @@
+/*
+no-sidebars class on body will hide the sidebar, and make the rest of the content full width.
+Need some classnames for links on home page.
+If I make the sidebar region on the homepage, can the newsletter signup be put in there?
+*/
+
 @media (min-width: 980px) {
 
   /* DMV Registration form */
@@ -9,9 +15,13 @@
   }
 
   /* Community tickets */ 
-  .page-node-add-community-tickets-and-outreach .main-block, .page-node-add-community-tickets-and-outreach .block-system {
-    width: 940px;
+  .page-node-add-community-tickets-and-outreach .main-block {
+    max-width: 940px;
   }
+
+  .page-node-add-community-tickets-and-outreach .sidebar-outer {
+    display: none;
+  } 
 
   .page-node-add-community-tickets-and-outreach .field-name-field-proof-of-income-private {
     max-width: 400px;
@@ -55,11 +65,99 @@
   /* end 980 */ 
 }
 
+/* Logged in home page */ 
+.page-home .panel-flexible h2 {
+  color: #f26c55;
+  font-family: 'FuturaBook';
+  color: #f26c55;
+  font-weight: normal;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #511719;
+  text-transform: uppercase;
+}
+.page-home .panel-flexible p,
+.page-home .panel-flexible .field-content {
+  color: #ffefb6;
+  line-height: normal;
+}
+.page-home #my-projects,
+.page-home #volunteer-now {
+  background-color: #0d0d0d;
+} 
+body.logged-in.page-home div.panel-pane{
+  background-color: #340b12;
+}
+
 /* Community tickets */ 
 .page-node-add-community-tickets-and-outreach .group-indent {
   padding-left: 35px;
 }
-  
+
+/* Art Registrations */
+.page-wrangle-artworks-registrations .views-field-title strong {
+  font-size: 1.5em !important;
+  ine-height: 2em;
+}
+form div.field-name-field-first-name,
+form div.field-name-field-last-name,
+form div.field-name-field-email-address,
+form div.field-name-field-phone-number {
+  width: 100%;
+  max-width: 100%;
+}
+form div.field-name-field-first-name > div,
+form div.field-name-field-last-name > div,
+form div.field-name-field-email-address > div,
+form div.field-name-field-phone-number > div {
+  float: left;
+}
+.page-wrangle-artworks-registrations .field-name-field-phone-number {
+  margin-bottom: 16px
+}
+.page-wrangle-artworks-registrations .views-field-field-please-submit-concept-imag img {
+  width: 220px;
+  max-width: 220px;
+  max-height: 220px;
+  width: auto;
+  height: auto;
+}
+.page-wrangle-artworks-registrations .views-field-field-art-review-editable {
+  width: 100px;
+  max-width: 100px;
+}
+.page-wrangle-artworks-registrations .views-field-field-art-review-editable select {
+  max-width: 100%;
+}
+.page-wrangle-artworks-registrations .field-name-field-project-comments textarea {
+  width: 400px;
+  height: 200px;
+}
+.page-wrangle-artworks-registrations .views-widget-filter-field_art_review_tid,
+.page-wrangle-artworks-registrations .views-widget-filter-field_burning_yn_value {
+  max-width: 125px;
+  float: left;
+  padding-right: 5px;
+}
+.page-wrangle-artworks-registrations .views-widget-filter-field_art_review_tid select {
+  max-width: 100%;
+}
+.page-wrangle-artworks-registrations .views-widget-filter-field_burning_yn_value select {
+  height: 49px;
+  max-width: 100%;
+}
+.page-wrangle-artworks-registrations .views-widget-filter-field_burning_yn_value {
+  height: 130px;
+}
+
+.page-wrangle-artworks-registrations .views-field.views-field-field-describe-your-project {
+  width: 500px;
+  max-width: 500px;
+  min-width: 500px;
+}
+.page-wrangle-artworks-registrations .views-field.views-field-title {
+  min-width: 350px;
+}
+
 /* Art Grant Review */ 
 .page-wrangle-artworks-art-grant-ananymous-review div label {
   font-weight: 700;
@@ -132,6 +230,47 @@
 }
 
 
+/* Early Access */
+.page-node-add-artwork-registration .field-name-field-early-access,
+.page-node-add-artwork-registration .field-name-field-early-access-justification,
+.page-node-add-artwork-registration .field-name-field-ea-total-allocated,
+.page-node-add-artwork-registration .field-name-field-ea-requested,
+.page-node-add-artwork-registration .field-name-field-ea-ticket-code,
+.page-node-add-artwork-registration .field-name-field-bb-found,
+.page-node-add-theme-camps .field-name-field-early-access,
+.page-node-add-theme-camps .field-name-field-early-access-justification,
+.page-node-add-theme-camps .field-name-field-ea-ticket-code,
+.page-node-add-theme-camps .field-name-field-bb-found,
+.page-node-add-theme-camps .field-name-field-ea-total-allocated,
+.page-node-add-theme-camps .field-name-field-ea-requested,
+.page-node-add-performance-registration .field-name-field-early-access,
+.page-node-add-performance-registration .field-name-field-early-access-justification,
+.page-node-add-performance-registration .field-name-field-ea-ticket-code,
+.page-node-add-performance-registration .field-name-field-bb-found,
+.page-node-add-performance-registration .field-name-field-ea-total-allocated,
+.page-node-add-performance-registration .field-name-field-ea-requested,
+.page-node-add-mutant-vehicles .field-name-field-early-access,
+.page-node-add-mutant-vehicles .field-name-field-early-access-justification,
+.page-node-add-mutant-vehicles .field-name-field-ea-ticket-code,
+.page-node-add-mutant-vehicles .field-name-field-bb-found,
+.page-node-add-mutant-vehicles .field-name-field-ea-total-allocated,
+.page-node-add-mutant-vehicles .field-name-field-ea-requested,
+.page-projects-early-access .views-row-edit-static {
+  display: none;
+}
+.page-node-add-artwork-registration .field-name-field-role,
+.page-node-add-theme-camps .field-name-field-role,
+.page-node-add-performance-registration .field-name-field-role,
+.page-node-add-mutant-vehicles .field-name-field-role,
+.page-projects-early-access .field-name-field-role {
+  max-width: 100%;
+}
+.page-projects-early-access legend {
+  font-size: 1.3em;
+  font-weight: 700;
+  line-height: 2em;
+}
+
 /*   Theme Camp form 2 signup  */
 #edit-field-artwork-move-und div:first-child,
 .page-node-add-theme-camp-form-2 #edit-field-does-it-have-sound-effects-und div:first-child {
@@ -164,10 +303,38 @@ html body.logged-in div.user-menu ul {
   display: none;
 }
 .term-reference-tree li {
-    margin: 0.6em;
+  margin: 0.6em;
 }
 .term-reference-tree-button.term-reference-tree-button-processed {
-    margin-right: 0.7em;
+  margin-right: 0.7em;
+}
+
+
+/*   Volunteers Signup  Admin*/
+.page-wrangle-volunteer .views-field-field-vol-comments, .page-wrangle-volunteer .views-field.views-field-field-vol-other-skills, .page-wrangle-volunteer .views-field-field-vol-yr-other, .page-wrangle-volunteer .views-field-field-vol-concerns {
+  min-width: 300px;
+}
+.page-wrangle-volunteer .views-field-field-comment-editable {
+  min-width: 400px;
+}
+#editableviews-entity-form-volunteer-signup td {
+  vertical-align: top;
+}
+#editableviews-entity-form-volunteer-signup tr {
+    vertical-align: bottom;
+}
+.page-wrangle-volunteer .views-exposed-widget {
+    float: left;
+    width: 19%;
+}
+.page-wrangle-volunteer select, .page-wrangle-volunteer input  {
+    max-width: 95%;
+}
+.page-wrangle-volunteer #edit-field-wrangler-uid {
+    height: 81px;
+}
+.page-wrangle-volunteer .views-exposed-widgets {
+    width: 920px;
 }
 /* General  */
 
@@ -176,6 +343,9 @@ html body.logged-in div.user-menu ul {
     margin-top: 14px;
 }
 
+.page-user-edit .form-item-nodeaccess-password {
+  display: none;
+}
 /* */
 
 
@@ -199,7 +369,6 @@ html body.logged-in div.user-menu ul {
   display: none;
 }
 
-<<<<<<< HEAD
 
 /*-- Radio Styling --*/
 input[type="radio"] + div.radio-checkbox-dummy, input[type="checkbox"] + div.radio-checkbox-dummy
@@ -219,7 +388,6 @@ div#edit-account {
 .page-theme-camps-form-1-registered .field-label, .page-performance-registered .field-label, .page-mutant-vehicle-registered .field-label, .page-mutant-vehicle-grants .field-label, .page-creative-grants-registered .field-label,  .page-artwork-registered .field-label, {
 	display: none;}
 
-=======
 .button-general {
   max-width: 400px;
   min-width: 200px;
@@ -242,7 +410,6 @@ div#edit-account {
   box-sizing: border-box;
   padding: 16px 20px;
 }
->>>>>>> a17959e935cd1baf43d76266e98a43ac74f5d313
 
 
 
@@ -262,18 +429,11 @@ div#edit-account {
     list-style: none;
   }
   
-  
 }
 
 .page-email-node-field-new-members-email .form-item-mail {
   display: none;
 }
-
-
-
-
-
-
 
 .page-test .field-name-field-first-name, .page-test .field-name-field-last-name, .page-test .field-name-field-phone-number {
   display: none;

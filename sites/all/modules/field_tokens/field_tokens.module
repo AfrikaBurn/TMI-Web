@@ -1,0 +1,52 @@
+<?php
+
+/**
+ * @file
+ * Core functions for the Field tokens module.
+ */
+
+/**
+ * Include additional files.
+ */
+$dirname  = dirname(__FILE__) . '/includes';
+$includes = file_scan_directory($dirname, '/.inc$/');
+foreach (module_list() as $module) {
+  $file = "{$dirname}/{$module}.inc";
+  if (isset($includes[$file])) {
+    require_once $file;
+  }
+}
+
+/**
+ * Implements hook_module_implements_alter().
+ */
+function field_tokens_module_implements_alter(&$implementations, $hook) {
+  // Prevent the Formatted Field tokens module from interfering with the Field
+  // tokens module by suppressing it's hook_tokens function.
+  if ($hook == 'tokens' && in_array('formatted_field_tokens', array_keys($implementations))) {
+    unset($implementations['formatted_field_tokens']);
+  }
+}
+
+/**
+ * Implements hook_enable().
+ */
+function field_tokens_enable() {
+  if (module_exists('formatted_field_tokens')) {
+    $message = t('The Formatted Field tokens module is superseded by the Field tokens module, and should be disabled and deleted.');
+    drupal_set_message($message, 'warning');
+    watchdog('field_tokens', $message, array(), WATCHDOG_ERROR);
+  }
+}
+
+/**
+ * Implements hook_field_display_alter().
+ */
+function field_tokens_field_display_alter(&$display, $context) {
+  // If field is rendered via Field Tokens, ensure it is visible.
+  if ($display['type'] == 'hidden' && isset($context['entity']->_field_tokens) && $context['entity']->_field_tokens) {
+    $field_type        = field_info_field_types($context['field']['type']);
+    $display['type']   = $field_type['default_formatter'];
+    $display['module'] = $field_type['module'];
+  }
+}

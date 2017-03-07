@@ -2,6 +2,8 @@
 /**
  * @file
  * API documentation for users_export module.
+ *
+ * @ingroup users_export
  */
 
 /**
@@ -39,7 +41,7 @@ function hook_users_export_row_alter(&$row, $uid, $context) {
 /**
  * Implements hook_users_export_exporter_alter().
  *
- * @param object $exporter
+ * @param ExporterInterface $exporter
  */
 function hook_users_export_exporter_alter(ExporterInterface $exporter) {
 
@@ -47,4 +49,38 @@ function hook_users_export_exporter_alter(ExporterInterface $exporter) {
   $keys = $exporter->getData()->getKeys();
   $keys = array_reverse($keys);
   $exporter->getData()->setKeys($keys);
+}
+
+/**
+ * Implements hook_menu_alter().
+ *
+ * An example how to change the url of the export page
+ *
+ * @link https://www.drupal.org/node/2824163
+ */
+function hook_menu_alter(&$items) {
+  if (isset($items['admin/people/export'])) {
+    $items['do/re/mi'] = $items['admin/people/export'];
+    unset($items['admin/people/export']);
+
+    // Change the title
+    $items['do/re/mi']['title'] = t('Export User List');
+
+    // Move it to the main menu
+    $items['do/re/mi']['menu_name'] = 'main-menu';
+
+    // Make it a normal item
+    $items['do/re/mi']['type'] = MENU_NORMAL_ITEM;
+  }
+}
+
+/**
+ * Implements hook_admin_paths().
+ */
+function hook_admin_paths() {
+  return array(
+
+    // Indicate we want our path defined above to use the admin theme.
+    'do/re/mi' => TRUE,
+  );
 }

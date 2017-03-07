@@ -1,0 +1,13 @@
+name = Flush Facebook Cache
+description = Allows you to flush Facebook cache for a given url.
+core = 7.x
+package = Other
+
+dependencies[] = views_bulk_operations
+
+; Information added by Drupal.org packaging script on 2017-01-18
+version = "7.x-1.2"
+core = "7.x"
+project = "flush_facebook_cache"
+datestamp = "1484770087"
+

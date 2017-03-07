@@ -1,0 +1,51 @@
+<?php
+
+/**
+ * Implements hook_requirements()
+ */
+function fpdf_requirements($phase) {
+  $requirements = array();
+  if ($phase == 'runtime') {
+    $t = get_t();
+    if ($path = libraries_get_path('fpdf')) {
+      if (file_exists($path . '/fpdf.php')) {
+        $requirements['fpdf'] = array(
+          'title' => $t('FPDF'),
+          'value' => $t('fpdf.php found under !path', array('!path' => $path . '/fpdf.php')),
+          'severity' => REQUIREMENT_OK,
+        );
+        return $requirements;
+      }
+    }
+    $requirements['fpdf'] = array(
+      'title' => $t('FPDF'),
+      'value' => $t('FPDF library was not found. !download the library and place in under sites/all/libraries/fpdf, so that the library can be found at sites/all/libraries/fpdf/fpdf.php.', array('!download' => l(t('Download'), 'http://www.fpdf.org/'))),
+      'severity' => REQUIREMENT_ERROR,
+    );
+  }
+  return $requirements;
+}
+
+/**
+ * Implements hook_libraries_info().
+ */
+function fpdf_libraries_info() {
+  $libraries = array();
+  $libraries['fpdf'] = array(
+    'name' => 'FPDF',
+    'vendor url' => 'http://www.fpdf.org/',
+    'download url' => 'http://www.fpdf.org/',
+    'files' => array(
+      'php' => array(
+        'fpdf.php',
+      ),
+    ),
+    'version arguments' => array(
+      'file' => 'fpdf.php',
+      'pattern' => '/((\d+).(\d+))/',
+      'lines' => 6,
+    ),
+  );
+
+  return $libraries;
+}

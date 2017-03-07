@@ -3,8 +3,7 @@
  * @file
  * Handles installation steps for users_export
  *
- * @ingroup func_search
- * @{
+ * @ingroup users_export
  */
 
 /**
@@ -113,5 +112,3 @@ function users_export_requirements($phase) {
 
   return $reqs;
 }
-
-/** @} */ //end of group users_export

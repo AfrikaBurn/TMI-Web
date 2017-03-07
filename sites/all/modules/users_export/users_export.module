@@ -4,7 +4,6 @@
  * Base module file for users_export
  *
  * @defgroup users_export Users Export
- * @{
  */
 define('USERS_EXPORT_DEFAULT_DATE_FORMAT', 'Y-m-d H:i:s');
 
@@ -31,7 +30,10 @@ function users_export_menu() {
  */
 function users_export_views_api($module, $api) {
   if ($module == 'views' && $api == 'views_default') {
-    return array('version' => 2);
+    return array(
+      'path'    => drupal_get_path('module', 'users_export') . '/includes',
+      'version' => 2,
+    );
   }
 }
 

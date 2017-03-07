@@ -1,0 +1,12 @@
+name = FPDI PHP library
+description = This module provides support for the FPDI PHP library
+core = 7.x
+dependencies[] = libraries
+dependencies[] = fpdf
+
+; Information added by Drupal.org packaging script on 2014-03-05
+version = "7.x-1.0"
+core = "7.x"
+project = "fpdi"
+datestamp = "1394032138"
+

@@ -147,7 +147,11 @@ $(document).ready(function() {
     	'body.page-node-add-mutant-vehicles fieldset#edit-field-creative-lead-und-0 input').focus(function(e) {
     	console.log($(this).attr('name'));
     });
-    	
+
+    $('input.form-text.form-autocomplete').wrap("<div class='autocomplete-wrapper'></div>");
+    //$(".field-group-div").not(":has(.field)").remove();
+
+    $('body.page-user-login form#user-login').after("<a href='/user/password?'>Forgot Password</a>");
 });
 
 

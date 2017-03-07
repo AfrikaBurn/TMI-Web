@@ -36,6 +36,8 @@ function swiftmailer_uninstall() {
   variable_del('swiftmailer_smtp_password');
   variable_del('swiftmailer_sendmail_path');
   variable_del('swiftmailer_sendmail_mode');
+  variable_del('swiftmailer_sender_name');
+  variable_del('swiftmailer_sender_email');
 }
 
 /**

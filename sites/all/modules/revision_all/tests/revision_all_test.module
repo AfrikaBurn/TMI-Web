@@ -1,0 +1,19 @@
+<?php
+
+/**
+ * @file
+ * Defines custom content type for testing revision_all features.
+ */
+
+/**
+ * Implements hook_node_info().
+ */
+function revision_all_test_node_info() {
+  return array(
+    'revision_all_test' => array(
+      'name' => t('Revision All Test Page'),
+      'module' => 'revision_all_test',
+      'description' => t('Revision All Test Page node type.'),
+    )
+  );
+}

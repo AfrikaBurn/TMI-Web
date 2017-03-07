@@ -1,36 +1,35 @@
 <?php
-/**
-* This function defines the URL to the page created etc.
-* See http://api.drupal.org/api/function/hook_menu/6
-*/
 
-function securepay_menu() {
+function afrikaburn_form_volunteer_registration_form_node_form_alter (&$form, &$form_state, $form_id) {
   
-  $items['gen/wizard'] = array(
-    'title' => t('title'),
-    'page callback' => 'form_wizard',
-    'access arguments' => array('form_example_wizard'),
-    'access callback' => TRUE,
-    'description' => t('A simple transaction setup. Please complete all steps.'),
-    'file' => 'transaction_wizard.inc',
-
-  );
-  return $items;
-}
-/**
-* Hooks
-*/
-
-function afrikaburn_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
-  $form['account']['pass']['#process'] = array(
-    'form_process_password_confirm',
-    'afrikaburn_form_process_password_confirm',
-    'user_form_process_password_confirm'
-  );
+  if (!isset($form_state['node']->nid)) {
+    global $user;
+    $existing_nid = db_query(
+      "SELECT nid FROM {node} WHERE (type = :type) AND uid = :uid", 
+      array(
+        "type" => "volunteer_registration_form",
+        "uid" => $user->uid
+      )
+     )->fetchField();
+    if ($existing_nid != FALSE) {
+      drupal_goto("node/$existing_nid/edit");
+    }
+  }
 }
 
-function afrikaburn_form_process_password_confirm($element) {
-  $element['pass1']['#title'] = t('New password');
-  $element['pass2']['#title'] = t('Confirm new password');
-  return $element;
+function afrikaburn_form_sanctuary_services_application_node_form_alter (&$form, &$form_state, $form_id) {
+  
+  if (!isset($form_state['node']->nid)) {
+    global $user;
+    $existing_nid = db_query(
+      "SELECT nid FROM {node} WHERE (type = :type) AND uid = :uid", 
+      array(
+        "type" => "sanctuary_services_application",
+        "uid" => $user->uid
+      )
+     )->fetchField();
+    if ($existing_nid != FALSE) {
+      drupal_goto("node/$existing_nid/edit");
+    }
+  }
 }

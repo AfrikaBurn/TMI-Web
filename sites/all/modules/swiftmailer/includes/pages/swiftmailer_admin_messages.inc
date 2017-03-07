@@ -23,6 +23,24 @@ function swiftmailer_admin_messages_form($form, &$form_state) {
 
   if (swiftmailer_validate_library(variable_get('swiftmailer_path', SWIFTMAILER_VARIABLE_PATH_DEFAULT))) {
 
+    $form['sender'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Default sender'),
+      '#description' => t('You can set the default message sender which should be used when no sender is specified.'),
+    );
+
+    $form['sender']['name'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Sender name'),
+      '#default_value' => variable_get('swiftmailer_sender_name', variable_get('site_name', 'Drupal')),
+    );
+
+    $form['sender']['email'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Sender email'),
+      '#default_value' => variable_get('swiftmailer_sender_email', variable_get('site_mail', '')),
+    );
+
     $form['format'] = array(
       '#type' => 'fieldset',
       '#title' => t('Message format'),
@@ -115,9 +133,28 @@ function swiftmailer_admin_messages_form($form, &$form_state) {
 }
 
 /**
+ * Validate handler for swiftmailer_admin_messages_form($form, &$form_state).
+ */
+function swiftmailer_admin_messages_form_validate($form, &$form_state) {
+  if (!empty($form_state['values']['sender']['email'])) {
+    if (!valid_email_address($form_state['values']['sender']['email'])) {
+      form_set_error('sender][email', t('Invalid email address'));
+    }
+  }
+}
+
+/**
  * Submit handler for swiftmailer_admin_messages_form($form, &$form_state).
  */
 function swiftmailer_admin_messages_form_submit($form, &$form_state) {
+
+  if (isset($form_state['values']['sender']['name'])) {
+    variable_set('swiftmailer_sender_name', $form_state['values']['sender']['name']);
+  }
+
+  if (isset($form_state['values']['sender']['email'])) {
+    variable_set('swiftmailer_sender_email', $form_state['values']['sender']['email']);
+  }
 
   if (isset($form_state['values']['format']['type'])) {
     variable_set('swiftmailer_format', $form_state['values']['format']['type']);

@@ -1,0 +1,14 @@
+name = Revision All
+description = Enables centralized revisioning of content
+core = 7.x
+files[] = revision_all.module
+files[] = revision_all.install
+files[] = tests/revision_all.test
+configure = admin/config/content/revision-all
+
+; Information added by Drupal.org packaging script on 2014-01-30
+version = "7.x-2.1"
+core = "7.x"
+project = "revision_all"
+datestamp = "1391051642"
+

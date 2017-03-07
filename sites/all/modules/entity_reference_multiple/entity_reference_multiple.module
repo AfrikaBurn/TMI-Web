@@ -1,0 +1,1237 @@
+<?php
+
+/**
+ * @file
+ * Primarily Drupal hooks.
+ *
+ * This is the main module file for Entity Reference Multiple.
+ */
+
+/**
+ * Defines the name for the selects widget.
+ *
+ * @var string
+ */
+define('ENTITY_REFERENCE_MULTIPLE_SELECTS_WIDGET_NAME', 'entity_reference_multiple_selects');
+
+/**
+ * Defines the name for the autocomplete widget.
+ *
+ * @var string
+ */
+define('ENTITY_REFERENCE_MULTIPLE_AUTOCOMPLETE_WIDGET_NAME', 'entity_reference_multiple_autocomplete');
+
+/**
+ * Defines the limit for autocomple of the autocomplete widget.
+ *
+ * This is just the default setting. It will be overwritten by widget settings.
+ *
+ * @var string
+ */
+define('ENTITY_REFERENCE_MULTIPLE_AUTOCOMPLETE_WIDGET_AUTOCOMPLETE_LIMIT', 15);
+
+/**
+ * Defines the query like type for autocomple of the autocomplete widget.
+ *
+ * It can either be 'CONTAINS' or 'STARTS_WITH'.
+ * This is just the default setting. It will be overwritten by widget settings.
+ *
+ * @var string
+ */
+define('ENTITY_REFERENCE_MULTIPLE_AUTOCOMPLETE_WIDGET_AUTOCOMPLETE_QUERY_LIKE_TYPE', 'STARTS_WITH');
+
+/**
+ * Implements hook_menu().
+ */
+function entity_reference_multiple_menu() {
+  return array(
+    'admin/config/system/entity-reference-multiple' => array(
+      'title' => 'Entity short codes',
+      'description' => 'Manage short codes for entities.',
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('entity_reference_multiple_settings_form'),
+      'access arguments' => array('administer site configuration'),
+      'file' => 'entity_reference_multiple.admin.inc',
+    ),
+    'entity_reference_multiple/autocomplete/%/%/%/%' => array(
+      'page callback' => 'entity_reference_multiple_autocomplete_page_callback',
+      'page arguments' => array(2, 3, 4, 5),
+      'access callback' => 'entity_reference_multiple_autocomplete_access_callback',
+      'access arguments' => array(2, 3, 4),
+      'file' => 'entity_reference_multiple.pages.inc',
+      'type' => MENU_CALLBACK,
+    ),
+  );
+}
+
+/**
+ * Implements hook_theme().
+ */
+function entity_reference_multiple_theme() {
+  return array(
+    'entity_reference_multiple_none' => array(
+      'variables' => array('instance' => NULL, 'option' => NULL),
+      'file' => 'theme/theme.inc',
+    ),
+    'entity_reference_multiple_short_codes_settings_table' => array(
+      'render element' => 'element',
+      'file' => 'theme/theme.inc',
+    ),
+  );
+}
+
+/**
+ * Implements hook_flush_caches().
+ */
+function entity_reference_multiple_flush_caches() {
+  // Because of the intricacies of the info hooks, we are forced to keep a
+  // separate list of the base tables of each entities, so that we can use
+  // it in entity_reference_multiple_field_schema() without calling
+  // entity_get_info(). See http://drupal.org/node/1416558 for details.
+  $base_tables = array();
+  foreach (entity_get_info() as $entity_type => $entity_info) {
+    if (!empty($entity_info['base table']) && !empty($entity_info['entity keys']['id'])) {
+      $base_tables[$entity_type] = array($entity_info['base table'], $entity_info['entity keys']['id']);
+    }
+  }
+  // We are using a variable because cache is going to be cleared right after
+  // hook_flush_caches() is finished.
+  variable_set('entity_reference_multiple:base-tables', $base_tables);
+}
+
+/**
+ * Implements hook_field_info().
+ */
+function entity_reference_multiple_field_info() {
+  return array(
+    'entity_reference_multiple' => array(
+      'label' => t('Entity Reference Multiple'),
+      'description' => t('This field reference another entity.'),
+      'settings' => array(
+        'target_types' => array('node' => 'node'),
+        'target_entities_bundles' => array(),
+      ),
+      'instance_settings' => array(),
+      'default_widget' => ENTITY_REFERENCE_MULTIPLE_SELECTS_WIDGET_NAME,
+      'default_formatter' => 'entity_reference_multiple_label',
+      'property_type' => 'entity_reference_multiple',
+      'property_callbacks' => array('entity_reference_multiple_field_property_callback'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_settings_form().
+ */
+function entity_reference_multiple_field_settings_form($field, $instance, $has_data) {
+  // The field settings infrastructure is not AJAX enabled by default,
+  // because it doesn't pass over the $form_state.
+  // Build the whole form into a #process in which we actually have access
+  // to the form state.
+  $form = array(
+    '#type' => 'container',
+    '#process' => array(
+      '_entity_reference_multiple_field_settings_process',
+      '_entity_reference_multiple_field_settings_ajax_process',
+    ),
+    '#element_validate' => array('_entity_reference_multiple_field_settings_validate'),
+    '#field' => $field,
+    '#instance' => $instance,
+    '#has_data' => $has_data,
+  );
+  return $form;
+}
+
+/**
+ * Implements hook_field_validate().
+ */
+function entity_reference_multiple_field_validate($entity_type, $entity, $field, $instance, $langcode, $items, &$errors) {
+  $ids = array();
+  foreach ($items as $delta => $item) {
+    if (!entity_reference_multiple_field_is_empty($item, $field)) {
+      $ids[$item['target_type']][$item['target_id']] = $delta;
+    }
+  }
+
+  foreach ($ids as $target_type => $target_ids) {
+    $valid_ids = _entity_reference_multiple_validate_referencable_entities($field, $target_type, array_keys($target_ids));
+    if ($invalid_entities = array_diff_key($ids[$target_type], array_flip($valid_ids))) {
+      foreach ($invalid_entities as $id => $delta) {
+        $errors[$field['field_name']][$langcode][$delta][] = array(
+          'error' => 'entity_reference_multiple_invalid_entity',
+          'message' => t('The referenced entity (@type: @id) is invalid.', array('@type' => $target_type, '@id' => $id)),
+        );
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_field_is_empty().
+ */
+function entity_reference_multiple_field_is_empty($item, $field) {
+  $empty_target_type = !isset($item['target_type']) || !entity_get_info($item['target_type']);
+  $empty_target_id = !isset($item['target_id']) || !is_numeric($item['target_id']);
+  return $empty_target_type || $empty_target_id;
+}
+
+/**
+ * Performs validation on form elements.
+ *
+ * @param array $form
+ *   Nested array of form elements that comprise the form.
+ * @param array $form_state
+ *   A keyed array containing the current state of the form.
+ */
+function _entity_reference_multiple_field_settings_validate($form, &$form_state) {
+  // Store the new values in the form state.
+  $field = $form['#field'];
+  if (isset($form_state['values']['field'])) {
+    $field['settings'] = $form_state['values']['field']['settings'];
+  }
+  $form_state['entity_reference_multiple']['field'] = $field;
+}
+
+/**
+ * Add settings to a field settings form.
+ *
+ * @param array $form
+ *   Nested array of form elements that comprise the form.
+ * @param array $form_state
+ *   A keyed array containing the current state of the form.
+ *
+ * @return array
+ *   Nested array of form elements that comprise the form.
+ */
+function _entity_reference_multiple_field_settings_process($form, $form_state) {
+  $field = isset($form_state['entity_reference_multiple']['field']) ? $form_state['entity_reference_multiple']['field'] : $form['#field'];
+  $settings = $field['settings'];
+  $has_data = $form['#has_data'];
+
+  // Select the target entity type.
+  $entity_type_options = array();
+  foreach (entity_get_info() as $entity_type => $entity_info) {
+    $entity_type_options[$entity_type] = $entity_info['label'];
+  }
+
+  $form['target_types'] = array(
+    '#type' => 'checkboxes',
+    '#title' => t('Target types'),
+    '#options' => $entity_type_options,
+    '#default_value' => $settings['target_types'],
+    '#required' => TRUE,
+    '#description' => t('The entity types that can be referenced through this field.'),
+    '#disabled' => $has_data,
+    '#size' => 1,
+    '#ajax' => TRUE,
+    '#limit_validation_errors' => array(),
+  );
+
+  foreach ($field['settings']['target_types'] as $entity_type) {
+    if ($entity_type && $entity_info = entity_get_info($entity_type)) {
+      $form['target_entities_bundles'][$entity_type] = array(
+        '#type' => 'fieldset',
+        '#title' => $entity_info['label'],
+        '#tree' => TRUE,
+        '#collapsible' => TRUE,
+        '#collapsed' => FALSE,
+        '#access' => FALSE,
+      );
+
+      $form['target_entities_bundles'][$entity_type]['target_bundles'] = array(
+        '#type' => 'value',
+        '#value' => array(),
+      );
+
+      if (!empty($entity_info['entity keys']['bundle'])) {
+        $bundles = array();
+        foreach ($entity_info['bundles'] as $bundle_name => $bundle_info) {
+          $bundles[$bundle_name] = $bundle_info['label'];
+        }
+
+        $form['target_entities_bundles'][$entity_type]['#access'] = TRUE;
+        $form['target_entities_bundles'][$entity_type]['target_bundles'] = array(
+          '#type' => 'checkboxes',
+          '#title' => t('Target bundles'),
+          '#options' => $bundles,
+          '#default_value' => isset($settings['target_entities_bundles'][$entity_type]['target_bundles']) ? $settings['target_entities_bundles'][$entity_type]['target_bundles'] : array(),
+          '#size' => 6,
+          '#multiple' => TRUE,
+          '#description' => t('The bundles of the entity type that can be referenced. Optional, leave empty for all bundles.'),
+          '#element_validate' => array('_entity_reference_multiple_element_validate_filter'),
+        );
+      }
+    }
+  }
+
+  return $form;
+}
+
+/**
+ * Form processing handler for the #ajax form property.
+ *
+ * @param array $form
+ *   Nested array of form elements that comprise the form.
+ * @param array $form_state
+ *   A keyed array containing the current state of the form.
+ *
+ * @return array
+ *   Nested array of form elements that comprise the form.
+ */
+function _entity_reference_multiple_field_settings_ajax_process($form, $form_state) {
+  _entity_reference_multiple_field_settings_ajax_process_element($form, $form);
+  return $form;
+}
+
+/**
+ * Form element processing handler for the #ajax form property.
+ *
+ * @param array $element
+ *   An associative array containing the properties of the element.
+ * @param array $main_form
+ *   Nested array of form elements that comprise the form.
+ */
+function _entity_reference_multiple_field_settings_ajax_process_element(&$element, $main_form) {
+  if (isset($element['#ajax']) && $element['#ajax'] === TRUE) {
+    $element['#ajax'] = array(
+      'callback' => 'entity_reference_multiple_settings_ajax',
+      'wrapper' => $main_form['#id'],
+      'element' => $main_form['#array_parents'],
+    );
+  }
+
+  foreach (element_children($element) as $key) {
+    _entity_reference_multiple_field_settings_ajax_process_element($element[$key], $main_form);
+  }
+}
+
+/**
+ * Ajax callback for the handler settings form.
+ */
+function entity_reference_multiple_settings_ajax($form, $form_state) {
+  $trigger = $form_state['triggering_element'];
+  return drupal_array_get_nested_value($form, $trigger['#ajax']['element']);
+}
+
+/**
+ * Submit handler for the non-JS case.
+ */
+function entity_reference_multiple_settings_ajax_submit($form, &$form_state) {
+  $form_state['rebuild'] = TRUE;
+}
+
+/**
+ * Validate that entities can be referenced by this field.
+ *
+ * @param array $field
+ *   The field definition.
+ * @param string $target_type
+ *   The type of the entity.
+ * @param array $target_ids
+ *   The ids of the entities.
+ *
+ * @return array
+ *   An array of entity ids that are valid.
+ */
+function _entity_reference_multiple_validate_referencable_entities($field, $target_type, $target_ids) {
+  $query = _entity_reference_multiple_build_query($field, $target_type);
+  $query->entityCondition('entity_id', $target_ids, 'IN');
+  $result = $query->execute();
+  if (!empty($result[$target_type])) {
+    return array_keys($result[$target_type]);
+  }
+  return array();
+}
+
+/**
+ * Build an EntityFieldQuery to get referencable entities.
+ *
+ * @param array $field
+ *   The field definition.
+ * @param string $target_type
+ *   The type of the entity.
+ *
+ * @return EntityFieldQuery
+ *   The built query.
+ */
+function _entity_reference_multiple_build_query($field, $target_type) {
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', $target_type);
+  if (!empty($field['settings']['target_entities_bundles'][$target_type])
+    && $bundles = _entity_reference_multiple_bundles_prepare($field['settings']['target_entities_bundles'][$target_type]['target_bundles'])) {
+
+    $query->entityCondition('bundle', $bundles, 'IN');
+  }
+
+  // Add a generic entity access tag to the query.
+  $query->addTag($target_type . '_access');
+  $query->addMetaData('field', $field);
+
+  // Add the sort option.
+  $entity_info = entity_get_info($target_type);
+  if (!empty($entity_info) && !empty($entity_info['entity keys']['label'])) {
+    $query->propertyOrderBy($entity_info['entity keys']['label']);
+  }
+
+  return $query;
+}
+
+/**
+ * Property callback for the Entity Metadata framework.
+ */
+function entity_reference_multiple_field_property_callback(&$info, $entity_type, $field, $instance, $field_type) {
+  $property = &$info[$entity_type]['bundles'][$instance['bundle']]['properties'][$field['field_name']];
+
+  $property['getter callback'] = 'entity_metadata_field_verbatim_get';
+  $property['setter callback'] = 'entity_metadata_field_verbatim_set';
+  unset($property['query callback']);
+
+  $property['property info']['entity'] = array(
+    'type' => 'entity',
+    'label' => t('The entity.'),
+    'getter callback' => 'entity_reference_multiple_metadata_field_property_entity_get',
+    'translatable' => !empty($field['translatable']),
+    // Specify that this property stems from a field.
+    'field' => TRUE,
+    'required' => !empty($instance['required']),
+  );
+}
+
+/**
+ * Callback for getting referencable entity.
+ */
+function entity_reference_multiple_metadata_field_property_entity_get($item) {
+  if ($entity = entity_load($item['target_type'], array($item['target_id']))) {
+    return entity_metadata_wrapper($item['target_type'], reset($entity));
+  }
+  return NULL;
+}
+
+/**
+ * Callback for validate entity's bandles.
+ */
+function _entity_reference_multiple_element_validate_filter(&$element, &$form_state) {
+  $element['#value'] = array_filter($element['#value']);
+  form_set_value($element, $element['#value'], $form_state);
+}
+
+/**
+ * Implements hook_field_widget_info().
+ */
+function entity_reference_multiple_field_widget_info() {
+  return array(
+    ENTITY_REFERENCE_MULTIPLE_SELECTS_WIDGET_NAME => array(
+      'label' => t('Entity Reference Multiple Selects'),
+      'field types' => array('entity_reference_multiple'),
+    ),
+    ENTITY_REFERENCE_MULTIPLE_AUTOCOMPLETE_WIDGET_NAME => array(
+      'label' => t('Entity Reference Multiple Autocomplete'),
+      'field types' => array('entity_reference_multiple'),
+      'settings' => array(
+        'autocomplete_path' => '',
+        'autocomplete_limit' => ENTITY_REFERENCE_MULTIPLE_AUTOCOMPLETE_WIDGET_AUTOCOMPLETE_LIMIT,
+        'autocomplete_query_like_type' => ENTITY_REFERENCE_MULTIPLE_AUTOCOMPLETE_WIDGET_AUTOCOMPLETE_QUERY_LIKE_TYPE,
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_widget_settings_form().
+ */
+function entity_reference_multiple_field_widget_settings_form($field, $instance) {
+  $form = array();
+
+  if ($instance['widget']['type'] === ENTITY_REFERENCE_MULTIPLE_AUTOCOMPLETE_WIDGET_NAME) {
+    $form['autocomplete_limit'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Limit of results to show in autocomplete.'),
+      '#default_value' => $instance['widget']['settings']['autocomplete_limit'],
+      '#element_validate' => array('element_validate_integer_positive'),
+    );
+
+    $form['autocomplete_query_like_type'] = array(
+      '#type' => 'select',
+      '#title' => t('Autocomplete matching'),
+      '#description' => t('Select the method used to collect autocomplete suggestions. Note that <em>Contains</em> can cause performance issues on sites with thousands of nodes.'),
+      '#options' => array(
+        'STARTS_WITH' => t('Starts with'),
+        'CONTAINS' => t('Contains'),
+      ),
+      '#default_value' => $instance['widget']['settings']['autocomplete_query_like_type'],
+    );
+  }
+
+  return $form;
+}
+
+/**
+ * Implements hook_field_widget_form().
+ */
+function entity_reference_multiple_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
+  if ($instance['widget']['type'] == ENTITY_REFERENCE_MULTIPLE_SELECTS_WIDGET_NAME
+    || $instance['widget']['type'] == ENTITY_REFERENCE_MULTIPLE_AUTOCOMPLETE_WIDGET_NAME) {
+
+    $element['#attached']['css'][] = drupal_get_path('module', 'entity_reference_multiple') . '/css/entity-reference-multiple.css';
+
+    $wrapper_id_array = array_merge($element['#field_parents'], array(
+      $element['#field_name'],
+      $element['#language'],
+      $delta,
+    ));
+
+    $wrapper_id = str_replace('_', '-', implode('-', $wrapper_id_array));
+
+    $element[$element['#field_name']] = array(
+      '#type' => 'container',
+      '#attributes' => array(
+        'id' => $wrapper_id,
+        'class' => array('entity-reference-multiple-inline'),
+      ),
+    );
+
+    // Prepare the list of options.
+    $column = 'target_type';
+    $options = _entity_reference_multiple_get_options($field, $instance, $items, $element, $column);
+    $target_type_value = isset($items[$delta][$column]) ? $items[$delta][$column] : NULL;
+    $parents = array_merge($element['#field_parents'], array(
+      $element['#field_name'],
+      $element['#language'],
+      $delta,
+      $column,
+    ));
+
+    if (!empty($form_state['input'])) {
+      $target_type_value = drupal_array_get_nested_value($form_state['input'], $parents);
+    }
+
+    $element[$element['#field_name']][$column] = array(
+      '#type' => 'select',
+      '#parents' => $parents,
+      '#title' => t('Entity type'),
+      '#options' => $options,
+      '#default_value' => $target_type_value,
+      '#required' => $element['#required'],
+      '#value_key' => $column,
+      '#ajax' => array(
+        'wrapper' => $wrapper_id,
+        'callback' => '_entity_reference_multiple_field_widget_ajax_process',
+      ),
+    );
+
+    // Build target id field.
+    $column = 'target_id';
+    $target_id_value = isset($items[$delta][$column]) ? $items[$delta][$column] : NULL;
+
+    $parents = array_merge($element['#field_parents'], array(
+      $element['#field_name'],
+      $element['#language'],
+      $delta,
+      $column,
+    ));
+
+    if (isset($form_state['triggering_element']['#value_key']) && $form_state['triggering_element']['#value_key'] == 'target_type') {
+      $target_id_value = NULL;
+      drupal_array_set_nested_value($form_state['input'], $parents, $target_id_value);
+    }
+
+    switch ($instance['widget']['type']) {
+      case ENTITY_REFERENCE_MULTIPLE_SELECTS_WIDGET_NAME:
+        // Prepare the list of options.
+        $options = _entity_reference_multiple_get_options($field, $instance, $items, $element, $column, $target_type_value);
+
+        $element[$element['#field_name']][$column] = array(
+          '#type' => 'select',
+          '#parents' => $parents,
+          '#title' => t('Entity'),
+          '#options' => $options,
+          '#default_value' => $target_id_value,
+          '#required' => (!empty($target_type_value) && $target_type_value != '_none') || $element['#required'],
+          '#value_key' => $column,
+        );
+        break;
+
+      case ENTITY_REFERENCE_MULTIPLE_AUTOCOMPLETE_WIDGET_NAME:
+        $entity_info = entity_get_info();
+
+        // Build an array of entities ID.
+        $entities = array();
+        foreach ($items as $item) {
+          if (isset($entity_info[$item['target_type']])) {
+            $entities[$item['target_type']][$item['target_id']] = $item['target_id'];
+          }
+        }
+
+        // Load those entities and loop through them to extract their labels.
+        foreach ($entities as $entity_type => &$entity_ids) {
+          $entity_ids = entity_load($entity_type, $entity_ids);
+          foreach ($entity_ids as &$entity) {
+            $entity = _entity_reference_multiple_prepare_label_for_autocomplete($entity_type, $entity);
+          }
+        }
+
+        if (!empty($target_type_value) && isset($items[$delta][$column])
+          && !empty($entities[$target_type_value]) && !empty($entities[$target_type_value][$items[$delta][$column]])) {
+
+          $target_id_value = $entities[$target_type_value][$items[$delta][$column]];
+        }
+
+        $element[$element['#field_name']][$column] = array(
+          '#type' => 'textfield',
+          '#parents' => $parents,
+          '#title' => t('Entity'),
+          '#default_value' => $target_id_value,
+          '#description' => _entity_reference_multiple_autocomplete_widget_description($field, $target_type_value),
+          '#required' => (!empty($target_type_value) && $target_type_value != '_none') || $element['#required'],
+          '#value_key' => $column,
+        );
+
+        if (!empty($target_type_value) && $target_type_value != '_none') {
+          // Build autocomplete path as array for better understanding.
+          $autocomplete_path = array(
+            'entity_reference_multiple/autocomplete',
+            $field['field_name'],
+            $instance['entity_type'],
+            $instance['bundle'],
+            $target_type_value,
+          );
+          $element[$element['#field_name']][$column]['#autocomplete_path'] = implode('/', $autocomplete_path);
+        }
+
+        $element['#element_validate'][] = '_entity_reference_multiple_autocomplete_validate';
+        break;
+    }
+  }
+
+  return $element;
+}
+
+/**
+ * Creates a description for the widget form for the short code usage.
+ *
+ * @param array $field
+ *   The field definition.
+ * @param string $entity_type
+ *   The entity type to explain short codes for.
+ *
+ * @return string
+ *   The description for a form field.
+ */
+function _entity_reference_multiple_autocomplete_widget_description($field, $entity_type) {
+  $description = '';
+
+  if ($entity_type && $entity_info = entity_get_info($entity_type)) {
+    $short_codes = variable_get('entity_reference_multiple:short-codes', array());
+
+    // Prepare short codes array.
+    $bundles = array_keys($entity_info['bundles']);
+    $short_codes = !empty($short_codes[$entity_type]) ? $short_codes[$entity_type] : array();
+    if (!empty($bundles)) {
+      if (empty($short_codes)) {
+        $short_codes = drupal_map_assoc($bundles);
+      }
+      else {
+        $short_codes = array_intersect_key($short_codes, array_flip($bundles));
+        foreach ($bundles as $bundle) {
+          if (empty($short_codes[$bundle])) {
+            $short_codes[$bundle] = $bundle;
+          }
+        }
+      }
+
+      // Remove short codes for unavailable bundles.
+      if (!empty($field['settings']['target_entities_bundles'][$entity_type])
+        && $bundles = _entity_reference_multiple_bundles_prepare($field['settings']['target_entities_bundles'][$entity_type]['target_bundles'])) {
+
+        $short_codes = array_intersect_key($short_codes, $bundles);
+      }
+    }
+
+    $short_code_items = array();
+    foreach ($short_codes as $bundle => $code) {
+      $short_code_items[] = $entity_info['bundles'][$bundle]['label'] . ': ' . $code;
+    }
+
+    $description = t('To make it easier to use this autocomplete with a lot of entities and bundles, there are certain short codes available for this entity type. <br />
+      Use them like this: <em>i:search term</em>
+      "i" is here the short code from the list below and "search term" is the part of the title of an entity or the beginning of an entity id. <br />
+      The following short codes are available: <br /> !items', array(
+        '!items' => theme('item_list', array('items' => $short_code_items)),
+      ));
+  }
+
+  return $description;
+}
+
+/**
+ * Validation callback for Entity Reference Multiple widget settings form.
+ */
+function _entity_reference_multiple_autocomplete_validate($element, &$form_state, $form) {
+  $value = '';
+
+  if (!empty($element[$element['#field_name']]['target_id']['#value'])) {
+    $target_value = $element[$element['#field_name']]['target_id']['#value'];
+
+    if (is_numeric($target_value)) {
+      $value = $target_value;
+    }
+    elseif (preg_match("/.+\((\d+)\)/", $target_value, $matches)) {
+      $value = $matches[1];
+    }
+    else {
+      if (!empty($element[$element['#field_name']]['target_type']['#value'])) {
+        $target_type = $element[$element['#field_name']]['target_type']['#value'];
+
+        if ($entity_info = entity_get_info($target_type)) {
+          $entity_keys = $entity_info['entity keys'];
+
+          $field = field_info_field($element['#field_name']);
+
+          $query = _entity_reference_multiple_build_query($field, $target_type);
+          $query->propertyCondition($entity_keys['label'], $target_value);
+          $query->range(0, 6);
+
+          $results = $query->execute();
+
+          $entities = array();
+          if (!empty($results[$target_type])) {
+            $entities = entity_load($target_type, array_keys($results[$target_type]));
+          }
+
+          if (empty($entities)) {
+            // Error if there are no entities available for a required field.
+            form_error($element[$element['#field_name']]['target_id'], t('There are no entities matching "%value"', array('%value' => $target_value)));
+          }
+          elseif (count($entities) > 5) {
+            // Error if there are more than 5 matching entities.
+            form_error($element[$element['#field_name']]['target_id'], t('Many entities are called %value. Specify the one you want by appending the id in parentheses, like "@value"', array(
+              '%value' => $target_value,
+              '@value' => _entity_reference_multiple_prepare_label_for_autocomplete($target_type, current($entities)),
+            )));
+          }
+          elseif (count($entities) > 1) {
+            // More helpful error if there are only a few matching entities.
+            $multiples = array();
+            foreach ($entities as $entity) {
+              $multiples[] = _entity_reference_multiple_prepare_label_for_autocomplete($target_type, $entity);
+            }
+            form_error($element[$element['#field_name']]['target_id'], t('Multiple entities match this reference; "%multiple"', array('%multiple' => implode('", "', $multiples))));
+          }
+          else {
+            // Take the one and only matching entity.
+            $value = _entity_reference_multiple_prepare_label_for_autocomplete($target_type, current($entities));
+          }
+        }
+      }
+    }
+  }
+
+  // Update the value of this element so the field can validate
+  // the IDs.
+  form_set_value($element[$element['#field_name']]['target_id'], $value, $form_state);
+}
+
+/**
+ * Implements hook_field_widget_error().
+ */
+function entity_reference_multiple_field_widget_error($element, $error, $form, &$form_state) {
+  form_error($element, $error['message']);
+}
+
+/**
+ * Menu Access callback for the autocomplete widget.
+ *
+ * @param string $field_name
+ *   The name of the field.
+ * @param string $entity_type
+ *   The entity type.
+ * @param string $bundle_name
+ *   The bundle name.
+ *
+ * @return bool
+ *   TRUE if user can access this menu item.
+ */
+function entity_reference_multiple_autocomplete_access_callback($field_name, $entity_type, $bundle_name) {
+  $field = field_info_field($field_name);
+  $instance = field_info_instance($entity_type, $field_name, $bundle_name);
+
+  if (!$field || !$instance || $field['type'] != 'entity_reference_multiple'
+    || !field_access('edit', $field, $entity_type)) {
+
+    return FALSE;
+  }
+  return TRUE;
+}
+
+/**
+ * Form processing handler for the #ajax form property.
+ *
+ * @param array $form
+ *   Nested array of form elements that comprise the form.
+ * @param array $form_state
+ *   A keyed array containing the current state of the form.
+ *
+ * @return array
+ *   The new form element.
+ */
+function _entity_reference_multiple_field_widget_ajax_process($form, $form_state) {
+  $ref = &$form;
+  $parents = $form_state['triggering_element']['#array_parents'];
+  array_pop($parents);
+  foreach ($parents as $parent) {
+    if (is_array($ref) && array_key_exists($parent, $ref)) {
+      $ref = &$ref[$parent];
+    }
+  }
+  return $ref;
+}
+
+/**
+ * Collects the options for a field.
+ */
+function _entity_reference_multiple_get_options($field, $instance, $items, $element, $column, $target_type = NULL) {
+  $has_value = isset($items[0][$column]);
+  $properties = _options_properties('select', TRUE, $element['#required'], $has_value);
+
+  $options = array();
+  if ($column == 'target_type') {
+    // Get the list of options for target_type column.
+    $options = _entity_reference_multiple_target_type_allowed_values($field);
+  }
+  elseif ($column == 'target_id') {
+    // Get the list of options for target_id column.
+    $options = _entity_reference_multiple_target_id_allowed_values($field, $target_type);
+  }
+
+  // Sanitize the options.
+  _options_prepare_options($options, $properties);
+
+  if (!$properties['optgroups']) {
+    $options = options_array_flatten($options);
+  }
+
+  if (($properties['empty_option'] && $column == 'target_type')
+    || ($properties['empty_option']) && (empty($target_type) || $target_type == '_none')) {
+
+    $label = theme('entity_reference_multiple_none', array('instance' => $instance, 'option' => $properties['empty_option']));
+    $options = array('_none' => $label) + $options;
+  }
+
+  return $options;
+}
+
+/**
+ * Returns the set of valid entity types for a entity_reference_multiple field.
+ *
+ * @param array $field
+ *   The field definition.
+ *
+ * @return array
+ *   The array of valid entity types for this field, keyed by entity type.
+ */
+function _entity_reference_multiple_target_type_allowed_values($field) {
+  $entity_info = entity_get_info();
+  $options = array();
+  foreach (array_keys($field['settings']['target_entities_bundles']) as $target_type) {
+    if (!empty($entity_info[$target_type])) {
+      $options[$target_type] = $entity_info[$target_type]['label'];
+    }
+  }
+  return $options;
+}
+
+/**
+ * Returns the set of valid entities for a entity_reference_multiple field.
+ *
+ * @param array $field
+ *   The field definition.
+ * @param string $target_type
+ *   The type of the entity.
+ *
+ * @return array
+ *   The array of valid entities for this field, keyed by entity id and
+ *   grouped by bundles.
+ */
+function _entity_reference_multiple_target_id_allowed_values($field, $target_type) {
+  $entity_info = entity_get_info();
+  $options = array();
+  if (in_array($target_type, $field['settings']['target_types'], TRUE)) {
+    $query = _entity_reference_multiple_build_query($field, $target_type);
+    $results = $query->execute();
+
+    if (!empty($results[$target_type])) {
+      $entities = entity_load($target_type, array_keys($results[$target_type]));
+      foreach ($entities as $entity_id => $entity) {
+        list(, , $bundle) = entity_extract_ids($target_type, $entity);
+        $group = $entity_info[$target_type]['bundles'][$bundle]['label'];
+        $options[$group][$entity_id] = check_plain(entity_label($target_type, $entity));
+      }
+    }
+  }
+
+  return $options;
+}
+
+/**
+ * Collects entity ids for entities matching the given search string.
+ *
+ * @param array $field
+ *   A field configuration.
+ * @param array $instance
+ *   A field instance configuration.
+ * @param string $target_type
+ *   The entity type to search for.
+ * @param string $search_string
+ *   The string to search for.
+ *
+ * @return array
+ *   Entity ids of entities matching the search string including additional
+ *   data as returned by EntityFieldQuery::execute().
+ *
+ * @see EntityFieldQuery::execute()
+ */
+function _entity_reference_multiple_entities_matching_search($field, $instance, $target_type, $search_string) {
+  $result = array();
+
+  $entity_query = _entity_reference_multiple_build_query($field, $target_type);
+
+  // Get entity info.
+  $entity_info = entity_get_info($target_type);
+  $entity_keys = $entity_info['entity keys'];
+
+  // Get settings.
+  $limit = $instance['widget']['settings']['autocomplete_limit'];
+  $query_like_type = $instance['widget']['settings']['autocomplete_query_like_type'];
+
+  // Check if the search string is completely an integer, because then we would
+  // rather search for an entity id than for a title of an entity.
+  $filter_var_options = array(
+    'options' => array(
+      'min_range' => 1,
+    ),
+  );
+
+  if (strpos($search_string, ':') !== FALSE) {
+    $search_string_array = explode(':', $search_string, 2);
+    $search_string = $search_string_array[1];
+
+    $bundle = $search_string_array[0];
+    $short_codes = variable_get('entity_reference_multiple:short-codes', FALSE);
+    if ($short_codes && !empty($short_codes[$target_type]) && $value = array_search($bundle, $short_codes[$target_type])) {
+      $bundle = $value;
+    }
+
+    if (!empty($field['settings']['target_entities_bundles'][$target_type])) {
+      $bundles = $field['settings']['target_entities_bundles'][$target_type]['target_bundles'];
+      if (empty($bundles) || array_search($bundle, $bundles)) {
+        $entity_query->entityCondition('bundle', $bundle);
+      }
+    }
+  }
+
+  if (!empty($entity_keys['id']) && ($int_search_string = filter_var($search_string, FILTER_VALIDATE_INT, $filter_var_options))) {
+    $entity_id_query = clone $entity_query;
+
+    // Make sure we only get entities with ids starting with the search string.
+    $entity_id_query->propertyCondition($entity_keys['id'], $int_search_string, 'STARTS_WITH');
+
+    // Set limit.
+    $entity_id_query->range(0, $limit);
+
+    // Execute query.
+    $id_results = $entity_id_query->execute();
+
+    // Add results to $result.
+    if (!empty($id_results) && !empty($id_results[$target_type])) {
+      $result = $id_results[$target_type];
+    }
+  }
+
+  // If we have not enough results already (id query), we are filling up the
+  // result array with additional results matching the title of the entity.
+  if (count($result) < $limit) {
+
+    // Add title condition.
+    $entity_query->propertyCondition($entity_keys['label'], $search_string, $query_like_type);
+
+    // Make sure we do not get the same results as in the id query.
+    if (!empty($result)) {
+      // Get excluded ids.
+      $excluded_ids = array_keys($result);
+
+      // Add id exclude condition.
+      $entity_query->propertyCondition($entity_keys['id'], $excluded_ids, 'NOT IN');
+    }
+
+    // Calculate remaining results.
+    $left_over_limit = $limit - count($result);
+    // Set limit.
+    $entity_query->range(0, $left_over_limit);
+
+    // Execute query.
+    $title_results = $entity_query->execute();
+
+    // Merge with result.
+    if (!empty($title_results) && !empty($title_results[$target_type])) {
+      $result += $title_results[$target_type];
+    }
+  }
+
+  return $result;
+}
+
+/**
+ * Prepares the given entity ids for autocomplete output.
+ *
+ * We only need this extra function to properly get a bundle for taxonomy terms.
+ * All other entities should properly return a "bundle" after being queried via
+ * EntityFieldQuery. If not those are VERY special and either not core or
+ * ECK related.
+ * If we would not need the bundle to be display in the autocomplete, it would
+ * be perfectly fine, to just alter the select query triggered by
+ * EntityFieldQuery according to a specific tag or meta data like for example
+ * 'entity_reference_multiple_autocomplete_configuration' and add the title for
+ * the entity there via entity_get_info() and the 'label' in 'entity keys'.
+ *
+ * @param array $entities
+ *   The entity ids to prepare.
+ * @param string $target_type
+ *   The entity type to search for.
+ *
+ * @return array
+ *   Search result.
+ */
+function _entity_reference_multiple_prepare_entities_for_autocomplete($entities, $target_type) {
+  $matches = array();
+
+  if (count($entities) > 0) {
+    // Get entity info.
+    $entity_info = entity_get_info($target_type);
+
+    // Get label key.
+    $label_key = NULL;
+    if (!empty($entity_info['entity keys']) && !empty($entity_info['entity keys']['label'])) {
+      $label_key = $entity_info['entity keys']['label'];
+    }
+
+    // If the first entity has a bundle, we do not need a bundle key, because
+    // we assume all others have a bundle, too.
+    $first_entity = current($entities);
+    $bundle_key_needed = empty($first_entity->bundle);
+
+    // Get bundle key, if needed.
+    if ($bundle_key_needed) {
+      $bundle_key = NULL;
+      if (!empty($entity_info['entity keys']) && !empty($entity_info['entity keys']['bundle'])) {
+        $bundle_key = $entity_info['entity keys']['bundle'];
+      }
+    }
+
+    // We need a label key and maybe a bundle key to form the entries for the
+    // autocomplete. So, do not proceed without it.
+    if ($label_key && (!$bundle_key_needed || ($bundle_key_needed && !empty($bundle_key)))) {
+      // Load entities.
+      $loaded_entities = entity_load($target_type, array_keys($entities));
+
+      foreach ($loaded_entities as $entity) {
+        $label = _entity_reference_multiple_prepare_label_for_autocomplete($target_type, $entity, $entity_info);
+
+        // Strip things like starting/trailing white spaces, line breaks
+        // and tags.
+        $key = preg_replace('/\s\s+/', ' ', str_replace("\n", '', trim(decode_entities(strip_tags($label)))));
+
+        // Names containing commas or quotes must be wrapped in quotes.
+        if (strpos($key, ',') !== FALSE || strpos($key, '"') !== FALSE) {
+          $key = '"' . str_replace('"', '""', $key) . '"';
+        }
+
+        // Add to result.
+        $matches[$key] = $label;
+      }
+    }
+  }
+
+  return $matches;
+}
+
+/**
+ * Prepares the label for entity for autocomplete output.
+ *
+ * @param string $entity_type
+ *   The searchable entity type.
+ * @param object $entity
+ *   The searchable entity.
+ * @param null $entity_info
+ *   The searchable entity info.
+ *
+ * @return string
+ *   Entity label in format $label ($bundle) ($id).
+ */
+function _entity_reference_multiple_prepare_label_for_autocomplete($entity_type, $entity, $entity_info = NULL) {
+  if (!$entity_info) {
+    $entity_info = entity_get_info($entity_type);
+  }
+
+  list($entity_id, , $bundle) = entity_extract_ids($entity_type, $entity);
+
+  // Form array for the entry label. We are going to implode it later.
+  $entry_label = array(
+    check_plain(entity_label($entity_type, $entity)),
+    '(' . $entity_info['bundles'][$bundle]['label'] . ')',
+    '(' . $entity_id . ')',
+  );
+
+  return implode(' ', $entry_label);
+}
+
+/**
+ * Get selected bundles.
+ *
+ * @param array $bundles
+ *   An array contains all bundles.
+ *
+ * @return array
+ *   An array contains selected bundles.
+ */
+function _entity_reference_multiple_bundles_prepare($bundles) {
+  foreach ($bundles as $key => $bundle) {
+    if (!$bundle) {
+      unset($bundles[$key]);
+    }
+  }
+  return $bundles;
+}
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function entity_reference_multiple_field_formatter_info() {
+  return array(
+    'entity_reference_multiple_label' => array(
+      'label' => t('Label'),
+      'description' => t('Display the label of the referenced entities.'),
+      'field types' => array('entity_reference_multiple'),
+      'settings' => array(
+        'link' => FALSE,
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_settings_form().
+ */
+function entity_reference_multiple_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+
+  $element = array();
+  if ($display['type'] == 'entity_reference_multiple_label') {
+    $element['link'] = array(
+      '#title' => t('Link label to the referenced entity'),
+      '#type' => 'checkbox',
+      '#default_value' => $settings['link'],
+    );
+  }
+
+  return $element;
+}
+
+/**
+ * Implements hook_field_formatter_settings_summary().
+ */
+function entity_reference_multiple_field_formatter_settings_summary($field, $instance, $view_mode) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+
+  $summary = array();
+
+  if ($display['type'] == 'entity_reference_multiple_label') {
+    $summary[] = $settings['link'] ? t('Link to the referenced entity') : t('No link');
+  }
+
+  return implode('<br />', $summary);
+}
+
+/**
+ * Implements hook_field_formatter_prepare_view().
+ */
+function entity_reference_multiple_field_formatter_prepare_view($entity_type, $entities, $field, $instances, $langcode, &$items, $displays) {
+  $targets = array();
+
+  // Collect every possible entity attached to any of the entities.
+  foreach ($entities as $id => $entity) {
+    foreach ($items[$id] as $delta => $item) {
+      if (isset($item['target_id']) && isset($item['target_type'])) {
+        $targets[$item['target_type']][] = $item['target_id'];
+      }
+    }
+  }
+
+  $target_entities = array();
+  foreach ($targets as $target_type => $target_ids) {
+    $target_entities[$target_type] = entity_load($target_type, $target_ids);
+  }
+
+  // Iterate through the fieldable entities again to attach the loaded data.
+  foreach ($entities as $id => $entity) {
+    $rekey = FALSE;
+
+    foreach ($items[$id] as $delta => $item) {
+      // Check whether the referenced entity could be loaded.
+      if (isset($target_entities[$item['target_type']][$item['target_id']])) {
+        // Replace the instance value with the term data.
+        $items[$id][$delta]['entity'] = $target_entities[$item['target_type']][$item['target_id']];
+        // Check whether the user has access to the referenced entity.
+        $has_view_access = entity_access('view', $item['target_type'], $target_entities[$item['target_type']][$item['target_id']]);
+        $has_update_access = entity_access('update', $item['target_type'], $target_entities[$item['target_type']][$item['target_id']]);
+        $items[$id][$delta]['access'] = ($has_view_access || $has_update_access);
+      }
+      // Otherwise, unset the instance value, since the entity does not exist.
+      else {
+        unset($items[$id][$delta]);
+        $rekey = TRUE;
+      }
+    }
+
+    if ($rekey) {
+      // Rekey the items array.
+      $items[$id] = array_values($items[$id]);
+    }
+  }
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function entity_reference_multiple_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $result = array();
+
+  // Rebuild the items list to contain only those with access.
+  foreach ($items as $key => $item) {
+    if (empty($item['access'])) {
+      unset($items[$key]);
+    }
+  }
+
+  switch ($display['type']) {
+    case 'entity_reference_multiple_label':
+      foreach ($items as $delta => $item) {
+        $label = entity_label($item['target_type'], $item['entity']);
+        // If the link is to be displayed and the entity has a uri,
+        // display a link. Note the assignment ($url = ) here is intended to
+        // be an assignment.
+        if ($display['settings']['link'] && ($uri = entity_uri($item['target_type'], $item['entity']))) {
+          $result[$delta] = array(
+            '#markup' => l($label, $uri['path'], $uri['options']),
+          );
+        }
+        else {
+          $result[$delta] = array('#markup' => check_plain($label));
+        }
+      }
+      break;
+  }
+
+  return $result;
+}
