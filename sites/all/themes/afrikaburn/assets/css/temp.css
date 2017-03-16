@@ -251,15 +251,18 @@ form div.field-name-field-phone-number > div {
 .page-node-add-performance-registration .field-name-field-bb-found,
 .page-node-add-performance-registration .field-name-field-ea-total-allocated,
 .page-node-add-performance-registration .field-name-field-ea-requested,
-.page-node-add-mutant-vehicles .field-name-field-early-access,
-.page-node-add-mutant-vehicles .field-name-field-early-access-justification,
-.page-node-add-mutant-vehicles .field-name-field-ea-ticket-code,
-.page-node-add-mutant-vehicles .field-name-field-bb-found,
-.page-node-add-mutant-vehicles .field-name-field-ea-total-allocated,
-.page-node-add-mutant-vehicles .field-name-field-ea-requested,
 .page-projects-early-access .views-row-edit-static,
 .page-projects-early-access .field-name-field-ea-ticket-code,
-.page-projects-early-access .field-name-field-bb-found {
+.page-projects-early-access .field-name-field-bb-found, 
+.page-node-edit.node-type-mutant-vehicles .field-name-field-ea-requested
+.page-node-edit.node-type-mutant-vehicles .field-name-field-ea-total-allocated,
+.page-node-edit.node-type-mutant-vehicles .field-name-field-early-access,
+.page-node-edit.node-type-mutant-vehicles .field-name-field-early-access-justification,
+.page-node-edit.node-type-mutant-vehicles .field-name-field-ea-ticket-code,
+.page-node-edit.node-type-mutant-vehicles .field-name-field-bb-found,
+.page-node-edit.node-type-mutant-vehicles .field-name-field-ea-total-allocated,
+.page-node-edit.node-type-mutant-vehicles .field-name-field-ea-requested,
+.page-projects-early-access .views-row-edit-static {
   display: none;
 }
 .page-node-add-artwork-registration .field-name-field-role,
@@ -383,8 +386,6 @@ html body.logged-in div.user-menu ul {
 }
 
 
-=======
->>>>>>> 32fbf6e087e0bc3709b5e8ae311f29b6fb2aaf6c
 
 /*-- Radio Styling --*/
 input[type="radio"] + div.radio-checkbox-dummy, input[type="checkbox"] + div.radio-checkbox-dummy
@@ -426,15 +427,6 @@ div#edit-account {
   box-sizing: border-box;
   padding: 16px 20px;
 }
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-
-=======
->>>>>>> 32fbf6e087e0bc3709b5e8ae311f29b6fb2aaf6c
->>>>>>> 500bb53a4edec63d9997471515f9520fce6cdc96
-
-
 
 
 
