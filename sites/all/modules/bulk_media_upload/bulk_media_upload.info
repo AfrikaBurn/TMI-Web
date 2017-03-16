@@ -1,0 +1,15 @@
+name = Bulk Media Upload
+core = 7.x
+package = Media
+description = With Bulk Media Upload you can upload a bunch of media files and a new node will be created for every file.
+
+dependencies[] = entity
+dependencies[] = plupload
+dependencies[] = token
+
+; Information added by Drupal.org packaging script on 2014-10-19
+version = "7.x-1.x-dev"
+core = "7.x"
+project = "bulk_media_upload"
+datestamp = "1413722029"
+

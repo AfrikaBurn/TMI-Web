@@ -1,0 +1,66 @@
+<?php
+/**
+ * @file
+ * Bulk Media Upload Module
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function bulk_media_upload_menu() {
+  $items['admin/content/file/bulk_upload'] = array(
+    'title' => 'Bulk Upload',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('bulk_media_upload_upload_form'),
+    'access arguments' => array('bulk upload media'),
+    'file' => 'bulk_media_upload.upload.inc',
+    'type' => MENU_LOCAL_TASK,
+  );
+
+  $items['admin/content/file/bulk_upload/summary'] = array(
+    'title' => 'Bulk Upload Summary',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('bulk_media_upload_summary'),
+    'access arguments' => array('bulk upload media'),
+    'type' => MENU_LOCAL_ACTION,
+    'file' => 'bulk_media_upload.summary.inc',
+  );
+
+  $items['admin/config/media/bulk_media_upload'] = array(
+    'title' => 'Bulk Media Upload Settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('bulk_media_upload_admin'),
+    'access arguments' => array('administer bulk media upload'),
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'bulk_media_upload.admin.inc',
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function bulk_media_upload_permission() {
+  return array(
+    'administer bulk media upload' => array(
+      'title' => t('Administer bulk media upload'),
+      'description' => t('Allows users to access the admin pages for bulk_media_upload.'),
+    ),
+    'bulk upload media' => array(
+      'title' => t('Bulk upload media'),
+      'description' => t('Allows users to bulk upload media files.'),
+    ),
+  );
+}
+
+/**
+ * Help page for bulk media upload
+ */
+function bulk_media_upload_help($path, $arg) {
+  if ($path == 'admin/help#bulk_media_upload') {
+    return '<p>' . t('Check out this page for documentation: <a href="!url">http://drupal.org/node/1421464</a>', array(
+      '!url' => 'http://drupal.org/node/1421464',
+    )) . '</p>';
+  }
+  return '';
+}

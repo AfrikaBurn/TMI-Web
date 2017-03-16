@@ -237,6 +237,8 @@ form div.field-name-field-phone-number > div {
 .page-node-add-artwork-registration .field-name-field-ea-requested,
 .page-node-add-artwork-registration .field-name-field-ea-ticket-code,
 .page-node-add-artwork-registration .field-name-field-bb-found,
+.page-node-add-artwork-registration .field-name-field-ea-ticket-code,
+.page-node-add-artwork-registration .field-name-field-bb-found,
 .page-node-add-theme-camps .field-name-field-early-access,
 .page-node-add-theme-camps .field-name-field-early-access-justification,
 .page-node-add-theme-camps .field-name-field-ea-ticket-code,
@@ -255,7 +257,9 @@ form div.field-name-field-phone-number > div {
 .page-node-add-mutant-vehicles .field-name-field-bb-found,
 .page-node-add-mutant-vehicles .field-name-field-ea-total-allocated,
 .page-node-add-mutant-vehicles .field-name-field-ea-requested,
-.page-projects-early-access .views-row-edit-static {
+.page-projects-early-access .views-row-edit-static,
+.page-projects-early-access .field-name-field-ea-ticket-code,
+.page-projects-early-access .field-name-field-bb-found {
   display: none;
 }
 .page-node-add-artwork-registration .field-name-field-role,
@@ -270,6 +274,15 @@ form div.field-name-field-phone-number > div {
   font-weight: 700;
   line-height: 2em;
 }
+.page-projects-early-access .field-name-field-early-access-justification, 
+.page-projects-early-access .field-name-field-early-access, 
+.page-projects-early-access .field-name-field-phone-number-mine {
+    float: left;
+    display: block;
+}
+
+
+
 
 /*   Theme Camp form 2 signup  */
 #edit-field-artwork-move-und div:first-child,

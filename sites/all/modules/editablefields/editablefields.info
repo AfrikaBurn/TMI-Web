@@ -1,0 +1,13 @@
+name = Editable Fields
+description = "Allows you to make some fields editable from the display."
+package = Fields
+core = 7.x
+
+dependencies[] = entity
+
+; Information added by Drupal.org packaging script on 2017-02-20
+version = "7.x-1.0-alpha3"
+core = "7.x"
+project = "editablefields"
+datestamp = "1487626086"
+
