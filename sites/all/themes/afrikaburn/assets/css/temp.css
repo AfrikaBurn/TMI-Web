@@ -249,12 +249,22 @@ form div.field-name-field-phone-number > div {
 .page-node-add-performance-registration .field-name-field-bb-found,
 .page-node-add-performance-registration .field-name-field-ea-total-allocated,
 .page-node-add-performance-registration .field-name-field-ea-requested,
+.page-node-edit.node-type-mutant-vehicles .field-name-field-ea-requested
+.page-node-edit.node-type-mutant-vehicles .field-name-field-ea-total-allocated,
 .page-node-add-mutant-vehicles .field-name-field-early-access,
 .page-node-add-mutant-vehicles .field-name-field-early-access-justification,
 .page-node-add-mutant-vehicles .field-name-field-ea-ticket-code,
 .page-node-add-mutant-vehicles .field-name-field-bb-found,
 .page-node-add-mutant-vehicles .field-name-field-ea-total-allocated,
 .page-node-add-mutant-vehicles .field-name-field-ea-requested,
+.page-node-edit.node-type-mutant-vehicles .field-name-field-ea-requested
+.page-node-edit.node-type-mutant-vehicles .field-name-field-ea-total-allocated,
+.page-node-edit.node-type-mutant-vehicles .field-name-field-early-access,
+.page-node-edit.node-type-mutant-vehicles .field-name-field-early-access-justification,
+.page-node-edit.node-type-mutant-vehicles .field-name-field-ea-ticket-code,
+.page-node-edit.node-type-mutant-vehicles .field-name-field-bb-found,
+.page-node-edit.node-type-mutant-vehicles .field-name-field-ea-total-allocated,
+.page-node-edit.node-type-mutant-vehicles .field-name-field-ea-requested,
 .page-projects-early-access .views-row-edit-static {
   display: none;
 }
