@@ -35,7 +35,7 @@ function bulk_media_upload_upload_form($form, &$form_state) {
     '#size' => 60,
     '#maxlength' => 255,
     '#required' => TRUE,
-    '#disabled' => "disabled"
+    '#disabled' => 'disabled',
   );
 /*
   $form['token_help'] = array(
