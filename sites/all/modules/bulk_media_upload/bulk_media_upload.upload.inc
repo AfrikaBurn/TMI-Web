@@ -22,12 +22,12 @@ function bulk_media_upload_upload_form($form, &$form_state) {
   }
 
   $mediafield_info = field_info_instance($entity_type, $mediafield, $bundle);
-
+/*
   $form['import_information'] = array(
     '#markup' => '<p>' . t('Bundle used for generating the entities: <strong>@bundle_label (@bundle_name)</strong>', array('@bundle_label' => $entity_info['bundles'][$bundle]['label'], '@bundle_name' => $bundle)) . '</p>'
     . '<p>' . t('Mediafield used for uploading your media: <strong>@field_label (@field_name)</strong>', array('@field_label' => $mediafield_info['label'], '@field_name' => $mediafield_info['field_name'])) . '</p>',
   );
-
+*/
   $form['title'] = array(
     '#type' => 'textfield',
     '#title' => t('Title'),
@@ -35,8 +35,9 @@ function bulk_media_upload_upload_form($form, &$form_state) {
     '#size' => 60,
     '#maxlength' => 255,
     '#required' => TRUE,
+    '#disabled' => 'disabled',
   );
-
+/*
   $form['token_help'] = array(
     '#title' => t('Replacement patterns'),
     '#type' => 'fieldset',
@@ -50,7 +51,7 @@ function bulk_media_upload_upload_form($form, &$form_state) {
     '#global_types' => TRUE,
     '#click_insert' => TRUE,
   );
-
+*/
   $form['upload'] = array(
     '#type' => 'plupload',
     '#title' => t('Bulk Media Upload'),
