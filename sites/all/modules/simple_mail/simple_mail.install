@@ -1,0 +1,31 @@
+<?php
+
+/**
+ * @file
+ * Installation file for Simple Mail module.
+ */
+
+/**
+ * Implements hook_enable().
+ */
+function simple_mail_enable() {
+  $current = variable_get('mail_system', array('default-system' => 'DefaultMailSystem'));
+  $addition = array('simple_mail' => 'SimpleMailMailSystem');
+  variable_set('mail_system', array_merge($current, $addition));
+}
+
+/**
+ * Implements hook_disable().
+ */
+function simple_mail_disable() {
+  $mail_system = variable_get('mail_system', array('default-system' => 'DefaultMailSystem'));
+  unset($mail_system['simple_mail']);
+  variable_set('mail_system', $mail_system);
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function simple_mail_uninstall() {
+  variable_del('simple_mail_override');
+}
