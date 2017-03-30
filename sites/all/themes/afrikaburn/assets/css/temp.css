@@ -237,23 +237,25 @@ form div.field-name-field-phone-number > div {
 .page-node-add-artwork-registration .field-name-field-ea-requested,
 .page-node-add-artwork-registration .field-name-field-ea-ticket-code,
 .page-node-add-artwork-registration .field-name-field-bb-found,
-.page-node-add-artwork-registration .field-name-field-ea-ticket-code,
-.page-node-add-artwork-registration .field-name-field-bb-found,
+.page-node-add-artwork-registration .field-name-field-ea-arrival,
 .page-node-add-theme-camps .field-name-field-early-access,
 .page-node-add-theme-camps .field-name-field-early-access-justification,
 .page-node-add-theme-camps .field-name-field-ea-ticket-code,
 .page-node-add-theme-camps .field-name-field-bb-found,
 .page-node-add-theme-camps .field-name-field-ea-total-allocated,
 .page-node-add-theme-camps .field-name-field-ea-requested,
+.page-node-add-theme-camps .field-name-field-ea-arrival,
+.page-node-edit.node-add-theme-camps .field-name-field-ea-arrival,
 .page-node-add-performance-registration .field-name-field-early-access,
 .page-node-add-performance-registration .field-name-field-early-access-justification,
 .page-node-add-performance-registration .field-name-field-ea-ticket-code,
 .page-node-add-performance-registration .field-name-field-bb-found,
 .page-node-add-performance-registration .field-name-field-ea-total-allocated,
 .page-node-add-performance-registration .field-name-field-ea-requested,
-.page-projects-early-access .views-row-edit-static,
-.page-projects-early-access .field-name-field-ea-ticket-code,
-.page-projects-early-access .field-name-field-bb-found, 
+.page-node-add-artwork-registration .field-name-field-ea-arrival,
+.page-projects-request-early-access .views-row-edit-static,
+.page-projects-request-early-access .field-name-field-ea-ticket-code,
+.page-projects-request-early-access .field-name-field-bb-found, 
 .page-node-edit.node-type-mutant-vehicles .field-name-field-ea-requested
 .page-node-edit.node-type-mutant-vehicles .field-name-field-ea-total-allocated,
 .page-node-edit.node-type-mutant-vehicles .field-name-field-early-access,
@@ -262,30 +264,92 @@ form div.field-name-field-phone-number > div {
 .page-node-edit.node-type-mutant-vehicles .field-name-field-bb-found,
 .page-node-edit.node-type-mutant-vehicles .field-name-field-ea-total-allocated,
 .page-node-edit.node-type-mutant-vehicles .field-name-field-ea-requested,
-.page-projects-early-access .views-row-edit-static {
+.page-node-edit.node-type-mutant-vehicles .field-name-field-ea-arrival,
+.page-projects-request-early-access .views-row-edit-static,
+.field-name-field-ea-staus {
   display: none;
 }
 .page-node-add-artwork-registration .field-name-field-role,
 .page-node-add-theme-camps .field-name-field-role,
 .page-node-add-performance-registration .field-name-field-role,
 .page-node-add-mutant-vehicles .field-name-field-role,
-.page-projects-early-access .field-name-field-role {
+.page-projects-request-early-access .field-name-field-role {
   max-width: 100%;
 }
-.page-projects-early-access legend {
+
+.page-projects-request-early-access legend {
   font-size: 1.3em;
   font-weight: 700;
   line-height: 2em;
 }
-.page-projects-early-access .field-name-field-early-access-justification, 
-.page-projects-early-access .field-name-field-early-access, 
-.page-projects-early-access .field-name-field-phone-number-mine {
-    float: left;
-    display: block;
+
+.page-projects-request-early-access .field-name-field-early-access-justification, 
+.page-projects-request-early-access .field-name-field-early-access, 
+.page-projects-request-early-access .field-name-field-phone-number-mine {
+  float: left;
+  display: block;
+}
+.page-wrangle-theme-camps-early-access .field-name-field-phone-number-mine,
+.page-wrangle-theme-camps-early-access .field-name-field-email-address,
+.page-wrangle-artworks-early-access .field-name-field-phone-number-mine,
+.page-wrangle-artworks-early-access .field-name-field-email-address {
+  display: none;
+}
+.page-wrangle-theme-camps-early-access .field-name-field-phone-number-mine,
+.page-wrangle-theme-camps-early-access .field-name-field-email-address,
+.page-wrangle-artworks-early-access .field-name-field-phone-number-mine,
+.page-wrangle-artworks-early-access .field-name-field-email-address {
+  display: none;
+}
+.page-wrangle-theme-camps-early-access .field-name-field-role,
+.page-wrangle-theme-camps-early-access .field-name-field-early-access,
+.page-wrangle-theme-camps-early-access .field-name-field-early-access-justification,
+.page-wrangle-artworks-early-access .field-name-field-role,
+.page-wrangle-artworks-early-access .field-name-field-early-access,
+.page-wrangle-artworks-early-access .field-name-field-early-access-justification {
+  max-width: 100%;
+  width: 100%;
+}
+.page-wrangle-theme-camps-early-access .field-name-field-role .field-label,
+.page-wrangle-theme-camps-early-access .field-name-field-role .field-items,
+.page-wrangle-theme-camps-early-access .field-name-field-early-access .field-label,
+.page-wrangle-theme-camps-early-access .field-name-field-early-access .field-items,
+.page-wrangle-artworks-early-access .field-name-field-role .field-label,
+.page-wrangle-artworks-early-access .field-name-field-role .field-items,
+.page-wrangle-artworks-early-access .field-name-field-early-access .field-label,
+.page-wrangle-artworks-early-access .field-name-field-early-access .field-items {
+  float: left;
+}
+.page-wrangle-theme-camps-early-access .views-field.views-field-field-crew-mem-ea,
+.page-wrangle-artworks-early-access .views-field.views-field-field-crew-mem-ea {
+  width: 300px;
+  max-width: 300px;
+  min-width: 300px;
+}
+.page-wrangle-artworks-early-access .views-field-field-ea-requested,
+.page-wrangle-artworks-early-access .views-field-field-ea-requested {
+  width: 250px;
+  max-width: 250px;
+  min-width: 250px;
+}
+.page-wrangle-theme-camps-early-access td,
+.page-wrangle-artworks-early-access td {
+  vertical-align: top;
+}
+.page-wrangle-theme-camps-early-access .views-field-field-crew-mem-ea li,
+.page-wrangle-artworks-early-access .views-field-field-crew-mem-ea li {
+  border: 1px solid black;
+  margin-bottom: 2px;
 }
 
-
-
+.page-wrangle-theme-camps-early-access .views-field-field-crew-mem-ea .field-label,
+.page-wrangle-artworks-early-access .views-field-field-crew-mem-ea .field-label {
+  font-weight: 900;
+}
+.page-wrangle-theme-camps-early-access .field-name-field-early-access .field-item.even,
+.page-wrangle-artworks-early-access .field-name-field-early-access .field-item.even {
+    color: yellow;
+}
 
 /*   Theme Camp form 2 signup  */
 #edit-field-artwork-move-und div:first-child,

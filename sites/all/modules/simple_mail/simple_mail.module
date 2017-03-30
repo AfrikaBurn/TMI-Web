@@ -1,0 +1,137 @@
+<?php
+
+/**
+ * @file
+ * Simple Mail module.
+ *
+ * This module provides simple email delivery functionality. The two primary
+ * functions are simple_mail_send(), which sends emails directly, and
+ * simple_mail_queue(), which queues emails in the SimpleMailQueue using
+ * Drupal's Queue API, and then sends emails in batches during cron runs.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function simple_mail_menu() {
+  // Admin pages.
+  $items['admin/config/system/simple_mail'] = array(
+    'title' => 'Simple Mail',
+    'description' => 'Simple Mail e-mail settings.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('simple_mail_admin_form'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'includes/simple_mail.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_mail().
+ *
+ * Send HTML emails.
+ *
+ * @todo - Also add plain text alternative.
+ */
+function simple_mail_mail($key, &$message, $params) {
+  switch ($key) {
+    case 'simple_mail':
+      $message['headers']['Content-Type'] = 'text/html; charset=UTF-8;';
+      $message['subject'] = $params['subject'];
+      $message['body'][] = $params['body'];
+      break;
+  }
+}
+
+/**
+ * Implements hook_mail_alter().
+ *
+ * Override email 'to' address, if configured.
+ */
+function simple_mail_mail_alter(&$message) {
+  // Re-route emails when override email variable is set.
+  $override_email = variable_get('simple_mail_override', '');
+  if (!empty($override_email)) {
+    $message['to'] = $override_email;
+  }
+}
+
+/**
+ * Implements hook_cron_queue_info().
+ */
+function simple_mail_cron_queue_info() {
+  $queues['SimpleMailQueue'] = array(
+    'worker callback' => 'simple_mail_send_queued_email',
+    'time' => 60,
+  );
+  return $queues;
+}
+
+/**
+ * Callback for sending queued emails via cron.
+ */
+function simple_mail_send_queued_email($message) {
+  // Send the email.
+  simple_mail_send($message['from'], $message['to'], $message['subject'], $message['body']);
+}
+
+/**
+ * Easy-to-use email sending function.
+ *
+ * @param (string) $from
+ *   Email sender. Defaults to the system email.
+ * @param (string) $to
+ *   Email receipient.
+ * @param (string) $subject
+ *   Email subject.
+ * @param (string) $body
+ *   Email message body (can be HTML or plaintext).
+ *
+ * @return (array)
+ *   Message array structure, as returned by drupal_mail(). Check for 'result' =
+ *   TRUE to verify that the message was sent (at least, according to PHP).
+ */
+function simple_mail_send($from, $to, $subject, $body) {
+  if (empty($from)) {
+    $from = variable_get('site_mail', '');
+  }
+  $params['subject'] = $subject;
+  $params['body'] = $body;
+  $lang = language_default();
+
+  // Send email with drupal_mail.
+  return drupal_mail('simple_mail', 'simple_mail', $to, $lang, $params, $from);
+}
+
+/**
+ * Queue an email to be sent via the Queue API during cron runs.
+ *
+ * Queues an email for sending through Drupal's Queue API, rather than sending
+ * immediately. This function is basically a queued version of the nearly-
+ * identical function simple_mail_send_email(). Use this function when
+ * sending batches of email so the page request is not delayed while waiting
+ * for individual messages to be sent.
+ *
+ * @param (string) $from
+ *   Email sender. Defaults to the system email.
+ * @param (string) $to
+ *   Email receipient.
+ * @param (string) $subject
+ *   Email subject.
+ * @param (string) $body
+ *   Email message body (can be HTML or plaintext).
+ *
+ * @see simple_mail_send()
+ */
+function simple_mail_queue($from, $to, $subject, $body) {
+  $queue = DrupalQueue::get('SimpleMailQueue', TRUE);
+  // Set up email to be stored in the queue.
+  $item = array(
+    'from' => $from,
+    'to' => $to,
+    'subject' => $subject,
+    'body' => $body,
+  );
+  $queue->createItem($item);
+}
