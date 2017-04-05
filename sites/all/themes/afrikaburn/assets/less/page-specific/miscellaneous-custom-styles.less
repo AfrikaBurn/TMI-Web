@@ -82,9 +82,9 @@ div#social-media-links-bar div.social-media-links {
 	background: #450b14 url("../images/content_bg.jpg") no-repeat center top;
 }
 
-div.body-content input[type=radio]:hover + div.radio-checkbox-dummy, 
+div.body-content input[type=radio]:hover + div.radio-checkbox-dummy,
 div.body-content input[type=checkbox]:hover + div.radio-checkbox-dummy,
-div.body-content input[type=radio]:checked + div.radio-checkbox-dummy, 
+div.body-content input[type=radio]:checked + div.radio-checkbox-dummy,
 div.body-content input[type=checkbox]:checked + div.radio-checkbox-dummy {
 	border-color: #AF282E;
 }
@@ -196,6 +196,12 @@ body.node-type-mutant-vehicles-grant div.field-label {
 
 .page-node-add-community-tickets-and-outreach .field-name-field-proof-of-income-private {
 	clear: both;
+}
+
+//Hide user menu from users on the reset password and change password pages.
+.page-user-reset div.user-menu,
+.page-user-change-password  div.user-menu {
+	display: none;
 }
 
 @media (min-width: 980px) {
