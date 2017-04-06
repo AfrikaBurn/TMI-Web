@@ -33,3 +33,20 @@ function afrikaburn_form_sanctuary_services_application_form_node_form_alter (&$
     }
   }
 }
+
+function afrikaburn_form_voluntary_medical_information_form_node_form_alter (&$form, &$form_state, $form_id) {
+  
+  if (!isset($form_state['node']->nid)) {
+    global $user;
+    $existing_nid = db_query(
+      "SELECT nid FROM {node} WHERE (type = :type) AND uid = :uid", 
+      array(
+        "type" => "voluntary_medical_information",
+        "uid" => $user->uid
+      )
+     )->fetchField();
+    if ($existing_nid != FALSE) {
+      drupal_goto("node/$existing_nid/edit");
+    }
+  }
+}
