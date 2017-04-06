@@ -291,22 +291,29 @@ form div.field-name-field-phone-number > div {
 }
 .page-wrangle-theme-camps-early-access .field-name-field-phone-number-mine,
 .page-wrangle-theme-camps-early-access .field-name-field-email-address,
-.page-wrangle-artworks-early-access .field-name-field-phone-number-mine,
-.page-wrangle-artworks-early-access .field-name-field-email-address {
+.page-wrangle-art-early-access .field-name-field-phone-number-mine,
+.page-wrangle-art-early-access .field-name-field-email-address,
+.page-wrangle-dmv-early-access .field-name-field-phone-number-mine,
+.page-wrangle-dmv-early-access .field-name-field-email-address {
   display: none;
 }
 .page-wrangle-theme-camps-early-access .field-name-field-phone-number-mine,
 .page-wrangle-theme-camps-early-access .field-name-field-email-address,
-.page-wrangle-artworks-early-access .field-name-field-phone-number-mine,
-.page-wrangle-artworks-early-access .field-name-field-email-address {
+.page-wrangle-art-early-access .field-name-field-phone-number-mine,
+.page-wrangle-art-early-access .field-name-field-email-address,
+.page-wrangle-dmv-early-access .field-name-field-phone-number-mine,
+.page-wrangle-dmv-early-access .field-name-field-email-address, {
   display: none;
 }
 .page-wrangle-theme-camps-early-access .field-name-field-role,
 .page-wrangle-theme-camps-early-access .field-name-field-early-access,
 .page-wrangle-theme-camps-early-access .field-name-field-early-access-justification,
-.page-wrangle-artworks-early-access .field-name-field-role,
-.page-wrangle-artworks-early-access .field-name-field-early-access,
-.page-wrangle-artworks-early-access .field-name-field-early-access-justification {
+.page-wrangle-art-early-access .field-name-field-role,
+.page-wrangle-art-early-access .field-name-field-early-access,
+.page-wrangle-art-early-access .field-name-field-early-access-justification,
+.page-wrangle-dmv-early-access .field-name-field-role,
+.page-wrangle-dmv-early-access .field-name-field-early-access,
+.page-wrangle-dmv-early-access .field-name-field-early-access-justification {
   max-width: 100%;
   width: 100%;
 }
@@ -314,40 +321,50 @@ form div.field-name-field-phone-number > div {
 .page-wrangle-theme-camps-early-access .field-name-field-role .field-items,
 .page-wrangle-theme-camps-early-access .field-name-field-early-access .field-label,
 .page-wrangle-theme-camps-early-access .field-name-field-early-access .field-items,
-.page-wrangle-artworks-early-access .field-name-field-role .field-label,
-.page-wrangle-artworks-early-access .field-name-field-role .field-items,
-.page-wrangle-artworks-early-access .field-name-field-early-access .field-label,
-.page-wrangle-artworks-early-access .field-name-field-early-access .field-items {
+.page-wrangle-art-early-access .field-name-field-role .field-label,
+.page-wrangle-art-early-access .field-name-field-role .field-items,
+.page-wrangle-art-early-access .field-name-field-early-access .field-label,
+.page-wrangle-art-early-access .field-name-field-early-access .field-items,
+.page-wrangle-dmv-early-access .field-name-field-role .field-label,
+.page-wrangle-dmv-early-access .field-name-field-role .field-items,
+.page-wrangle-dmv-early-access .field-name-field-early-access .field-label,
+.page-wrangle-dmv-early-access .field-name-field-early-access .field-items {
   float: left;
 }
 .page-wrangle-theme-camps-early-access .views-field.views-field-field-crew-mem-ea,
-.page-wrangle-artworks-early-access .views-field.views-field-field-crew-mem-ea {
+.page-wrangle-art-early-access .views-field.views-field-field-crew-mem-ea,
+.page-wrangle-dmv-early-access .views-field.views-field-field-crew-mem-ea {
   width: 300px;
   max-width: 300px;
   min-width: 300px;
 }
-.page-wrangle-artworks-early-access .views-field-field-ea-requested,
-.page-wrangle-artworks-early-access .views-field-field-ea-requested {
+.page-wrangle-theme-camps-early-access .views-field-field-ea-requested,
+.page-wrangle-art-early-access .views-field-field-ea-requested,
+.page-wrangle-dmv-early-access .views-field-field-ea-requested {
   width: 250px;
   max-width: 250px;
   min-width: 250px;
 }
 .page-wrangle-theme-camps-early-access td,
-.page-wrangle-artworks-early-access td {
+.page-wrangle-art-early-access td,
+.page-wrangle-dmv-early-access td {
   vertical-align: top;
 }
 .page-wrangle-theme-camps-early-access .views-field-field-crew-mem-ea li,
-.page-wrangle-artworks-early-access .views-field-field-crew-mem-ea li {
+.page-wrangle-art-early-access .views-field-field-crew-mem-ea li,
+.page-wrangle-dmv-early-access .views-field-field-crew-mem-ea li {
   border: 1px solid black;
   margin-bottom: 2px;
 }
 
 .page-wrangle-theme-camps-early-access .views-field-field-crew-mem-ea .field-label,
-.page-wrangle-artworks-early-access .views-field-field-crew-mem-ea .field-label {
+.page-wrangle-art-early-access .views-field-field-crew-mem-ea .field-label,
+.page-wrangle-dmv-early-access .views-field-field-crew-mem-ea .field-label {
   font-weight: 900;
 }
 .page-wrangle-theme-camps-early-access .field-name-field-early-access .field-item.even,
-.page-wrangle-artworks-early-access .field-name-field-early-access .field-item.even {
+.page-wrangle-art-early-access .field-name-field-early-access .field-item.even,
+.page-wrangle-dmv-early-access .field-name-field-early-access .field-item.even {
     color: yellow;
 }
 
