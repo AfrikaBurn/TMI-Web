@@ -406,6 +406,16 @@ html body.logged-in div.user-menu ul {
   margin-right: 0.7em;
 }
 
+/*   Volunteers Early Access   */
+.page-wrangle-volunteer-early-access .views-field-field-ea-vol-status-editable {
+  min-width: 135px;
+}
+.page-wrangle-volunteer-early-access .views-field-field-ea-vol-status-editable . form-radio:first-child { 
+    display: none;
+}
+.page-wrangle-volunteer-early-access .views-field-field-ea-motivation {
+    min-width: 250px;
+}
 
 /*   Volunteers Signup  Admin*/
 .page-wrangle-volunteer .views-field-field-vol-comments, .page-wrangle-volunteer .views-field.views-field-field-vol-other-skills, .page-wrangle-volunteer .views-field-field-vol-yr-other, .page-wrangle-volunteer .views-field-field-vol-concerns {
