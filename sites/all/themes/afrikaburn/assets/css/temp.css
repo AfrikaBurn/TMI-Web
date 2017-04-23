@@ -368,6 +368,39 @@ form div.field-name-field-phone-number > div {
     color: yellow;
 }
 
+
+
+/*   Incident Logs  */
+.page-wrangle-incident-logs .views-field.views-field-field-il-public-general-log {
+  min-width: 400px;
+}
+.page-wrangle-incident-logs .views-field-field-il-follow-up-bool {
+  min-width: 340px;
+}
+.page-wrangle-incident-logs .views-field-field-il-incident-status-bool-editable .views-row-edit-static,
+.page-wrangle-incident-logs .views-field-field-il-incident-status-bool-editable .form-required,
+.page-wrangle-incident-logs .logo-container,
+.page-wrangle-incident-logs #header {
+  display: none;
+}
+.page-wrangle-incident-logs td {
+  vertical-align: top;
+}
+.page-wrangle-incident-logs .views-field-field-il-incident-status-bool-editable {
+  min-width: 71px;
+}
+.page-wrangle-incident-logs #editableviews-entity-form-incident-log table {
+  position: relative;
+  left: -200px;
+  top: 0px;
+}
+.page-wrangle-incident-logs .views-field-field-il-follow-up-description {
+  min-width: 300px;
+}
+.views-field-field-il-incident-summary {
+  min-width: 150px;
+}
+
 /*   Theme Camp form 2 signup  */
 #edit-field-artwork-move-und div:first-child,
 .page-node-add-theme-camp-form-2 #edit-field-does-it-have-sound-effects-und div:first-child {

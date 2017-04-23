@@ -4,7 +4,7 @@
  * @file
  * Installs, updates and uninstalls module variables and settings.
  *
- * Copyright (c) 2011-2016 by Marco Zanon (http://www.marcozanon.com)
+ * Copyright (c) 2011-2017 by Marco Zanon (http://www.marcozanon.com)
  * Released under GPLv2 license
  * Idea and code inspired by http://www.beacon9.ca/labs/drupal-7-private-files-module
  */
@@ -104,7 +104,8 @@ function private_files_download_permission_install() {
   }
   catch (Exception $e) {
     $transaction->rollback();
-    drupal_set_message(st('An error occurred while installing the module. Please check the log for details.'), 'error');
+    $t = get_t();
+    drupal_set_message($t('An error occurred while installing the module. Please check the log for details.'), 'error');
   }
   // Set preferences' default values.
   variable_set('private_files_download_permission_by_user_checks', TRUE);
@@ -176,7 +177,8 @@ function private_files_download_permission_update_7200() {
   }
   catch (Exception $e) {
     $transaction->rollback();
-    drupal_set_message(st('An error occurred while updating the module. Please check the log for details.'), 'error');
+    $t = get_t();
+    drupal_set_message($t('An error occurred while updating the module. Please check the log for details.'), 'error');
   }
 }
 
@@ -224,7 +226,8 @@ function private_files_download_permission_update_7201() {
   }
   catch (Exception $e) {
     $transaction->rollback();
-    drupal_set_message(st('An error occurred while updating the module. Please check the log for details.'), 'error');
+    $t = get_t();
+    drupal_set_message($t('An error occurred while updating the module. Please check the log for details.'), 'error');
   }
 }
 
@@ -286,7 +289,8 @@ function private_files_download_permission_uninstall() {
   }
   catch (Exception $e) {
     $transaction->rollback();
-    drupal_set_message(st('An error occurred while removing the module. Please check the log for details.'), 'error');
+    $t = get_t();
+    drupal_set_message($t('An error occurred while removing the module. Please check the log for details.'), 'error');
   }
   // Remove preferences.
   variable_del('private_files_download_permission_by_user_checks');

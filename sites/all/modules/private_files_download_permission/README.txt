@@ -23,7 +23,7 @@ INSTALLATION / CONFIGURATION
 Browse to Configuration > Media > Private files download permission (url:
 /admin/config/media/private-files-download-permission). Then add or edit each
 directory path you want to put under control, associating users and roles which
-are allowed to download from it.
+are allowed to download from that location.
 All directory paths are relative to your private file system path, but must
 have a leading slash ('/'), as the private file system root itself could be put
 under control.
@@ -39,6 +39,7 @@ users. You can then bypass this feature by browsing to Configuration > Media >
 Private files download permission > Preferences (url:
 /admin/config/media/private-files-download-permission/preferences) and change
 the setting accordingly.
+Additional settings are available to cache users and/or log activities.
 
 Also configure which users and roles have access to the module configuration
 under People > Permissions (url: /admin/people/permissions).

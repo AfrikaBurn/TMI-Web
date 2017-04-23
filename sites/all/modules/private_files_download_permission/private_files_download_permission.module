@@ -4,9 +4,9 @@
  * @file
  * Handles both module settings and its behaviour.
  *
- * Copyright (c) 2011-2016 by Marco Zanon (http://www.marcozanon.com)
+ * Copyright (c) 2011-2017 by Marco Zanon (http://www.marcozanon.com)
  * Released under GPLv2 license
- * Idea and code inspired by http://www.beacon9.ca/labs/drupal-7-private-files-module
+ * Idea and code inspired by http://www.beacon9.ca/labs/drupal-7-private-files-module.
  */
 
 /**
@@ -85,16 +85,24 @@ function private_files_download_permission_menu() {
  * Returns a standard array containing all users.
  */
 function private_files_download_permission_get_users() {
-  // Load user list from database.
-  $user_list = db_select('users', 't')
-    ->fields('t')
-    ->orderBy('t.name', 'ASC')
-    ->execute()
-    ->fetchAllAssoc('uid');
-  // Return a standard (uid, name) array.
-  $users = array();
-  foreach ($user_list as $uid => $user) {
-    $users[$uid] = (!$user->name ? t('anonymous user') : $user->name);
+  // Load user list from cache (if enabled) or from database.
+  if (variable_get('private_files_download_permission_cache_users', FALSE) && ($cache = cache_get(__FUNCTION__))) {
+    $users = $cache->data;
+  }
+  else {
+    // Get raw data.
+    $user_list = db_select('users', 't')
+      ->fields('t')
+      ->orderBy('t.name', 'ASC')
+      ->execute()
+      ->fetchAllAssoc('uid');
+    // Prepare a standard (uid, name) array.
+    $users = array();
+    foreach ($user_list as $uid => $user) {
+      $users[$uid] = (!$user->name ? t('anonymous user') : $user->name);
+    }
+    // Set cache values.
+    cache_set(__FUNCTION__, $users);
   }
   return $users;
 }
@@ -184,7 +192,7 @@ function private_files_download_permission_list_directories() {
     $rows[] = array(
       $directory->path,
       $directory->bypass ? t('Yes') : '',
-      ( $directory->grant_file_owners ? t('File owners') . '<br />' : '' ) . ( variable_get('private_files_download_permission_by_user_checks') && !empty($enabled_users) && !$directory->bypass ? implode('<br />', $enabled_users) : '' ),
+      ($directory->grant_file_owners ? t('File owners') . '<br />' : '') . (variable_get('private_files_download_permission_by_user_checks') && !empty($enabled_users) && !$directory->bypass ? implode('<br />', $enabled_users) : ''),
       !empty($enabled_roles) && !$directory->bypass ? implode('<br />', $enabled_roles) : '',
       l(t('Edit'), 'admin/config/media/private-files-download-permission/' . $directory->did . '/edit/'),
       l(t('Remove'), 'admin/config/media/private-files-download-permission/' . $directory->did . '/remove/'),
@@ -402,7 +410,7 @@ function private_files_download_permission_get_directory_form_submit($form, &$fo
             ->fields(array(
               'did' => $did,
               'uid' => $uid,
-              ))
+            ))
             ->execute();
         }
       }
@@ -417,7 +425,7 @@ function private_files_download_permission_get_directory_form_submit($form, &$fo
           ->fields(array(
             'did' => $did,
             'rid' => $rid,
-            ))
+          ))
           ->execute();
       }
     }
@@ -520,6 +528,32 @@ function private_files_download_permission_get_preferences_form($form, &$form_st
     '#default_value' => variable_get('private_files_download_permission_by_user_checks'),
     '#description'   => t('You may wish to disable this feature if there are plenty of users, as it may slow down the entire site.'),
   );
+  $form['private_files_download_permission_cache_users'] = array(
+    '#type'          => 'checkbox',
+    '#title'         => t('Cache user list'),
+    '#default_value' => variable_get('private_files_download_permission_cache_users'),
+    '#description'   => t('For sites with lots of users, this will save on load time when editing directory settings.'),
+    '#states'        => array(
+      'visible' => array(
+        ':input[name="by_user_checks"]' => array('checked' => TRUE),
+      ),
+      'enabled' => array(
+        ':input[name="by_user_checks"]' => array('checked' => TRUE),
+      ),
+    ),
+  );
+  $form['private_files_download_permission_attachment_mode'] = array(
+    '#type'          => 'checkbox',
+    '#title'         => t('Enable attachment mode'),
+    '#default_value' => variable_get('private_files_download_permission_attachment_mode'),
+    '#description'   => t('Have files downloaded as attachments instead of displayed inline in the browser.'),
+  );
+  $form['private_files_download_permission_debug_mode'] = array(
+    '#type'          => 'checkbox',
+    '#title'         => t('Enable debug mode'),
+    '#default_value' => variable_get('private_files_download_permission_debug_mode'),
+    '#description'   => t('Turn on logging to debug issues.'),
+  );
   // Prepare the submit button.
   $form['submit'] = array(
     '#type'  => 'submit',
@@ -535,6 +569,14 @@ function private_files_download_permission_get_preferences_form($form, &$form_st
 function private_files_download_permission_get_preferences_form_submit($form, &$form_state) {
   // Save preferences.
   variable_set('private_files_download_permission_by_user_checks', $form_state['values']['private_files_download_permission_by_user_checks']);
+  if (!$form_state['values']['private_files_download_permission_by_user_checks']) {
+    variable_set('private_files_download_permission_cache_users', FALSE);
+  }
+  else {
+    variable_set('private_files_download_permission_cache_users', $form_state['values']['private_files_download_permission_cache_users']);
+  }
+  variable_set('private_files_download_permission_attachment_mode', $form_state['values']['private_files_download_permission_attachment_mode']);
+  variable_set('private_files_download_permission_debug_mode', $form_state['values']['private_files_download_permission_debug_mode']);
   // Purge directory list from cache.
   drupal_static_reset('private_files_download_permission_get_directory_list');
   // Display message.
@@ -549,18 +591,43 @@ function private_files_download_permission_set_preferences() {
 }
 
 /**
+ * Returns a proper array to be used for downloads.
+ */
+function private_files_download_permission_download_headers($uri) {
+  $attachment_mode = variable_get('private_files_download_permission_attachment_mode', FALSE);
+  //
+  if ($attachment_mode) {
+    return array(
+      'Content-Type' => file_get_mimetype($uri),
+      'Content-Disposition' => 'attachment; filename=' . drupal_basename($uri),
+    );
+  }
+  else {
+    return array(
+      'Content-Type' => file_get_mimetype($uri),
+      'Content-Disposition' => 'inline',
+    );
+  }
+}
+
+/**
  * Implements hook_file_download().
  */
 function private_files_download_permission_file_download($uri) {
   global $user;
+  $debug_mode = variable_get('private_files_download_permission_debug_mode', FALSE);
   // Check if user may bypass permission restrictions.
   if (user_access('bypass private files download permission')) {
-    watchdog('private_files_download_permission', 'User %user granted permission to download uri "%uri".', array( '%user' => $user->uid . ' (' . (isset($user->name) ? $user->name : '-') . ')', '%uri' => $uri), WATCHDOG_INFO, NULL);
-    return array('Content-Type' => file_get_mimetype($uri));
+    if ($debug_mode) {
+      watchdog('private_files_download_permission', 'User %user granted permission to download uri "%uri".', array('%user' => $user->uid . ' (' . (isset($user->name) ? $user->name : '-') . ')', '%uri' => $uri), WATCHDOG_INFO, NULL);
+    }
+    return private_files_download_permission_download_headers($uri);
   }
-  else if ((user_access('bypass private files download permission for temporary files')) && ('temporary://' === substr($uri, 0, 12))) {
-    watchdog('private_files_download_permission', 'User %user granted permission to download uri "%uri".', array( '%user' => $user->uid . ' (' . (isset($user->name) ? $user->name : '-') . ')', '%uri' => $uri), WATCHDOG_INFO, NULL);
-    return array('Content-Type' => file_get_mimetype($uri));
+  elseif ((user_access('bypass private files download permission for temporary files')) && ('temporary://' === substr($uri, 0, 12))) {
+    if ($debug_mode) {
+      watchdog('private_files_download_permission', 'User %user granted permission to download uri "%uri".', array('%user' => $user->uid . ' (' . (isset($user->name) ? $user->name : '-') . ')', '%uri' => $uri), WATCHDOG_INFO, NULL);
+    }
+    return private_files_download_permission_download_headers($uri);
   }
   // If not, do all the specific checks.
   else {
@@ -593,26 +660,34 @@ function private_files_download_permission_file_download($uri) {
       if ($best_matching_directory->grant_file_owners) {
         $file_uid = db_query('SELECT f.uid FROM {file_managed} f WHERE f.uri = :uri', array(':uri' => $uri))->fetchField();
         if ($file_uid && ($file_uid == $user->uid)) {
-          watchdog('private_files_download_permission', 'User %user granted permission to download uri "%uri".', array( '%user' => $user->uid . ' (' . (isset($user->name) ? $user->name : '-') . ')', '%uri' => $uri), WATCHDOG_INFO, NULL);
-          return array('Content-Type' => file_get_mimetype($uri));
+          if ($debug_mode) {
+            watchdog('private_files_download_permission', 'User %user granted permission to download uri "%uri".', array('%user' => $user->uid . ' (' . (isset($user->name) ? $user->name : '-') . ')', '%uri' => $uri), WATCHDOG_INFO, NULL);
+          }
+          return private_files_download_permission_download_headers($uri);
         }
       }
       // Evaluate user and role permissions and optionally allow access to $uri.
       if (variable_get('private_files_download_permission_by_user_checks')) {
         if (in_array($user->uid, array_keys($best_matching_directory->uid))) {
-          watchdog('private_files_download_permission', 'User %user granted permission to download uri "%uri".', array( '%user' => $user->uid . ' (' . (isset($user->name) ? $user->name : '-') . ')', '%uri' => $uri), WATCHDOG_INFO, NULL);
-          return array('Content-Type' => file_get_mimetype($uri));
+          if ($debug_mode) {
+            watchdog('private_files_download_permission', 'User %user granted permission to download uri "%uri".', array('%user' => $user->uid . ' (' . (isset($user->name) ? $user->name : '-') . ')', '%uri' => $uri), WATCHDOG_INFO, NULL);
+          }
+          return private_files_download_permission_download_headers($uri);
         }
       }
       foreach ($user->roles as $rid => $role) {
         if (in_array($rid, array_keys($best_matching_directory->rid))) {
-          watchdog('private_files_download_permission', 'User %user granted permission to download uri "%uri".', array( '%user' => $user->uid . ' (' . (isset($user->name) ? $user->name : '-') . ')', '%uri' => $uri), WATCHDOG_INFO, NULL);
-          return array('Content-Type' => file_get_mimetype($uri));
+          if ($debug_mode) {
+            watchdog('private_files_download_permission', 'User %user granted permission to download uri "%uri".', array('%user' => $user->uid . ' (' . (isset($user->name) ? $user->name : '-') . ')', '%uri' => $uri), WATCHDOG_INFO, NULL);
+          }
+          return private_files_download_permission_download_headers($uri);
         }
       }
     }
   }
   // By default, deny access.
-  watchdog('private_files_download_permission', 'User %user denied permission to download uri "%uri".', array( '%user' => $user->uid . ' (' . (isset($user->name) ? $user->name : '-') . ')', '%uri' => $uri), WATCHDOG_INFO, NULL);
+  if ($debug_mode) {
+    watchdog('private_files_download_permission', 'User %user denied permission to download uri "%uri".', array('%user' => $user->uid . ' (' . (isset($user->name) ? $user->name : '-') . ')', '%uri' => $uri), WATCHDOG_INFO, NULL);
+  }
   return -1;
 }
