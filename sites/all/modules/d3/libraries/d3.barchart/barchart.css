@@ -1,9 +1,0 @@
-g.rule text {
-  font-size: 12px;
-}
-g.ticks text {
-  font-size: 11px;
-}
-.tooltip {
-  z-index: 1000;
-}

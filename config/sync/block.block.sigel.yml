@@ -1,0 +1,23 @@
+uuid: aae69be9-e9ed-4da6-99b8-d0597ea99f31
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - burnt
+id: sigel
+theme: burnt
+region: home
+weight: 0
+provider: null
+plugin: system_branding_block
+settings:
+  id: system_branding_block
+  label: Sigel
+  provider: system
+  label_display: '0'
+  use_site_logo: true
+  use_site_name: true
+  use_site_slogan: true
+visibility: {  }

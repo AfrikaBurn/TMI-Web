@@ -1,0 +1,9 @@
+uuid: 4b1894cf-1466-42ff-95c4-ab9449ca7b1e
+langcode: en
+status: true
+dependencies: {  }
+id: rangers
+label: Rangers
+weight: -9
+is_admin: null
+permissions: {  }

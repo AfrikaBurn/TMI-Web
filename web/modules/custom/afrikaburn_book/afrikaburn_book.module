@@ -1,0 +1,153 @@
+<?php
+
+/**
+ * @file
+ * Contains Afrikaburn book module.
+ */
+
+
+/**
+ * Implements hook_entity_extra_field_info().
+ */
+function afrikaburn_book_entity_extra_field_info() {
+  $extra = array();
+
+  $extra['node']['book']['display']['add_page'] = array(
+    'label' => t('Add a child page'),
+    'description' => t('Add a child page to the current page'),
+    'weight' => 100,
+    'visible' => TRUE,
+  );
+
+  $extra['node']['book']['display']['next_page'] = array(
+    'label' => t('Next page'),
+    'description' => t('Link to the next page in a book'),
+    'weight' => 100,
+    'visible' => TRUE,
+  );
+
+  $extra['node']['book']['display']['prev_page'] = array(
+    'label' => t('Previous page'),
+    'description' => t('Link to the previous page in a book'),
+    'weight' => 100,
+    'visible' => TRUE,
+  );
+
+  $extra['node']['book']['display']['book_page'] = array(
+    'label' => t('Back to book'),
+    'description' => t('Link to the start of a book'),
+    'weight' => 100,
+    'visible' => TRUE,
+  );
+
+  $extra['node']['book']['display']['section_page'] = array(
+    'label' => t('Back to section'),
+    'description' => t('Link to the start of a section'),
+    'weight' => 100,
+    'visible' => TRUE,
+  );
+
+  $extra['node']['book']['display']['printer_friendly'] = array(
+    'label' => t('Printer friendly version'),
+    'description' => t('Printer friendly version of this book'),
+    'weight' => 100,
+    'visible' => TRUE,
+  );
+
+  return $extra;
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_view().
+ */
+function afrikaburn_book_node_view(&$build, $entity, $display, $view_mode) {
+
+  $book = $entity->book;
+  $outline = \Drupal::service('book.outline');
+
+  foreach(['add_page', 'next_page', 'prev_page', 'book_page', 'section_page', 'printer_friendly'] as $index=>$page){
+    if ($book && $display->getComponent($page)) {
+
+      switch($page) {
+
+        case 'add_page':
+          $link = \Drupal::l(
+            t('Add a child page'),
+            \Drupal\Core\Url::fromRoute(
+              'node.add', ['node_type' => 'book'],
+              [
+                'attributes' => ['class' => ['button', 'book-button', 'button-add']],
+                'query' => ['parent' => $entity->id()],
+              ]
+            )
+          );
+        break;
+
+        case 'next_page':
+          $next = $outline->nextlink($book);
+          $link = $next && $next['nid'] != $book['nid']
+            ? \Drupal::l(
+              $next['title'],
+              \Drupal\Core\Url::fromRoute(
+                'entity.node.canonical', ['node' => $next['nid']],
+                ['attributes' => ['class' => ['button', 'book-button', 'button-next']]]
+              )
+            ) : '';
+        break;
+
+        case 'prev_page':
+          $prev = $outline->prevlink($book);
+          $link = $prev && $prev['nid'] != $book['nid']
+          ? \Drupal::l(
+            $prev['title'],
+            \Drupal\Core\Url::fromRoute(
+              'entity.node.canonical', ['node' => $prev['nid']],
+              ['attributes' => ['class' => ['button', 'book-button', 'button-prev']]]
+            )
+          ) : '';
+        break;
+
+        case 'book_page':
+          $link = $book['bid'] && $book['bid'] != $book['nid'] && $book['bid'] != $book['pid']
+          ? \Drupal::l(
+            node_load($book['bid'])->getTitle(),
+            \Drupal\Core\Url::fromRoute(
+              'entity.node.canonical', ['node' => $book['bid']],
+              ['attributes' => ['class' => ['button', 'book-button', 'button-book']]]
+            )
+          ) : '';
+        break;
+
+        case 'section_page':
+          $prev = $outline->prevlink($book);
+          $link = $book['pid'] && !in_array($book['pid'], [$prev['nid'], $book['nid'], $book['bid']])
+            ? \Drupal::l(
+              node_load($book['pid'])->getTitle(),
+              \Drupal\Core\Url::fromRoute(
+                'entity.node.canonical', ['node' => $book['pid']],
+                ['attributes' => ['class' => ['button', 'book-button', 'button-section']]]
+              )
+            ) : '';
+        break;
+
+        case 'printer_friendly':
+          $link = \Drupal::l(
+            'Print & Reader friendly version',
+            \Drupal\Core\Url::fromRoute(
+             'book.export', ['type' => 'html', 'node' => $book['nid']],
+             ['attributes' => ['class' => ['button', 'book-button', 'button-print']]]
+             )
+          );
+        break;
+
+      }
+
+      if ($link) {
+        $build[$page] = [
+          '#type' => 'markup',
+          '#markup' => $link,
+        ];
+      }
+    }
+  }
+}

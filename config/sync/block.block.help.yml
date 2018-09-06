@@ -1,0 +1,20 @@
+uuid: 76ae93d4-216e-430b-b39c-57ad09318de4
+langcode: en
+status: true
+dependencies:
+  module:
+    - help
+  theme:
+    - burnt
+id: help
+theme: burnt
+region: prefix
+weight: 0
+provider: null
+plugin: help_block
+settings:
+  id: help_block
+  label: Help
+  provider: help
+  label_display: '0'
+visibility: {  }

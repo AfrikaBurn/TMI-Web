@@ -1,0 +1,17 @@
+uuid: 18f3aba8-843c-437f-8ea4-54591c60144a
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+name: 'Slideshow Image'
+type: slideshow_image
+description: 'An image that is displayed in the header and on the home page.'
+help: ''
+new_revision: false
+preview_mode: 1
+display_submitted: false

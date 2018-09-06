@@ -1,0 +1,31 @@
+uuid: d486808c-d11c-4198-889a-816818d0ce17
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.book_pages
+  module:
+    - system
+    - views
+  theme:
+    - burnt
+id: views_block__book_pages_index
+theme: burnt
+region: left
+weight: -5
+provider: null
+plugin: 'views_block:book_pages-index'
+settings:
+  id: 'views_block:book_pages-index'
+  label: ''
+  provider: views
+  label_display: '0'
+  views_label: ''
+  items_per_page: none
+  context_mapping: {  }
+visibility:
+  request_path:
+    id: request_path
+    pages: '/learn*'
+    negate: false
+    context_mapping: {  }

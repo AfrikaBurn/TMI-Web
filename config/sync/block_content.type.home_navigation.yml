@@ -1,0 +1,8 @@
+uuid: 12b25b80-f15c-4488-8ae3-1486cfeac896
+langcode: en
+status: true
+dependencies: {  }
+id: home_navigation
+label: 'Home Navigation'
+revision: 0
+description: ''

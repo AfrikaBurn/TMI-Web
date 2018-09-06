@@ -1,7 +1,0 @@
-name = Starter Block Design
-description = Starter Block Design.
-version = 7.0.0
-keywords = starter
-
-variation_type = block-designs
-settings_form = form.inc

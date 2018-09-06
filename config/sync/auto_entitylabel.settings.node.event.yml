@@ -1,0 +1,7 @@
+status: '1'
+pattern: '[node:field_event_type]<?php if (isset($entity->field_event_theme->value)) { ?>: [node:field_event_theme]<?php } ?>'
+php: 1
+escape: 0
+dependencies:
+  config:
+    - node.type.event

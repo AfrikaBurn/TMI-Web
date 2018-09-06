@@ -1,0 +1,109 @@
+uuid: 234ca9e8-a4e9-4173-be61-82e6311772e0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.book.body
+    - field.field.node.book.field_pages
+    - node.type.book
+  module:
+    - ds
+    - field_group
+    - text
+    - user
+    - viewfield
+third_party_settings:
+  field_group:
+    group_form_actions:
+      children:
+        - book_page
+        - section_page
+        - prev_page
+        - next_page
+      parent_name: ''
+      weight: 4
+      format_type: html_element
+      format_settings:
+        id: ''
+        classes: form-actions
+        element: div
+        show_label: false
+        label_element: h3
+        attributes: ''
+        effect: none
+        speed: fast
+      label: 'Form Actions'
+  ds:
+    layout:
+      id: layout_onecol
+      library: layout_discovery/onecol
+      disable_css: false
+      entity_classes: all_classes
+      settings: {  }
+    regions:
+      content:
+        - printer_friendly
+        - body
+        - field_pages
+        - add_page
+        - group_form_actions
+        - book_page
+        - section_page
+        - prev_page
+        - next_page
+_core:
+  default_config_hash: UWTnZUj-u-jp8I_S1C1nUCTlM5iIV2QKdxm37ehFjoI
+id: node.book.default
+targetEntityType: node
+bundle: book
+mode: default
+content:
+  add_page:
+    weight: 3
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  body:
+    label: hidden
+    type: text_default
+    weight: 1
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  book_page:
+    weight: 5
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_pages:
+    type: viewfield_default
+    weight: 2
+    region: content
+    label: hidden
+    settings:
+      view_title: hidden
+      always_build_output: 0
+      empty_view_title: hidden
+    third_party_settings: {  }
+  next_page:
+    weight: 9
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  prev_page:
+    weight: 7
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  printer_friendly:
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  section_page:
+    weight: 6
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  links: true

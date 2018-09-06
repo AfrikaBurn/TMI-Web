@@ -1,0 +1,24 @@
+uuid: abee1817-e23e-434a-ab3f-af3ebe335c09
+langcode: en
+status: true
+dependencies: {  }
+id: body
+name: body
+label: Body
+weight: 0
+group: ''
+skin: ''
+breakpoints: 0
+optimized: true
+options:
+  options__active_tab: edit-options-settings
+  settings:
+    mobileFirst: true
+    autoplay: true
+    autoplaySpeed: 100000
+    centerMode: true
+    centerPadding: '0'
+    lazyLoad: blazy
+    respondTo: slider
+    slidesToShow: 3
+    cssEase: ease-in-out
