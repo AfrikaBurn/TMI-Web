@@ -1,0 +1,24 @@
+uuid: ec27afc3-2c7c-484c-b102-ddfd7d18a133
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.footer
+  module:
+    - system
+  theme:
+    - burnt
+id: footer
+theme: burnt
+region: footer
+weight: 0
+provider: null
+plugin: 'system_menu_block:footer'
+settings:
+  id: 'system_menu_block:footer'
+  label: Footer
+  provider: system
+  label_display: '0'
+  level: 1
+  depth: 0
+visibility: {  }

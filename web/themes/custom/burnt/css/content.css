@@ -38,6 +38,7 @@ main{
   border-radius: 5px;
   box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.25);
   margin: 0 80px;
+  min-height: 1340px;
   opacity: 0.9;
   padding: 40px 40px 40px;
   position: relative;
@@ -69,16 +70,14 @@ main{
 .messages{
   background-image: none;
   border-radius: 5px;
-  box-shadow: none;
   margin: 0 -75px 40px;
   padding: 40px 100px;
   position: relative;
-
+  box-shadow: 2px 2px 10px 2px #00000010;
 }
 
 .messages:before{
   position: absolute;
-  font-size: 70px;
   left: 30px;
   margin-top: -43px;
   top: 50%;
@@ -87,6 +86,13 @@ main{
 .messages--status:before{
   content: '\2713';
   color: #77b259;
+  font-size: 70px;
+}
+
+.messages--warning:before{
+  content: '\26a0';
+  color: #e09600;
+  font-size: 300%;
 }
 
 .block-help,

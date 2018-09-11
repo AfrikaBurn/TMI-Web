@@ -141,32 +141,6 @@ header .region-home .site-name{
 /* ----- Blogs ----- */
 
 
-.block-region-bottom .view-content{
-  display: flex;
-  flex-wrap: wrap;
-  align-content: stretch;
-  justify-content: space-between;
-}
-
-.block-region-bottom .view-content .views-row{
-  flex-basis: 30%;
-  padding: 0 10px;
-}
-
-.block-region-bottom .view-content .views-row h3{
-  height: 2.5em;
-  margin-bottom: 0;
-}
-
-.block-region-bottom .view-content .views-row img{
-  width: 100%;
-  height: auto;
-}
-
-.block-region-bottom .view-content .views-row .field--name-node-post-date{
-  margin-bottom: 2em;
-}
-
 .block-region-bottom .block.block-block-content{
   text-transform: uppercase;
   text-align: center;

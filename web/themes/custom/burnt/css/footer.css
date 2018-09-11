@@ -54,13 +54,10 @@
 /* ---- Legal ---- */
 
 
-.region-footer .menu--legalese{
-  color: #f9a90c;
-  text-align: center;
-}
-
+.region-footer .menu--legalese,
 .region-footer .menu--legalese a{
   color: #f9a90c;
+  text-align: center;
   text-transform: uppercase;
   font-size: 95%;
   font-weight: bold;
