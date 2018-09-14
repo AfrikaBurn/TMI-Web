@@ -4,6 +4,7 @@ status: true
 dependencies: {  }
 id: blogger
 label: Blogger
-weight: -7
+weight: -6
 is_admin: null
-permissions: {  }
+permissions:
+  - RAC_view_blogger

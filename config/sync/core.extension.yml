@@ -3,6 +3,8 @@ module:
   admin_toolbar_links_access_filter: 0
   admin_toolbar_tools: 0
   adminimal_admin_toolbar: 0
+  adva: 0
+  adva_na: 0
   afrikaburn_book: 0
   auto_entitylabel: 0
   blazy: 0
@@ -31,6 +33,7 @@ module:
   field: 0
   field_group: 0
   field_layout: 0
+  field_permissions: 0
   field_ui: 0
   file: 0
   filter: 0
@@ -48,6 +51,7 @@ module:
   page_manager_ui: 0
   panels: 0
   path: 0
+  rac: 0
   slick: 0
   slick_ui: 0
   slick_views: 0

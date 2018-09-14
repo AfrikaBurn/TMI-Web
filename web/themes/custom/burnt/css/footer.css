@@ -15,7 +15,7 @@
 }
 
 .region-footer{
-  padding-top: 150px;
+  padding-top: 50px;
 }
 
 
@@ -28,6 +28,10 @@
 }
 
 .region-footer .menu--footer > ul.menu > .menu-item {
+  background: #00000066;
+  border-radius: 10px;
+  margin: 5px;
+  padding: 20px;
   width: 20%;
 }
 

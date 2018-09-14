@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.book.body
+    - field.field.node.book.field_owners
     - field.field.node.book.field_pages
     - node.type.book
   module:
@@ -45,6 +46,12 @@ content:
     region: ds_content
     settings: {  }
     third_party_settings: {  }
+  field_owners:
+    weight: 26
+    settings: {  }
+    third_party_settings: {  }
+    type: options_buttons
+    region: ds_content
   path:
     type: path
     weight: 6

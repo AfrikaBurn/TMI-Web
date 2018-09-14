@@ -1,0 +1,17 @@
+uuid: eaee4d0c-fac6-434f-bdd4-2e68ba8ea88b
+langcode: en
+status: true
+dependencies: {  }
+id: node
+settings: {  }
+providers:
+  rac: rac
+provider_config:
+  rac:
+    enabled_fields:
+      field_owners:
+        grants:
+          view: view
+          update: update
+          delete: delete
+        unpublished: '1'

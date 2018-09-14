@@ -4,6 +4,7 @@ status: true
 dependencies: {  }
 id: rangers
 label: Rangers
-weight: -9
+weight: -8
 is_admin: null
-permissions: {  }
+permissions:
+  - RAC_view_rangers

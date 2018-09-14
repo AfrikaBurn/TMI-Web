@@ -6,4 +6,10 @@ id: moderator
 label: Moderator
 weight: -5
 is_admin: null
-permissions: {  }
+permissions:
+  - RAC_view_moderator
+  - 'create field_owners'
+  - 'edit field_owners'
+  - 'edit own field_owners'
+  - 'view field_owners'
+  - 'view own field_owners'

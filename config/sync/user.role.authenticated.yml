@@ -5,10 +5,13 @@ dependencies: {  }
 _core:
   default_config_hash: dJ0L2DNSj5q6XVZAGsuVDpJTh5UeYkIPwKrUOOpr8YI
 id: authenticated
-label: Editor
-weight: -6
+label: Authenticated
+weight: -9
 is_admin: false
 permissions:
+  - RAC_view_authenticated
   - 'access content'
+  - 'add content to books'
+  - 'create book content'
   - 'use text format html'
   - 'view own unpublished content'

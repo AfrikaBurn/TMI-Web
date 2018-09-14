@@ -4,6 +4,10 @@
 /* ----- Book Elements ----- */
 
 
+.layout--onecol {
+  position: relative;
+}
+
 .view-display-id-child_pages{
   margin: 1em 1em 2em;
 }
@@ -90,8 +94,8 @@ a.button-next:after{
 }
 
 .view-display-id-index ul ul{
-  margin-left: 10px;
-  padding-left: 20px;
+  margin-left: 5px;
+  padding-left: 15px;
 }
 
 .view-display-id-index .current a{

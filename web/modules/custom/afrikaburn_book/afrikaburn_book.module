@@ -71,16 +71,19 @@ function afrikaburn_book_node_view(&$build, $entity, $display, $view_mode) {
       switch($page) {
 
         case 'add_page':
-          $link = \Drupal::l(
-            t('Add a child page'),
-            \Drupal\Core\Url::fromRoute(
-              'node.add', ['node_type' => 'book'],
-              [
-                'attributes' => ['class' => ['button', 'book-button', 'button-add']],
-                'query' => ['parent' => $entity->id()],
-              ]
+          $user = \Drupal\user\Entity\User::load(\Drupal::currentUser()->id());
+          $link = $entity->access('update', $user)
+            ? \Drupal::l(
+              t('Add a child page'),
+              \Drupal\Core\Url::fromRoute(
+                'node.add', ['node_type' => 'book'],
+                [
+                  'attributes' => ['class' => ['button', 'book-button', 'button-add']],
+                  'query' => ['parent' => $entity->id()],
+                ]
+              )
             )
-          );
+            : false;
         break;
 
         case 'next_page':
@@ -148,6 +151,28 @@ function afrikaburn_book_node_view(&$build, $entity, $display, $view_mode) {
           '#markup' => $link,
         ];
       }
+    }
+  }
+}
+
+/**
+ * Implements hook_node_presave()
+ */
+function afrikaburn_book_node_presave($entity){
+  if ($entity->bundle() == 'book'){
+    $book = $entity->book;
+    if ($entity->original){
+      if ($book['has_children'] && $entity->field_owners->target_id != $entity->original->field_owners->target_id){
+        $children = \Drupal::service('book.outline_storage')->loadBookChildren($entity->id());
+        foreach($children as $child_page){
+          $child = \Drupal::entityTypeManager()->getStorage('node')->load($child_page['nid']);
+          $child->set('field_owners', $entity->field_owners->target_id);
+          $child->save();
+        }
+      }
+    } else {
+      $parent = \Drupal::entityTypeManager()->getStorage('node')->load($book['pid']);
+      $entity->set('field_owners', $parent->field_owners->target_id);
     }
   }
 }
