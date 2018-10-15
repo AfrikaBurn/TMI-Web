@@ -4,6 +4,7 @@
 header{
   max-width: 785px;
   margin: 0 auto;
+  position: relative;
 }
 
 .page-front header .region-home{
@@ -47,4 +48,94 @@ header{
 .page-not-front #block-sigel img {
   margin: -10px -30px -70px -75px;
   height: 150px;
+}
+
+
+/* ----- Updates ----- */
+
+
+header .region-updates{
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 10;
+}
+
+header .region-updates .block-views .view-updates,
+.page-not-front header .region-updates .block-views:before{
+  color: #fff;
+  margin: 45px -40px 0 0;
+  padding: 5px 10px 20px;
+}
+
+.page-not-front header .region-updates .block-views:before{
+  font-size: 80%;
+  font-weight: bold;
+  border-radius: 15px;
+  background: #000;
+  padding: 0;
+}
+
+header .region-updates .block-views .view-updates{
+  font-size: 80%;
+  background: #3e173e99;
+  border-radius: 5px;
+  width: 200px;
+}
+
+header .region-updates p{
+  margin: 0;
+  padding: 0;
+}
+
+header .region-updates time,
+header .region-updates footer{
+  display: block;
+  font-size: 90%;
+}
+
+header .region-updates time{
+  float: left;
+}
+
+header .region-updates footer{
+  float: right;
+}
+
+header .region-updates a{
+  color: #f9a90c;
+}
+
+header .region-updates .views-row{
+  margin: 0 0 10px;
+  padding: 0 0 30px;
+  border-bottom: 1px solid #ffffff33;
+}
+
+header .region-updates .views-row:last-child{
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.page-not-front header .region-updates .block-views div{
+  display: none;
+}
+
+.page-not-front header .region-updates .block-views:before{
+  content: '\1f514';
+  display: block;
+  font-size: 30px;
+  padding-bottom: 5px;
+  text-align: center;
+  width: 30px;
+  float: right;
+}
+
+.page-not-front header .region-updates:hover .block-views div{
+  display: block;
+}
+
+.page-not-front header .region-updates:hover .block-views:before{
+  display: none;
 }
