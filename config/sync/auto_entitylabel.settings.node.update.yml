@@ -1,0 +1,7 @@
+status: '1'
+pattern: '[node:field_title]'
+php: 0
+escape: 0
+dependencies:
+  config:
+    - node.type.update

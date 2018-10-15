@@ -1,0 +1,21 @@
+uuid: 47c1f9ee-9485-4eae-8340-dfd0d728269e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_body
+    - node.type.update
+  module:
+    - text
+id: node.update.field_body
+field_name: field_body
+entity_type: node
+bundle: update
+label: Body
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

@@ -1,0 +1,22 @@
+uuid: 29370880-ba3e-426d-a27e-64ca58efb79b
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: updates
+label: Updates
+type: 'canonical_entities:node'
+pattern: 'updates/[node:field_date:date:sane_date]/[node:title]'
+selection_criteria:
+  a54099a2-d07e-46b2-bc87-09b0bcc2ce31:
+    id: node_type
+    bundles:
+      update: update
+    negate: false
+    context_mapping:
+      node: node
+    uuid: a54099a2-d07e-46b2-bc87-09b0bcc2ce31
+selection_logic: and
+weight: -5
+relationships: {  }
