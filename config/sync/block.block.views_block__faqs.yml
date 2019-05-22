@@ -1,0 +1,30 @@
+uuid: 4bdf33f9-f2eb-408a-9eb0-748eb4f37537
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.faqs
+  module:
+    - system
+    - views
+  theme:
+    - burnt
+id: views_block__faqs
+theme: burnt
+region: content
+weight: -7
+provider: null
+plugin: 'views_block:faqs-block_1'
+settings:
+  id: 'views_block:faqs-block_1'
+  label: ''
+  provider: views
+  label_display: '0'
+  views_label: ''
+  items_per_page: none
+visibility:
+  request_path:
+    id: request_path
+    pages: /learn/faqs
+    negate: false
+    context_mapping: {  }

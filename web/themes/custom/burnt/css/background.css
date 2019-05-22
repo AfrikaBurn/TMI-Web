@@ -14,7 +14,7 @@ body{
 .layout-container{
   height: 100vh;
   margin: 0;
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
   perspective: 2px;
   width: 100vw;

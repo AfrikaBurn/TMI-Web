@@ -83,23 +83,25 @@ header .region-home .site-name{
 
 .block-views-blockslideshow-front-page{
   display: block;
-  /* height: 300px; */
-  width: 120%;
-
-  position: relative;
-  left: 50%;
-  margin-left: -60%;
-  flex-basis: 100%;
+  overflow: hidden;
+  width: 110%;
+  margin: 0 -5%;
 }
 
 .block-views-blockslideshow-front-page .slick--view--slideshow{
   display: block;
-  height: 200px;
+  height: 175px;
   margin: 20px 20px 40px;
 }
 
+.block-views-blockslideshow-front-page .slick--view--slideshow ul,
+.block-views-blockslideshow-front-page .slick--view--slideshow li{
+  margin: 0;
+  padding: 0;
+}
+
 .block-views-blockslideshow-front-page .slick--view--slideshow img{
-  margin-top: 10px;
+  margin: 0 auto;
   width: 90%;
   border: 1px solid #ffffff99;
   box-shadow: 0 0 10px 0px #00000033;
