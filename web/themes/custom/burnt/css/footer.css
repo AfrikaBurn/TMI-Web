@@ -41,7 +41,7 @@
 
 .region-footer .menu--footer > ul.menu > .menu-item a{
   text-transform: uppercase;
-  text-shadow: 0 0 2px #000;
+  text-shadow: 1px 1px 1px #000, -1px 1px 1px #000, 1px -1px 1px #000, -1px -1px 1px #000;
 }
 
 .region-footer .menu--footer > ul.menu > .menu-item > a{
@@ -70,14 +70,16 @@
 .region-footer .menu--legalese ul.menu{
   display: flex;
   justify-content: center;
-  padding: 50px 0;
-  margin: 0;
+  padding: 50px 0 0;
+  margin: 0 0 -150px;
+  width: 100%;
 }
 
 .region-footer .menu--legalese ul.menu li{
   padding: 0 10px;
   list-style-type: disc;
   list-style-position: inside;
+  text-shadow: 1px 1px 1px #000, -1px 1px 1px #000, 1px -1px 1px #000, -1px -1px 1px #000;
 }
 
 .region-footer .menu--legalese ul.menu li:first-child{

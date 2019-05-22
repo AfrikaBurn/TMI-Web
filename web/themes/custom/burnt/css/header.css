@@ -7,6 +7,10 @@ header{
   position: relative;
 }
 
+
+/* ----- Title area ----- */
+
+
 .page-front header .region-home{
   text-align: center;
 }
@@ -29,14 +33,27 @@ header{
   color: #000;
   text-decoration: none;
 }
+.page-not-front .site-name a{
+  margin: 40px 0 0;
+}
+
 
 .page-front .site-name a{
   margin: 0;
 }
 
-.page-not-front header,
-.page-not-front header .region-home,
-.page-not-front #block-sigel{
+.page-front .region-navigation{
+  display: none;
+}
+
+.page-not-front .foreground > header{
+  margin-bottom: -100px;
+  z-index: 100;
+}
+
+.page-not-front .foreground > header,
+.page-not-front .foreground > header .region-home,
+.page-not-front .foreground #block-sigel{
   display: flex;
 }
 
@@ -46,8 +63,40 @@ header{
 }
 
 .page-not-front #block-sigel img {
-  margin: -10px -30px -70px -75px;
+  margin: 5px -30px -70px -45px;
   height: 150px;
+}
+
+
+/* ----- Navigation ----- */
+
+
+header .region-navigation{
+  flex-grow: 1;
+  text-align: right;
+}
+
+header .region-navigation ul.menu{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  text-transform: uppercase;
+  margin: 74px 0 0 0;
+}
+
+header .region-navigation li a{
+  display: block;
+  padding: 0 10px 0 30px;
+}
+
+header .region-navigation li:nth-child(1) a{
+  background: url(../images/home.svg) no-repeat;
+}
+header .region-navigation li:nth-child(2) a{
+  background: url(../images/learn.svg) no-repeat;
+}
+header .region-navigation li:nth-child(3) a{
+  background: url(../images/play.svg) no-repeat;
 }
 
 
@@ -68,17 +117,9 @@ header .region-updates .block-views .view-updates,
   padding: 5px 10px 20px;
 }
 
-.page-not-front header .region-updates .block-views:before{
-  font-size: 80%;
-  font-weight: bold;
-  border-radius: 15px;
-  background: #000;
-  padding: 0;
-}
-
 header .region-updates .block-views .view-updates{
   font-size: 80%;
-  background: #3e173e99;
+  background: #3e173eee;
   border-radius: 5px;
   width: 200px;
 }
@@ -123,13 +164,18 @@ header .region-updates .views-row:last-child{
 }
 
 .page-not-front header .region-updates .block-views:before{
+  margin-top: 75px;
+  border-radius: 15px;
+  background: #3e173e;
   content: '\1f514';
   display: block;
-  font-size: 30px;
-  padding-bottom: 5px;
+  padding: 0;
+  font-size: 18px;
+  font-weight: bold;
   text-align: center;
-  width: 30px;
-  float: right;
+  line-height: 25px;
+  width: 25px;
+  height: 25px;
 }
 
 .page-not-front header .region-updates:hover .block-views div{
@@ -139,3 +185,5 @@ header .region-updates .views-row:last-child{
 .page-not-front header .region-updates:hover .block-views:before{
   display: none;
 }
+
+/* ----- Header nav ----- */

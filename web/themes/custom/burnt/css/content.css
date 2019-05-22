@@ -9,12 +9,6 @@
   text-transform: uppercase;
 }
 
-.page-not-front .block-views-blockevents-next-afrikaburn-date{
-  position: absolute;
-  left: 83px;
-  top: -40px;
-}
-
 .page-not-front .block-views-blockevents-next-afrikaburn-date a{
   color: #000;
   text-shadow: 0px 0px 10px rgba(255, 255, 180, 1);
@@ -22,6 +16,8 @@
 
 .page-not-front .block-views-blockevents-next-afrikaburn-date{
   font-size: 130%;
+  text-align: left;
+  margin: -60px 0 50px 75px
 }
 
 
@@ -34,13 +30,17 @@ main{
 }
 
 .main-wrapper{
-  background: #fff;
+  background: #ffffffe5;
   border-radius: 5px;
   box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.25);
   margin: 0 80px;
-  opacity: 0.9;
+  /* opacity: 0.9; */
   padding: 40px 40px 40px;
   position: relative;
+}
+
+.page-not-front .main-wrapper{
+  padding-top: 140px;
 }
 
 
@@ -59,8 +59,12 @@ main{
 
 .region-content{
   flex-basis: 70%;
+  position: relative;
 }
 
+.region-content .contextual-region {
+  position: static;
+}
 
 
 /* ----- Main Elements ----- */

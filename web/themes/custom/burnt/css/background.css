@@ -25,16 +25,26 @@ body{
 }
 
 .layout-container > .background{
-  height: 100%;
   position: absolute;
-  transform: translateZ(-2px) scale(2);
+  transform: translateZ(-3px) scale(2.5);
   width: 100%;
   z-index: -1;
+  top: -40%;
+}
+
+.layout-container > .midground{
+  height: 20%;
+  position: absolute;
+  transform: translateZ(-2px) scale(2);
+  width:100%;
+  z-index: 0;
+  bottom: -50%;
 }
 
 .layout-container > .foreground{
   position: relative;
   transform: translateZ(0) scale(1);
+  z-index: 1;
 }
 
 /* -- Slider -- */
