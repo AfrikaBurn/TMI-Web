@@ -31,10 +31,10 @@ a.book-button:after{
   width: 1em;
 }
 a.book-button:before{
-  margin: 0 .25em -0.2em 0;
+  margin: 0 .25em -0.15em 0;
 }
 a.book-button:after{
-  margin: 0 0 -0.2em .25em;
+  margin: 0 0 -0.15em .25em;
 }
 
 a.book-button:hover:before,

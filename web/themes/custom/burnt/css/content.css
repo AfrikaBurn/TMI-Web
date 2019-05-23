@@ -131,3 +131,11 @@ table{
 p{
   margin: 1em 0;
 }
+
+
+/* ----- FAQs ----- */
+
+.view-id-faqs .ui-accordion-header-active{
+  background: #e60;
+  border: 1px solid #a20;
+}
