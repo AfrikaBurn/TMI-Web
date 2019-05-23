@@ -1,2 +1,10 @@
 menus:
+  - account
+  - admin
+  - blog-navigation
+  - devel
   - footer
+  - header-menu
+  - legalese
+  - main
+  - tools
