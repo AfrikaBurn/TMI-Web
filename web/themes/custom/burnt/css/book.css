@@ -16,19 +16,13 @@
   padding-left: 40px;
 }
 
-a.button-print{
-  position: absolute;
-  right: 0;
-  border: none;
-  top: -75px;
-}
-
-a.book-button:before{
-  padding: 0 5px 0 0;
-}
-
+a.book-button:before,
 a.book-button:after{
-  padding: 0 0 0 5px;
+  display: inline-block;
+  height: 25px;
+  width: 25px;
+  background: url(../images/book-icons.svg) no-repeat;
+  background-size: 15px;
 }
 
 .form-actions a.book-button:before,
@@ -44,8 +38,15 @@ a.button-add:before{
   top: -2px;
 }
 
+a.button-print{
+  position: absolute;
+  right: 0;
+  border: none;
+  top: -75px;
+}
 a.button-print:before{
-  content: '\1f5b6';
+  content: '';
+  background-position: top left;
 }
 
 a.button-book:before{
@@ -53,7 +54,6 @@ a.button-book:before{
 }
 
 a.button-section:before{
-  content: '\23ea';
 }
 
 a.button-prev:before{
