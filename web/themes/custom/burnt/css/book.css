@@ -16,26 +16,39 @@
   padding-left: 40px;
 }
 
+
+/* --- Book Buttons --- */
+
+
 a.book-button:before,
 a.book-button:after{
-  display: inline-block;
-  height: 25px;
-  width: 25px;
   background: url(../images/book-icons.svg) no-repeat;
-  background-size: 15px;
+  background-size: 2em;
+  background-position: top left;
+  display: inline-block;
+  height: 1em;
+  overflow: hidden;
+  width: 1em;
+}
+a.book-button:before{
+  margin: 0 .25em -0.2em 0;
+}
+a.book-button:after{
+  margin: 0 0 -0.2em .25em;
 }
 
-.form-actions a.book-button:before,
-.form-actions a.book-button:after{
-  font-size: 110%;
-  position: relative;
-  top: -1px;
+a.book-button:hover:before,
+a.book-button:hover:after{
+  background-position-x: -1em;
 }
 
-a.button-add:before{
-  content: '\1F5CD';
-  position: relative;
-  top: -2px;
+a.button-book:before,
+a.button-section:before,
+a.button-prev:before,
+a.button-next:after,
+a.button-add:before,
+a.button-print:after{
+  content: '';
 }
 
 a.button-print{
@@ -44,29 +57,17 @@ a.button-print{
   border: none;
   top: -75px;
 }
-a.button-print:before{
-  content: '';
-  background-position: top left;
-}
 
-a.button-book:before{
-  content: '\23ee';
-}
+a.button-book:before{ background-position-y: 0;}
+a.button-section:before{ background-position-y: -1em;}
+a.button-prev:before{ background-position-y: -2em;}
+a.button-next:after{ background-position-y: -3em;}
+a.button-add:before{ background-position-y: -6em;}
+a.button-print:after{ background-position-y: -7em;}
 
-a.button-section:before{
-}
 
-a.button-prev:before{
-  content: '\25c4';
-}
+/* --- Book Index --- */
 
-a.button-next{
-  margin-left: 15px;
-}
-
-a.button-next:after{
-  content: '\25ba';
-}
 
 .view-display-id-index{
   background: #F5F2E9;
