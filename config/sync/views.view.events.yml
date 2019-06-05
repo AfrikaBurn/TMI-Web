@@ -311,8 +311,8 @@ display:
             alt: ''
             rel: ''
             link_class: ''
-            prefix: '<strong>'
-            suffix: '</strong>'
+            prefix: ''
+            suffix: ''
             target: ''
             nl2br: false
             max_length: 0
