@@ -4,7 +4,7 @@
 .foreground > footer{
   position: relative;
   font-size: 80%;
-  padding-bottom: 300px;
+  /* padding-bottom: 300px; */
 }
 
 .foreground > footer img{
