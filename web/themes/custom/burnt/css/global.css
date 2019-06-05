@@ -12,12 +12,12 @@ body{
 }
 
 a{
-  color: #e60;
+  color: #c40;
   text-decoration: none;
 }
 
 a:hover{
-  color: #d00;
+  color: #a00;
   text-decoration: underline;
 }
 
