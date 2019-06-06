@@ -57,6 +57,10 @@
          offset="0"
          style="stop-color:#280e26;stop-opacity:0" />
       <stop
+         id="stop3474"
+         offset="0.1"
+         style="stop-opacity:0" />
+      <stop
          id="stop3476"
          offset="0.204472"
          style="stop-opacity:0.5;stop-color:#31182a" />

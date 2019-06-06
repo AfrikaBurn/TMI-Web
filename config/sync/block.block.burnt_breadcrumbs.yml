@@ -11,7 +11,7 @@ _core:
 id: burnt_breadcrumbs
 theme: burnt
 region: prefix
-weight: -2
+weight: -5
 provider: null
 plugin: system_breadcrumb_block
 settings:

@@ -1,10 +1,18 @@
 @charset "utf-8";
 
 
-header{
-  max-width: 785px;
+.foreground > header{
+  max-width: 1024px;
   margin: 0 auto;
+}
+
+.foreground > header,
+.foreground > header .header-wrapper{
   position: relative;
+}
+
+.path-admin .foreground > header{
+  max-width: 100%;
 }
 
 
@@ -26,7 +34,7 @@ header{
   font-size: 256%;
   font-weight: bolder;
   margin: 0.5em 0;
-  text-shadow: 0px 0px 10px rgba(255, 255, 180, 1);
+  text-shadow: 0px 0px 3px rgba(255, 255, 180, 1);
   text-transform: uppercase;
 }
 .site-name a:hover{
@@ -36,8 +44,6 @@ header{
 .page-not-front .site-name a{
   margin: 40px 0 0;
 }
-
-
 .page-front .site-name a{
   margin: 0;
 }
@@ -51,10 +57,14 @@ header{
   z-index: 100;
 }
 
-.page-not-front .foreground > header,
+.page-not-front .foreground > header .header-wrapper,
 .page-not-front .foreground > header .region-home,
 .page-not-front .foreground #block-sigel{
   display: flex;
+}
+
+.page-not-front .foreground > header .header-wrapper{
+  flex-wrap: wrap;
 }
 
 .page-not-front a.site-logo,
@@ -67,6 +77,14 @@ header{
   height: 150px;
 }
 
+@media (max-width: 950px){
+
+  .page-not-front .foreground > header{
+    margin-bottom: -225px;
+  }
+
+}
+
 
 /* ----- Navigation ----- */
 
@@ -74,6 +92,19 @@ header{
 header .region-navigation{
   flex-grow: 1;
   text-align: right;
+}
+
+@media (max-width: 950px){
+
+  .page-not-front .region-navigation{
+    width: 100%;
+  }
+
+  .page-not-front .region-navigation ul.menu{
+    padding: 40px 0 60px;
+    margin: 0;
+  }
+
 }
 
 header .region-navigation ul.menu{
@@ -106,8 +137,14 @@ header .region-navigation li:nth-child(3) a{
 header .region-updates{
   position: absolute;
   top: 0;
-  right: 0;
+  right: 40px;
   z-index: 10;
+}
+
+@media (max-width: 950px){
+  .page-not-front header .region-updates{
+    top: 83px;
+  }
 }
 
 header .region-updates .block-views .view-updates,
@@ -186,4 +223,38 @@ header .region-updates .views-row:last-child{
   display: none;
 }
 
-/* ----- Header nav ----- */
+@media(max-width: 950px){
+
+  header .region-updates .block-views:before{
+    color: #fff;
+    margin: 45px -40px 0 0;
+    padding: 5px 10px 20px;
+  }
+
+  header .region-updates .block-views div{
+    display: none;
+  }
+
+  header .region-updates .block-views:before{
+    margin-top: 75px;
+    border-radius: 15px;
+    background: #3e173e;
+    content: '\1f514';
+    display: block;
+    padding: 0;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 25px;
+    width: 25px;
+    height: 25px;
+  }
+
+  header .region-updates:hover .block-views div{
+    display: block;
+  }
+
+  header .region-updates:hover .block-views:before{
+    display: none;
+  }
+}

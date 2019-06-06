@@ -8,9 +8,16 @@
   justify-content: space-between;
 }
 
-.view-blogs .view-content .views-row{
+.page-front .view-blogs .view-content .views-row{
   flex-basis: 30%;
   padding: 0 10px;
+}
+
+@media(max-width: 920px){
+  .page-front .view-blogs .view-content .views-row{
+    flex-basis: 100%;
+    padding: 0 10px 40px;
+  }
 }
 
 .view-blogs .view-content .views-row h3{

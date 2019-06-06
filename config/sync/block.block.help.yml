@@ -9,7 +9,7 @@ dependencies:
 id: help
 theme: burnt
 region: prefix
-weight: 0
+weight: -3
 provider: null
 plugin: help_block
 settings:

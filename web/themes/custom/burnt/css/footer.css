@@ -4,7 +4,6 @@
 .foreground > footer{
   position: relative;
   font-size: 80%;
-  /* padding-bottom: 300px; */
 }
 
 .foreground > footer img{
@@ -33,6 +32,18 @@
   margin: 5px;
   padding: 20px;
   width: 20%;
+}
+
+@media(max-width: 1024px){
+
+  .region-footer .menu--footer > ul.menu{
+    flex-wrap: wrap;
+  }
+
+  .region-footer .menu--footer > ul.menu > .menu-item {
+      width: 30%;
+  }
+
 }
 
 .region-footer .menu--footer > ul.menu ul.menu {

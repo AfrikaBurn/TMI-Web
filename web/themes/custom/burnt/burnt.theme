@@ -11,6 +11,20 @@ function burnt_preprocess_page(&$variables) {
 }
 
 /**
+ * Implements hook_preprocess_html()
+ * Add root_path attribute.
+ */
+function burnt_preprocess_html(&$variables) {
+  if ($variables['root_path']){
+    if (is_array($variables['attributes'])){
+      $variables['attributes']['class'][] = 'path-' . $variables['root_path'];
+    } else {
+      $variables['attributes']->addClass('path-' . $variables['root_path']);
+    }
+  }
+}
+
+/**
  * Implements hook_preprocess_views_view_fields().
  */
 function burnt_preprocess_views_view_fields(&$variables) {

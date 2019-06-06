@@ -18,13 +18,34 @@ header .region-home .site-name{
   top: 0px;
 }
 
+@media (max-width: 950px){
+
+  .page-front header .region-home{
+    text-align: left;
+  }
+
+  .page-front header .region-home img{
+    width: 120px;
+    display: inline-block;
+    margin: -10px -20px -30px -70px;
+  }
+
+  .page-front header .region-home .site-name{
+    display: inline-block;
+    position: relative;
+    top: -12px;
+  }
+}
+
 
 /* ----- Prefix ----- */
 
 
 .page-front .block-views-blockevents-next-afrikaburn-date{
   font-size: 120%;
-  margin-top: -40px;
+  margin-bottom: -30px;
+  position: relative;
+  z-index: 1;
 }
 
 /* ----- Call to Action ----- */
@@ -47,26 +68,40 @@ header .region-home .site-name{
   width: 230px;
 }
 
-@media (max-width: 750px){
+@media (max-width: 920px){
   .block-region-top{
     margin: 0;
   }
 
   .block-region-top .block.block-block-content{
     flex-basis: 100%;
-    margin: 0 100px;
+    margin: 0 50px;
+    padding: 0 0 20px;
     text-align: left;
   }
 
-  .block-region-top .block.block-block-content .field img{
-    float: left;
-    margin-right: 20px;
+  .block-region-top .block.block-block-content .field{
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0;
+    margin: 0;
+    width: auto;
+    align-items: center;
   }
 
-  .block-region-top .block.block-block-content .field{
-    padding: 0;
-    margin: 0 auto;
-    width: auto;
+  .block-region-top .block.block-block-content .field h2{
+    flex-basis: 100%;
+  }
+
+  .block-region-top .block.block-block-content .field p{
+    width: 100px;
+  }
+  .block-region-top .block.block-block-content .field p:last-child{
+    flex-grow: 1;
+  }
+
+  .block-region-top .block.block-block-content .field img{
+    margin-right: 20px;
   }
 }
 
@@ -92,6 +127,24 @@ header .region-home .site-name{
   display: block;
   height: 175px;
   margin: 20px 20px 40px;
+}
+
+@media (max-width: 1085px){
+  .block-views-blockslideshow-front-page .slick--view--slideshow{
+    height: 15vw;
+  }
+}
+
+@media (max-width: 920px){
+  .block-views-blockslideshow-front-page .slick--view--slideshow{
+    height: 12vw;
+  }
+}
+
+@media (max-width: 640px){
+  .block-views-blockslideshow-front-page .slick--view--slideshow{
+    height: 10vw;
+  }
 }
 
 .block-views-blockslideshow-front-page .slick--view--slideshow ul,

@@ -10,8 +10,8 @@ dependencies:
     - burnt
 id: next_afrikaburn_date
 theme: burnt
-region: prefix
-weight: -6
+region: home
+weight: -7
 provider: null
 plugin: 'views_block:events-next_afrikaburn_date'
 settings:
