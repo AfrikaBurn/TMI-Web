@@ -61,6 +61,20 @@ main{
   }
 }
 
+@media (max-width: 640px){
+
+  main{
+    min-width: 100%;
+  }
+
+  .header-wrapper,
+  .main-wrapper{
+    margin: 0;
+    padding: 0;
+    min-width: 100%;
+  }
+}
+
 
 /* ----- Bar Layout ----- */
 
