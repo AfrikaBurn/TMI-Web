@@ -71,6 +71,7 @@ a.button-print:after{ background-position-y: -7em;}
 
 .view-display-id-index{
   background: #F5F2E9;
+  box-shadow: 1px 1px 10px #00000010;
   margin: 0 40px 0 -42px;
   padding: 1px 0 20px 40px;
   border-radius: 2px 10px 10px 2px;

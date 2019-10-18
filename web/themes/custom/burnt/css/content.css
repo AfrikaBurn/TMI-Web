@@ -138,6 +138,7 @@ table{
 
 .breadcrumb{
   background: #F5F2E9;
+  box-shadow: 1px 1px 10px #00000010;
   padding: 0.5em 40px;
   margin: 0px -42px 40px -42px;
   border-radius: 2.5px;

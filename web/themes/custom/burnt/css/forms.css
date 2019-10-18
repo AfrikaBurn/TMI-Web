@@ -3,6 +3,7 @@
 
 .button,
 .form-text,
+.form-email,
 .form-search,
 .form-textarea,
 .form-select{
@@ -108,6 +109,7 @@ details .details-wrapper{
 
 .form-actions{
   background: #F5F2E9;
+  box-shadow: 1px 1px 10px #00000010;
   padding: 10px 40px 10px 10px;
   margin: 80px -42px 0 0;
   border-radius: 30px 2px 2px 30px;
