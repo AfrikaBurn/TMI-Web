@@ -23,7 +23,12 @@ a:hover{
 
 strong a{
   color: #d00;
+  text-shadow: 2px 3px 3px #0003;
   white-space: nowrap;
+}
+
+strong a:hover{
+  text-shadow: none;
 }
 
 h1, h2, h3 {
