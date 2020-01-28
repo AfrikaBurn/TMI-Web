@@ -69,7 +69,7 @@ a.button-print:after{ background-position-y: -7em;}
 /* --- Book Index --- */
 
 
-.view-display-id-index{
+.view-book-pages.view-display-id-index{
   background: #F5F2E9;
   box-shadow: 1px 1px 10px #00000010;
   margin: 0 40px 0 -42px;
@@ -77,32 +77,81 @@ a.button-print:after{ background-position-y: -7em;}
   border-radius: 2px 10px 10px 2px;
 }
 
-.view-display-id-index ul{
+.view-book-pages.view-display-id-index ul{
   margin: 1em 0;
   padding: 0;
 }
 
-.view-display-id-index ul ul{
+.view-book-pages.view-display-id-index ul ul{
   border-left: 1px solid #a0a0a0;
 }
 
-.view-display-id-index li{
+.view-book-pages.view-display-id-index li{
   list-style-type: none;
   margin: .5em 0;
 }
 
-.view-display-id-index ul ul{
+.view-book-pages.view-display-id-index ul ul{
   margin-left: 5px;
   padding-left: 15px;
 }
 
-.view-display-id-index .current a{
+.view-book-pages.view-display-id-index .views-field-title:hover a,
+.view-book-pages.view-display-id-index .current a{
   color: #fff;
+  text-decoration: none;
 }
 
-.view-display-id-index .current{
+.view-book-pages.view-display-id-index .views-field-title{
+  margin: -5px -2px -5px -10px;
+  padding: 2.5px 2px 5px 10px;
+}
+
+.view-book-pages.view-display-id-index .views-field-title:hover,
+.view-book-pages.view-display-id-index .current{
   background: #a0a0a0;
   border-radius: 15px 2px 2px 15px;
-  margin: -5px -2px -5px -10px;
-  padding: 5px 2px 5px 10px;
+}
+
+.collapsible-book-page .views-field-title{
+  position: relative;
+}
+
+.collapsible-book-page > .views-field-title .field-content:after{
+  background: url(../images/book-icons.svg) no-repeat;
+  background-size: 2em;
+  background-position: top left;
+  content: '';
+  display: block;
+  height: 1em;
+  overflow: hidden;
+  position: absolute;
+  width: 1em;
+  right: 10px;
+  top: 50%;
+  margin-top: -0.6em;
+  cursor: pointer;
+}
+
+.collapsible-book-page > .views-field-title .field-content:after{
+  background-position: left -5em;
+}
+.collapsible-book-page > .views-field-title .field-content:hover:after{
+  background-position: -1em -5em;
+}
+
+.collapsible-book-page.collapsed-book-page > .views-field-title .field-content:after{
+  background-position: left -4em;
+}
+.collapsible-book-page.collapsed-book-page > .views-field-title .field-content:hover:after{
+  background-position: -1em -4em;
+}
+
+.collapsible-book-page > .views-field-title.current .field-content:after,
+.collapsible-book-page > .views-field-title.current .field-content:hover:after{
+  background-position: -1em -5em;
+}
+
+.collapsible-book-page.collapsed-book-page > ul{
+  display: none;
 }
