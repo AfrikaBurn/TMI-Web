@@ -109,7 +109,7 @@ a.button-print:after{ background-position-y: -7em;}
 
 .view-book-pages.view-display-id-index .views-field-title:hover,
 .view-book-pages.view-display-id-index .current{
-  background: #a0a0a0;
+  background: #c40;
   border-radius: 15px 2px 2px 15px;
 }
 

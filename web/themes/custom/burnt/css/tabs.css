@@ -51,6 +51,7 @@ ul.tabs.primary li a{
   color: #fffc;
   display: block;
   padding: 0.25em 1em;
+  font-size: 70%;
 }
 
 ul.tabs.primary li:hover a{
