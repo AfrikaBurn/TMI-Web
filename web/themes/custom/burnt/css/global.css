@@ -31,12 +31,24 @@ strong a:hover{
   text-shadow: none;
 }
 
-h1, h2, h3 {
+h1, h2, h3, h4 {
   font-family: 'Julius Sans One';
   text-transform: uppercase;
+}
+
+h1{
+  font-size: 200%;
   margin: 0 0 1em;
 }
 
-h1{ font-size: 200%;}
-h2{ font-size: 160%;}
-h3{ font-size: 140%;}
+h2, h3, h4 {
+  margin: 1.5em 0 1em;
+}
+
+h2{
+  font-size: 160%;
+}
+
+h3{
+  font-size: 140%;
+}

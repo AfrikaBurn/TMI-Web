@@ -28,9 +28,14 @@ function burnt_preprocess_html(&$variables) {
  * Implements hook_preprocess_views_view_fields().
  */
 function burnt_preprocess_views_view_fields(&$variables) {
-  if ($variables['view']->id() == 'book_pages'){
-    $node = \Drupal::routeMatch()->getParameter('node');
-    if ($node->id() == $variables['row']->nid){
+
+  $view = $variables['view'];
+
+  if ($view->id() == 'book_pages'){
+
+    $nid = $view->args[0];
+
+    if ($nid == $variables['row']->nid){
       $variables['fields']['title']->wrapper_attributes->addClass('current');
     }
   }
