@@ -96,9 +96,9 @@ form .form-actions .button{
   padding: 10px 30px;
 }
 
-summary{
+/* summary{
   white-space: pre-wrap;
-}
+} */
 
 details summary{
   outline: none;
