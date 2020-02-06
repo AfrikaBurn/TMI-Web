@@ -75,6 +75,7 @@ a.button-print:after{ background-position-y: -7em;}
   margin: 0 40px 0 -42px;
   padding: 1px 0 20px 40px;
   border-radius: 2px 10px 10px 2px;
+  font-size: 70%;;
 }
 
 .view-book-pages.view-display-id-index ul{

@@ -30,11 +30,12 @@ function burnt_preprocess_html(&$variables) {
 function burnt_preprocess_views_view_fields(&$variables) {
 
   $view = $variables['view'];
-  $row = $variables['row'];
-  $nid = @\Drupal::routeMatch()->getParameter('node')->nid->getValue()[0]['value'];
 
   if ($view->id() == 'book_pages'){
-    if ($nid == $row->nid){
+    if (
+      @\Drupal::routeMatch()->getParameter('node')->nid->getValue()[0]['value']
+      == $variables['row']->nid
+    ){
       $variables['fields']['title']->wrapper_attributes->addClass('current');
     }
   }
