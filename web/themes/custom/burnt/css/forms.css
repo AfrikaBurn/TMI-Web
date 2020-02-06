@@ -31,6 +31,14 @@
   width: 100%;
 }
 
+table .form-text,
+table .form-search,
+table .form-textarea,
+table .form-select{
+  min-width: auto;
+  width: auto;
+}
+
 form .button,
 .js .dropbutton-widget{
   font-size: 80%;
