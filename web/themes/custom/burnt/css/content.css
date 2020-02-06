@@ -172,3 +172,10 @@ p{
   background: #e60;
   border: 1px solid #a20;
 }
+
+.view-id-faqs:after{
+  content: ' ';
+  display: block;
+  height: 0;
+  clear: both;
+}
