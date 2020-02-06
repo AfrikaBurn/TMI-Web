@@ -11,7 +11,7 @@ third_party_settings:
     parent: 'main:'
 name: FAQ
 type: faq
-description: ''
+description: 'Frequently Asked Questions and answers.'
 help: ''
 new_revision: true
 preview_mode: 1

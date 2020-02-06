@@ -346,7 +346,7 @@ display:
           type: ul
           main_field: nid
           parent_field: nid_1
-          collapsible_tree: expanded
+          collapsible_tree: '0'
       row:
         type: fields
         options: {  }
