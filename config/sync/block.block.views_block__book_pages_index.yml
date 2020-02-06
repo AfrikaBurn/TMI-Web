@@ -12,7 +12,7 @@ dependencies:
 id: views_block__book_pages_index
 theme: burnt
 region: left
-weight: -5
+weight: -9
 provider: null
 plugin: 'views_block:book_pages-index'
 settings:
@@ -26,6 +26,6 @@ settings:
 visibility:
   request_path:
     id: request_path
-    pages: '/learn*'
+    pages: "/welcome*\r\n/learn*\r\n/play*"
     negate: false
     context_mapping: {  }

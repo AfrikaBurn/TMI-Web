@@ -300,7 +300,7 @@ display:
           exclude: false
           alter:
             alter_text: false
-            text: ''
+            text: '{{ field_event_date }}: {{ field_event_theme }}'
             make_link: true
             path: '{{ view_node }}'
             absolute: false

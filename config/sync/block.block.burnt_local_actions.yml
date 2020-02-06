@@ -9,7 +9,7 @@ _core:
 id: burnt_local_actions
 theme: burnt
 region: content
-weight: -8
+weight: -7
 provider: null
 plugin: local_actions_block
 settings:

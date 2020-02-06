@@ -15,4 +15,7 @@ content:
   links:
     weight: 100
     region: content
-hidden: {  }
+hidden:
+  field_body: true
+  field_date: true
+  field_title: true

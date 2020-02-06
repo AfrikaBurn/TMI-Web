@@ -12,7 +12,7 @@ dependencies:
 id: views_block__faqs
 theme: burnt
 region: content
-weight: -7
+weight: -5
 provider: null
 plugin: 'views_block:faqs-block_1'
 settings:

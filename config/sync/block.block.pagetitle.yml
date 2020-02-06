@@ -1,4 +1,4 @@
-uuid: f10f775d-49b2-42a7-bf98-2a2b295ca1d4
+uuid: 90792b8e-6865-490d-b7b8-7a1a0d80a7a8
 langcode: en
 status: true
 dependencies:
@@ -6,12 +6,10 @@ dependencies:
     - system
   theme:
     - burnt
-_core:
-  default_config_hash: Z3nlZUh2mSJP3apMrJWt-duS-aLyP79rcfu_0wpPmDs
-id: burnt_page_title
+id: pagetitle
 theme: burnt
-region: content
-weight: -8
+region: prefix
+weight: -6
 provider: null
 plugin: page_title_block
 settings:
@@ -23,5 +21,5 @@ visibility:
   request_path:
     id: request_path
     pages: '/admin/*'
-    negate: true
+    negate: false
     context_mapping: {  }

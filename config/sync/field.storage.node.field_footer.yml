@@ -1,4 +1,4 @@
-uuid: 2e9bde6c-d624-4798-aa40-a8c6002e96fd
+uuid: d5a76242-f813-4551-9d67-9beae33646a2
 langcode: en
 status: true
 dependencies:
@@ -9,17 +9,15 @@ dependencies:
 third_party_settings:
   field_permissions:
     permission_type: public
-_core:
-  default_config_hash: EBUo7qOWqaiZaQ_RC9sLY5IoDKphS34v77VIHSACmVY
-id: node.body
-field_name: body
+id: node.field_footer
+field_name: field_footer
 entity_type: node
-type: text_with_summary
+type: text_long
 settings: {  }
 module: text
 locked: false
 cardinality: 1
 translatable: true
 indexes: {  }
-persist_with_no_fields: true
+persist_with_no_fields: false
 custom_storage: false

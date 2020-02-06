@@ -21,11 +21,6 @@ settings:
             - Underline
             - Strike
         -
-          name: Links
-          items:
-            - DrupalLink
-            - DrupalUnlink
-        -
           name: Lists
           items:
             - BulletedList
@@ -33,9 +28,21 @@ settings:
             - Indent
             - Outdent
         -
+          name: Alignment
+          items:
+            - JustifyLeft
+            - JustifyRight
+            - JustifyCenter
+            - JustifyBlock
+            - Blockquote
+        -
+          name: Links
+          items:
+            - DrupalLink
+            - DrupalUnlink
+        -
           name: Media
           items:
-            - Blockquote
             - DrupalImage
         -
           name: Tools
@@ -43,22 +50,15 @@ settings:
             - Table
             - Source
         -
-          name: Alignment
-          items:
-            - JustifyLeft
-            - JustifyRight
-            - JustifyCenter
-            - JustifyBlock
-        -
           name: Edit
           items:
             - Undo
             - Redo
   plugins:
-    language:
-      language_list: un
     stylescombo:
       styles: ''
+    language:
+      language_list: un
 image_upload:
   status: true
   scheme: public

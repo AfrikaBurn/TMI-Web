@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.book.body
+    - field.field.node.book.field_footer
     - field.field.node.book.field_owners
     - field.field.node.book.field_pages
     - node.type.book
@@ -17,12 +18,10 @@ third_party_settings:
   field_group:
     group_form_actions:
       children:
-        - book_page
-        - section_page
         - prev_page
         - next_page
       parent_name: ''
-      weight: 4
+      weight: 5
       format_type: html_element
       format_settings:
         id: ''
@@ -47,9 +46,8 @@ third_party_settings:
         - body
         - field_pages
         - add_page
+        - field_footer
         - group_form_actions
-        - book_page
-        - section_page
         - prev_page
         - next_page
 _core:
@@ -71,18 +69,12 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  book_page:
-    weight: 5
-    region: content
+  field_footer:
+    weight: 4
+    label: hidden
     settings: {  }
     third_party_settings: {  }
-  field_owners:
-    weight: 10
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
-    type: entity_reference_label
+    type: text_default
     region: content
   field_pages:
     type: viewfield_default
@@ -109,10 +101,8 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  section_page:
-    weight: 6
-    region: content
-    settings: {  }
-    third_party_settings: {  }
 hidden:
+  book_page: true
+  field_owners: true
   links: true
+  section_page: true

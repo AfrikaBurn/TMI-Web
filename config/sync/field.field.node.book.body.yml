@@ -14,7 +14,7 @@ field_name: body
 entity_type: node
 bundle: book
 label: Body
-description: ''
+description: 'Main body of text for this page. Displayed before child page teasers.'
 required: true
 translatable: true
 default_value: {  }

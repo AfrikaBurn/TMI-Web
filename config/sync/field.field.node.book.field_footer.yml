@@ -1,0 +1,21 @@
+uuid: fc007744-b4da-4b1e-8ea8-b3442e88f58b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_footer
+    - node.type.book
+  module:
+    - text
+id: node.book.field_footer
+field_name: field_footer
+entity_type: node
+bundle: book
+label: Footer
+description: 'Optional footer text shown after the child page teasers for this page.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long
