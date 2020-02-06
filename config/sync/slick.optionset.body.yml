@@ -8,10 +8,10 @@ label: Body
 weight: 0
 group: ''
 skin: ''
-breakpoints: 0
+breakpoints: 1
 optimized: true
 options:
-  options__active_tab: edit-options-settings
+  options__active_tab: ''
   settings:
     mobileFirst: true
     autoplay: true
@@ -20,5 +20,17 @@ options:
     centerPadding: '0'
     lazyLoad: blazy
     respondTo: slider
-    slidesToShow: 3
+    slidesToShow: 1
     cssEase: ease-in-out
+  responsives:
+    responsive:
+      -
+        breakpoint: 640
+        unslick: false
+        settings:
+          draggable: false
+          infinite: false
+          slidesToShow: 3
+          swipe: false
+          touchMove: false
+          waitForAnimate: false

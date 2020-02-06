@@ -5,7 +5,7 @@ dependencies:
   config:
     - views.view.book_pages
   module:
-    - system
+    - node
     - views
   theme:
     - burnt
@@ -24,8 +24,10 @@ settings:
   items_per_page: none
   context_mapping: {  }
 visibility:
-  request_path:
-    id: request_path
-    pages: '/learn*'
+  node_type:
+    id: node_type
+    bundles:
+      book: book
     negate: false
-    context_mapping: {  }
+    context_mapping:
+      node: '@node.node_route_context:node'
