@@ -52,3 +52,7 @@ h2{
 h3{
   font-size: 140%;
 }
+
+blockquote{
+  margin: 2em 1em;
+}
