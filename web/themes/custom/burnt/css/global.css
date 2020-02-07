@@ -54,5 +54,6 @@ h3{
 }
 
 blockquote{
-  margin: 2em 1em;
+  margin: 4em 1em 2em;
+  font-size: 80%;
 }
