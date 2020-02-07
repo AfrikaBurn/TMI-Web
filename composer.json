@@ -29,7 +29,7 @@
         "drupal/conditional_fields": "^1.0@alpha",
         "drupal/console": "^1.0.2",
         "drupal/content_access": "^1.0",
-        "drupal/core": "~8.5.3",
+        "drupal/core": "~8.8",
         "drupal/devel": "^1.2",
         "drupal/draggableviews": "^1.0",
         "drupal/ds": "^3.1",
@@ -54,7 +54,6 @@
         "webmozart/path-util": "^2.3"
     },
     "require-dev": {
-        "webflo/drupal-core-require-dev": "~8.5.3"
     },
     "conflict": {
         "drupal/drupal": "*"
