@@ -33,6 +33,7 @@ third_party_settings:
         effect: none
         speed: fast
       label: 'Form Actions'
+      region: content
   ds:
     layout:
       id: layout_onecol
@@ -83,7 +84,7 @@ content:
     label: hidden
     settings:
       view_title: hidden
-      always_build_output: 0
+      always_build_output: false
       empty_view_title: hidden
     third_party_settings: {  }
   next_page:
@@ -105,4 +106,5 @@ hidden:
   book_page: true
   field_owners: true
   links: true
+  search_api_excerpt: true
   section_page: true
