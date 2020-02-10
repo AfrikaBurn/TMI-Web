@@ -5,6 +5,7 @@ dependencies:
   config:
     - page_manager.page.front_page
     - views.view.blogs
+    - views.view.quick_search
     - views.view.slideshow
   content:
     - 'block_content:home_navigation:48b0ce66-241f-4074-8f0f-cd0451f58923'
@@ -63,7 +64,7 @@ variant_settings:
       views_label: ''
       items_per_page: none
       region: top
-      weight: -7
+      weight: -6
       uuid: 49054784-764b-4369-b2fe-8c2aa98b56ac
       context_mapping: {  }
     f35a75c6-3956-49ba-91df-772590e86632:
@@ -88,6 +89,17 @@ variant_settings:
       region: bottom
       weight: 0
       uuid: 3f66813f-8095-497c-ad26-48632f5357ce
+      context_mapping: {  }
+    8462ac17-be56-4582-9edf-47a9d2770977:
+      id: 'views_block:quick_search-block'
+      label: ''
+      provider: views
+      label_display: '0'
+      views_label: ''
+      items_per_page: none
+      region: top
+      weight: -7
+      uuid: 8462ac17-be56-4582-9edf-47a9d2770977
       context_mapping: {  }
   id: block_display
   uuid: 0e4e24a5-876c-459a-9b0f-c747209558f6

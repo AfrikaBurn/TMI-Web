@@ -11,7 +11,14 @@ dependencies:
   module:
     - conditional_fields
     - datetime_range
+    - field_layout
+    - layout_discovery
     - text
+third_party_settings:
+  field_layout:
+    id: layout_onecol
+    settings:
+      label: ''
 id: node.event.default
 targetEntityType: node
 bundle: event

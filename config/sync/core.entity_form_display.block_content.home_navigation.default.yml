@@ -6,7 +6,14 @@ dependencies:
     - block_content.type.home_navigation
     - field.field.block_content.home_navigation.body
   module:
+    - field_layout
+    - layout_discovery
     - text
+third_party_settings:
+  field_layout:
+    id: layout_onecol
+    settings:
+      label: ''
 id: block_content.home_navigation.default
 targetEntityType: block_content
 bundle: home_navigation
@@ -19,6 +26,7 @@ content:
       rows: 9
       summary_rows: 3
       placeholder: ''
+      show_summary: false
     third_party_settings: {  }
     region: content
   info:

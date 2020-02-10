@@ -121,6 +121,50 @@ header .region-home .site-name{
 }
 
 
+/* ------ Search ------ */
+
+.block-views-blockquick-search-block{
+  width: 100%;
+}
+
+.block-views-blockquick-search-block form{
+  background: none;
+}
+
+.block-views-blockquick-search-block .form-actions{
+  background: none;
+  box-shadow: none;
+  float: none;
+  border-radius: 0;
+}
+
+.block-views-blockquick-search-block .form--inline{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.block-views-blockquick-search-block .form--inline div{
+  margin: 0;
+  padding: 0;
+}
+
+.block-views-blockquick-search-block .form--inline input{
+  height: 40px;
+  padding: 10px 20px;
+}
+
+.block-views-blockquick-search-block .form--inline .form-text{
+  border-radius: 20px 0 0 20px;
+  outline: none;
+}
+
+.block-views-blockquick-search-block .form--inline .form-submit{
+  border-radius: 0 20px 20px 0;
+  outline: none;
+}
+
+
 /* ----- Slider ----- */
 
 

@@ -6,6 +6,7 @@ dependencies:
     - field.storage.node.field_event_date
     - node.type.event
   module:
+    - datetime
     - datetime_range
     - node
     - user
@@ -16,7 +17,6 @@ description: ''
 tag: ''
 base_table: node_field_data
 base_field: nid
-core: 8.x
 display:
   default:
     display_plugin: default
@@ -158,6 +158,8 @@ display:
           id: status
           expose:
             operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
           group: 1
         type:
           id: type
@@ -184,6 +186,8 @@ display:
             remember_roles:
               authenticated: authenticated
             reduce: false
+            operator_limit_selection: false
+            operator_list: {  }
           is_grouped: false
           group_info:
             label: ''
@@ -211,7 +215,8 @@ display:
           exposed: false
           expose:
             label: ''
-          plugin_id: standard
+          plugin_id: datetime
+          entity_type: node
       header: {  }
       footer: {  }
       empty: {  }
@@ -228,11 +233,29 @@ display:
         - 'user.node_grants:view'
         - user.permissions
       tags: {  }
+  all:
+    display_plugin: page
+    id: all
+    display_title: All
+    position: 1
+    display_options:
+      display_extenders: {  }
+      display_description: ''
+      path: events
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url.query_args
+        - 'user.node_grants:view'
+        - user.permissions
+      tags: {  }
   next_afrikaburn_date:
     display_plugin: block
     id: next_afrikaburn_date
     display_title: 'Next AfrikaBurn Date'
-    position: 1
+    position: 2
     display_options:
       display_extenders: {  }
       fields:

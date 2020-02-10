@@ -51,7 +51,10 @@ module:
   page_manager_ui: 0
   panels: 0
   path: 0
+  path_alias: 0
   rac: 0
+  search_api: 0
+  search_api_db: 0
   slick: 0
   slick_ui: 0
   slick_views: 0

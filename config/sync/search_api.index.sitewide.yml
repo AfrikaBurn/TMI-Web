@@ -1,0 +1,97 @@
+uuid: de3c8238-d927-469e-9e32-8982511ba94b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_answer
+    - field.storage.node.body
+    - field.storage.node.field_body
+    - field.storage.node.field_event_description
+    - field.storage.node.field_footer
+    - field.storage.node.field_title
+    - search_api.server.sitewide
+  module:
+    - node
+    - search_api
+id: sitewide
+name: Sitewide
+description: ''
+read_only: false
+field_settings:
+  body:
+    label: Body
+    datasource_id: 'entity:node'
+    property_path: body
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.body
+  field_answer:
+    label: Answer
+    datasource_id: 'entity:node'
+    property_path: field_answer
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_answer
+  field_body:
+    label: Body
+    datasource_id: 'entity:node'
+    property_path: field_body
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_body
+  field_event_description:
+    label: Description
+    datasource_id: 'entity:node'
+    property_path: field_event_description
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_event_description
+  field_footer:
+    label: Footer
+    datasource_id: 'entity:node'
+    property_path: field_footer
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_footer
+  field_title:
+    label: Title
+    datasource_id: 'entity:node'
+    property_path: field_title
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_title
+  title:
+    label: Title
+    datasource_id: 'entity:node'
+    property_path: title
+    type: string
+    dependencies:
+      module:
+        - node
+datasource_settings:
+  'entity:node':
+    bundles:
+      default: true
+      selected:
+        - slideshow_image
+    languages:
+      default: true
+      selected: {  }
+processor_settings:
+  add_url: {  }
+  aggregated_field: {  }
+  language_with_fallback: {  }
+  rendered_item: {  }
+tracker_settings:
+  default:
+    indexing_order: fifo
+options:
+  index_directly: true
+  cron_limit: 50
+server: sitewide

@@ -23,7 +23,7 @@ table tr td.description{
   vertical-align: top;
   padding: 20px 20px 10px;
   text-align: left;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid #ccc;
 }
 
 table tr td ul{
@@ -36,5 +36,5 @@ dd{
 }
 
 table tr:hover{
-  background: #f0f0f0;
+  background: #fff;
 }

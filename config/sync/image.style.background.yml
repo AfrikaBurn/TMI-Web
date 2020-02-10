@@ -12,6 +12,7 @@ effects:
     data:
       width: 800
       height: 400
+      anchor: center-center
   e4c97d17-15d9-4135-846e-2e48b928e2b8:
     uuid: e4c97d17-15d9-4135-846e-2e48b928e2b8
     id: image_scale

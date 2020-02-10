@@ -7,8 +7,15 @@ dependencies:
     - image.style.thumbnail
     - node.type.slideshow_image
   module:
+    - field_layout
     - image
+    - layout_discovery
     - path
+third_party_settings:
+  field_layout:
+    id: layout_onecol
+    settings:
+      label: ''
 id: node.slideshow_image.default
 targetEntityType: node
 bundle: slideshow_image
@@ -70,6 +77,7 @@ content:
       match_operator: CONTAINS
       size: 60
       placeholder: ''
+      match_limit: 10
     region: content
     third_party_settings: {  }
 hidden: {  }
