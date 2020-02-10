@@ -19,3 +19,10 @@ regions:
 logo: logo.png
 screenshot: screenshot.png
 favicon: favicon.ico
+ckeditor_stylesheets:
+  - css/book.css
+  - css/content.css
+  - css/global.css
+  - css/tables.css
+  - css/typeset.css
+  - css/ckeditor.css

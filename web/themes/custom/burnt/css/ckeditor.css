@@ -1,0 +1,17 @@
+@charset "utf-8";
+
+
+/* ----- CKEditor ----- */
+
+
+body{
+  background: transparent;
+}
+
+.align-left{
+  padding: 5px 20px 5px 0;
+}
+
+.align-right{
+  padding: 5px 0 5px 20px;
+}
