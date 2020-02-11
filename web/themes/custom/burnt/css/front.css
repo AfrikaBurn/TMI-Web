@@ -177,9 +177,10 @@ header .region-home .site-name{
   padding: 10px 20px;
 }
 
-.block-views-blockquick-search-block .form-text{
+.block-views-blockquick-search-block input.form-autocomplete{
   border-radius: 20px 0 0 20px;
   outline: none;
+  background-image: none;
 }
 
 .block-views-blockquick-search-block .form-submit{
