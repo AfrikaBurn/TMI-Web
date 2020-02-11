@@ -42,6 +42,7 @@
         "drupal/pathauto": "^1.2",
         "drupal/rac": "^2.0@RC",
         "drupal/search_api": "^1.15",
+        "drupal/search_api_autocomplete": "^1.2",
         "drupal/slick": "^1.0",
         "drupal/slick_views": "^1.0@RC",
         "drupal/token": "^1.3",

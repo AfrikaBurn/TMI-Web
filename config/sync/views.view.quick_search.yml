@@ -63,7 +63,7 @@ display:
             offset_label: Offset
           views_infinite_scroll:
             button_text: 'Load More'
-            automatically_load_content: false
+            automatically_load_content: true
       style:
         type: default
       row:
