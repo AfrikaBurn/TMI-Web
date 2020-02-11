@@ -1,0 +1,35 @@
+<?php
+
+/**
+ * @file
+ * Contains Afrikaburn search module.
+ */
+
+
+/* ----- Theme hooks ----- */
+
+
+/**
+ * Implements hook_theme().
+ * Views Customizaton.
+ */
+function afrikaburn_search_theme(){
+  return [
+    'views_view__quick_search' => [
+      'base hook' => 'view',
+    ],
+  ];
+}
+
+
+function afrikaburn_search_preprocess_views_view(&$variables){
+  if ($variables['id'] == 'quick_search' && $variables['display_id'] == 'block'){
+    $variables['attributes']['class'][] =
+      'quick-search-block ' .
+      (
+        $variables['view']->display_handler->handlers['filter']['search_api_fulltext']->value
+          ? 'filter'
+          : 'no-filter'
+      );
+  }
+}

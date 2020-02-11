@@ -56,6 +56,7 @@ header .region-home .site-name{
   z-index: 1;
 }
 
+
 /* ----- Call to Action ----- */
 
 
@@ -74,6 +75,10 @@ header .region-home .site-name{
   padding: 10px;
   margin: 0 auto;
   width: 230px;
+}
+
+.block-region-top .block.block-block-content a{
+  white-space: nowrap;
 }
 
 @media (max-width: 920px){
@@ -125,13 +130,15 @@ header .region-home .site-name{
 
 
 .block-views-blockquick-search-block{
+  box-sizing: border-box;
   width: 100%;
+  padding: 40px;
 }
 
 .block-views-blockquick-search-block form{
   background: none;
-  margin: 40px;
   padding: 0;
+  margin: 0;
 }
 
 .block-views-blockquick-search-block .form-item{
@@ -179,11 +186,20 @@ header .region-home .site-name{
 .block-views-blockquick-search-block .form-submit:nth-child(2){
   border-radius: 20px;
   position: absolute;
-  margin: -1em 0 0 -9em;
-  width: 2em;
-  height: 2em;
+  margin: -0.75em 0 0 -10.25em;
+  width: 1.5em;
+  height: 1.5em;
   padding: 0;
   top: 50%;
+}
+
+.quick-search-block .no-results{
+  text-align: center;
+  padding-top: 40px;
+}
+
+.quick-search-block.no-filter .no-results{
+  display: none;
 }
 
 

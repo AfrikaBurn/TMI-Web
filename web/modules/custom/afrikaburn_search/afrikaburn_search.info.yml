@@ -1,0 +1,5 @@
+name: AfrikaBurn Search
+description: 'Provides AfrikaBurn search components.'
+type: module
+core: 8.x
+package: AfrikaBurn
