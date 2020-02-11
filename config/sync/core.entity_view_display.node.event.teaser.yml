@@ -26,3 +26,4 @@ hidden:
   field_event_description: true
   field_event_theme: true
   field_event_type: true
+  search_api_excerpt: true
