@@ -84,7 +84,7 @@ a.button-print:after{ background-position-y: -7em;}
 }
 
 .view-book-pages.view-display-id-index ul ul{
-  border-left: 1px solid #a0a0a0;
+  border-left: 5px solid #c401;
 }
 
 .view-book-pages.view-display-id-index li{
@@ -93,8 +93,8 @@ a.button-print:after{ background-position-y: -7em;}
 }
 
 .view-book-pages.view-display-id-index ul ul{
-  margin-left: 5px;
-  padding-left: 15px;
+  margin-left: 0px;
+  padding-left: 10px;
 }
 
 .view-book-pages.view-display-id-index .views-field-title:hover a,
@@ -104,8 +104,8 @@ a.button-print:after{ background-position-y: -7em;}
 }
 
 .view-book-pages.view-display-id-index .views-field-title{
-  margin: -5px -2px -5px -10px;
-  padding: 2.5px 2px 5px 10px;
+  margin: -5px -2px -5px -22.5px;
+  padding: 2.5px 2px 5px 15px;
 }
 
 .view-book-pages.view-display-id-index .views-field-title:hover,
@@ -116,41 +116,6 @@ a.button-print:after{ background-position-y: -7em;}
 
 .collapsible-book-page .views-field-title{
   position: relative;
-}
-
-.collapsible-book-page > .views-field-title .field-content:after{
-  background: url(../images/book-icons.svg) no-repeat;
-  background-size: 2em;
-  background-position: top left;
-  content: '';
-  display: block;
-  height: 1em;
-  overflow: hidden;
-  position: absolute;
-  width: 1em;
-  right: 10px;
-  top: 50%;
-  margin-top: -0.6em;
-  cursor: pointer;
-}
-
-.collapsible-book-page > .views-field-title .field-content:after{
-  background-position: left -5em;
-}
-.collapsible-book-page > .views-field-title .field-content:hover:after{
-  background-position: -1em -5em;
-}
-
-.collapsible-book-page.collapsed-book-page > .views-field-title .field-content:after{
-  background-position: left -4em;
-}
-.collapsible-book-page.collapsed-book-page > .views-field-title .field-content:hover:after{
-  background-position: -1em -4em;
-}
-
-.collapsible-book-page > .views-field-title.current .field-content:after,
-.collapsible-book-page > .views-field-title.current .field-content:hover:after{
-  background-position: -1em -5em;
 }
 
 .collapsible-book-page.collapsed-book-page > ul{

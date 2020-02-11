@@ -137,7 +137,7 @@ header .region-home .site-name{
 
 .block-views-blockquick-search-block form{
   background: none;
-  padding: 0;
+  padding: 0 0 40px;
   margin: 0;
 }
 
@@ -193,12 +193,16 @@ header .region-home .site-name{
   top: 50%;
 }
 
-.quick-search-block .no-results{
+.block-views-blockquick-search-block .no-results{
   text-align: center;
+}
+
+.block-views-blockquick-search-block .view-content,
+.block-views-blockquick-search-block .no-results{
   padding-top: 40px;
 }
 
-.quick-search-block.no-filter .no-results{
+.block-views-blockquick-search-block .no-filter .no-results{
   display: none;
 }
 

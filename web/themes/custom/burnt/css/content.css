@@ -95,7 +95,7 @@ main{
 }
 
 .region-content .contextual-region {
-  position: relative;
+  position: static;
 }
 
 
