@@ -48,6 +48,7 @@
         "drupal/viewfield": "^3.0@alpha",
         "drupal/views_accordion": "^1.2",
         "drupal/views_field_view": "^1.0@beta",
+        "drupal/views_infinite_scroll": "^1.6",
         "drupal/views_tree": "2.x-dev",
         "drush/drush": "^9.0.0",
         "vlucas/phpdotenv": "^2.4",

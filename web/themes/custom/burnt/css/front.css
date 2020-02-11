@@ -71,6 +71,10 @@ header .region-home .site-name{
   text-align: center;
 }
 
+.region-content .contextual-region {
+  position: relative;
+}
+
 .block-region-top .block.block-block-content .field{
   padding: 10px;
   margin: 0 auto;
@@ -128,6 +132,10 @@ header .region-home .site-name{
 
 /* ------ Search ------ */
 
+
+.page-front .region-content .contextual-region {
+  position: relative;
+}
 
 .block-views-blockquick-search-block{
   box-sizing: border-box;
@@ -197,13 +205,12 @@ header .region-home .site-name{
   text-align: center;
 }
 
-.block-views-blockquick-search-block .view-content,
-.block-views-blockquick-search-block .no-results{
-  padding-top: 40px;
+.block-views-blockquick-search-block .no-filter .search-results{
+  display: none;
 }
 
-.block-views-blockquick-search-block .no-filter .no-results{
-  display: none;
+.block-views-blockquick-search-block .views-row{
+  margin: 0 0 20px;
 }
 
 

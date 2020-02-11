@@ -39,6 +39,10 @@ table .form-select{
   width: auto;
 }
 
+input::placeholder{
+  color: #936a93aa;
+}
+
 form .button,
 .js .dropbutton-widget{
   font-size: 80%;

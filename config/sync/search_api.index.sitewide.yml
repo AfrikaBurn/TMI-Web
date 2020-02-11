@@ -3,8 +3,8 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.body
     - field.storage.node.field_answer
+    - field.storage.node.body
     - field.storage.node.field_body
     - field.storage.node.field_event_description
     - field.storage.node.field_footer
@@ -74,6 +74,10 @@ field_settings:
     dependencies:
       module:
         - node
+  url:
+    label: URI
+    property_path: search_api_url
+    type: string
 datasource_settings:
   'entity:node':
     bundles:
