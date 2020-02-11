@@ -55,6 +55,7 @@ module:
   path_alias: 0
   rac: 0
   search_api: 0
+  search_api_autocomplete: 0
   search_api_db: 0
   slick: 0
   slick_ui: 0

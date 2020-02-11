@@ -46,7 +46,7 @@ display:
       pager:
         type: infinite_scroll
         options:
-          items_per_page: 9
+          items_per_page: 6
           offset: 0
           id: 0
           total_pages: null
