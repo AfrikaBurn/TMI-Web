@@ -131,6 +131,10 @@ header .region-home .site-name{
   background: none;
 }
 
+.block-views-blockquick-search-block .form-item{
+  width: auto;
+}
+
 .block-views-blockquick-search-block .form-actions{
   background: none;
   box-shadow: none;
