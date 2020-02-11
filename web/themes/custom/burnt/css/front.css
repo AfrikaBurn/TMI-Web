@@ -123,12 +123,15 @@ header .region-home .site-name{
 
 /* ------ Search ------ */
 
+
 .block-views-blockquick-search-block{
   width: 100%;
 }
 
 .block-views-blockquick-search-block form{
   background: none;
+  margin: 40px;
+  padding: 0;
 }
 
 .block-views-blockquick-search-block .form-item{
@@ -146,6 +149,7 @@ header .region-home .site-name{
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
 
 .block-views-blockquick-search-block .form--inline div{
@@ -153,19 +157,33 @@ header .region-home .site-name{
   padding: 0;
 }
 
-.block-views-blockquick-search-block .form--inline input{
+.block-views-blockquick-search-block input{
   height: 40px;
   padding: 10px 20px;
 }
 
-.block-views-blockquick-search-block .form--inline .form-text{
+.block-views-blockquick-search-block .form-text{
   border-radius: 20px 0 0 20px;
   outline: none;
 }
 
-.block-views-blockquick-search-block .form--inline .form-submit{
+.block-views-blockquick-search-block .form-submit{
   border-radius: 0 20px 20px 0;
   outline: none;
+}
+
+.block-views-blockquick-search-block .form-submit:first-child{
+  width: 8em;
+}
+
+.block-views-blockquick-search-block .form-submit:nth-child(2){
+  border-radius: 20px;
+  position: absolute;
+  margin: -1em 0 0 -9em;
+  width: 2em;
+  height: 2em;
+  padding: 0;
+  top: 50%;
 }
 
 
