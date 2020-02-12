@@ -207,6 +207,10 @@ header .region-home .site-name{
   margin: 40px 0 0;
 }
 
+.block-views-blockquick-search-block .search-results{
+  margin: 40px 0 0;
+}
+
 .block-views-blockquick-search-block .no-filter .search-results{
   display: none;
 }
@@ -220,9 +224,12 @@ header .region-home .site-name{
 }
 
 .block-views-blockquick-search-block .views-field-search-api-excerpt{
-  margin: 5px 20px;
+  margin: 0.5em 1em 2em;
 }
 
+.block-views-blockquick-search-block .views-field-search-api-excerpt blockquote{
+  margin: 0;
+}
 
 /* ----- Slider ----- */
 
