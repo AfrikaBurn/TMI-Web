@@ -146,7 +146,7 @@ header .region-home .site-name{
 .block-views-blockquick-search-block form{
   background: none;
   padding: 0;
-  margin: 0 0 40px;
+  margin: 0;
 }
 
 .block-views-blockquick-search-block .form-item{
@@ -208,6 +208,7 @@ header .region-home .site-name{
 
 .block-views-blockquick-search-block .no-filter .search-results{
   display: none;
+  margin: 40px 0 0;
 }
 
 .block-views-blockquick-search-block .views-row{
