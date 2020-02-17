@@ -103,6 +103,7 @@ form .form-actions .button{
   padding: 0.5em 1.5em;
   height: 2em;
   line-height: 1em;
+  box-sizing: border-box;
 }
 
 details summary{
