@@ -100,7 +100,9 @@ form .form-item{
 }
 
 form .form-actions .button{
-  padding: 10px 30px;
+  padding: 0.5em 1.5em;
+  height: 2em;
+  line-height: 1em;
 }
 
 details summary{
