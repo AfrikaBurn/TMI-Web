@@ -172,19 +172,24 @@ header .region-home .site-name{
   padding: 0;
 }
 
-.block-views-blockquick-search-block input{
-  height: 40px;
-  padding: 10px 20px;
+.block-views-blockquick-search-block .views-exposed-form input{
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  line-height: 15px;
+  height: 45px;
+  padding: 15px 20px;
+  font-size: 15px;
 }
 
 .block-views-blockquick-search-block input.form-text{
-  border-radius: 20px 0 0 20px;
+  border-radius: 22.5px 0 0 22.5px;
   outline: none;
   background-image: none !important;
 }
 
 .block-views-blockquick-search-block .form-submit{
-  border-radius: 0 20px 20px 0;
+  border-radius: 0 22.5px 22.5px 0;
   outline: none;
 }
 
@@ -198,7 +203,7 @@ header .region-home .site-name{
   margin: -0.75em 0 0 -10.25em;
   width: 1.5em;
   height: 1.5em;
-  padding: 0;
+  padding: 0.25em;
   top: 50%;
 }
 
