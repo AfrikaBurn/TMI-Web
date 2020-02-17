@@ -1,22 +1,22 @@
-uuid: 33b922ec-32db-4235-ae50-6464f8185357
+uuid: 662bdece-a608-47fc-ab60-02a30de3e316
 langcode: en
 status: true
 dependencies:
   module:
     - node
-id: blog_entries
-label: 'Blog entries'
+id: events
+label: Events
 type: 'canonical_entities:node'
-pattern: 'binnekring-blog/[node:title]'
+pattern: 'play/events/[node:title]'
 selection_criteria:
-  f7dc1ee3-2664-48f2-a5e7-a645f5b809c2:
+  9ce5617e-510e-4ac0-8ca9-e5b3444af531:
     id: node_type
     bundles:
-      blog: blog
+      event: event
     negate: false
     context_mapping:
       node: node
-    uuid: f7dc1ee3-2664-48f2-a5e7-a645f5b809c2
+    uuid: 9ce5617e-510e-4ac0-8ca9-e5b3444af531
 selection_logic: and
-weight: -10
+weight: -8
 relationships: {  }

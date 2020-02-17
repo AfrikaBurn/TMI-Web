@@ -77,14 +77,17 @@ form .button,
 }
 
 .button:hover{
-  background-color: #e60;
-  color: #fff;
+  box-shadow: 0 10px 20px #0002;
+  margin-top: -1px;
+  position: relative;
   text-decoration: none;
+  top: -1px;
 }
 
 .button:active{
-  color: #e60;
-  background-color: #730;
+  background-color: #e60;
+  box-shadow: 0 5px 10px #0001;
+  color: #fff;
 }
 
 form .form-item{
@@ -99,10 +102,6 @@ form .form-item{
 form .form-actions .button{
   padding: 10px 30px;
 }
-
-/* summary{
-  white-space: pre-wrap;
-} */
 
 details summary{
   outline: none;

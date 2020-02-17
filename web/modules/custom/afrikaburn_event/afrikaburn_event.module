@@ -1,0 +1,35 @@
+<?php
+
+/**
+ * @file
+ * Contains Afrikaburn search module.
+ */
+
+
+ /* ------ Entity hooks ------ */
+
+
+ /**
+ * Implements hook_entity_presave().
+ */
+function afrikaburn_event_entity_presave($entity) {
+  switch ($entity->bundle()) {
+    case 'event':
+
+      $type = $entity->get('field_event_type')->entity->label();
+      $theme = $entity->get('field_event_theme')->value;
+      $date = getDate(strtotime($entity->get('field_event_date')->first()->value))['year'];
+      $title = implode(
+        ' ',
+        [
+          $type,
+          $date . ($type == 'AfrikaBurn' ? ':' : ''),
+          $theme
+        ]
+      );
+
+      $entity->setTitle($title);
+
+     break;
+  }
+}

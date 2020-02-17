@@ -38,7 +38,7 @@ display:
         options:
           submit_button: Search
           reset_button: true
-          reset_button_label: X
+          reset_button_label: x
           exposed_sorts_label: 'Sort by'
           expose_sort_order: false
           sort_asc_label: Asc

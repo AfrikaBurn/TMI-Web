@@ -1,0 +1,5 @@
+name: AfrikaBurn Event
+description: 'Provides AfrikaBurn event components.'
+type: module
+core: 8.x
+package: AfrikaBurn

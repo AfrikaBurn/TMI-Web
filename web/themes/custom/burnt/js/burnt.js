@@ -31,6 +31,23 @@
             }
           )
 
+          $('.path-admin .view-content', context).scroll(
+            function(){
+              var
+                $this = $(this),
+                viewport = $this.outerWidth(),
+                content = $this.children('table').outerWidth(),
+                range = content - viewport,
+                position =  $this.scrollLeft(),
+                ratio = position / range
+
+              $this.css(
+                'box-shadow',
+                (ratio * 60 - 30) + 'px 0px 30px -30px inset #0005'
+              )
+            }
+          ).scroll()
+
         }
       )
     }
