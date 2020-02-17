@@ -37,11 +37,6 @@ a.book-button:after{
   margin: 0 0 -0.15em .25em;
 }
 
-a.book-button:hover:before,
-a.book-button:hover:after{
-  background-position-x: -1em;
-}
-
 a.button-book:before,
 a.button-section:before,
 a.button-prev:before,
