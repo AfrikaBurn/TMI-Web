@@ -62,7 +62,8 @@ field_settings:
     label: Title
     datasource_id: 'entity:node'
     property_path: field_title
-    type: string
+    type: text
+    boost: !!float 13
     dependencies:
       config:
         - field.storage.node.field_title
@@ -70,7 +71,8 @@ field_settings:
     label: Title
     datasource_id: 'entity:node'
     property_path: title
-    type: string
+    type: text
+    boost: !!float 21
     dependencies:
       module:
         - node
