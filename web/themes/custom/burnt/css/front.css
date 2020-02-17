@@ -162,7 +162,7 @@ header .region-home .site-name{
 
 .block-views-blockquick-search-block .form--inline{
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   position: relative;
 }
