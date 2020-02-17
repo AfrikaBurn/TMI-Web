@@ -126,6 +126,7 @@ details .details-wrapper{
   margin: 80px -42px 0 0;
   border-radius: 30px 2px 2px 30px;
   float: right;
+  min-height: 50px;
 }
 
 form:after{
