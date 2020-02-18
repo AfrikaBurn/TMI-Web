@@ -6,6 +6,7 @@ dependencies:
     - core.entity_view_mode.node.teaser
     - field.field.node.book.body
     - field.field.node.book.field_footer
+    - field.field.node.book.field_keyword_boost
     - field.field.node.book.field_owners
     - field.field.node.book.field_pages
     - node.type.book
@@ -64,6 +65,7 @@ content:
     third_party_settings: {  }
 hidden:
   field_footer: true
+  field_keyword_boost: true
   field_owners: true
   field_pages: true
   search_api_excerpt: true
