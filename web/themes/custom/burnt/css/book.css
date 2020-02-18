@@ -49,12 +49,13 @@ a.button-print:before{
 a.button.button-print{
   border: none;
   color: transparent;
+  display: block;
   overflow: hidden;
   position: absolute !important;
-  top: 0;
   right: 0;
-  white-space: nowrap;
+  top: 0;
   width: 15px;
+  white-space: nowrap;
 }
 
 a.button-book:before{ background-position-y: 0;}
