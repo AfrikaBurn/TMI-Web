@@ -72,7 +72,7 @@ form .button,
   border: 1px solid #e60;
   border-radius: 20px;
   color: #e60;
-  display: inline-block;
+  display: block;
   margin: 0.25em;
   outline: none;
   position: relative;
@@ -106,13 +106,6 @@ form .form-item{
   padding: 5px 10px;
 }
 
-form .form-actions .button{
-  padding: 0.5em 1.5em;
-  height: 2em;
-  line-height: 1em;
-  box-sizing: border-box;
-}
-
 details summary{
   outline: none;
   padding: 10px;
@@ -133,6 +126,14 @@ details .details-wrapper{
   margin: 80px -42px 0 0;
   border-radius: 25px 2px 2px 25px;
   float: right;
+  display: flex;
+}
+
+form .form-actions .button{
+  padding: 0.5em 1.5em;
+  height: 2em;
+  line-height: 1em;
+  box-sizing: border-box;
 }
 
 form:after{
