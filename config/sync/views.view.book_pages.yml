@@ -342,6 +342,7 @@ display:
         row: false
         fields: false
         arguments: false
+        show_admin_links: false
       style:
         type: tree
         options:
@@ -593,6 +594,7 @@ display:
           entity_type: node
           entity_field: nid
           plugin_id: node_nid
+      show_admin_links: false
     cache_metadata:
       max-age: -1
       contexts:

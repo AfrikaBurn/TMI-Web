@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.field.node.book.body
     - field.field.node.book.field_footer
+    - field.field.node.book.field_keyword_boost
     - field.field.node.book.field_owners
     - field.field.node.book.field_pages
     - node.type.book
@@ -76,6 +77,14 @@ content:
     settings: {  }
     third_party_settings: {  }
     type: text_default
+    region: content
+  field_keyword_boost:
+    weight: 10
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
     region: content
   field_pages:
     type: viewfield_default

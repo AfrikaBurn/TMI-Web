@@ -9,7 +9,7 @@ id: node.book.field_owners
 field_name: field_owners
 entity_type: node
 bundle: book
-label: Owners
+label: Roles
 description: 'User roles that may edit this page.'
 required: false
 translatable: false

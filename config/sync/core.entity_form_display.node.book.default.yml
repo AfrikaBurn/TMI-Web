@@ -5,17 +5,19 @@ dependencies:
   config:
     - field.field.node.book.body
     - field.field.node.book.field_footer
+    - field.field.node.book.field_keyword_boost
     - field.field.node.book.field_owners
     - field.field.node.book.field_pages
     - node.type.book
   module:
     - ds
+    - field_group
     - field_layout
     - path
     - text
 third_party_settings:
   field_layout:
-    id: ds_reset
+    id: ds_1col
     settings:
       label: ''
       wrappers:
@@ -26,6 +28,52 @@ third_party_settings:
       link_custom: ''
       classes:
         layout_class: {  }
+  field_group:
+    group_footer:
+      children:
+        - field_footer
+      parent_name: ''
+      weight: 4
+      format_type: details_sidebar
+      region: ds_content
+      format_settings:
+        id: ''
+        classes: ''
+        description: ''
+        open: false
+        required_fields: true
+        weight: -20
+      label: Footer
+    group_editors:
+      children:
+        - field_owners
+      parent_name: ''
+      weight: 3
+      format_type: details_sidebar
+      region: ds_content
+      format_settings:
+        description: ''
+        weight: -21
+        required_fields: true
+        id: ''
+        classes: ''
+        open: false
+      label: Editors
+    group_searching:
+      children:
+        - field_keyword_boost
+      parent_name: ''
+      weight: 5
+      format_type: details_sidebar
+      region: ds_content
+      format_settings:
+        description: ''
+        weight: -19
+        required_fields: true
+        id: ''
+        classes: ''
+        open: false
+      label: Searching
 _core:
   default_config_hash: H1OKi53WidZbjVbzIreUknr_87Ln_lveBQ1RojZKUQA
 id: node.book.default
@@ -35,7 +83,7 @@ mode: default
 content:
   body:
     type: text_textarea_with_summary
-    weight: 5
+    weight: 1
     region: ds_content
     settings:
       rows: 9
@@ -43,52 +91,40 @@ content:
       placeholder: ''
       show_summary: false
     third_party_settings: {  }
-  created:
-    type: datetime_timestamp
-    weight: 2
-    region: ds_content
-    settings: {  }
-    third_party_settings: {  }
   field_footer:
-    weight: 6
+    weight: 2
     settings:
       rows: 5
       placeholder: ''
     third_party_settings: {  }
     type: text_textarea
     region: ds_content
+  field_keyword_boost:
+    weight: 3
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: ds_content
   field_owners:
-    weight: 9
+    weight: 5
     settings: {  }
     third_party_settings: {  }
     type: options_buttons
     region: ds_content
   path:
     type: path
-    weight: 7
+    weight: 6
     region: ds_content
     settings: {  }
     third_party_settings: {  }
-  promote:
-    type: boolean_checkbox
-    settings:
-      display_label: true
-    weight: 3
-    region: ds_content
-    third_party_settings: {  }
   status:
     type: boolean_checkbox
+    weight: 2
+    region: ds_content
     settings:
       display_label: true
-    weight: 8
-    region: ds_content
-    third_party_settings: {  }
-  sticky:
-    type: boolean_checkbox
-    settings:
-      display_label: true
-    weight: 4
-    region: ds_content
     third_party_settings: {  }
   title:
     type: string_textfield
@@ -98,15 +134,9 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  uid:
-    type: entity_reference_autocomplete
-    weight: 1
-    region: ds_content
-    settings:
-      match_operator: CONTAINS
-      size: 60
-      placeholder: ''
-      match_limit: 10
-    third_party_settings: {  }
 hidden:
+  created: true
   field_pages: true
+  promote: true
+  sticky: true
+  uid: true

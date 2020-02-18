@@ -25,7 +25,7 @@ search_settings:
 options:
   limit: 10
   min_length: 1
-  show_count: false
+  show_count: true
   autosubmit: true
   submit_button_selector: ':submit'
   delay: null
