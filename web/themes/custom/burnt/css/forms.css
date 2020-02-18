@@ -73,6 +73,7 @@ form .button,
   border-radius: 20px;
   color: #e60;
   display: inline-block;
+  margin: 0.25em;
   outline: none;
   position: relative;
 }
@@ -130,7 +131,7 @@ details .details-wrapper{
   box-shadow: 1px 1px 10px #00000010;
   padding: 10px 40px 10px 10px;
   margin: 80px -42px 0 0;
-  border-radius: 30px 2px 2px 30px;
+  border-radius: 25px 2px 2px 25px;
   float: right;
 }
 
