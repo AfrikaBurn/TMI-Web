@@ -83,6 +83,7 @@ form .button,
   box-shadow: 0 10px 20px #0002;
   text-decoration: none;
   top: -1px;
+  border-width: 2px;
 }
 
 .button:active{
