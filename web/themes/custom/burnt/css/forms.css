@@ -70,26 +70,30 @@ form .button,
 
 .button{
   border: 1px solid #e60;
-  display: inline-block;
   border-radius: 20px;
   color: #e60;
+  display: inline-block;
   outline: none;
-}
-
-.button:hover{
-  box-shadow: 0 5px 10px #0001;
-  text-decoration: none;
-}
-
-.form .form-actions .button:hover{
   position: relative;
+}
+
+.button:focus,
+.button:hover{
+  box-shadow: 0 10px 20px #0002;
+  text-decoration: none;
   top: -1px;
 }
 
 .button:active{
   background-color: #e60;
+  background-position-x: -1em;
   box-shadow: 0 5px 10px #0001;
   color: #fff;
+}
+
+.button:active:before,
+.button:active:after{
+    background-position-x: -1em;
 }
 
 form .form-item{
@@ -123,13 +127,11 @@ details .details-wrapper{
 
 .form-actions{
   background: #F5F2E9;
-  border-radius: 30px 2px 2px 30px;
   box-shadow: 1px 1px 10px #00000010;
-  box-sizing: border-box;
-  float: right;
-  margin: 80px -42px 0 0;
-  min-height: 50px;
   padding: 10px 40px 10px 10px;
+  margin: 80px -42px 0 0;
+  border-radius: 30px 2px 2px 30px;
+  float: right;
 }
 
 form:after{

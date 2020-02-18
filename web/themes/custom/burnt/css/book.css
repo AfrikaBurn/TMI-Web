@@ -42,15 +42,19 @@ a.button-section:before,
 a.button-prev:before,
 a.button-next:after,
 a.button-add:before,
-a.button-print:after{
+a.button-print:before{
   content: '';
 }
 
-a.button-print{
-  position: absolute;
-  right: 0;
+a.button.button-print{
   border: none;
-  top: -75px;
+  color: transparent;
+  overflow: hidden;
+  position: absolute !important;
+  top: 0;
+  right: 0;
+  white-space: nowrap;
+  width: 15px;
 }
 
 a.button-book:before{ background-position-y: 0;}
@@ -58,7 +62,7 @@ a.button-section:before{ background-position-y: -1em;}
 a.button-prev:before{ background-position-y: -2em;}
 a.button-next:after{ background-position-y: -3em;}
 a.button-add:before{ background-position-y: -6em;}
-a.button-print:after{ background-position-y: -7em;}
+a.button-print:before{ background-position-y: -7em;}
 
 
 /* --- Book Index --- */
