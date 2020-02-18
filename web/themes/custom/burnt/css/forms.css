@@ -75,12 +75,15 @@ form .button,
   display: table;
   margin: 0.25em;
   outline: none;
+  padding: 10px 15px;
   position: relative;
 }
 
 .button:focus,
 .button:hover{
+  border-width: 2px;
   box-shadow: 0 10px 20px #0002;
+  padding: 9px 14px;
   text-decoration: none;
   top: -1px;
 }
