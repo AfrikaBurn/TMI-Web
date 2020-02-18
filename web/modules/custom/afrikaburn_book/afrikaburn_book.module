@@ -138,8 +138,13 @@ function afrikaburn_book_node_view(&$build, $entity, $display, $view_mode) {
             'Print & Reader friendly version',
             \Drupal\Core\Url::fromRoute(
              'book.export', ['type' => 'html', 'node' => $book['nid']],
-             ['attributes' => ['class' => ['button', 'book-button', 'button-print']]]
-             )
+              [
+                'attributes' => [
+                  'class' => ['button', 'book-button', 'button-print'],
+                  'title' => t('Print & Reader friendly version'),
+                ],
+              ]
+            )
           );
         break;
 
