@@ -83,7 +83,6 @@ form .button,
   box-shadow: 0 10px 20px #0002;
   text-decoration: none;
   top: -1px;
-  border-width: 2px;
 }
 
 .button:active{
@@ -127,14 +126,6 @@ details .details-wrapper{
   margin: 80px -42px 0 0;
   border-radius: 25px 2px 2px 25px;
   float: right;
-  display: flex;
-}
-
-form .form-actions .button{
-  padding: 0.5em 1.5em;
-  height: 2em;
-  line-height: 1em;
-  box-sizing: border-box;
 }
 
 form:after{
