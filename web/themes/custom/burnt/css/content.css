@@ -185,3 +185,7 @@ p{
   height: 0;
   clear: both;
 }
+
+.alias-learn-faqs .form-actions{
+  margin-top: 0;
+}

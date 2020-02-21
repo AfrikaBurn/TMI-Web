@@ -15,12 +15,18 @@ function burnt_preprocess_page(&$variables) {
  * Add root_path attribute.
  */
 function burnt_preprocess_html(&$variables) {
-  if ($variables['root_path']){
-    if (is_array($variables['attributes'])){
-      $variables['attributes']['class'][] = 'path-' . $variables['root_path'];
-    } else {
-      $variables['attributes']->addClass('path-' . $variables['root_path']);
-    }
+
+  $current_path = \Drupal::service('path.current')->getPath();
+
+  $path = 'path-' . $variables['root_path'];
+  $alias = 'alias-' . preg_replace(['/^\//', '/\//'], ['', '-'], \Drupal::service('path.alias_manager')->getAliasByPath($current_path));
+
+  if (is_array($variables['attributes'])){
+    $variables['attributes']['class'][] = $path;
+    $variables['attributes']['class'][] = $alias;
+  } else {
+    $variables['attributes']->addClass($path);
+    $variables['attributes']->addClass($alias);
   }
 }
 
