@@ -83,7 +83,7 @@ form .button,
 .button:hover{
   border-width: 2px;
   box-shadow: 0 10px 20px #0002;
-  padding: 9px 14px;
+  padding: 9.5px 14px;
   text-decoration: none;
   top: -1px;
 }
@@ -132,6 +132,8 @@ details .details-wrapper{
   padding: 10px 40px 10px 10px;
 }
 
+.form-actions:before,
+.form-actions:after,
 form:after{
   display: block;
   content: '';
