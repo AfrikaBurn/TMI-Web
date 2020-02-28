@@ -198,28 +198,28 @@ display:
           separator: ', '
           field_api_classes: false
           plugin_id: field
-        nid:
-          id: nid
-          table: node_field_data
-          field: nid
+        edit_node:
+          id: edit_node
+          table: node
+          field: edit_node
           relationship: none
           group_type: group
           admin_label: ''
           label: ''
           exclude: false
           alter:
-            alter_text: true
-            text: '<a class="button" href="{{ nid }}">Edit</a>'
-            make_link: false
+            alter_text: false
+            text: ''
+            make_link: true
             path: ''
             absolute: false
             external: false
             replace_spaces: false
             path_case: none
             trim_whitespace: false
-            alt: ''
+            alt: Edit
             rel: ''
-            link_class: ''
+            link_class: button
             prefix: ''
             suffix: ''
             target: ''
@@ -241,29 +241,16 @@ display:
           element_label_colon: false
           element_wrapper_type: ''
           element_wrapper_class: ''
-          element_default_classes: false
+          element_default_classes: true
           empty: ''
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          click_sort_column: value
-          type: number_integer
-          settings:
-            thousand_separator: ''
-            prefix_suffix: false
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
+          text: edit
+          output_url_as_text: false
+          absolute: false
           entity_type: node
-          entity_field: nid
-          plugin_id: field
+          plugin_id: entity_link_edit
       filters:
         status:
           value: '1'
@@ -308,18 +295,7 @@ display:
           granularity: second
       title: FAQs
       header: {  }
-      footer:
-        area_text_custom:
-          id: area_text_custom
-          table: views
-          field: area_text_custom
-          relationship: none
-          group_type: group
-          admin_label: ''
-          empty: false
-          tokenize: false
-          content: '<a class="button" href="/node/add/faq">Add FAQ</a>'
-          plugin_id: text_custom
+      footer: {  }
       empty: {  }
       relationships: {  }
       arguments: {  }
