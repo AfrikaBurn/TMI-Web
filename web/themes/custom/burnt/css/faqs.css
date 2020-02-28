@@ -1,0 +1,28 @@
+@charset "utf-8";
+
+
+/* ----- FAQs ----- */
+
+
+.view-id-faqs{
+  clear: both;
+  margin: 40px 0;
+  padding: 40px 0;
+}
+
+.view-id-faqs .ui-accordion-header-active{
+  background: #e60;
+  border: 1px solid #a20;
+}
+
+.view-id-faqs:after{
+  content: ' ';
+  display: block;
+  height: 0;
+  clear: both;
+}
+
+.alias-learn-faqs .form-actions{
+  margin-top: 0;
+}
+
