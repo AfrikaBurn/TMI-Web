@@ -8,6 +8,12 @@
   margin: 1em 1em 2em;
 }
 
+.view-display-id-child_pages .views-field-view-node{
+  font-size: 80%;
+  margin-top: -1em;
+  text-align: right;
+}
+
 .view-display-id-child_pages .views-field-title{
   margin: 2em 0 1em;
 }
