@@ -55,8 +55,12 @@
 
     /* Show or hide the floating header */
     floatHeader(){
-      var bodyTop = $body.css('padding-top').replace(/px$/, '')
-      this.$tableWrapper.offset().top < this.offset
+
+      var
+        tablePos = this.$tableWrapper.offset().top,
+        tableHeight = this.$tableWrapper.height() - this.$headerWrapper.height()
+
+      tablePos < this.offset && tablePos > - tableHeight
         ? this.$headerWrapper.css('display', 'block')
         : this.$headerWrapper.css('display', 'none')
       this.sideScroll()
@@ -82,7 +86,7 @@
   }
 
   // Attach behaviours to DOM
-  Drupal.behaviors.burnt = {
+  Drupal.behaviors.afrikaburnTable = {
     attach: function (context, settings) {
       if (context == document) $(
         function(){

@@ -215,12 +215,18 @@ header .region-home .site-name{
   margin: 40px 0 0;
 }
 
+.block-views-blockquick-search-block .search-results div{
+  display: flex;
+  justify-content: space-between;
+}
+
 .block-views-blockquick-search-block .no-filter .search-results{
   display: none;
 }
 
 .block-views-blockquick-search-block .views-row{
   margin: 0 0 40px;
+  flex-basis: 30%;;
 }
 
 .block-views-blockquick-search-block .views-row h4{
@@ -234,6 +240,11 @@ header .region-home .site-name{
 .block-views-blockquick-search-block .views-field-search-api-excerpt blockquote{
   margin: 0;
 }
+
+.block-views-blockquick-search-block .views-row .views-field-url{
+  font-size: 80%;;
+}
+
 
 /* ----- Slider ----- */
 
