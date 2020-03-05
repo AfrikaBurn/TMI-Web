@@ -124,6 +124,12 @@ a.button-print:before{ background-position-y: -7em;}
   position: relative;
 }
 
+.collapsible-book-page .views-field-title:after{
+  content: '^';
+  position: absolute;
+  background-color: #fff;
+}
+
 .collapsible-book-page.collapsed-book-page > ul{
   display: none;
 }

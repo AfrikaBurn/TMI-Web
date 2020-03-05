@@ -17,7 +17,7 @@
 
 #edit-header .form-actions,
 .form--inline .form-actions{
-  margin-top: 20px;
+  margin: 20px;
   margin-right: -62px;
 }
 
@@ -33,4 +33,19 @@
   content: ' ';
   display: block;
   clear: both;
+}
+
+.permissions .permission .description{
+  background: #fff;
+  color: darkred;
+  left: 0;
+  padding: 10px 20px;
+  position: absolute;
+  right: 0;
+  text-align: center;
+  visibility: hidden;
+}
+
+.permissions tr:hover .permission .description{
+  visibility: visible;
 }

@@ -1,6 +1,7 @@
 global:
   js:
-    js/burnt.js: {}
+    js/book.js: {}
+    js/table.js: {}
   css:
     theme:
       css/background.css: {}

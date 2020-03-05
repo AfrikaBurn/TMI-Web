@@ -2,8 +2,9 @@
 
 table{
   font-size: 80%;
-  padding: 0 20px;
   margin-bottom: 80px;
+  padding: 0 20px;
+  /* table-layout: fixed; */
   width: 100%;
 }
 
@@ -11,6 +12,7 @@ table th{
   text-align: left;
   border-bottom: 1px solid;
   padding: 10px 20px;
+  background: #fff9 !important;
 }
 
 table tr.region-title td{
@@ -34,6 +36,21 @@ dd{
   margin: 10px 0 40px 40px;
 }
 
-table tr:hover{
-  background: #fff;
+table tbody tr:hover{
+  background: #fff5;
+}
+
+.table-wrapper, .table-header-wrapper{
+  overflow-x: auto;
+}
+
+.table-header-wrapper{
+  position: fixed;
+  overflow: hidden;
+}
+
+.table-header-wrapper table{
+  position: static !important;
+  visibility: visible !important;
+  background: transparent !important;
 }
