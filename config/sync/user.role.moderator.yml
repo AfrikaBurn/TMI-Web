@@ -11,5 +11,7 @@ permissions:
   - 'create field_owners'
   - 'edit field_owners'
   - 'edit own field_owners'
+  - 'use editorial transition publish'
+  - 'view any unpublished content'
   - 'view field_owners'
   - 'view own field_owners'
