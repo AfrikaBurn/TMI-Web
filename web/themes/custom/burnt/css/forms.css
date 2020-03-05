@@ -132,9 +132,10 @@ details .details-wrapper{
   text-align: right;
 }
 
-.form-actions{
+.form-actions,
+.action-links{
   background: #F5F2E9;
-  border-radius: 25px 2px 2px 25px;
+  border-radius: 30px 2px 2px 30px;
   box-shadow: 1px 1px 10px #00000010;
   display: flex;
   float: right;
@@ -142,10 +143,16 @@ details .details-wrapper{
   padding: 10px 40px 10px 10px;
 }
 
+nav.action-links{
+  margin: 0px -42px 40px 0;
+}
+
+.action-links:before,
+.action-links:after,
 .form-actions:before,
 .form-actions:after,
 form:after{
   display: block;
-  content: '';
+  content: ' ';
   clear: both;
 }

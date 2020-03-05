@@ -21,7 +21,7 @@
   margin-right: -62px;
 }
 
-.view-user-admin-people #edit-header,
+.views-form #edit-header,
 .views-exposed-form{
   background: #ddd;
   border-radius: 30px;
@@ -29,7 +29,7 @@
   margin: 0 0 20px;
 }
 
-.view-user-admin-people .form-wrapper:after{
+.views-form .form-wrapper:after{
   content: ' ';
   display: block;
   clear: both;
