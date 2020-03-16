@@ -145,7 +145,7 @@ a.button-print:before{ background-position-y: -7em;}
   position: absolute;
   display: block;
   height: 1em;
-  right: 1em;
+  right: 0.25em;
   top: 0.25em;
   width: 1em;
 }
