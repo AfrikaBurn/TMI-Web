@@ -215,11 +215,6 @@ header .region-home .site-name{
   margin: 40px 0 0;
 }
 
-.block-views-blockquick-search-block .search-results div{
-  display: flex;
-  justify-content: space-between;
-}
-
 .block-views-blockquick-search-block .no-filter .search-results{
   display: none;
 }

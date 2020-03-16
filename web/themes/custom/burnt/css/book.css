@@ -84,6 +84,10 @@ a.button-print:before{ background-position-y: -7em;}
   font-size: 70%;;
 }
 
+.view-book-pages.view-display-id-index .view-content{
+  padding-left: 0.5em;
+}
+
 .view-book-pages.view-display-id-index ul{
   margin: 1em 0;
   padding: 0;
@@ -103,19 +107,25 @@ a.button-print:before{ background-position-y: -7em;}
   padding-left: 10px;
 }
 
-.view-book-pages.view-display-id-index .views-field-title:hover a,
+.view-book-pages.view-display-id-index .views-field-title .field-content{
+  display: block;
+}
+
+.view-book-pages.view-display-id-index .views-field-title a{
+  display: block;
+  line-height: 1.5em;
+  margin: -5px -2px -5px -22.5px;
+  padding: 2.5px 2px 5px 15px;
+}
+
+.view-book-pages.view-display-id-index .views-field-title a:hover,
 .view-book-pages.view-display-id-index .current a{
   color: #fff;
   text-decoration: none;
 }
 
-.view-book-pages.view-display-id-index .views-field-title{
-  margin: -5px -2px -5px -22.5px;
-  padding: 2.5px 2px 5px 15px;
-}
-
-.view-book-pages.view-display-id-index .views-field-title:hover,
-.view-book-pages.view-display-id-index .current{
+.view-book-pages.view-display-id-index .views-field-title a:hover,
+.view-book-pages.view-display-id-index .current a{
   background: #c40;
   border-radius: 15px 2px 2px 15px;
 }
@@ -124,10 +134,30 @@ a.button-print:before{ background-position-y: -7em;}
   position: relative;
 }
 
-.collapsible-book-page .views-field-title:after{
-  content: '^';
-  position: absolute;
+.collapsible-book-page > .views-field-title > .field-content > .expand-collapse{
+  cursor: pointer;
   background-color: #fff;
+  background-image: url(../images/book-icons.svg);
+  background-position: 2em 5em;
+  background-size: 2em;
+  border: 0.25em solid #fff;
+  border-radius: 1em;
+  position: absolute;
+  display: block;
+  height: 1em;
+  right: 1em;
+  top: 0.25em;
+  width: 1em;
+}
+
+.collapsible-book-page > .views-field-title > .field-content > .expand-collapse:hover{
+  background-position-x: 1em;
+  background-color: #c40;
+  border-color: #c40;
+}
+
+.collapsed-book-page > .views-field-title > .field-content > .expand-collapse{
+  background-position: 2em 6em;
 }
 
 .collapsible-book-page.collapsed-book-page > ul{
