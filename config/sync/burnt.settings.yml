@@ -4,7 +4,7 @@ features:
   comment_user_verification: true
   favicon: 1
 logo:
-  use_default: 1
-  path: themes/custom/burnt/logo.png
+  use_default: 0
+  path: themes/custom/burnt/logo.svg
 favicon:
   use_default: 1
