@@ -19,15 +19,6 @@
 /* ----- Title area ----- */
 
 
-.page-front header .region-home{
-  text-align: center;
-}
-
-.page-front header .region-home img{
-  margin: -85px 0;
-  width: 420px;
-}
-
 .site-name a{
   color: #000;
   display: block;
@@ -48,9 +39,6 @@
   margin: 0;
 }
 
-.page-front .region-navigation{
-  display: none;
-}
 
 .page-not-front .foreground > header{
   margin-bottom: -100px;
@@ -73,8 +61,8 @@
 }
 
 .page-not-front #block-sigel img {
-  margin: 5px -30px -70px -45px;
-  height: 150px;
+  margin: 0px 0px -105px 0;
+  height: 90px;
 }
 
 @media (max-width: 950px){

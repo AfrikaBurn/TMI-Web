@@ -4,13 +4,18 @@
 /* ----- Header ----- */
 
 
+.page-front .region-navigation{
+  display: none;
+}
+
 header .region-home{
   text-align: center;
 }
 
 header .region-home img{
-  margin: -85px 0;
-  width: 420px;
+  background: radial-gradient(#fff 45%, transparent 40%);
+  margin: 0;
+  width: 300px;
 }
 
 header .region-home .site-name{
@@ -25,9 +30,9 @@ header .region-home .site-name{
   }
 
   .page-front header .region-home img{
-    width: 120px;
+    width: 300px;
     display: inline-block;
-    margin: -10px -20px -30px -70px;
+    margin: 0;
   }
 
   .page-front header .region-home .site-name{
