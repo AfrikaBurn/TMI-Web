@@ -97,6 +97,10 @@ main{
   position: static;
 }
 
+.region-content img{
+  border-radius: 1%;
+}
+
 
 /* ----- Main Elements ----- */
 
