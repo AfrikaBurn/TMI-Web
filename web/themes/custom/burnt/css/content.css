@@ -167,3 +167,17 @@ table{
 p{
   margin: 1em 0;
 }
+
+
+/* ----- Views ----- */
+
+
+.view-id-events .views-field-title{
+  left: 0;
+  position: absolute;
+  background: #000a;
+  right: 0;
+  line-height: 100px;
+  padding: 0 0 0 5%;
+  font-size: 45px;
+}
