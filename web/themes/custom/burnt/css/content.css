@@ -175,12 +175,11 @@ p{
 .view-id-events .views-field-title{
   left: 0;
   position: absolute;
-  background: #fff5;
+  background: #fffc;
   right: 0;
   line-height: 100px;
   padding: 0 0 0 5%;
   font-size: 45px;
-  text-shadow: 0 0 15px #000;
 }
 
 .view-id-events .views-row{
