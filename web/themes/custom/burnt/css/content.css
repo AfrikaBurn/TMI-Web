@@ -181,3 +181,7 @@ p{
   padding: 0 0 0 5%;
   font-size: 45px;
 }
+
+.view-id-events .views-field-title{
+  height: 100px;
+}
