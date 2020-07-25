@@ -1,8 +1,0 @@
-uuid: e805679b-0149-4019-94fd-6b4eca2ed2aa
-langcode: en
-status: true
-dependencies: {  }
-id: sane_date
-label: 'Sane date'
-locked: false
-pattern: 'd M Y'

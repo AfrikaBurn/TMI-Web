@@ -1,0 +1,42 @@
+version: '3.1'
+
+services:
+
+  cms:
+    container_name: tmi_web_cms
+    image: drupal:8
+    ports:
+      - 8080:80
+    volumes:
+      - ./local/config:/var/www/config
+      - ./local/modules:/var/www/html/modules
+      - ./local/themes:/var/www/html/themes
+      - ./local/site:/var/www/html/sites/default
+      - ./local/vendor:/var/www/html/vendor
+      - ./local/libraries:/var/www/html/libraries
+      - ./local/logs:/var/log
+    restart: always
+
+  db:
+    container_name: tmi_web_db
+    image: mariadb:10.1
+    env_file: db.env
+    ports:
+      - 3306:3306
+    volumes:
+      - ./local/data:/var/lib/mysql
+    # restart: always
+
+  admin:
+    container_name: tmi_web_admin
+    image: adminer
+    env_file:
+      - admin.env
+    ports:
+      - 8090:8080
+    # restart: always
+
+volumes:
+  tmi_web_data:
+
+# TODO: setup private network
