@@ -2,6 +2,36 @@
   "name": "tmi/web_cms",
   "description": "Drupal dependencies",
 
+  "repositories": [
+    {
+        "type": "composer",
+        "url": "https://packages.drupal.org/8"
+    }
+  ],
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+
+  "config": {
+    "sort-packages": true,
+    "platform": {
+      "php": "7.4.8",
+      "ext-mbstring": "7.4.8",
+      "ext-xml": "7.4.8",
+      "ext-date": "7.4.8",
+      "ext-dom": "7.4.8",
+      "ext-filter": "7.4.8",
+      "ext-gd": "7.4.8",
+      "ext-hash": "7.4.8",
+      "ext-json": "7.4.8",
+      "ext-pcre": "7.4.8",
+      "ext-PDO": "7.4.8",
+      "ext-session": "7.4.8",
+      "ext-SimpleXML": "7.4.8",
+      "ext-SPL": "7.4.8",
+      "ext-tokenizer": "7.4.8"
+    }
+  },
+
   "require": {
     "composer/installers": "^1.2",
     "cweagans/composer-patches": "^1.6.5",
@@ -16,7 +46,7 @@
     "drupal/conditional_fields": "^1.0@alpha",
     "drupal/console": "^1.0.2",
     "drupal/content_access": "^1.0",
-    "drupal/core": "~8.8",
+    "drupal/core": "8.8.4",
     "drupal/devel": "^2.1",
     "drupal/draggableviews": "^1.2",
     "drupal/ds": "^3.1",
@@ -44,14 +74,9 @@
     "webmozart/path-util": "^2.3"
   },
 
-  "conflict": {
-    "drupal/drupal": "*"
+  "replace":{
+    "php/ext-dom": "*"
   },
-  "config": {
-    "sort-packages": true
-  },
-  "minimum-stability": "dev",
-  "prefer-stable": true,
 
   "extra": {
     "installer-paths": {

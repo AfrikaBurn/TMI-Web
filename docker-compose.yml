@@ -12,6 +12,7 @@ services:
       - ./local/modules:/var/www/html/modules
       - ./local/themes:/var/www/html/themes
       - ./local/site:/var/www/html/sites/default
+      - ./local/core:/var/www/html/core
       - ./local/vendor:/var/www/html/vendor
       - ./local/libraries:/var/www/html/libraries
       - ./local/logs:/var/log
