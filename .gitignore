@@ -3,5 +3,12 @@
 /local/libraries
 /local/modules/contrib
 /local/site/files
+/local/sites
 /local/themes/contrib
 /local/vendor
+/local/*.php
+/local/.*
+/local/*.txt
+/local/*.config
+/local/core
+
