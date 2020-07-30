@@ -747,9 +747,10 @@ $settings['container_yamls'][] = $app_root . '/' . $site_path . '/services.yml';
  */
 
 $settings['trusted_host_patterns'] = [
-        '^dev\.afrikaburn\.org$',
-        '^staging\.afrikaburn\.org$',
-        '^afrikaburn\.org$',
+  '^localhost$',
+  '^dev\.afrikaburn\.org$',
+  '^staging\.afrikaburn\.org$',
+  '^afrikaburn\.org$',
 ];
 
 /**
