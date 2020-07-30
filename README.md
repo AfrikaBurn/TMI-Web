@@ -40,5 +40,5 @@ docker-compose up -d
 
 While running, visit the following address:
 ```
-http://localhost:8080/
+http://localhost:11000/
 ```

@@ -6,7 +6,7 @@ services:
     container_name: tmi_web_cms
     image: drupal:8
     ports:
-      - 8080:80
+      - 1100:80
     volumes:
       - ./local/config:/var/www/config
       - ./local/modules:/var/www/html/modules
@@ -23,7 +23,7 @@ services:
     image: mariadb:10.1
     env_file: db.env
     ports:
-      - 3306:3306
+      - 11010:3306
     volumes:
       - ./local/data:/var/lib/mysql
     restart: always
@@ -34,7 +34,7 @@ services:
     env_file:
       - admin.env
     ports:
-      - 8090:8080
+      - 11020:8080
     restart: always
 
 volumes:
