@@ -1,0 +1,19 @@
+diff --git a/adva.module b/adva.module
+index 20783ac..88348db 100644
+--- a/adva.module
++++ b/adva.module
+@@ -162,7 +162,13 @@ function adva_query_alter(AlterableInterface $query) {
+   $should_alter_query = FALSE;
+   $view = $query->getMetaData('view');
+   if ($view) {
+-    $entity_type_id = $view->getBaseEntityType()->id();
++    // If the view doesn't have a base entity type, exit.
++    $base_entity_type = $view->getBaseEntityType();
++    if (!$base_entity_type) {
++      return;
++    }
++
++    $entity_type_id = $base_entity_type->id();
+     $consumer = \Drupal::service('plugin.manager.adva.consumer')->getConsumerForEntityTypeId($entity_type_id);
+     if ($consumer instanceof OverridingAccessConsumerInterface) {
+       $should_alter_query = TRUE;

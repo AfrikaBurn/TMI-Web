@@ -26,7 +26,7 @@ services:
       - 3306:3306
     volumes:
       - ./local/data:/var/lib/mysql
-    # restart: always
+    restart: always
 
   admin:
     container_name: tmi_web_admin
@@ -35,9 +35,10 @@ services:
       - admin.env
     ports:
       - 8090:8080
-    # restart: always
+    restart: always
 
 volumes:
   tmi_web_data:
 
-# TODO: setup private network
+# TODO: setup private network with nginx exposing only needed ports.
+

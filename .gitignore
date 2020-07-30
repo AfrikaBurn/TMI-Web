@@ -2,8 +2,7 @@
 /local/logs
 /local/libraries
 /local/modules/contrib
-/local/site/files
-/local/sites
+/local/site/default/files
 /local/themes/contrib
 /local/vendor
 /local/*.php
