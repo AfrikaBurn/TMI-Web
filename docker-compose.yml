@@ -2,11 +2,11 @@ version: '3.1'
 
 services:
 
-  cms:
+  app:
     container_name: tmi_web_cms
     image: drupal:8
     ports:
-      - 1100:80
+      - 11000:80
     volumes:
       - ./local/config:/var/www/config
       - ./local/modules:/var/www/html/modules
@@ -21,7 +21,12 @@ services:
   db:
     container_name: tmi_web_db
     image: mariadb:10.1
-    env_file: db.env
+    environment:
+      - MYSQL_ROOT_HOST=%
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=tmi_web
+      - MYSQL_PASSWORD=tmi_web
+      - MYSQL_DATABASE=tmi_web
     ports:
       - 11010:3306
     volumes:
@@ -31,14 +36,9 @@ services:
   admin:
     container_name: tmi_web_admin
     image: adminer
-    env_file:
-      - admin.env
     ports:
       - 11020:8080
     restart: always
-
-volumes:
-  tmi_web_data:
 
 # TODO: setup private network with nginx exposing only needed ports.
 
