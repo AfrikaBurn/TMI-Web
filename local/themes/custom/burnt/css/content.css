@@ -147,7 +147,7 @@ table{
   border-radius: 2.5px;
 }
 
-.region-content{
+.region-content .block-system-main-block{
   text-shadow: 0px 0px 2.5px #fff, 0px 0px 5px #fff, 0px 0px 7.5px #fff;
 }
 
