@@ -1,0 +1,104 @@
+uuid: 1f3c160f-f69e-4809-a173-a53d5e419c63
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.event.field__event_guide
+    - field.field.node.event.field_event_date
+    - field.field.node.event.field_event_description
+    - field.field.node.event.field_event_map
+    - field.field.node.event.field_event_poster
+    - field.field.node.event.field_event_theme
+    - field.field.node.event.field_event_type
+    - image.style.medium
+    - node.type.event
+  module:
+    - datetime_range
+    - ds
+    - image
+    - text
+    - user
+third_party_settings:
+  ds:
+    layout:
+      id: ds_2col_stacked
+      library: ds/ds_2col_stacked
+      disable_css: false
+      entity_classes: all_classes
+      settings:
+        label: ''
+        wrappers:
+          header: div
+          left: div
+          right: div
+          footer: div
+        outer_wrapper: div
+        attributes: ''
+        link_attribute: ''
+        link_custom: ''
+        classes:
+          layout_class: {  }
+    regions:
+      header:
+        - field_event_date
+        - field_event_poster
+      left:
+        - field__event_guide
+      right:
+        - field_event_map
+      footer:
+        - field_event_description
+id: node.event.default
+targetEntityType: node
+bundle: event
+mode: default
+content:
+  field__event_guide:
+    weight: 2
+    label: hidden
+    settings:
+      image_style: medium
+      image_link: ''
+    third_party_settings: {  }
+    type: image
+    region: left
+  field_event_date:
+    weight: 0
+    label: hidden
+    settings:
+      timezone_override: ''
+      format_type: sane_date
+      separator: '-'
+    third_party_settings: {  }
+    type: daterange_default
+    region: header
+  field_event_description:
+    weight: 4
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: footer
+  field_event_map:
+    weight: 3
+    label: hidden
+    settings:
+      image_style: medium
+      image_link: ''
+    third_party_settings: {  }
+    type: image
+    region: right
+  field_event_poster:
+    weight: 1
+    label: hidden
+    settings:
+      image_style: medium
+      image_link: ''
+    third_party_settings: {  }
+    type: image
+    region: header
+hidden:
+  field_event_theme: true
+  field_event_type: true
+  links: true
+  search_api_excerpt: true

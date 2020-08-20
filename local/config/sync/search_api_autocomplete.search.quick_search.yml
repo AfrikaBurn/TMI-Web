@@ -1,0 +1,31 @@
+uuid: 11950c7b-a605-41e2-8774-a90e4cb81ce1
+langcode: en
+status: true
+dependencies:
+  config:
+    - search_api.index.sitewide
+    - views.view.quick_search
+  module:
+    - views
+    - search_api_autocomplete
+id: quick_search
+label: 'Quick Search'
+index_id: sitewide
+suggester_settings:
+  server:
+    fields: {  }
+suggester_weights:
+  server: 0
+suggester_limits: {  }
+search_settings:
+  'views:quick_search':
+    displays:
+      default: true
+      selected: {  }
+options:
+  limit: 10
+  min_length: 1
+  show_count: true
+  autosubmit: true
+  submit_button_selector: ':submit'
+  delay: null

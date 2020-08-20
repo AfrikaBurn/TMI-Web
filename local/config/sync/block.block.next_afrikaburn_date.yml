@@ -1,0 +1,24 @@
+uuid: 3cd9575e-d0c9-4316-9384-75d90c938036
+langcode: en
+status: false
+dependencies:
+  config:
+    - views.view.events
+  module:
+    - views
+  theme:
+    - burnt
+id: next_afrikaburn_date
+theme: burnt
+region: home
+weight: -7
+provider: null
+plugin: 'views_block:events-next_afrikaburn_date'
+settings:
+  id: 'views_block:events-next_afrikaburn_date'
+  label: ''
+  provider: views
+  label_display: '0'
+  views_label: ''
+  items_per_page: none
+visibility: {  }

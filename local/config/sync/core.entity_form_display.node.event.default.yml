@@ -1,0 +1,105 @@
+uuid: eb93ef22-e507-4496-8cdc-4643fd70b02c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.event.field__event_guide
+    - field.field.node.event.field_event_date
+    - field.field.node.event.field_event_description
+    - field.field.node.event.field_event_map
+    - field.field.node.event.field_event_poster
+    - field.field.node.event.field_event_theme
+    - field.field.node.event.field_event_type
+    - image.style.thumbnail
+    - node.type.event
+  module:
+    - conditional_fields
+    - content_moderation
+    - datetime_range
+    - field_layout
+    - image
+    - layout_discovery
+    - text
+third_party_settings:
+  field_layout:
+    id: layout_twocol_bricks
+    settings:
+      label: ''
+id: node.event.default
+targetEntityType: node
+bundle: event
+mode: default
+content:
+  field__event_guide:
+    weight: 4
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+    third_party_settings: {  }
+    type: image_image
+    region: second_above
+  field_event_date:
+    weight: 2
+    settings: {  }
+    third_party_settings: {  }
+    type: daterange_default
+    region: first_above
+  field_event_description:
+    weight: 6
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+    type: text_textarea
+    region: middle
+  field_event_map:
+    weight: 5
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+    third_party_settings: {  }
+    type: image_image
+    region: second_above
+  field_event_poster:
+    weight: 3
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+    third_party_settings: {  }
+    type: image_image
+    region: second_above
+  field_event_theme:
+    weight: 1
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings:
+      conditional_fields: {  }
+    type: string_textfield
+    region: first_above
+  field_event_type:
+    weight: 0
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
+    region: first_above
+  moderation_state:
+    type: moderation_state_default
+    weight: 8
+    settings: {  }
+    region: second_below
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    weight: 7
+    region: first_below
+    settings:
+      display_label: true
+    third_party_settings: {  }
+hidden:
+  created: true
+  path: true
+  promote: true
+  sticky: true
+  title: true
+  uid: true

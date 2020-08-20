@@ -1,0 +1,23 @@
+uuid: 781ee755-0e2c-49a6-bd27-5fcd8780dd49
+langcode: en
+status: true
+dependencies: {  }
+name: background
+label: 'Background Slider'
+effects:
+  32ca9c91-9a18-43b1-a759-7c3b2e0e57ae:
+    uuid: 32ca9c91-9a18-43b1-a759-7c3b2e0e57ae
+    id: image_scale_and_crop
+    weight: -9
+    data:
+      width: 800
+      height: 400
+      anchor: center-center
+  e4c97d17-15d9-4135-846e-2e48b928e2b8:
+    uuid: e4c97d17-15d9-4135-846e-2e48b928e2b8
+    id: image_scale
+    weight: -10
+    data:
+      width: null
+      height: 600
+      upscale: true

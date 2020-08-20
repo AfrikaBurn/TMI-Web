@@ -1,0 +1,23 @@
+uuid: 08d5f491-eb8f-4685-b63d-81bc319c46e2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_owners
+    - node.type.book
+id: node.book.field_owners
+field_name: field_owners
+entity_type: node
+bundle: book
+label: Roles
+description: 'User roles that may edit this page.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:user_role'
+  handler_settings:
+    target_bundles: null
+    auto_create: false
+field_type: entity_reference

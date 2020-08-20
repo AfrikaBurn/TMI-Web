@@ -1,0 +1,27 @@
+uuid: 47d8fb95-2255-4b80-ad52-5354df0e4269
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - burnt
+_core:
+  default_config_hash: 8by5KRsb7ZpmjHj0ms1d7xAG_xH54AWsOX6spDLJ59U
+id: burnt_breadcrumbs
+theme: burnt
+region: prefix
+weight: -5
+provider: null
+plugin: system_breadcrumb_block
+settings:
+  id: system_breadcrumb_block
+  label: Breadcrumbs
+  provider: system
+  label_display: '0'
+visibility:
+  request_path:
+    id: request_path
+    pages: '<front>'
+    negate: true
+    context_mapping: {  }

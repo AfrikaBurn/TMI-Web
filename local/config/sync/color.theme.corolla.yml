@@ -1,0 +1,15 @@
+palette:
+  base: '#321862'
+  page: '#f8f8f8'
+  text: '#2e2e2e'
+  link: '#fc7e36'
+  highlight: '#30015a'
+logo: 'public://color/corolla-f06901a0/logo.svg'
+stylesheets:
+  - 'public://color/corolla-f06901a0/color.css'
+  - 'public://color/corolla-f06901a0/tabs.css'
+files:
+  - 'public://color/corolla-f06901a0/logo.svg'
+  - 'public://color/corolla-f06901a0/logo.png'
+  - 'public://color/corolla-f06901a0/color.css'
+  - 'public://color/corolla-f06901a0/tabs.css'

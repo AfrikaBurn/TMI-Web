@@ -1,0 +1,30 @@
+uuid: 0d3c6ed0-4611-4ab1-a5a2-772e0fae95c1
+langcode: en
+status: true
+dependencies: {  }
+id: background
+name: background
+label: Background
+weight: 0
+group: ''
+skin: default
+breakpoints: 0
+optimized: true
+options:
+  options__active_tab: edit-options-responsives
+  settings:
+    mobileFirst: true
+    accessibility: false
+    autoplay: true
+    autoplaySpeed: 10000
+    pauseOnHover: false
+    arrows: false
+    draggable: false
+    fade: true
+    lazyLoad: blazy
+    slidesToShow: 1
+    speed: 5000
+    swipe: false
+    touchMove: false
+    cssEase: ease-in-out
+    easing: easeInQuad

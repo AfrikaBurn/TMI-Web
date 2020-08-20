@@ -1,0 +1,15 @@
+uuid: d2c84edd-ff84-4143-b537-44d2fada6ac6
+langcode: en
+status: true
+dependencies: {  }
+name: event_banner
+label: 'Event Banner'
+effects:
+  688968a5-02d0-4769-b3b2-1ae4e9af97ea:
+    uuid: 688968a5-02d0-4769-b3b2-1ae4e9af97ea
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 785
+      height: 100
+      anchor: center-center

@@ -1,0 +1,25 @@
+uuid: 211185ec-e19b-4ad2-8669-43cd7bb50ae2
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.header-menu
+  module:
+    - system
+  theme:
+    - burnt
+id: headermenu
+theme: burnt
+region: navigation
+weight: 0
+provider: null
+plugin: 'system_menu_block:header-menu'
+settings:
+  id: 'system_menu_block:header-menu'
+  label: 'Header Menu'
+  provider: system
+  label_display: '0'
+  level: 1
+  depth: 0
+  expand_all_items: false
+visibility: {  }

@@ -1,0 +1,38 @@
+uuid: 05390030-2d43-4a78-a02e-f961c29bfd84
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.update.field_body
+    - field.field.node.update.field_date
+    - field.field.node.update.field_title
+    - node.type.update
+  module:
+    - datetime
+    - text
+    - user
+id: node.update.default
+targetEntityType: node
+bundle: update
+mode: default
+content:
+  field_body:
+    weight: 1
+    label: visually_hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+  field_date:
+    weight: 0
+    label: visually_hidden
+    settings:
+      format_type: medium
+      timezone_override: ''
+    third_party_settings: {  }
+    type: datetime_default
+    region: content
+hidden:
+  field_title: true
+  links: true
+  search_api_excerpt: true

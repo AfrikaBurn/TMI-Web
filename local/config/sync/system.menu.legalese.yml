@@ -1,0 +1,8 @@
+uuid: 43a699ac-80f0-41f5-9c94-007127e2a88e
+langcode: en
+status: true
+dependencies: {  }
+id: legalese
+label: Legalese
+description: ''
+locked: false

@@ -1,0 +1,22 @@
+uuid: 33b922ec-32db-4235-ae50-6464f8185357
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: blog_entries
+label: 'Blog entries'
+type: 'canonical_entities:node'
+pattern: 'binnekring-blog/[node:title]'
+selection_criteria:
+  f7dc1ee3-2664-48f2-a5e7-a645f5b809c2:
+    id: node_type
+    bundles:
+      blog: blog
+    negate: false
+    context_mapping:
+      node: node
+    uuid: f7dc1ee3-2664-48f2-a5e7-a645f5b809c2
+selection_logic: and
+weight: -10
+relationships: {  }

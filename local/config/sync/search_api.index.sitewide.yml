@@ -1,0 +1,195 @@
+uuid: de3c8238-d927-469e-9e32-8982511ba94b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - field.storage.node.field_answer
+    - field.storage.node.field_body
+    - field.storage.node.field_event_description
+    - field.storage.node.field_footer
+    - field.storage.node.field_keyword_boost
+    - field.storage.node.field_title
+    - search_api.server.sitewide
+  module:
+    - node
+    - search_api
+id: sitewide
+name: Sitewide
+description: ''
+read_only: false
+field_settings:
+  body:
+    label: Body
+    datasource_id: 'entity:node'
+    property_path: body
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.body
+  field_answer:
+    label: Answer
+    datasource_id: 'entity:node'
+    property_path: field_answer
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_answer
+  field_body:
+    label: Body
+    datasource_id: 'entity:node'
+    property_path: field_body
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_body
+  field_event_description:
+    label: Description
+    datasource_id: 'entity:node'
+    property_path: field_event_description
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_event_description
+  field_footer:
+    label: Footer
+    datasource_id: 'entity:node'
+    property_path: field_footer
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_footer
+  field_keyword_boost:
+    label: 'Keyword boost'
+    datasource_id: 'entity:node'
+    property_path: field_keyword_boost
+    type: text
+    boost: !!float 21
+    dependencies:
+      config:
+        - field.storage.node.field_keyword_boost
+  field_title:
+    label: Title
+    datasource_id: 'entity:node'
+    property_path: field_title
+    type: text
+    boost: !!float 5
+    dependencies:
+      config:
+        - field.storage.node.field_title
+  title:
+    label: Title
+    datasource_id: 'entity:node'
+    property_path: title
+    type: text
+    boost: !!float 5
+    dependencies:
+      module:
+        - node
+  url:
+    label: URI
+    property_path: search_api_url
+    type: string
+datasource_settings:
+  'entity:node':
+    bundles:
+      default: true
+      selected:
+        - slideshow_image
+    languages:
+      default: true
+      selected: {  }
+processor_settings:
+  add_url: {  }
+  aggregated_field: {  }
+  entity_status: {  }
+  highlight:
+    highlight: always
+    highlight_partial: true
+    excerpt: true
+    excerpt_length: 256
+    exclude_fields:
+      - field_keyword_boost
+    prefix: '<strong>'
+    suffix: '</strong>'
+    weights:
+      postprocess_query: 0
+  html_filter:
+    all_fields: false
+    fields:
+      - body
+      - field_answer
+      - field_body
+      - field_event_description
+      - field_footer
+      - field_title
+      - title
+    title: true
+    alt: true
+    tags: {  }
+    weights:
+      preprocess_index: -48
+      preprocess_query: -15
+  ignorecase:
+    all_fields: false
+    fields:
+      - body
+      - field_answer
+      - field_body
+      - field_event_description
+      - field_footer
+      - field_title
+      - title
+    weights:
+      preprocess_index: -50
+      preprocess_query: -20
+  language_with_fallback: {  }
+  rendered_item: {  }
+  stemmer:
+    all_fields: false
+    fields:
+      - body
+      - field_answer
+      - field_body
+      - field_event_description
+      - field_footer
+    exceptions:
+      mexican: mexic
+      texan: texa
+    weights:
+      preprocess_index: -44
+      preprocess_query: 0
+  tokenizer:
+    all_fields: false
+    fields:
+      - body
+      - field_answer
+      - field_body
+      - field_event_description
+      - field_footer
+    spaces: ''
+    overlap_cjk: 1
+    minimum_word_size: '3'
+    weights:
+      preprocess_index: -46
+      preprocess_query: -6
+  transliteration:
+    all_fields: false
+    fields:
+      - body
+      - field_answer
+      - field_body
+      - field_event_description
+      - field_footer
+      - field_title
+      - title
+    weights:
+      preprocess_index: -49
+      preprocess_query: -20
+tracker_settings:
+  default:
+    indexing_order: fifo
+options:
+  index_directly: true
+  cron_limit: 50
+server: sitewide

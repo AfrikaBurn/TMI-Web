@@ -1,0 +1,15 @@
+uuid: 3f28467c-3711-4e19-b372-e42a93a29843
+langcode: en
+status: true
+dependencies: {  }
+name: body_slider
+label: 'Body slider'
+effects:
+  b33935be-fc73-4c27-bd4c-95f03203e861:
+    uuid: b33935be-fc73-4c27-bd4c-95f03203e861
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 320
+      height: 200
+      anchor: center-center
