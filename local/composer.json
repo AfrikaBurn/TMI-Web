@@ -50,6 +50,7 @@
     "drupal/devel": "^2.1",
     "drupal/draggableviews": "^1.2",
     "drupal/ds": "^3.1",
+    "drupal/features": "^3.11",
     "drupal/field_group": "^3.0",
     "drupal/field_permissions": "^1.0@RC",
     "drupal/markup": "^1.0@beta",
