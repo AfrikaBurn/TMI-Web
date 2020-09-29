@@ -109,13 +109,13 @@ header .region-navigation li a{
 }
 
 header .region-navigation li:nth-child(1) a{
-  background: url(../images/home.svg) no-repeat;
+  background: url(../images/afroboratory/home.svg) no-repeat;
 }
 header .region-navigation li:nth-child(2) a{
-  background: url(../images/learn.svg) no-repeat;
+  background: url(../images/afroboratory/learn.svg) no-repeat;
 }
 header .region-navigation li:nth-child(3) a{
-  background: url(../images/play.svg) no-repeat;
+  background: url(../images/afroboratory/play.svg) no-repeat;
 }
 
 

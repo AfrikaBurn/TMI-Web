@@ -86,6 +86,12 @@ header .region-home .site-name{
   width: 230px;
 }
 
+.block-region-top .block.block-block-content .field img{
+  border: 3px solid #000;
+  border-radius: 100%;
+}
+
+
 .block-region-top .block.block-block-content a{
   white-space: nowrap;
 }

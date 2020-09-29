@@ -9,12 +9,7 @@ services:
       - 11000:80
     volumes:
       - ./local/config:/var/www/config
-      - ./local/modules:/var/www/html/modules
-      - ./local/themes:/var/www/html/themes
-      - ./local/site:/var/www/html/sites/default
-      - ./local/core:/var/www/html/core
-      - ./local/vendor:/var/www/html/vendor
-      - ./local/libraries:/var/www/html/libraries
+      - ./local/drupal:/var/www/html
       - ./local/logs:/var/log
     restart: always
 

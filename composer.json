@@ -1,0 +1,5 @@
+{
+    "require": {
+        "drupal/core": "8.9.6"
+    }
+}
