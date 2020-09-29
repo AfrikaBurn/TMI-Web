@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "f1cd8ac15afee3178247c8905d3bd1d1",
+    "content-hash": "64b43e75e7b351efdc4fa10bdce4f3b9",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -2086,6 +2086,7 @@
                 "GPL-2.0-or-later"
             ],
             "description": "Composer Plugin for updating the Drupal scaffold files when using drupal/core",
+            "abandoned": "drupal/core-composer-scaffold",
             "time": "2019-03-30T10:41:38+00:00"
         },
         {
@@ -4563,6 +4564,54 @@
                 "source": "http://git.drupal.org/project/search_api_autocomplete.git",
                 "issues": "https://www.drupal.org/project/issues/search_api_autocomplete",
                 "irc": "irc://irc.freenode.org/drupal-search-api"
+            }
+        },
+        {
+            "name": "drupal/shortcutperrole",
+            "version": "1.0.0-rc1",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/shortcutperrole.git",
+                "reference": "8.x-1.0-rc1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/shortcutperrole-8.x-1.0-rc1.zip",
+                "reference": "8.x-1.0-rc1",
+                "shasum": "44fedbf5861d1039facbc7f032f851d2f3b69976"
+            },
+            "require": {
+                "drupal/core": "^8"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-1.0-rc1",
+                    "datestamp": "1472566139",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "RC releases are not covered by Drupal security advisories."
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "mkdok",
+                    "homepage": "https://www.drupal.org/user/3308753"
+                },
+                {
+                    "name": "webankit",
+                    "homepage": "https://www.drupal.org/user/533078"
+                }
+            ],
+            "description": "Allows creating default shortcut per role",
+            "homepage": "https://www.drupal.org/project/shortcutperrole",
+            "support": {
+                "source": "https://git.drupalcode.org/project/shortcutperrole"
             }
         },
         {
@@ -8885,6 +8934,7 @@
         "drupal/markup": 10,
         "drupal/page_manager": 10,
         "drupal/rac": 5,
+        "drupal/shortcutperrole": 5,
         "drupal/slick_views": 5,
         "drupal/viewfield": 15,
         "drupal/views_field_view": 10,
