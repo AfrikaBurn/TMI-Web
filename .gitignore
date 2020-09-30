@@ -1,6 +1,5 @@
 /local/data
 /local/logs
-/local/drupal/libraries
 /local/drupal/modules/contrib
 /local/drupal/sites/default/files
 /local/drupal/themes/contrib
