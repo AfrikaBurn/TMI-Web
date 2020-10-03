@@ -26,3 +26,4 @@ ckeditor_stylesheets:
   - css/tables.css
   - css/typeset.css
   - css/ckeditor.css
+  - css/responsive.css

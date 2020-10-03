@@ -9,13 +9,6 @@
   text-transform: uppercase;
 }
 
-@media (max-width: 920px){
-  .block-views-blockevents-next-afrikaburn-date{
-    text-align: left;
-    padding-left: 40px;
-  }
-}
-
 .page-not-front .block-views-blockevents-next-afrikaburn-date {
   font-size: 130%;
   text-align: left;
@@ -23,6 +16,7 @@
   top: 95px;
   left: 125px;
 }
+
 
 /* ----- Main ----- */
 
@@ -52,26 +46,6 @@ main{
 
 .page-not-front .main-wrapper{
   padding-top: 160px;
-}
-
-@media (max-width: 950px){
-  .page-not-front .main-wrapper{
-    padding-top: 200px;
-  }
-}
-
-@media (max-width: 640px){
-
-  main{
-    min-width: 100%;
-  }
-
-  .header-wrapper,
-  .main-wrapper{
-    margin: 0;
-    padding: 0;
-    min-width: 100%;
-  }
 }
 
 

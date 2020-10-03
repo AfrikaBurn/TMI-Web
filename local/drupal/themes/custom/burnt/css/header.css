@@ -1,25 +1,22 @@
 @charset "utf-8";
 
 
-.foreground > header{
+.foreground>header {
   max-width: 1024px;
   margin: 0 auto;
 }
 
-.foreground > header,
-.foreground > header .header-wrapper{
+.foreground>header, .foreground>header .header-wrapper {
   position: relative;
 }
 
-.path-admin .foreground > header{
+.path-admin .foreground>header {
   max-width: 100%;
 }
 
-
 /* ----- Title area ----- */
 
-
-.site-name a{
+.site-name a {
   color: #000;
   display: block;
   font-size: 256%;
@@ -28,35 +25,34 @@
   text-shadow: 0px 0px 3px rgba(255, 255, 180, 1);
   text-transform: uppercase;
 }
-.site-name a:hover{
+
+.site-name a:hover {
   color: #000;
   text-decoration: none;
 }
-.page-not-front .site-name a{
+
+.page-not-front .site-name a {
   margin: 40px 0 0;
 }
-.page-front .site-name a{
+
+.page-front .site-name a {
   margin: 0;
 }
 
-
-.page-not-front .foreground > header{
+.page-not-front .foreground>header {
   margin-bottom: -100px;
   z-index: 100;
 }
 
-.page-not-front .foreground > header .header-wrapper,
-.page-not-front .foreground > header .region-home,
-.page-not-front .foreground #block-sigel{
+.page-not-front .foreground>header .header-wrapper, .page-not-front .foreground>header .region-home, .page-not-front .foreground #block-sigel {
   display: flex;
 }
 
-.page-not-front .foreground > header .header-wrapper{
+.page-not-front .foreground>header .header-wrapper {
   flex-wrap: wrap;
 }
 
-.page-not-front a.site-logo,
-.page-not-front header .region-home .site-name{
+.page-not-front a.site-logo, .page-not-front header .region-home .site-name {
   margin: 0.5em 0;
 }
 
@@ -65,37 +61,14 @@
   height: 90px;
 }
 
-@media (max-width: 950px){
-
-  .page-not-front .foreground > header{
-    margin-bottom: -225px;
-  }
-
-}
-
-
 /* ----- Navigation ----- */
 
-
-header .region-navigation{
+header .region-navigation {
   flex-grow: 1;
   text-align: right;
 }
 
-@media (max-width: 950px){
-
-  .page-not-front .region-navigation{
-    width: 100%;
-  }
-
-  .page-not-front .region-navigation ul.menu{
-    padding: 40px 0 60px;
-    margin: 0;
-  }
-
-}
-
-header .region-navigation ul.menu{
+header .region-navigation ul.menu {
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -103,92 +76,101 @@ header .region-navigation ul.menu{
   margin: 74px 0 0 0;
 }
 
-header .region-navigation li a{
-  display: block;
-  padding: 0 10px 0 30px;
+header .region-navigation li{
+  padding: 0 0 0 10px;
 }
 
-header .region-navigation li:nth-child(1) a{
+header .region-navigation li a {
+  padding: 0;
+}
+
+header .region-navigation li a:before {
+  color: transparent;
+  content: '.';
+  display: block;
+  padding: 0;
+  border: 1px solid #000;
+  border-radius: 100%;
+  width: 1em;
+  height: 1em;
+  margin: 0 5px 0 0;
+  float: left;
+}
+
+header .region-navigation li:nth-child(1) a:before {
   background: url(../images/afroboratory/home.svg) no-repeat;
 }
-header .region-navigation li:nth-child(2) a{
+
+header .region-navigation li:nth-child(2) a:before {
   background: url(../images/afroboratory/learn.svg) no-repeat;
 }
-header .region-navigation li:nth-child(3) a{
+
+header .region-navigation li:nth-child(3) a:before {
   background: url(../images/afroboratory/play.svg) no-repeat;
 }
 
-
 /* ----- Updates ----- */
 
-
-header .region-updates{
+header .region-updates {
   position: absolute;
   top: 0;
   right: 40px;
   z-index: 10;
 }
 
-@media (max-width: 950px){
-  .page-not-front header .region-updates{
-    top: 83px;
-  }
-}
 
-header .region-updates .block-views .view-updates,
-.page-not-front header .region-updates .block-views:before{
+header .region-updates .block-views .view-updates, .page-not-front header .region-updates .block-views:before {
   color: #fff;
   margin: 45px -40px 0 0;
   padding: 5px 10px 20px;
 }
 
-header .region-updates .block-views .view-updates{
+header .region-updates .block-views .view-updates {
   font-size: 80%;
   background: #3e173eee;
   border-radius: 5px;
   width: 200px;
 }
 
-header .region-updates p{
+header .region-updates p {
   margin: 0;
   padding: 0;
 }
 
-header .region-updates time,
-header .region-updates footer{
+header .region-updates time, header .region-updates footer {
   display: block;
   font-size: 90%;
 }
 
-header .region-updates time{
+header .region-updates time {
   float: left;
 }
 
-header .region-updates footer{
+header .region-updates footer {
   float: right;
 }
 
-header .region-updates a{
+header .region-updates a {
   color: #f9a90c;
 }
 
-header .region-updates .views-row{
+header .region-updates .views-row {
   margin: 0 0 10px;
   padding: 0 0 30px;
   border-bottom: 1px solid #ffffff33;
 }
 
-header .region-updates .views-row:last-child{
+header .region-updates .views-row:last-child {
   margin: 0;
   padding: 0;
   border: none;
 }
 
-.page-not-front header .region-updates .block-views div{
+.page-not-front header .region-updates .block-views div {
   display: none;
 }
 
-.page-not-front header .region-updates .block-views:before{
+.page-not-front header .region-updates .block-views:before {
   margin-top: 75px;
   border-radius: 15px;
   background: #3e173e;
@@ -203,46 +185,10 @@ header .region-updates .views-row:last-child{
   height: 25px;
 }
 
-.page-not-front header .region-updates:hover .block-views div{
+.page-not-front header .region-updates:hover .block-views div {
   display: block;
 }
 
-.page-not-front header .region-updates:hover .block-views:before{
+.page-not-front header .region-updates:hover .block-views:before {
   display: none;
-}
-
-@media(max-width: 950px){
-
-  header .region-updates .block-views:before{
-    color: #fff;
-    margin: 45px -40px 0 0;
-    padding: 5px 10px 20px;
-  }
-
-  header .region-updates .block-views div{
-    display: none;
-  }
-
-  header .region-updates .block-views:before{
-    margin-top: 75px;
-    border-radius: 15px;
-    background: #3e173e;
-    content: '\1f514';
-    display: block;
-    padding: 0;
-    font-size: 18px;
-    font-weight: bold;
-    text-align: center;
-    line-height: 25px;
-    width: 25px;
-    height: 25px;
-  }
-
-  header .region-updates:hover .block-views div{
-    display: block;
-  }
-
-  header .region-updates:hover .block-views:before{
-    display: none;
-  }
 }

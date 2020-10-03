@@ -1,0 +1,203 @@
+@charset "utf-8";
+
+
+/* ----- Header ----- */
+
+/* --- All pages --- * /
+
+@media (max-width: 640px) {
+  .header-wrapper {
+    margin: 0;
+    padding: 0;
+    min-width: 100%;
+  }
+}
+
+@media (max-width: 950px) {
+  header .region-updates .block-views:before {
+    color: #fff;
+    margin: 45px -40px 0 0;
+    padding: 5px 10px 20px;
+  }
+  header .region-updates .block-views div {
+    display: none;
+  }
+  header .region-updates .block-views:before {
+    margin-top: 75px;
+    border-radius: 15px;
+    background: #3e173e;
+    content: '\1f514';
+    display: block;
+    padding: 0;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 25px;
+    width: 25px;
+    height: 25px;
+  }
+  header .region-updates:hover .block-views div {
+    display: block;
+  }
+  header .region-updates:hover .block-views:before {
+    display: none;
+  }
+}
+
+/* --- Front page --- * /
+
+@media (max-width: 950px) {
+  .page-front header .region-home {
+    text-align: left;
+  }
+  .page-front header .region-home img {
+    width: 300px;
+    display: inline-block;
+    margin: 0;
+  }
+  .page-front header .region-home .site-name {
+    display: inline-block;
+    position: relative;
+    top: -12px;
+  }
+}
+
+@media (max-width: 640px) {
+  .page-front header .region-home img {
+    width: 120px;
+    display: inline-block;
+    margin: -10px -20px -30px 0;
+  }
+}
+
+/* - Slider - * /
+
+@media (max-width: 1085px){
+  .block-views-blockslideshow-front-page .slick--view--slideshow{
+    height: 15vw;
+  }
+}
+
+@media (max-width: 920px){
+  .block-views-blockslideshow-front-page .slick--view--slideshow{
+    height: 12vw;
+  }
+}
+
+@media (max-width: 864px){
+  .block-views-blockslideshow-front-page .slick--view--slideshow{
+    height: 100%;
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .block-views-blockslideshow-front-page{
+    margin: 0;
+    width: 100%;
+  }
+}
+
+/* --- All pages except front --- * /
+
+@media (max-width: 950px) {
+  .page-not-front .foreground>header {
+    margin-bottom: -225px;
+  }
+  .page-not-front .region-navigation {
+    width: 100%;
+  }
+  .page-not-front .region-navigation ul.menu {
+    padding: 40px 0 60px;
+    margin: 0;
+  }
+  .page-not-front header .region-updates {
+    top: 83px;
+  }
+}
+
+/* ----- Body ----- */
+
+/* --- All pages --- * /
+
+@media (max-width: 640px) {
+  main {
+    min-width: 100%;
+  }
+  .main-wrapper {
+    margin: 0;
+    padding: 0;
+    min-width: 100%;
+  }
+}
+
+/* --- All pages but front --- * /
+
+@media (max-width: 950px) {
+  .page-not-front .main-wrapper {
+    padding-top: 200px;
+  }
+}
+
+/* --- Front page --- * /
+
+@media (max-width: 920px) {
+  .block-region-top {
+    margin: 0;
+  }
+  .block-region-top .block.block-block-content {
+    flex-basis: 100%;
+    margin: 0 50px;
+    padding: 0 0 20px;
+    text-align: left;
+  }
+  .block-region-top .block.block-block-content .field {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0;
+    margin: 0;
+    width: auto;
+    align-items: center;
+  }
+  .block-region-top .block.block-block-content .field h2 {
+    flex-basis: 100%;
+  }
+  .block-region-top .block.block-block-content .field p {
+    width: 100px;
+  }
+  .block-region-top .block.block-block-content .field p:last-child {
+    flex-grow: 1;
+  }
+  .block-region-top .block.block-block-content .field img {
+    margin-right: 20px;
+  }
+}
+
+/* ----- Next event date ----- * /
+
+@media (max-width: 920px) {
+  .block-views-blockevents-next-afrikaburn-date {
+    text-align: left;
+    padding-left: 40px;
+  }
+}
+
+/* ----- Blogs ----- * /
+
+@media(max-width: 920px) {
+  .page-front .view-blogs .view-content .views-row {
+    flex-basis: 100%;
+    padding: 0 10px 40px;
+  }
+}
+
+/* ----- Footer ----- * /
+
+@media(max-width: 1024px) {
+  .region-footer .menu--footer>ul.menu {
+    flex-wrap: wrap;
+  }
+  .region-footer .menu--footer>ul.menu>.menu-item {
+    width: 30%;
+  }
+}

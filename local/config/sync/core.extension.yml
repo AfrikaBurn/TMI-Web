@@ -1,6 +1,7 @@
 module:
   admin_toolbar: 0
   admin_toolbar_links_access_filter: 0
+  admin_toolbar_search: 0
   admin_toolbar_tools: 0
   adminimal_admin_toolbar: 0
   adva: 0
@@ -20,6 +21,7 @@ module:
   computed_field: 0
   conditional_fields: 0
   config: 0
+  config_update: 0
   content_access: 0
   content_moderation: 0
   contextual: 0
@@ -40,6 +42,7 @@ module:
   field_ui: 0
   file: 0
   filter: 0
+  filter_perms: 0
   google_analytics: 0
   help: 0
   image: 0

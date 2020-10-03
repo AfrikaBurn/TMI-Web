@@ -34,18 +34,6 @@
   width: 20%;
 }
 
-@media(max-width: 1024px){
-
-  .region-footer .menu--footer > ul.menu{
-    flex-wrap: wrap;
-  }
-
-  .region-footer .menu--footer > ul.menu > .menu-item {
-      width: 30%;
-  }
-
-}
-
 .region-footer .menu--footer > ul.menu ul.menu {
   padding-top: 10px;
 }
